@@ -12,7 +12,7 @@ namespace Objectivity.AutoFixture.XUnit2.AutoMoq
     using System;
     using System.Linq;
     using System.Reflection;
-
+    using Conditions;
     using Xunit;
     using Xunit.Sdk;
 
@@ -21,7 +21,7 @@ namespace Objectivity.AutoFixture.XUnit2.AutoMoq
     public sealed class MemberAutoMoqDataAttribute : MemberDataAttributeBase
     {
         public MemberAutoMoqDataAttribute(string memberName, params object[] parameters)
-            : base(memberName, parameters)
+            : base(memberName.Requires().IsNotNull().Value, parameters)
         {
         }
 

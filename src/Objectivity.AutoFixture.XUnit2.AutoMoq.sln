@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Objectivity.AutoFixture.XUnit2.AutoMoq", "Objectivity.AutoFixture.XUnit2.AutoMoq\Objectivity.AutoFixture.XUnit2.AutoMoq.csproj", "{B7ADCA12-249E-4A13-90A3-16AD9E3EDFD0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Objectivity.AutoFixture.XUnit2.AutoMoq.Tests", "Objectivity.AutoFixture.XUnit2.AutoMoq.Tests\Objectivity.AutoFixture.XUnit2.AutoMoq.Tests.csproj", "{B1851B64-3E9C-4EA2-A9F3-343B8D1EDB3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B7ADCA12-249E-4A13-90A3-16AD9E3EDFD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7ADCA12-249E-4A13-90A3-16AD9E3EDFD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7ADCA12-249E-4A13-90A3-16AD9E3EDFD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1851B64-3E9C-4EA2-A9F3-343B8D1EDB3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1851B64-3E9C-4EA2-A9F3-343B8D1EDB3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1851B64-3E9C-4EA2-A9F3-343B8D1EDB3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1851B64-3E9C-4EA2-A9F3-343B8D1EDB3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

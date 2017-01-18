@@ -26,20 +26,19 @@ namespace Objectivity.AutoFixture.XUnit2.AutoMoq
         {
         }
 
-        public AutoMoqDataAttribute(Type fixtureType)
-            : this((IFixture)Activator.CreateInstance(fixtureType))
-        {
-        }
-
         public AutoMoqDataAttribute(IFixture fixture)
-            : base(Condition.Requires(fixture).IsNotNull().Value.Customize(new AutoConfiguredMoqCustomization()))
+            : base(fixture.Requires().IsNotNull().Value)
         {
-            // Do not throw exception on circular references
+            // Configure auto-MOQ.
+            fixture.Customize(new AutoConfiguredMoqCustomization());
+
+            // Do not throw exception on circular references.
             fixture.Behaviors
                 .OfType<ThrowingRecursionBehavior>()
                 .ToList()
                 .ForEach(b => fixture.Behaviors.Remove(b));
 
+            // Ommit recursion on first level.
             fixture.Behaviors.Add(new OmitOnRecursionBehavior());
         }
     }
