@@ -14,5 +14,12 @@
     <releaseNotes>See https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMoq/releases</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>AutoFixture Moq xUnit xUnit2 AutoMoq</tags>
+    <dependencies>
+      <dependency id="AutoFixture.AutoMoq" version="3.50.2" />
+      <dependency id="AutoFixture.Xunit2" version="3.50.2" />
+      <dependency id="Conditions" version="2.1.0" />
+      <dependency id="Moq" version="4.5.30" />
+      <dependency id="xunit.core" version="2.1.0" />
+    </dependencies>
   </metadata>
 </package>
