@@ -10,7 +10,8 @@
     <projectUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMoq</projectUrl>
     <iconUrl>https://github.com/ObjectivityLtd.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
+    <description>Accelerates preparation of mocked structures for unit tests under xUnit2 by configuring AutoFixture data generation to use Moq. Gracefully handles recursive structures by omitting recursions.</description>
+	<summary>$description$</summary>
     <releaseNotes>See https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMoq/releases</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>AutoFixture Moq xUnit xUnit2 AutoMoq</tags>
