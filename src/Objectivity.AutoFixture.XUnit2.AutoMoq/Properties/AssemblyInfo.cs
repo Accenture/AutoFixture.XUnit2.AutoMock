@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyTitle("Objectivity.AutoFixture.XUnit2.AutoMoq")]
 [assembly: AssemblyProduct("Objectivity.AutoFixture.XUnit2.AutoMoq")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Autofixture auto-mocking for XUnit2 using Moq.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

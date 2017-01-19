@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>ObjectivityLtd</owners>
+    <licenseUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMoq/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMoq</projectUrl>
+    <iconUrl>https://github.com/ObjectivityLtd.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>See https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMoq/releases</releaseNotes>
+    <copyright>$copyright$</copyright>
+    <tags>AutoFixture Moq xUnit xUnit2 AutoMoq</tags>
+  </metadata>
+</package>

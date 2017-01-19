@@ -16,5 +16,5 @@ using System.Reflection;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyCompany("Objectivity Bespoke Software Specialists Sp. z o.o.")]
-[assembly: AssemblyCopyright("Copyright © Objectivity")]
+[assembly: AssemblyCompany("Objectivity Ltd")]
+[assembly: AssemblyCopyright("Copyright © Objectivity Ltd")]
