@@ -91,12 +91,17 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AutoMoqDataAttribute.cs" />
-    <Compile Include="Check.cs" />
-    <Compile Include="InlineAutoMoqDataAttribute.cs" />
-    <Compile Include="MemberAutoMoqDataAttribute.cs" />
+    <Compile Include="Attributes\AutoMoqDataAttribute.cs" />
+    <Compile Include="Attributes\InlineAutoMoqDataAttribute.cs" />
+    <Compile Include="Attributes\MemberAutoMoqDataAttribute.cs" />
+    <Compile Include="MemberData\InlineAutoMoqDataAttributeProvider.cs" />
+    <Compile Include="MemberData\DataItemConverterFactory.cs" />
+    <Compile Include="MemberData\IDataAttributeProvider.cs" />
+    <Compile Include="MemberData\IDataItemConverter.cs" />
+    <Compile Include="MemberData\MemberAutoMoqDataItemConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ValidatedNotNullAttribute.cs" />
+    <Compile Include="Common\Check.cs" />
+    <Compile Include="Common\ValidatedNotNullAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

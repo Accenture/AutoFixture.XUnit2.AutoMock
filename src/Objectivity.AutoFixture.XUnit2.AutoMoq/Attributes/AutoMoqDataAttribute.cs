@@ -7,10 +7,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Objectivity.AutoFixture.XUnit2.AutoMoq
+namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes
 {
     using System;
     using System.Linq;
+    using Common;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.AutoMoq;
     using Ploeh.AutoFixture.Xunit2;

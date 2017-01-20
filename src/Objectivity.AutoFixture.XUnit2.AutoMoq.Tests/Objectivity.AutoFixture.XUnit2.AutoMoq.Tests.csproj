@@ -40,7 +40,7 @@
     <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\key.snk</AssemblyOriginatorKeyFile>
@@ -115,11 +115,15 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AutoMoqDataAttributeTests.cs" />
+    <Compile Include="Attributes\AutoMoqDataAttributeTests.cs" />
+    <Compile Include="Attributes\InlineAutoMoqDataAttributeTests.cs" />
+    <Compile Include="Attributes\MemberAutoMoqDataAttributeTests.cs" />
+    <Compile Include="MemberData\DataItemConverterFactoryTests.cs" />
     <Compile Include="FixtureAssertionExtensions.cs" />
-    <Compile Include="InlineAutoMoqDataAttributeTests.cs" />
-    <Compile Include="MemberAutoMoqDataAttributeTests.cs" />
+    <Compile Include="MemberData\InlineAutoMoqDataAttributeProviderTests.cs" />
+    <Compile Include="MemberData\MemberAutoMoqDataItemConverterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Common\CheckTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

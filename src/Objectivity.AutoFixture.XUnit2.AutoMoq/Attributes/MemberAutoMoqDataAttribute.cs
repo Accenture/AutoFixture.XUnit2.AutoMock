@@ -7,11 +7,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Objectivity.AutoFixture.XUnit2.AutoMoq
+namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes
 {
     using System;
-    using System.Linq;
     using System.Reflection;
+    using Common;
+    using MemberData;
+    using Ploeh.AutoFixture;
     using Xunit;
     using Xunit.Sdk;
 
@@ -20,19 +22,28 @@ namespace Objectivity.AutoFixture.XUnit2.AutoMoq
     public sealed class MemberAutoMoqDataAttribute : MemberDataAttributeBase
     {
         public MemberAutoMoqDataAttribute(string memberName, params object[] parameters)
-            : base(memberName.NotNull(nameof(memberName)), parameters)
+            : this(new Fixture(), memberName.NotNull(nameof(memberName)), parameters)
         {
         }
 
+        public MemberAutoMoqDataAttribute(IFixture fixture, string memberName, params object[] parameters)
+            : base(memberName.NotNull(nameof(memberName)), parameters)
+        {
+            this.Fixture = fixture.NotNull(nameof(fixture));
+        }
+
+        public IFixture Fixture { get; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to share a fixture across all data items; true by default.
+        /// </summary>
+        public bool ShareFixture { get; set; } = true;
+
         protected override object[] ConvertDataItem(MethodInfo testMethod, object item)
         {
-            if (item == null)
-            {
-                return null;
-            }
-
-            var autoMoqData = new InlineAutoMoqDataAttribute(item as object[]);
-            return autoMoqData.GetData(testMethod).FirstOrDefault();
+            return DataItemConverterFactory
+                .Create(this.ShareFixture, this.Fixture)
+                .Convert(testMethod, item, this.MemberName, this.MemberType);
         }
     }
 }
