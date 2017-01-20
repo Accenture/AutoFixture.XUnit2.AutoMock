@@ -1,5 +1,6 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Tests.MemberData
 {
+    using System.Diagnostics.CodeAnalysis;
     using AutoMoq.Attributes;
     using AutoMoq.MemberData;
     using FluentAssertions;
@@ -10,6 +11,7 @@
     public class InlineAutoMoqDataAttributeProviderTests
     {
         [Fact(DisplayName = "GIVEN initialized AutoMoqDataAttribute WHEN GetAttribute is invoked THEN attribute with specified AutoMoqDataAttribute is returned")]
+        [SuppressMessage("ReSharper", "PossibleNullReferenceException", Justification = "Assertion checks it earlier and throws exception.")]
         public void GivenInitializedAutoMoqDataAttribute_WhenGetAttributeIsInvoked_ThenAttributeWithSpecifiedAutoMoqDataAttributeIsReturned()
         {
             // Arrange
@@ -25,6 +27,7 @@
         }
 
         [Fact(DisplayName = "GIVEN uninitialized AutoMoqDataAttribute WHEN GetAttribute is invoked THEN attribute with new AutoMoqDataAttribute is returned")]
+        [SuppressMessage("ReSharper", "PossibleNullReferenceException", Justification = "Assertion checks it earlier and throws exception.")]
         public void GivenUninitializedAutoMoqDataAttribute_WhenGetAttributeIsInvoked_ThenAttributeWithNewAutoMoqDataAttributeIsReturned()
         {
             // Arrange

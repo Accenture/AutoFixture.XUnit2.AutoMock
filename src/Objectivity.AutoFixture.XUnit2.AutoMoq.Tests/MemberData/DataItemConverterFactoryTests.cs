@@ -1,6 +1,7 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Tests.MemberData
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using AutoMoq.MemberData;
     using FluentAssertions;
     using Ploeh.AutoFixture;
@@ -11,6 +12,7 @@
     public class DataItemConverterFactoryTests
     {
         [Fact(DisplayName = "GIVEN shared fixture WHEN Create is invoked THEN data item converter with the same fixture is returned")]
+        [SuppressMessage("ReSharper", "PossibleNullReferenceException", Justification = "Assertion checks it earlier and throws exception.")]
         public void GivenSharedFixture_WhenCreateIsInvoked_ThenDataItemConverterWithTheSameFixtureIsReturned()
         {
             // Arrange
@@ -28,6 +30,7 @@
         }
 
         [Fact(DisplayName = "GIVEN unshared fixture WHEN Create is invoked THEN data item converter with new fixture is returned")]
+        [SuppressMessage("ReSharper", "PossibleNullReferenceException", Justification = "Assertion checks it earlier and throws exception.")]
         public void GivenUnsharedFixture_WhenCreateIsInvoked_ThenDataItemConverterWithNewFixtureIsReturned()
         {
             // Arrange

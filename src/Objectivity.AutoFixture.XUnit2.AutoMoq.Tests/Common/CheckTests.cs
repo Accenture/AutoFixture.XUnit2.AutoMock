@@ -1,12 +1,14 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Tests.Common
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using AutoMoq.Common;
     using FluentAssertions;
     using Xunit;
 
     [Collection("Check")]
     [Trait("Category", "Common")]
+    [SuppressMessage("ReSharper", "NotResolvedInText", Justification = "Used for testing only.")]
     public class CheckTests
     {
         [Fact(DisplayName = "GIVEN uninitialized object WHEN NotNull is invoked THEN exception is thrown")]

@@ -2,7 +2,7 @@
 {
     using System;
 
-    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
     internal sealed class ValidatedNotNullAttribute : Attribute
     {
     }
