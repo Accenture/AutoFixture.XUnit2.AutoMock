@@ -93,6 +93,7 @@
     </Compile>
     <Compile Include="AutoMoqDataAttribute.cs" />
     <Compile Include="Check.cs" />
+    <Compile Include="IgnoreVirtualMembersSpecimenBuilder.cs" />
     <Compile Include="InlineAutoMoqDataAttribute.cs" />
     <Compile Include="MemberAutoMoqDataAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

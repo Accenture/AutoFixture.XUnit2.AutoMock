@@ -18,6 +18,7 @@
             attribute.AutoDataAttribute.Should()
                 .BeOfType<AutoMoqDataAttribute>()
                 .Which.Fixture.ShouldBeConfigured();
+            attribute.AutoDataAttribute.Fixture.ShouldNotIgnoreVirtualMembers();
             attribute.Values.Count().Should().Be(0);
         }
 
@@ -34,6 +35,7 @@
             attribute.AutoDataAttribute.Should()
                 .BeOfType<AutoMoqDataAttribute>()
                 .Which.Fixture.ShouldBeConfigured();
+            attribute.AutoDataAttribute.Fixture.ShouldNotIgnoreVirtualMembers();
             attribute.Values.Should()
                 .HaveSameCount(initialValues)
                 .And.ContainInOrder(initialValues);
@@ -52,7 +54,27 @@
             attribute.AutoDataAttribute.Should()
                 .BeOfType<AutoMoqDataAttribute>()
                 .Which.Fixture.ShouldBeConfigured();
+            attribute.AutoDataAttribute.Fixture.ShouldNotIgnoreVirtualMembers();
             attribute.Values.Should().BeNull();
+        }
+
+        [Fact]
+        public void GivenExistingInlineValuesAndIgnoreVirtualMembers_WhenConstructorInvoked_ThenHasSpecifiedValuesAndAppropriateFixtureIsCreatedAndConfigured()
+        {
+            // Arrange
+            var initialValues = new[] { "test", 1, new object() };
+
+            // Act
+            var attribute = new InlineAutoMoqDataAttribute(true, initialValues[0], initialValues[1], initialValues[2]);
+
+            // Assert
+            attribute.AutoDataAttribute.Should()
+                .BeOfType<AutoMoqDataAttribute>()
+                .Which.Fixture.ShouldBeConfigured();
+            attribute.AutoDataAttribute.Fixture.ShouldIgnoreVirtualMembers();
+            attribute.Values.Should()
+                .HaveSameCount(initialValues)
+                .And.ContainInOrder(initialValues);
         }
 
         [Fact]
@@ -85,7 +107,6 @@
                 .HaveSameCount(initialValues)
                 .And.ContainInOrder(initialValues);
         }
-
 
         [Fact]
         public void GivenExistingAutoDataAttributeAndUninitializedInlineValues_WhenConstructorInvoked_ThenHasUninitializedInlineValuesAndFixtureOfSpecifiedAttributeIsConfigured()

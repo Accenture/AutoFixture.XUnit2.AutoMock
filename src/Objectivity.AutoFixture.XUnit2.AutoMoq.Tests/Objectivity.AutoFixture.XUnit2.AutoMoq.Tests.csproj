@@ -117,6 +117,7 @@
     </Compile>
     <Compile Include="AutoMoqDataAttributeTests.cs" />
     <Compile Include="FixtureAssertionExtensions.cs" />
+    <Compile Include="IgnoreVirtualMembersSpecimenBuilderTests.cs" />
     <Compile Include="InlineAutoMoqDataAttributeTests.cs" />
     <Compile Include="MemberAutoMoqDataAttributeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
