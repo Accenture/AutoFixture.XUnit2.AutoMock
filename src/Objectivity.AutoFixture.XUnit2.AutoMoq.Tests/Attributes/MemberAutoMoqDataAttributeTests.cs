@@ -64,7 +64,7 @@
 
                 result.Should().HaveCount(numberOfParameters);
                 result.Should().ContainInOrder(source);
-                result[numberOfParameters - 1].GetType().Name.Should().Be("ObjectProxy", "that way we know it was mocked with MOQ.");
+                result[numberOfParameters - 1].GetType().Name.Should().StartWith("ObjectProxy", "that way we know it was mocked with MOQ.");
             }
         }
 
