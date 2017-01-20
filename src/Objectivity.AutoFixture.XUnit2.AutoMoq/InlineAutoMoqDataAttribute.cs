@@ -10,7 +10,6 @@
 namespace Objectivity.AutoFixture.XUnit2.AutoMoq
 {
     using System;
-    using Conditions;
     using Ploeh.AutoFixture.Xunit2;
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
@@ -22,7 +21,7 @@ namespace Objectivity.AutoFixture.XUnit2.AutoMoq
         }
 
         public InlineAutoMoqDataAttribute(AutoMoqDataAttribute autoDataAttribute, params object[] values)
-            : base(autoDataAttribute.Requires().IsNotNull().Value, values)
+            : base(autoDataAttribute.NotNull(nameof(autoDataAttribute)), values)
         {
         }
     }

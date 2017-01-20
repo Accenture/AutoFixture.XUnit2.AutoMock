@@ -11,9 +11,6 @@ namespace Objectivity.AutoFixture.XUnit2.AutoMoq
 {
     using System;
     using System.Linq;
-
-    using Conditions;
-
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.AutoMoq;
     using Ploeh.AutoFixture.Xunit2;
@@ -27,7 +24,7 @@ namespace Objectivity.AutoFixture.XUnit2.AutoMoq
         }
 
         public AutoMoqDataAttribute(IFixture fixture)
-            : base(fixture.Requires().IsNotNull().Value)
+            : base(fixture.NotNull(nameof(fixture)))
         {
             // Configure auto-MOQ.
             fixture.Customize(new AutoConfiguredMoqCustomization());

@@ -18,7 +18,7 @@
     <dependencies>
       <dependency id="AutoFixture.AutoMoq" version="3.50.2" />
       <dependency id="AutoFixture.Xunit2" version="3.50.2" />
-      <dependency id="Conditions" version="2.1.0" />
+      <dependency id="JetBrains.Annotations" version="10.2.1" />
       <dependency id="Moq" version="4.5.30" />
       <dependency id="xunit.core" version="2.1.0" />
     </dependencies>
