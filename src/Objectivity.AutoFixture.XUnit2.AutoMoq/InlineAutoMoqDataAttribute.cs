@@ -12,11 +12,17 @@ namespace Objectivity.AutoFixture.XUnit2.AutoMoq
     using System;
     using Ploeh.AutoFixture.Xunit2;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1019:DefineAccessorsForAttributeArguments", Justification = "MJI: There is no need to provide public accessor for ignoreVirtualMembers property")]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public sealed class InlineAutoMoqDataAttribute : InlineAutoDataAttribute
     {
         public InlineAutoMoqDataAttribute(params object[] values)
             : this(new AutoMoqDataAttribute(), values)
+        {
+        }
+
+        public InlineAutoMoqDataAttribute(bool ignoreVirtualMembers, params object[] values)
+            : this(new AutoMoqDataAttribute(ignoreVirtualMembers), values)
         {
         }
 

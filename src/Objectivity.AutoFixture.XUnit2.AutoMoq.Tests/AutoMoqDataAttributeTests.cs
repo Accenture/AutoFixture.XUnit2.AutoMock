@@ -15,6 +15,19 @@
 
             // Assert
             attribute.Fixture.ShouldBeConfigured();
+            attribute.Fixture.ShouldNotIgnoreVirtualMembers();
+        }
+
+        [Fact]
+        public void WhenConstructorInvokedWithIgnoreVirtualMembersSetToTrue_ThenAppropriateFixtureIsCreatedAndConfigured()
+        {
+            // Arrange
+            // Act
+            var attribute = new AutoMoqDataAttribute(true);
+
+            // Assert
+            attribute.Fixture.ShouldBeConfigured();
+            attribute.Fixture.ShouldIgnoreVirtualMembers();
         }
 
         [Fact]
@@ -28,6 +41,21 @@
 
             // Assert
             attribute.Fixture.ShouldBeConfigured();
+            attribute.Fixture.ShouldNotIgnoreVirtualMembers();
+        }
+
+        [Fact]
+        public void GivenExistingFixtureAndIgnoreVirtualMembersSetToTrue_WhenConstructorInvoked_ThenSpecifiedFixtureIsConfigured()
+        {
+            // Arrange
+            var fixture = new Fixture();
+
+            // Act
+            var attribute = new AutoMoqDataAttribute(fixture, true);
+
+            // Assert
+            attribute.Fixture.ShouldBeConfigured();
+            attribute.Fixture.ShouldIgnoreVirtualMembers();
         }
 
         [Fact]

@@ -15,15 +15,16 @@ namespace Objectivity.AutoFixture.XUnit2.AutoMoq
     using Ploeh.AutoFixture.AutoMoq;
     using Ploeh.AutoFixture.Xunit2;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1019:DefineAccessorsForAttributeArguments", Justification = "MJI: There is no need to provide public accessor for ignoreVirtualMembers property")]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public sealed class AutoMoqDataAttribute : AutoDataAttribute
     {
-        public AutoMoqDataAttribute()
-            : this(new Fixture())
+        public AutoMoqDataAttribute(bool ignoreVirtualMembers = false)
+            : this(new Fixture(), ignoreVirtualMembers)
         {
         }
 
-        public AutoMoqDataAttribute(IFixture fixture)
+        public AutoMoqDataAttribute(IFixture fixture, bool ignoreVirtualMembers = false)
             : base(fixture.NotNull(nameof(fixture)))
         {
             // Configure auto-MOQ.
@@ -37,6 +38,11 @@ namespace Objectivity.AutoFixture.XUnit2.AutoMoq
 
             // Ommit recursion on first level.
             fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+
+            if (ignoreVirtualMembers)
+            {
+                fixture.Customizations.Add(new IgnoreVirtualMembersSpecimenBuilder());
+            }
         }
     }
 }
