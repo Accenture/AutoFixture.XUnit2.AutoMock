@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq.Expressions;
+    using AutoMoq.SpecimenBuilder;
     using FluentAssertions;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.AutoMoq;

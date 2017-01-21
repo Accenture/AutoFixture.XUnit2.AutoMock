@@ -1,14 +1,17 @@
-﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Tests
+﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Tests.Attributes
 {
     using System;
     using System.Linq;
+    using AutoMoq.Attributes;
     using FluentAssertions;
     using Xunit;
 
+    [Collection("InlineAutoMoqDataAttribute")]
+    [Trait("Category", "Attributes")]
     public class InlineAutoMoqDataAttributeTests
     {
-        [Fact]
-        public void WhenParameterlessConstructorInvoked_ThenHasNoValuesAndAppropriateFixtureIsCreatedAndConfigured()
+        [Fact(DisplayName = "WHEN parameterless constructor is invoked THEN has no values and appropriate fixture is created and configured")]
+        public void WhenParameterlessConstructorIsInvoked_ThenHasNoValuesAndAppropriateFixtureIsCreatedAndConfigured()
         {
             // Arrange
             // Act
@@ -22,8 +25,8 @@
             attribute.Values.Count().Should().Be(0);
         }
 
-        [Fact]
-        public void GivenExistingInlineValues_WhenConstructorInvoked_ThenHasSpecifiedValuesAndAppropriateFixtureIsCreatedAndConfigured()
+        [Fact(DisplayName = "GIVEN existing inline values WHEN constructor is invoked THEN has specified values and appropriate fixture is created and configured")]
+        public void GivenExistingInlineValues_WhenConstructorIsInvoked_ThenHasSpecifiedValuesAndAppropriateFixtureIsCreatedAndConfigured()
         {
             // Arrange
             var initialValues = new[] {"test", 1, new object()};
@@ -41,24 +44,7 @@
                 .And.ContainInOrder(initialValues);
         }
 
-        [Fact]
-        public void GivenUninitializedInlineValues_WhenConstructorInvoked_ThenHasUninitializedInlineValuesAndAppropriateFixtureIsCreatedAndConfigured()
-        {
-            // Arrange
-            const object[] initialValues = null;
-
-            // Act
-            var attribute = new InlineAutoMoqDataAttribute(initialValues);
-
-            // Assert
-            attribute.AutoDataAttribute.Should()
-                .BeOfType<AutoMoqDataAttribute>()
-                .Which.Fixture.ShouldBeConfigured();
-            attribute.AutoDataAttribute.Fixture.ShouldNotIgnoreVirtualMembers();
-            attribute.Values.Should().BeNull();
-        }
-
-        [Fact]
+        [Fact(DisplayName = "GIVEN existing inline values and ignore virtual members set to true WHEN constructor is invoked THEN has specified values and appropriate fixture is created and configured")]
         public void GivenExistingInlineValuesAndIgnoreVirtualMembers_WhenConstructorInvoked_ThenHasSpecifiedValuesAndAppropriateFixtureIsCreatedAndConfigured()
         {
             // Arrange
@@ -77,8 +63,25 @@
                 .And.ContainInOrder(initialValues);
         }
 
-        [Fact]
-        public void GivenExistingAutoDataAttribute_WhenConstructorInvoked_ThenFixtureOfSpecifiedAttributeIsConfigured()
+        [Fact(DisplayName = "GIVEN uninitialized values WHEN constructor is invoked THEN has uninitialized values and appropriate fixture is created and configured")]
+        public void GivenUninitializedValues_WhenConstructorIsInvoked_ThenHasUninitializedValuesAndAppropriateFixtureIsCreatedAndConfigured()
+        {
+            // Arrange
+            const object[] initialValues = null;
+
+            // Act
+            var attribute = new InlineAutoMoqDataAttribute(initialValues);
+
+            // Assert
+            attribute.AutoDataAttribute.Should()
+                .BeOfType<AutoMoqDataAttribute>()
+                .Which.Fixture.ShouldBeConfigured();
+            attribute.AutoDataAttribute.Fixture.ShouldNotIgnoreVirtualMembers();
+            attribute.Values.Should().BeNull();
+        }
+
+        [Fact(DisplayName = "GIVEN existing auto-data attribute WHEN constructor is invoked THEN fixture of specified attribute is configured")]
+        public void GivenExistingAutoDataAttribute_WhenConstructorIsInvoked_ThenFixtureOfSpecifiedAttributeIsConfigured()
         {
             // Arrange
             var autoDataAttribute = new AutoMoqDataAttribute();
@@ -91,8 +94,8 @@
             attribute.Values.Count().Should().Be(0);
         }
 
-        [Fact]
-        public void GivenExistingAutoDataAttributeAndInlineValues_WhenConstructorInvoked_ThenHasSpecifiedValuesAndFixtureOfSpecifiedAttributeIsConfigured()
+        [Fact(DisplayName = "GIVEN existing auto-data attribute and values WHEN constructor is invoked THEN has specified values and fixture of specified attribute is configured")]
+        public void GivenExistingAutoDataAttributeAndValues_WhenConstructorIsInvoked_ThenHasSpecifiedValuesAndFixtureOfSpecifiedAttributeIsConfigured()
         {
             // Arrange
             var autoDataAttribute = new AutoMoqDataAttribute();
@@ -108,8 +111,8 @@
                 .And.ContainInOrder(initialValues);
         }
 
-        [Fact]
-        public void GivenExistingAutoDataAttributeAndUninitializedInlineValues_WhenConstructorInvoked_ThenHasUninitializedInlineValuesAndFixtureOfSpecifiedAttributeIsConfigured()
+        [Fact(DisplayName = "GIVEN existing auto-data attribute and uninitialized values WHEN constructor is invoked THEN has uninitialized values and fixture of specified attribute is configured")]
+        public void GivenExistingAutoDataAttributeAndUninitializedValues_WhenConstructorIsInvoked_ThenHasUninitializedValuesAndFixtureOfSpecifiedAttributeIsConfigured()
         {
             // Arrange
             var autoDataAttribute = new AutoMoqDataAttribute();
@@ -123,8 +126,8 @@
             attribute.Values.Should().BeNull();
         }
 
-        [Fact]
-        public void GivenUninitializedAutoDataAttribute_WhenConstructorInvoked_ThenExceptionShouldBeThrown()
+        [Fact(DisplayName = "GIVEN uninitialized auto-data attribute WHEN constructor is invoked THEN exception is thrown")]
+        public void GivenUninitializedAutoDataAttribute_WhenConstructorIsInvoked_ThenExceptionIsThrown()
         {
             // Arrange
             const AutoMoqDataAttribute autoDataAttribute = null;

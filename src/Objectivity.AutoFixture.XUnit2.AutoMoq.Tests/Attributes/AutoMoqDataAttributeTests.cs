@@ -1,13 +1,16 @@
-﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Tests
+﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Tests.Attributes
 {
     using System;
+    using AutoMoq.Attributes;
     using Ploeh.AutoFixture;
     using Xunit;
 
+    [Collection("AutoMoqDataAttribute")]
+    [Trait("Category", "Attributes")]
     public class AutoMoqDataAttributeTests
     {
-        [Fact]
-        public void WhenParameterlessConstructorInvoked_ThenAppropriateFixtureIsCreatedAndConfigured()
+        [Fact(DisplayName = "WHEN parameterless constructor is invoked THEN appropriate fixture is created and configured")]
+        public void WhenParameterlessConstructorIsInvoked_ThenAppropriateFixtureIsCreatedAndConfigured()
         {
             // Arrange
             // Act
@@ -18,20 +21,8 @@
             attribute.Fixture.ShouldNotIgnoreVirtualMembers();
         }
 
-        [Fact]
-        public void WhenConstructorInvokedWithIgnoreVirtualMembersSetToTrue_ThenAppropriateFixtureIsCreatedAndConfigured()
-        {
-            // Arrange
-            // Act
-            var attribute = new AutoMoqDataAttribute(true);
-
-            // Assert
-            attribute.Fixture.ShouldBeConfigured();
-            attribute.Fixture.ShouldIgnoreVirtualMembers();
-        }
-
-        [Fact]
-        public void GivenExistingFixture_WhenConstructorInvoked_ThenSpecifiedFixtureIsConfigured()
+        [Fact(DisplayName = "GIVEN existing fixture WHEN constructor is invoked THEN specified fixture is configured")]
+        public void GivenExistingFixture_WhenConstructorIsInvoked_ThenSpecifiedFixtureIsConfigured()
         {
             // Arrange
             var fixture = new Fixture();
@@ -44,7 +35,7 @@
             attribute.Fixture.ShouldNotIgnoreVirtualMembers();
         }
 
-        [Fact]
+        [Fact(DisplayName = "GIVEN existing fixture and ignore virtual members set to true WHEN constructor is invoked THEN specified fixture is configured")]
         public void GivenExistingFixtureAndIgnoreVirtualMembersSetToTrue_WhenConstructorInvoked_ThenSpecifiedFixtureIsConfigured()
         {
             // Arrange
@@ -58,8 +49,8 @@
             attribute.Fixture.ShouldIgnoreVirtualMembers();
         }
 
-        [Fact]
-        public void GivenUninitializedFixture_WhenConstructorInvoked_ThenExceptionShouldBeThrown()
+        [Fact(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]
+        public void GivenUninitializedFixture_WhenConstructorIsInvoked_ThenExceptionIsThrown()
         {
             // Arrange
             const Fixture fixture = null;

@@ -1,4 +1,4 @@
-﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq
+﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Common
 {
     using System;
     using System.Diagnostics;

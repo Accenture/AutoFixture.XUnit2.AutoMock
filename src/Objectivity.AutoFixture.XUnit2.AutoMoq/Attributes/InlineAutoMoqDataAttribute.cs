@@ -7,9 +7,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Objectivity.AutoFixture.XUnit2.AutoMoq
+namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes
 {
     using System;
+    using Common;
     using Ploeh.AutoFixture.Xunit2;
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1019:DefineAccessorsForAttributeArguments", Justification = "MJI: There is no need to provide public accessor for ignoreVirtualMembers property")]

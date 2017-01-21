@@ -1,10 +1,10 @@
-namespace Objectivity.AutoFixture.XUnit2.AutoMoq
+namespace Objectivity.AutoFixture.XUnit2.AutoMoq.SpecimenBuilder
 {
     using System;
     using System.Reflection;
     using Ploeh.AutoFixture.Kernel;
 
-    public class IgnoreVirtualMembersSpecimenBuilder : ISpecimenBuilder
+    internal class IgnoreVirtualMembersSpecimenBuilder : ISpecimenBuilder
     {
         public object Create(object request, ISpecimenContext context)
         {
