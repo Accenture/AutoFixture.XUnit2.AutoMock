@@ -17,18 +17,6 @@
         }
 
         [Fact]
-        public void GivenUninitializedContext_WhenCreateInvoked_ThenExceptionShouldBeThrown()
-        {
-            // Arrange
-            var builder = new IgnoreVirtualMembersSpecimenBuilder();
-            var notVirtualPropertyInfo = typeof(FakeObject).GetProperty(nameof(FakeObject.NotVirtualProperty));
-
-            // Act
-            // Assert
-            Assert.Throws<ArgumentNullException>(() => builder.Create(notVirtualPropertyInfo, null));
-        }
-
-        [Fact]
         public void GivenUninitializedRequest_WhenCreateInvoked_ThenNoSpecimenInstance()
         {
             // Arrange

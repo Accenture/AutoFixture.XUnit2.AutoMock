@@ -8,13 +8,8 @@ namespace Objectivity.AutoFixture.XUnit2.AutoMoq.SpecimenBuilder
     {
         public object Create(object request, ISpecimenContext context)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
             var pi = request as PropertyInfo;
-            if (pi == null)
+            if (pi != null)
             {
                 return new NoSpecimen();
             }

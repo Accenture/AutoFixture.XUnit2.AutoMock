@@ -22,30 +22,22 @@ namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes
     public sealed class MemberAutoMoqDataAttribute : MemberDataAttributeBase
     {
         public MemberAutoMoqDataAttribute(string memberName, params object[] parameters)
-            : this(new Fixture(), memberName.NotNull(nameof(memberName)), false, parameters)
-        {
-        }
-
-        public MemberAutoMoqDataAttribute(string memberName, bool ignoreVirtualMembers, params object[] parameters)
-            : this(new Fixture(), memberName.NotNull(nameof(memberName)), ignoreVirtualMembers, parameters)
+            : this(new Fixture(), memberName.NotNull(nameof(memberName)), parameters)
         {
         }
 
         public MemberAutoMoqDataAttribute(IFixture fixture, string memberName, params object[] parameters)
-            : this(fixture, memberName, false, parameters)
-        {
-        }
-
-        public MemberAutoMoqDataAttribute(IFixture fixture, string memberName, bool ignoreVirtualMembers, params object[] parameters)
             : base(memberName.NotNull(nameof(memberName)), parameters)
         {
             this.Fixture = fixture.NotNull(nameof(fixture));
-            this.IgnoreVirtualMembers = ignoreVirtualMembers;
         }
 
         public IFixture Fixture { get; }
 
-        public bool IgnoreVirtualMembers { get; }
+        /// <summary>
+        /// Gets or sets a value indicating whether fixture should ignore virtual members when constructing object.
+        /// </summary>
+        public bool IgnoreVirtualMembers { get; set; } = false;
 
         /// <summary>
         /// Gets or sets a value indicating whether to share a fixture across all data items; true by default.

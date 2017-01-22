@@ -60,38 +60,6 @@
             attribute.IgnoreVirtualMembers.Should().BeFalse();
         }
 
-        [Fact(DisplayName = "GIVEN ignore virtual members WHEN constructor is invoked THEN has shared fixture")]
-        public void GivenIgnoreVirtualMembers_WhenConstructorIsInvoked_ThanHasSharedFixture()
-        {
-            // Arrange
-            var fixture = new Fixture();
-            const bool ignoreVirtualMembers = true;
-
-            // Act
-            var attribute = new MemberAutoMoqDataAttribute(fixture.Create<string>(), ignoreVirtualMembers);
-
-            // Assert
-            attribute.Fixture.Should().NotBeNull();
-            attribute.ShareFixture.Should().BeTrue();
-            attribute.IgnoreVirtualMembers.Should().BeTrue();
-        }
-
-        [Fact(DisplayName = "GIVEN fiture and ignore virtual members WHEN constructor is invoked THEN has shared fixture")]
-        public void GivenFixtureAndIgnoreVirtualMembers_WhenConstructorIsInvoked_ThanHasSharedFixture()
-        {
-            // Arrange
-            var fixture = new Fixture();
-            const bool ignoreVirtualMembers = true;
-
-            // Act
-            var attribute = new MemberAutoMoqDataAttribute(fixture, fixture.Create<string>(), ignoreVirtualMembers);
-
-            // Assert
-            attribute.Fixture.Should().NotBeNull();
-            attribute.ShareFixture.Should().BeTrue();
-            attribute.IgnoreVirtualMembers.Should().BeTrue();
-        }
-
         [Fact(DisplayName = "GIVEN existing member name WHEN GetData is invoked THEN appropriate data is returned")]
         public void GivenExistingMemberName_WhenGetDataIsInvoked_ThenAppropriateDataIsReturned()
         {
