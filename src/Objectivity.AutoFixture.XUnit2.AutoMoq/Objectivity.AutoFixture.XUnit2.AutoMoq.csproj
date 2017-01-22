@@ -94,15 +94,19 @@
     <Compile Include="Attributes\AutoMoqDataAttribute.cs" />
     <Compile Include="Attributes\InlineAutoMoqDataAttribute.cs" />
     <Compile Include="Attributes\MemberAutoMoqDataAttribute.cs" />
-    <Compile Include="SpecimenBuilder\IgnoreVirtualMembersSpecimenBuilder.cs" />
-    <Compile Include="MemberData\InlineAutoMoqDataAttributeProvider.cs" />
-    <Compile Include="MemberData\DataItemConverterFactory.cs" />
-    <Compile Include="MemberData\IDataAttributeProvider.cs" />
+    <Compile Include="Customizations\AutoMoqDataCustomization.cs" />
+    <Compile Include="Customizations\DoNotThrowOnRecursionCustomization.cs" />
+    <Compile Include="Customizations\OmitOnRecursionCustomization.cs" />
     <Compile Include="MemberData\IDataItemConverter.cs" />
     <Compile Include="MemberData\MemberAutoMoqDataItemConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\Check.cs" />
     <Compile Include="Common\ValidatedNotNullAttribute.cs" />
+    <Compile Include="Providers\AutoDataAttributeProvider.cs" />
+    <Compile Include="Providers\IAutoFixtureAttributeProvider.cs" />
+    <Compile Include="Providers\IAutoFixtureInlineAttributeProvider.cs" />
+    <Compile Include="Providers\InlineAutoDataAttributeProvider.cs" />
+    <Compile Include="SpecimenBuilder\IgnoreVirtualMembersSpecimenBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

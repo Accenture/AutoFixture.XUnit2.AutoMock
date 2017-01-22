@@ -1,19 +1,13 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MemberAutoMoqDataAttribute.cs" company="Objectivity Bespoke Software Specialists">
-//   Copyright (c) Objectivity Bespoke Software Specialists. All rights reserved.
-// </copyright>
-// <summary>
-//   Defines the MemberAutoMoqDataAttribute type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes
+﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes
 {
     using System;
+    using System.Collections.Generic;
     using System.Reflection;
     using Common;
+    using Customizations;
     using MemberData;
     using Ploeh.AutoFixture;
+    using Providers;
     using Xunit;
     using Xunit.Sdk;
 
@@ -35,20 +29,31 @@ namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes
         public IFixture Fixture { get; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether fixture should ignore virtual members when constructing object.
-        /// </summary>
-        public bool IgnoreVirtualMembers { get; set; } = false;
-
-        /// <summary>
         /// Gets or sets a value indicating whether to share a fixture across all data items; true by default.
         /// </summary>
         public bool ShareFixture { get; set; } = true;
 
+        public override IEnumerable<object[]> GetData(MethodInfo testMethod)
+        {
+            // Customize shared fixture
+            this.Fixture.Customize(new AutoMoqDataCustomization());
+
+            return base.GetData(testMethod);
+        }
+
         protected override object[] ConvertDataItem(MethodInfo testMethod, object item)
         {
-            return DataItemConverterFactory
-                .Create(this.ShareFixture, this.IgnoreVirtualMembers, this.Fixture)
-                .Convert(testMethod, item, this.MemberName, this.MemberType);
+            var fixture = this.ShareFixture ? this.Fixture : GetNewCustomizedFixture();
+
+            var converter = new MemberAutoMoqDataItemConverter(fixture, new InlineAutoDataAttributeProvider());
+
+            return converter.Convert(testMethod, item, this.MemberName, this.MemberType);
+        }
+
+        private static IFixture GetNewCustomizedFixture()
+        {
+            // Customize new fixture
+            return new Fixture().Customize(new AutoMoqDataCustomization());
         }
     }
 }

@@ -5,15 +5,20 @@
     using System.Linq;
     using System.Reflection;
     using Common;
+    using Ploeh.AutoFixture;
+    using Providers;
 
     internal class MemberAutoMoqDataItemConverter : IDataItemConverter
     {
-        public MemberAutoMoqDataItemConverter(IDataAttributeProvider dataAttributeProvider)
+        public MemberAutoMoqDataItemConverter(IFixture fixture, IAutoFixtureInlineAttributeProvider dataAttributeProvider)
         {
-            this.DataAttributeProvider = dataAttributeProvider;
+            this.Fixture = fixture.NotNull(nameof(fixture));
+            this.DataAttributeProvider = dataAttributeProvider.NotNull(nameof(dataAttributeProvider));
         }
 
-        public IDataAttributeProvider DataAttributeProvider { get; }
+        public IFixture Fixture { get; }
+
+        public IAutoFixtureInlineAttributeProvider DataAttributeProvider { get; }
 
         public object[] Convert(MethodInfo testMethod, object item, string memberName, Type memberType)
         {
@@ -24,7 +29,7 @@
 
             var method = testMethod.NotNull(nameof(testMethod));
             var values = EnsureDataStructure(item, memberName, memberType ?? method.DeclaringType);
-            var dataAttribute = this.DataAttributeProvider.GetAttribute(values);
+            var dataAttribute = this.DataAttributeProvider.GetAttribute(this.Fixture, values);
 
             return dataAttribute.GetData(method).FirstOrDefault();
         }

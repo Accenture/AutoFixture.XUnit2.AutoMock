@@ -4,18 +4,19 @@
     using System.Collections.Generic;
     using System.Reflection;
     using AutoMoq.MemberData;
+    using AutoMoq.Providers;
     using FluentAssertions;
     using Moq;
     using Ploeh.AutoFixture;
     using Xunit;
     using Xunit.Sdk;
 
-    [Collection("DataItemConverterFactory")]
+    [Collection("MemberAutoMoqDataItemConverter")]
     [Trait("Category", "MemberData")]
     public class MemberAutoMoqDataItemConverterTests
     {
         private readonly Fixture fixture = new Fixture();
-        private readonly Mock<IDataAttributeProvider> dataAttributeProvider = new Mock<IDataAttributeProvider>();
+        private readonly Mock<IAutoFixtureInlineAttributeProvider> dataAttributeProvider = new Mock<IAutoFixtureInlineAttributeProvider>();
         private readonly Mock<DataAttribute> dataAttribute = new Mock<DataAttribute>();
         private readonly MemberAutoMoqDataItemConverter converter;
         private readonly Type memberType = typeof(MemberAutoMoqDataItemConverterTests);
@@ -25,9 +26,9 @@
         public MemberAutoMoqDataItemConverterTests()
         {
             var data = fixture.Create<IEnumerable<object[]>>();
-            dataAttributeProvider.Setup(p => p.GetAttribute(It.IsAny<object[]>())).Returns(dataAttribute.Object);
+            dataAttributeProvider.Setup(p => p.GetAttribute(fixture, It.IsAny<object[]>())).Returns(dataAttribute.Object);
             dataAttribute.Setup(a => a.GetData(It.IsAny<MethodInfo>())).Returns(data);
-            converter = new MemberAutoMoqDataItemConverter(this.dataAttributeProvider.Object);
+            converter = new MemberAutoMoqDataItemConverter(fixture, this.dataAttributeProvider.Object);
             testMethod = memberType.GetMethod("TestMethod");
             memberName = fixture.Create<string>();
         }

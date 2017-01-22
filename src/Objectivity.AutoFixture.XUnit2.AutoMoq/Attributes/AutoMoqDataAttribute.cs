@@ -1,50 +1,37 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AutoMoqDataAttribute.cs" company="Objectivity Bespoke Software Specialists">
-//   Copyright (c) Objectivity Bespoke Software Specialists. All rights reserved.
-// </copyright>
-// <summary>
-//   Defines the AutoMoqDataAttribute type.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes
+﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes
 {
     using System;
-    using System.Linq;
+    using System.Collections.Generic;
+    using System.Reflection;
     using Common;
+    using Customizations;
     using Ploeh.AutoFixture;
-    using Ploeh.AutoFixture.AutoMoq;
-    using Ploeh.AutoFixture.Xunit2;
-    using SpecimenBuilder;
+    using Providers;
+    using Xunit.Sdk;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1019:DefineAccessorsForAttributeArguments", Justification = "MJI: There is no need to provide public accessor for ignoreVirtualMembers property")]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public sealed class AutoMoqDataAttribute : AutoDataAttribute
+    public sealed class AutoMoqDataAttribute : DataAttribute
     {
-        public AutoMoqDataAttribute(bool ignoreVirtualMembers = false)
-            : this(new Fixture(), ignoreVirtualMembers)
+        public AutoMoqDataAttribute()
+            : this(new Fixture(), new AutoDataAttributeProvider())
         {
         }
 
-        public AutoMoqDataAttribute(IFixture fixture, bool ignoreVirtualMembers = false)
-            : base(fixture.NotNull(nameof(fixture)))
+        public AutoMoqDataAttribute(IFixture fixture, IAutoFixtureAttributeProvider provider)
         {
-            // Configure auto-MOQ.
-            fixture.Customize(new AutoConfiguredMoqCustomization());
+            this.Fixture = fixture.NotNull(nameof(fixture));
+            this.Provider = provider.NotNull(nameof(provider));
+        }
 
-            // Do not throw exception on circular references.
-            fixture.Behaviors
-                .OfType<ThrowingRecursionBehavior>()
-                .ToList()
-                .ForEach(b => fixture.Behaviors.Remove(b));
+        public IFixture Fixture { get; }
 
-            // Ommit recursion on first level.
-            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+        public IAutoFixtureAttributeProvider Provider { get; }
 
-            if (ignoreVirtualMembers)
-            {
-                fixture.Customizations.Add(new IgnoreVirtualMembersSpecimenBuilder());
-            }
+        public override IEnumerable<object[]> GetData(MethodInfo testMethod)
+        {
+            this.Fixture.Customize(new AutoMoqDataCustomization());
+
+            return this.Provider.GetAttribute(this.Fixture).GetData(testMethod);
         }
     }
 }
