@@ -29,6 +29,7 @@
             // Assert
             attribute.Fixture.Should().NotBeNull();
             attribute.Provider.Should().NotBeNull();
+            attribute.IgnoreVirtualMembers.Should().BeFalse();
         }
 
         [Fact(DisplayName = "GIVEN existing fixture and attribute provider WHEN constructor is invoked THEN has specified fixture and attribute provider")]
@@ -44,6 +45,7 @@
             // Assert
             attribute.Fixture.Should().Be(fixture);
             attribute.Provider.Should().Be(provider);
+            attribute.IgnoreVirtualMembers.Should().BeFalse();
         }
 
         [Fact(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]
@@ -95,7 +97,7 @@
 
             // Assert
             result.Should().BeSameAs(data);
-            fixture.Verify(customizeExpression, Times.Once);
+            fixture.Verify(customizeExpression, Times.Exactly(2));
             provider.VerifyAll();
             dataAttribute.VerifyAll();
         }

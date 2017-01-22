@@ -24,6 +24,7 @@
 
             // Assert
             attribute.Fixture.Should().NotBeNull();
+            attribute.IgnoreVirtualMembers.Should().BeFalse();
             attribute.Provider.Should().NotBeNull();
             attribute.Values.Should().HaveCount(0);
         }
@@ -39,6 +40,7 @@
 
             // Assert
             attribute.Fixture.Should().NotBeNull();
+            attribute.IgnoreVirtualMembers.Should().BeFalse();
             attribute.Provider.Should().NotBeNull();
             attribute.Values.Should().BeEquivalentTo(initialValues);
         }
@@ -54,6 +56,7 @@
 
             // Assert
             attribute.Fixture.Should().NotBeNull();
+            attribute.IgnoreVirtualMembers.Should().BeFalse();
             attribute.Provider.Should().NotBeNull();
             attribute.Values.Should().HaveCount(0);
         }
@@ -71,6 +74,7 @@
 
             // Assert
             attribute.Fixture.Should().Be(fixture);
+            attribute.IgnoreVirtualMembers.Should().BeFalse();
             attribute.Provider.Should().Be(provider);
             attribute.Values.Should().HaveCount(0);
         }
@@ -88,6 +92,7 @@
 
             // Assert
             attribute.Fixture.Should().Be(fixture);
+            attribute.IgnoreVirtualMembers.Should().BeFalse();
             attribute.Provider.Should().Be(provider);
             attribute.Values.Should().BeEquivalentTo(initialValues);
         }
@@ -105,6 +110,7 @@
 
             // Assert
             attribute.Fixture.Should().Be(fixture);
+            attribute.IgnoreVirtualMembers.Should().BeFalse();
             attribute.Provider.Should().Be(provider);
             attribute.Values.Should().HaveCount(0);
         }
@@ -158,7 +164,7 @@
 
             // Assert
             result.Should().BeSameAs(data);
-            fixture.Verify(customizeExpression, Times.Once);
+            fixture.Verify(customizeExpression, Times.Exactly(2));
             provider.VerifyAll();
             dataAttribute.VerifyAll();
         }
