@@ -30,8 +30,8 @@
             return first + second + third + fourth;
         }
 
-        [Fact(DisplayName = "WHEN constructor is invoked THAN has shared fixture")]
-        public void WhenConstructorIsInvoked_ThanHasSharedFixture()
+        [Fact(DisplayName = "WHEN constructor is invoked THEN has shared fixture")]
+        public void WhenConstructorIsInvoked_ThenHasSharedFixture()
         {
             // Arrange
             var fixture = new Fixture();
@@ -89,6 +89,25 @@
             // Act
             // Assert
             Assert.Throws<ArgumentNullException>(() => new MemberAutoMoqDataAttribute(memberName));
+        }
+
+
+        [MemberAutoMoqData("TestData")]
+        [Theory(DisplayName = "GIVEN test method has some member generated parameters WHEN test run THEN parameters are provided")]
+        public void GivenTestMethodHasSomeMemberGeneratedParameters_WhenTestRun_ThenParametersAreProvided(int first, int second, int third, int fourth, IDisposable disposable)
+        {
+            // Arrange
+            var testData = TestData.ToList();
+
+            // Act
+            // Assert
+            first.Should().BeOneOf((int)testData[0][0], (int)testData[1][0], (int)testData[2][0]);
+            second.Should().BeOneOf((int)testData[0][1], (int)testData[1][1], (int)testData[2][1]);
+            third.Should().BeOneOf((int)testData[0][2], (int)testData[1][2], (int)testData[2][2]);
+            fourth.Should().NotBe(default(int));
+
+            disposable.Should().NotBeNull();
+            disposable.GetType().Name.Should().StartWith("ObjectProxy", "that way we know it was mocked with MOQ.");
         }
     }
 }
