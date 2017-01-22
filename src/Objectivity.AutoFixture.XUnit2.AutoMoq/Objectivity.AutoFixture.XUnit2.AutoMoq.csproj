@@ -96,6 +96,7 @@
     <Compile Include="Attributes\MemberAutoMoqDataAttribute.cs" />
     <Compile Include="Customizations\AutoMoqDataCustomization.cs" />
     <Compile Include="Customizations\DoNotThrowOnRecursionCustomization.cs" />
+    <Compile Include="Customizations\IgnoreVirtualMembersCustomization.cs" />
     <Compile Include="Customizations\OmitOnRecursionCustomization.cs" />
     <Compile Include="MemberData\IDataItemConverter.cs" />
     <Compile Include="MemberData\MemberAutoMoqDataItemConverter.cs" />

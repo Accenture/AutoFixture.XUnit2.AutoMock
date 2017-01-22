@@ -34,7 +34,6 @@
             fixture.Behaviors.Should().ContainSingle(b => b is OmitOnRecursionBehavior);
         }
 
-        /*
         internal static void ShouldNotIgnoreVirtualMembers(this IFixture fixture)
         {
             fixture.Customizations.Should().NotContain(s => s is IgnoreVirtualMembersSpecimenBuilder);
@@ -44,6 +43,5 @@
         {
             fixture.Customizations.Should().ContainSingle(s => s is IgnoreVirtualMembersSpecimenBuilder);
         }
-        */
     }
 }

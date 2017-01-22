@@ -1,6 +1,5 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Tests.SpecimenBuilder
 {
-    using System;
     using AutoMoq.SpecimenBuilder;
     using FluentAssertions;
     using Moq;
