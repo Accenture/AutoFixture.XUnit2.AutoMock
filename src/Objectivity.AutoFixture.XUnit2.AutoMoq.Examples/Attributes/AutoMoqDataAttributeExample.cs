@@ -2,46 +2,43 @@
 {
     using System;
     using AutoMoq.Attributes;
-    using ExampleClasses;
     using FluentAssertions;
+    using Helpers;
     using Xunit;
     using Xunit.Abstractions;
 
-    public class AutoMoqDataAttributeExample
+    public class AutoMoqDataAttributeExample : BaseAttributeExample
     {
-        private readonly ITestOutputHelper output;
-
-        public AutoMoqDataAttributeExample(ITestOutputHelper output)
+        public AutoMoqDataAttributeExample(ITestOutputHelper output) : base(output)
         {
-            this.output = output;
         }
 
         [Theory]
         [AutoMoqData]
         public void SimpleTypeGeneration(string name, int number)
         {
-            output.WriteLine($"Name: {name}");
-            output.WriteLine($"Number: {number}");
+            Output.WriteLine($"Name: {name}");
+            Output.WriteLine($"Number: {number}");
         }
 
         [Theory]
         [AutoMoqData]
-        public void ComplexTypeGeneration(Sample testObject)
+        public void ComplexTypeGeneration(SampleClass testObject)
         {
-            output.WriteLine($"Not Virtual Property: {testObject.NotVirtualProperty}");
+            Output.WriteLine($"Not Virtual Property: {testObject.NotVirtualProperty}");
 
             testObject.VirtualProperty.Should().NotBeNull();
-            output.WriteLine($"Virtual Property: {testObject.VirtualProperty}");
+            Output.WriteLine($"Virtual Property: {testObject.VirtualProperty}");
         }
 
         [Theory]
         [AutoMoqData(IgnoreVirtualMembers = true)]
-        public void ComplexTypeGenerationWithIgnoreVirtualMembers(Sample testObject)
+        public void ComplexTypeGenerationWithIgnoreVirtualMembers(SampleClass testObject)
         {
-            output.WriteLine($"Not Virtual Property: {testObject.NotVirtualProperty}");
+            Output.WriteLine($"Not Virtual Property: {testObject.NotVirtualProperty}");
 
             testObject.VirtualProperty.Should().BeNull();
-            output.WriteLine($"Virtual Property: {testObject.VirtualProperty}");
+            Output.WriteLine($"Virtual Property: {testObject.VirtualProperty}");
         }
     }
 }

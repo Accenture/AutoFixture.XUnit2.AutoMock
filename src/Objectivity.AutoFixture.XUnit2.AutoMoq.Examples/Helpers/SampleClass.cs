@@ -1,6 +1,6 @@
-﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Examples.ExampleClasses
+﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Examples.Helpers
 {
-    public class Sample
+    public class SampleClass
     {
         public string NotVirtualProperty { get; set; }
 

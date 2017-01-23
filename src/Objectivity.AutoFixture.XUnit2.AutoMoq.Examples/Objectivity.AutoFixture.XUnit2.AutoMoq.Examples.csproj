@@ -105,7 +105,8 @@
     <Compile Include="Attributes\AutoMoqDataAttributeExample.cs" />
     <Compile Include="Attributes\InlineAutoMoqDataAttributeExample.cs" />
     <Compile Include="Attributes\MemberAutoMoqDataAttributeExample.cs" />
-    <Compile Include="ExampleClasses\Sample.cs" />
+    <Compile Include="Helpers\BaseAttributeExample.cs" />
+    <Compile Include="Helpers\SampleClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
