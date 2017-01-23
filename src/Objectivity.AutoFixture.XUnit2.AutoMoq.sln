@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Objectivity.AutoFixture.XUn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Objectivity.AutoFixture.XUnit2.AutoMoq.Tests", "Objectivity.AutoFixture.XUnit2.AutoMoq.Tests\Objectivity.AutoFixture.XUnit2.AutoMoq.Tests.csproj", "{B1851B64-3E9C-4EA2-A9F3-343B8D1EDB3D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Objectivity.AutoFixture.XUnit2.AutoMoq.Examples", "Objectivity.AutoFixture.XUnit2.AutoMoq.Examples\Objectivity.AutoFixture.XUnit2.AutoMoq.Examples.csproj", "{D45C5F1F-9BFB-42C4-ADB4-85138D256434}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{B1851B64-3E9C-4EA2-A9F3-343B8D1EDB3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1851B64-3E9C-4EA2-A9F3-343B8D1EDB3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1851B64-3E9C-4EA2-A9F3-343B8D1EDB3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D45C5F1F-9BFB-42C4-ADB4-85138D256434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D45C5F1F-9BFB-42C4-ADB4-85138D256434}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D45C5F1F-9BFB-42C4-ADB4-85138D256434}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D45C5F1F-9BFB-42C4-ADB4-85138D256434}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
