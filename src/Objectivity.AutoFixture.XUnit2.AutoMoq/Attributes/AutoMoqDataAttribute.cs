@@ -25,11 +25,17 @@
 
         public IFixture Fixture { get; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether virtual members should be ignored during object creation.
+        /// </summary>
+        public bool IgnoreVirtualMembers { get; set; } = false;
+
         public IAutoFixtureAttributeProvider Provider { get; }
 
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
             this.Fixture.Customize(new AutoMoqDataCustomization());
+            this.Fixture.Customize(new IgnoreVirtualMembersCustomization(this.IgnoreVirtualMembers));
 
             return this.Provider.GetAttribute(this.Fixture).GetData(testMethod);
         }

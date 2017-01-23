@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq.Expressions;
+    using AutoMoq.SpecimenBuilder;
     using FluentAssertions;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.AutoMoq;
@@ -31,6 +32,16 @@
             // Ensure there is a beaviour added for omitting recursive types
             // on default recursion depth.
             fixture.Behaviors.Should().ContainSingle(b => b is OmitOnRecursionBehavior);
+        }
+
+        internal static void ShouldNotIgnoreVirtualMembers(this IFixture fixture)
+        {
+            fixture.Customizations.Should().NotContain(s => s is IgnoreVirtualMembersSpecimenBuilder);
+        }
+
+        internal static void ShouldIgnoreVirtualMembers(this IFixture fixture)
+        {
+            fixture.Customizations.Should().ContainSingle(s => s is IgnoreVirtualMembersSpecimenBuilder);
         }
     }
 }

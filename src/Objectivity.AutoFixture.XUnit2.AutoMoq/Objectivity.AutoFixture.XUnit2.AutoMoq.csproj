@@ -96,6 +96,7 @@
     <Compile Include="Attributes\MemberAutoMoqDataAttribute.cs" />
     <Compile Include="Customizations\AutoMoqDataCustomization.cs" />
     <Compile Include="Customizations\DoNotThrowOnRecursionCustomization.cs" />
+    <Compile Include="Customizations\IgnoreVirtualMembersCustomization.cs" />
     <Compile Include="Customizations\OmitOnRecursionCustomization.cs" />
     <Compile Include="MemberData\IDataItemConverter.cs" />
     <Compile Include="MemberData\MemberAutoMoqDataItemConverter.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Providers\IAutoFixtureAttributeProvider.cs" />
     <Compile Include="Providers\IAutoFixtureInlineAttributeProvider.cs" />
     <Compile Include="Providers\InlineAutoDataAttributeProvider.cs" />
+    <Compile Include="SpecimenBuilder\IgnoreVirtualMembersSpecimenBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

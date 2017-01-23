@@ -29,6 +29,11 @@
         public IFixture Fixture { get; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether virtual members should be ignored during object creation.
+        /// </summary>
+        public bool IgnoreVirtualMembers { get; set; } = false;
+
+        /// <summary>
         /// Gets or sets a value indicating whether to share a fixture across all data items; true by default.
         /// </summary>
         public bool ShareFixture { get; set; } = true;
@@ -36,24 +41,26 @@
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
             // Customize shared fixture
-            this.Fixture.Customize(new AutoMoqDataCustomization());
+            this.CustomizeFixture(this.Fixture);
 
             return base.GetData(testMethod);
         }
 
         protected override object[] ConvertDataItem(MethodInfo testMethod, object item)
         {
-            var fixture = this.ShareFixture ? this.Fixture : GetNewCustomizedFixture();
+            var fixture = this.ShareFixture ? this.Fixture : this.CustomizeFixture(new Fixture());
 
             var converter = new MemberAutoMoqDataItemConverter(fixture, new InlineAutoDataAttributeProvider());
 
             return converter.Convert(testMethod, item, this.MemberName, this.MemberType);
         }
 
-        private static IFixture GetNewCustomizedFixture()
+        private IFixture CustomizeFixture(IFixture fixture)
         {
-            // Customize new fixture
-            return new Fixture().Customize(new AutoMoqDataCustomization());
+            fixture.Customize(new AutoMoqDataCustomization());
+            fixture.Customize(new IgnoreVirtualMembersCustomization(this.IgnoreVirtualMembers));
+
+            return fixture;
         }
     }
 }

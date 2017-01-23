@@ -41,6 +41,7 @@
 
             // Assert
             attribute.Fixture.Should().NotBeNull();
+            attribute.IgnoreVirtualMembers.Should().BeFalse();
             attribute.ShareFixture.Should().BeTrue();
         }
 

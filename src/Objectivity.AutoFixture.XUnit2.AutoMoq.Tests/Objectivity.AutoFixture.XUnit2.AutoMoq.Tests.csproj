@@ -104,6 +104,7 @@
     <Compile Include="Attributes\MemberAutoMoqDataAttributeTests.cs" />
     <Compile Include="Customizations\AutoMoqDataCustomizationTests.cs" />
     <Compile Include="Customizations\DoNotThrowOnRecursionCustomizationTests.cs" />
+    <Compile Include="Customizations\IgnoreVirtualMembersCustomizationTests.cs" />
     <Compile Include="Customizations\OmitOnRecursionCustomizationTests.cs" />
     <Compile Include="FixtureAssertionExtensions.cs" />
     <Compile Include="MemberData\MemberAutoMoqDataItemConverterTests.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Common\CheckTests.cs" />
     <Compile Include="Providers\AutoDataAttributeProviderTests.cs" />
     <Compile Include="Providers\InlineAutoDataAttributeProviderTests.cs" />
+    <Compile Include="SpecimenBuilder\IgnoreVirtualMembersSpecimenBuilderTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
