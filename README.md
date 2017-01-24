@@ -114,7 +114,7 @@ public void FixtureInjection(IFixture fixture)
 ```
 
 ## IgnoreVirtualMembers issue
-You should be aware that the *CLR* requires that interface methods be marked as virtual. Please look at the folling example:
+You should be aware that the *CLR* requires that interface methods be marked as virtual. Please look at the following example:
 ```csharp
 public interface IUser
 {
@@ -130,7 +130,7 @@ public class User : IUser
 	public string Surname { get; set; }
 }
 ```
-You can see than only `Substitute` property has been explicitly marked as `virtual`. In such situation *the compiler* will mark other properties as `virtual` and `sealed`. And finnaly *AutoFixture* will assinge `null` value to those properties when option `IgnoreVirtualMembers` will be set to `true`.
+You can see than only `Substitute` property has been explicitly marked as `virtual`. In such situation *the compiler* will mark other properties as `virtual` and `sealed`. And finally *AutoFixture* will assign `null` value to those properties when option `IgnoreVirtualMembers` will be set to `true`.
 
 ```csharp
 [Theory]
