@@ -71,7 +71,7 @@ public static IEnumerable<object[]> ComplexDataWithUser { get; } = new List<obje
             }
        	},
     new object[] { "text2", 2},
-    new object[] {"text3"},
+    new object[] { "text3" },
     new object[] { "text4" }
 };
 
