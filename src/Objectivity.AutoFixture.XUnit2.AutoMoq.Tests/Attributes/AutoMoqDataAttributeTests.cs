@@ -1,13 +1,15 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Tests.Attributes
 {
     using System;
-    using System.Linq.Expressions;
+    using System.Collections.Generic;
     using System.Reflection;
     using AutoMoq.Attributes;
+    using AutoMoq.Customizations;
     using AutoMoq.Providers;
     using FluentAssertions;
     using Moq;
     using Ploeh.AutoFixture;
+    using Ploeh.AutoFixture.Xunit2;
     using Xunit;
     using Xunit.Sdk;
 
@@ -32,11 +34,11 @@
             attribute.IgnoreVirtualMembers.Should().BeFalse();
         }
 
-        [Fact(DisplayName = "GIVEN existing fixture and attribute provider WHEN constructor is invoked THEN has specified fixture and attribute provider")]
-        public void GivenExistingFixtureAndAttributeProvider_WhenConstructorIsInvoked_ThenHasSpecifiedFixtureAndAttributeProvider()
+        [Theory(DisplayName = "GIVEN existing fixture and attribute provider WHEN constructor is invoked THEN has specified fixture and attribute provider")]
+        [AutoData]
+        public void GivenExistingFixtureAndAttributeProvider_WhenConstructorIsInvoked_ThenHasSpecifiedFixtureAndAttributeProvider(Fixture fixture)
         {
             // Arrange
-            var fixture = new Fixture();
             var provider = new AutoDataAttributeProvider();
 
             // Act
@@ -60,11 +62,11 @@
             Assert.Throws<ArgumentNullException>(() => new AutoMoqDataAttribute(fixture, provider));
         }
 
-        [Fact(DisplayName = "GIVEN uninitialized attribute provider WHEN constructor is invoked THEN exception is thrown")]
-        public void GivenUninitializedAttributeProvider_WhenConstructorIsInvoked_ThenExceptionIsThrown()
+        [Theory(DisplayName = "GIVEN uninitialized attribute provider WHEN constructor is invoked THEN exception is thrown")]
+        [AutoData]
+        public void GivenUninitializedAttributeProvider_WhenConstructorIsInvoked_ThenExceptionIsThrown(Fixture fixture)
         {
             // Arrange
-            var fixture = new Fixture();
             const AutoDataAttributeProvider provider = null;
 
             // Act
@@ -72,8 +74,10 @@
             Assert.Throws<ArgumentNullException>(() => new AutoMoqDataAttribute(fixture, provider));
         }
 
-        [Fact(DisplayName = "WHEN GetData is invoked THEN fixture is configured and data returned")]
-        public void WhenGetDataIsInvoked_ThenFixtureIsConfiguredAndDataReturned()
+        [Theory(DisplayName = "WHEN GetData is invoked THEN fixture is configured and data returned")]
+        [InlineAutoData(true)]
+        [InlineAutoData(false)]
+        public void WhenGetDataIsInvoked_ThenFixtureIsConfiguredAndDataReturned(bool ignoreVirtualMembers)
         {
             // Arrange
             var data = new[]
@@ -83,13 +87,16 @@
                 new object[] {7, 8, 9}
             };
             var fixture = new Mock<IFixture>();
-            Expression<Action<IFixture>> customizeExpression = f => f.Customize(It.IsAny<ICustomization>());
-            fixture.Setup(customizeExpression);
+            var customizations = new List<ICustomization>();
+            fixture.Setup(x => x.Customize(It.IsAny<ICustomization>())).Callback<ICustomization>(customization => customizations.Add(customization));
             var dataAttribute = new Mock<DataAttribute>();
             dataAttribute.Setup(a => a.GetData(It.IsAny<MethodInfo>())).Returns(data);
             var provider = new Mock<IAutoFixtureAttributeProvider>();
             provider.Setup(p => p.GetAttribute(It.IsAny<IFixture>())).Returns(dataAttribute.Object);
-            var attribute = new AutoMoqDataAttribute(fixture.Object, provider.Object);
+            var attribute = new AutoMoqDataAttribute(fixture.Object, provider.Object)
+            {
+                IgnoreVirtualMembers = ignoreVirtualMembers
+            };
             var methodInfo = typeof(AutoMoqDataAttributeTests).GetMethod("TestMethod");
 
             // Act
@@ -97,9 +104,12 @@
 
             // Assert
             result.Should().BeSameAs(data);
-            fixture.Verify(customizeExpression, Times.Exactly(2));
             provider.VerifyAll();
             dataAttribute.VerifyAll();
+
+            customizations[0].Should().BeOfType<AutoMoqDataCustomization>();
+            customizations[1].Should().BeOfType<IgnoreVirtualMembersCustomization>();
+            ((IgnoreVirtualMembersCustomization)customizations[1]).IgnoreVirtualMembers.Should().Be(ignoreVirtualMembers);
         }
 
         [AutoMoqData]

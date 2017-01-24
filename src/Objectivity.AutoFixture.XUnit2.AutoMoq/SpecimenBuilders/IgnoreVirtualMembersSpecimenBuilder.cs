@@ -1,4 +1,4 @@
-namespace Objectivity.AutoFixture.XUnit2.AutoMoq.SpecimenBuilder
+namespace Objectivity.AutoFixture.XUnit2.AutoMoq.SpecimenBuilders
 {
     using System;
     using System.Reflection;

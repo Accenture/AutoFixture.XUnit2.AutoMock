@@ -2,7 +2,7 @@
 {
     using System;
     using System.Linq.Expressions;
-    using AutoMoq.SpecimenBuilder;
+    using AutoMoq.SpecimenBuilders;
     using FluentAssertions;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.AutoMoq;
@@ -23,7 +23,7 @@
 
         internal static void ShouldNotThrowOnRecursion(this IFixture fixture)
         {
-            // Ensure there is no behaviour for throwing exceprion on recursive structures.
+            // Ensure there is no behaviour for throwing exception on recursive structures.
             fixture.Behaviors.Should().NotContain(b => b is ThrowingRecursionBehavior);
         }
 

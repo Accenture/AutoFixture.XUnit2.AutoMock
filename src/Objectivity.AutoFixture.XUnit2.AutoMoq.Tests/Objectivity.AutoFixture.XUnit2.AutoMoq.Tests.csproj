@@ -112,7 +112,7 @@
     <Compile Include="Common\CheckTests.cs" />
     <Compile Include="Providers\AutoDataAttributeProviderTests.cs" />
     <Compile Include="Providers\InlineAutoDataAttributeProviderTests.cs" />
-    <Compile Include="SpecimenBuilder\IgnoreVirtualMembersSpecimenBuilderTests.cs" />
+    <Compile Include="SpecimenBuilders\IgnoreVirtualMembersSpecimenBuilderTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

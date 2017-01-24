@@ -1,11 +1,13 @@
-﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Tests.SpecimenBuilder
+﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Tests.SpecimenBuilders
 {
-    using AutoMoq.SpecimenBuilder;
+    using AutoMoq.SpecimenBuilders;
     using FluentAssertions;
     using Moq;
     using Ploeh.AutoFixture.Kernel;
     using Xunit;
 
+    [Collection("IgnoreVirtualMembersSpecimenBuilder")]
+    [Trait("Category", "SpecimenBuilders")]
     public class IgnoreVirtualMembersSpecimenBuilderTests
     {
         private readonly ISpecimenContext context;
@@ -15,7 +17,7 @@
             this.context = new Mock<ISpecimenContext>().Object;
         }
 
-        [Fact]
+        [Fact(DisplayName = "GIVEN uninitialized request WHEN Create is invoked THEN NoSpecimen is returned")]
         public void GivenUninitializedRequest_WhenCreateInvoked_ThenNoSpecimenInstance()
         {
             // Arrange
@@ -28,7 +30,7 @@
             specimen.Should().BeOfType<NoSpecimen>();
         }
 
-        [Fact]
+        [Fact(DisplayName = "GIVEN not PropertyInfo request WHEN Create is invoked THEN NoSpecimen is returned")]
         public void GivenNotPropertyInfoRequest_WhenCreateInvoked_ThenNoSpecimenInstance()
         {
             // Arrange
@@ -41,7 +43,7 @@
             specimen.Should().BeOfType<NoSpecimen>();
         }
 
-        [Fact]
+        [Fact(DisplayName = "GIVEN not virtual PropertyInfo request WHEN Create is invoked THEN NoSpecimen is returned")]
         public void GivenNotVirtualPropertyInfoRequest_WhenCreateInvoked_ThenNoSpecimenInstance()
         {
             // Arrange
@@ -55,7 +57,7 @@
             specimen.Should().BeOfType<NoSpecimen>();
         }
 
-        [Fact]
+        [Fact(DisplayName = "GIVEN virtual PropertyInfo request WHEN Create is invoked THEN null is returned")]
         public void GivenVirtualPropertyInfoRequest_WhenCreateInvoked_ThenNoSpecimenInstance()
         {
             // Arrange

@@ -2,20 +2,20 @@
 {
     using Common;
     using Ploeh.AutoFixture;
-    using SpecimenBuilder;
+    using SpecimenBuilders;
 
     public class IgnoreVirtualMembersCustomization : ICustomization
     {
-        private readonly bool ignoreVirtualMembers;
-
         public IgnoreVirtualMembersCustomization(bool ignoreVirtualMembers)
         {
-            this.ignoreVirtualMembers = ignoreVirtualMembers;
+            this.IgnoreVirtualMembers = ignoreVirtualMembers;
         }
+
+        public bool IgnoreVirtualMembers { get; }
 
         public void Customize(IFixture fixture)
         {
-            if (this.ignoreVirtualMembers)
+            if (this.IgnoreVirtualMembers)
             {
                 fixture.NotNull(nameof(fixture)).Customizations.Add(new IgnoreVirtualMembersSpecimenBuilder());
             }
