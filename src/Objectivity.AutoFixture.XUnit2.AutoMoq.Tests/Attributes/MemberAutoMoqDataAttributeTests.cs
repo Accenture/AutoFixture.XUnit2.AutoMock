@@ -4,8 +4,11 @@
     using System.Collections.Generic;
     using System.Linq;
     using AutoMoq.Attributes;
+    using AutoMoq.Customizations;
     using FluentAssertions;
+    using Moq;
     using Ploeh.AutoFixture;
+    using Ploeh.AutoFixture.Xunit2;
     using Xunit;
 
     [Collection("MemberAutoMoqDataAttribute")]
@@ -30,12 +33,11 @@
             return first + second + third + fourth;
         }
 
-        [Fact(DisplayName = "WHEN constructor is invoked THEN has shared fixture")]
-        public void WhenConstructorIsInvoked_ThenHasSharedFixture()
+        [Theory(DisplayName = "WHEN constructor is invoked THEN has shared fixture")]
+        [AutoData]
+        public void WhenConstructorIsInvoked_ThenHasSharedFixture(Fixture fixture)
         {
             // Arrange
-            var fixture = new Fixture();
-
             // Act
             var attribute = new MemberAutoMoqDataAttribute(fixture.Create<string>());
 
@@ -67,6 +69,31 @@
                 result.Should().ContainInOrder(source);
                 result[numberOfParameters - 1].GetType().Name.Should().StartWith("ObjectProxy", "that way we know it was mocked with MOQ.");
             }
+        }
+
+        [Theory(DisplayName = "GIVEN IgnoreVirtualMembers WHEN GetData is invoked THEN fixture is customized correctly")]
+        [InlineAutoData(true)]
+        [InlineAutoData(false)]
+        public void GivenIgnoreVirtualMembers_WhenGetDataIsInvoked_ThenFixtureIsCustomizedCorrectly(bool ignoreVirtualMembers)
+        {
+            // Arrange
+            var fixture = new Mock<IFixture>();
+            var customizations = new List<ICustomization>();
+            fixture.Setup(x => x.Customize(It.IsAny<ICustomization>())).Callback<ICustomization>(customization => customizations.Add(customization));
+
+            var attribute = new MemberAutoMoqDataAttribute(fixture.Object, "TestData")
+            {
+                IgnoreVirtualMembers = ignoreVirtualMembers
+            };
+            var methodInfo = typeof(MemberAutoMoqDataAttributeTests).GetMethod("TestMethod");
+
+            // Act
+            attribute.GetData(methodInfo);
+
+            // Assert
+            customizations[0].Should().BeOfType<AutoMoqDataCustomization>();
+            customizations[1].Should().BeOfType<IgnoreVirtualMembersCustomization>();
+            ((IgnoreVirtualMembersCustomization)customizations[1]).IgnoreVirtualMembers.Should().Be(ignoreVirtualMembers);
         }
 
         [Fact(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]

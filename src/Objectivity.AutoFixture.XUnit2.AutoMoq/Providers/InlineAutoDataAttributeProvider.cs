@@ -5,7 +5,7 @@
     using Xunit;
     using Xunit.Sdk;
 
-    internal class InlineAutoDataAttributeProvider : IAutoFixtureInlineAttributeProvider
+    public class InlineAutoDataAttributeProvider : IAutoFixtureInlineAttributeProvider
     {
         public DataAttribute GetAttribute(IFixture fixture, params object[] values)
         {

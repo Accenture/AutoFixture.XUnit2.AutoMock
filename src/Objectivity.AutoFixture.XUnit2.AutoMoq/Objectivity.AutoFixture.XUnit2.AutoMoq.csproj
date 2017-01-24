@@ -107,7 +107,7 @@
     <Compile Include="Providers\IAutoFixtureAttributeProvider.cs" />
     <Compile Include="Providers\IAutoFixtureInlineAttributeProvider.cs" />
     <Compile Include="Providers\InlineAutoDataAttributeProvider.cs" />
-    <Compile Include="SpecimenBuilder\IgnoreVirtualMembersSpecimenBuilder.cs" />
+    <Compile Include="SpecimenBuilders\IgnoreVirtualMembersSpecimenBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

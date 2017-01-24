@@ -1,13 +1,16 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Tests.Attributes
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq.Expressions;
     using System.Reflection;
     using AutoMoq.Attributes;
+    using AutoMoq.Customizations;
     using AutoMoq.Providers;
     using FluentAssertions;
     using Moq;
     using Ploeh.AutoFixture;
+    using Ploeh.AutoFixture.Xunit2;
     using Xunit;
     using Xunit.Sdk;
 
@@ -61,14 +64,11 @@
             attribute.Values.Should().HaveCount(0);
         }
 
-        [Fact(DisplayName = "GIVEN existing fixture and attribute provider WHEN constructor is invoked THEN has fixture attribute provider and no values")]
-        public void GivenExistingFixtureAndAttributeProvider_WhenConstructorIsInvoked_ThenHasFixtureAttributeProviderAndNoValues()
+        [Theory(DisplayName = "GIVEN existing fixture and attribute provider WHEN constructor is invoked THEN has fixture attribute provider and no values")]
+        [AutoData]
+        public void GivenExistingFixtureAndAttributeProvider_WhenConstructorIsInvoked_ThenHasFixtureAttributeProviderAndNoValues(Fixture fixture, InlineAutoDataAttributeProvider provider)
         {
             // Arrange
-            var fixture = new Fixture();
-            var provider = new InlineAutoDataAttributeProvider();
-
-
             // Act
             var attribute = new InlineAutoMoqDataAttribute(fixture, provider);
 
@@ -79,12 +79,11 @@
             attribute.Values.Should().HaveCount(0);
         }
 
-        [Fact(DisplayName = "GIVEN existing fixture, attribute provider and values WHEN constructor is invoked THEN has specified fixture, attribute provider and values")]
-        public void GivenExistingFixtureAttributeProviderAndValues_WhenConstructorIsInvoked_ThenHasSpecifiedFixtureAttributeProviderAndValues()
+        [Theory(DisplayName = "GIVEN existing fixture, attribute provider and values WHEN constructor is invoked THEN has specified fixture, attribute provider and values")]
+        [AutoData]
+        public void GivenExistingFixtureAttributeProviderAndValues_WhenConstructorIsInvoked_ThenHasSpecifiedFixtureAttributeProviderAndValues(Fixture fixture, InlineAutoDataAttributeProvider provider)
         {
             // Arrange
-            var fixture = new Fixture();
-            var provider = new InlineAutoDataAttributeProvider();
             var initialValues = new[] { "test", 1, new object() };
 
             // Act
@@ -97,12 +96,11 @@
             attribute.Values.Should().BeEquivalentTo(initialValues);
         }
 
-        [Fact(DisplayName = "GIVEN existing fixture, attribute provider and uninitialized values WHEN constructor is invoked THEN has specified fixture, attribute provider and no values")]
-        public void GivenExistingFixtureAttributeProviderAndUninitializedValues_WhenConstructorIsInvoked_ThenHasSpecifiedFixtureAttributeProviderAndNoValues()
+        [Theory(DisplayName = "GIVEN existing fixture, attribute provider and uninitialized values WHEN constructor is invoked THEN has specified fixture, attribute provider and no values")]
+        [AutoData]
+        public void GivenExistingFixtureAttributeProviderAndUninitializedValues_WhenConstructorIsInvoked_ThenHasSpecifiedFixtureAttributeProviderAndNoValues(Fixture fixture, InlineAutoDataAttributeProvider provider)
         {
             // Arrange
-            var fixture = new Fixture();
-            var provider = new InlineAutoDataAttributeProvider();
             const object[] initialValues = null;
 
             // Act
@@ -115,23 +113,23 @@
             attribute.Values.Should().HaveCount(0);
         }
 
-        [Fact(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]
-        public void GivenUninitializedFixture_WhenConstructorIsInvoked_ThenExceptionIsThrown()
+        [Theory(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]
+        [AutoData]
+        public void GivenUninitializedFixture_WhenConstructorIsInvoked_ThenExceptionIsThrown(InlineAutoDataAttributeProvider provider)
         {
             // Arrange
             const Fixture fixture = null;
-            var provider = new InlineAutoDataAttributeProvider();
 
             // Act
             // Assert
             Assert.Throws<ArgumentNullException>(() => new InlineAutoMoqDataAttribute(fixture, provider));
         }
 
-        [Fact(DisplayName = "GIVEN uninitialized attribute provider WHEN constructor is invoked THEN exception is thrown")]
-        public void GivenUninitializedAttributeProvider_WhenConstructorIsInvoked_ThenExceptionIsThrown()
+        [Theory(DisplayName = "GIVEN uninitialized attribute provider WHEN constructor is invoked THEN exception is thrown")]
+        [AutoData]
+        public void GivenUninitializedAttributeProvider_WhenConstructorIsInvoked_ThenExceptionIsThrown(Fixture fixture)
         {
             // Arrange
-            var fixture = new Fixture();
             const InlineAutoDataAttributeProvider provider = null;
 
             // Act
@@ -139,8 +137,10 @@
             Assert.Throws<ArgumentNullException>(() => new InlineAutoMoqDataAttribute(fixture, provider));
         }
 
-        [Fact(DisplayName = "WHEN GetData is invoked THEN fixture is configured and data returned")]
-        public void WhenGetDataIsInvoked_ThenFixtureIsConfiguredAndDataReturned()
+        [Theory(DisplayName = "WHEN GetData is invoked THEN fixture is configured and data returned")]
+        [InlineAutoData(true)]
+        [InlineAutoData(false)]
+        public void WhenGetDataIsInvoked_ThenFixtureIsConfiguredAndDataReturned(bool ignoreVirtualMembers)
         {
             // Arrange
             var data = new[]
@@ -150,13 +150,16 @@
                 new object[] {7, 8, 9}
             };
             var fixture = new Mock<IFixture>();
-            Expression<Action<IFixture>> customizeExpression = f => f.Customize(It.IsAny<ICustomization>());
-            fixture.Setup(customizeExpression);
+            var customizations = new List<ICustomization>();
+            fixture.Setup(x => x.Customize(It.IsAny<ICustomization>())).Callback<ICustomization>(customization => customizations.Add(customization));
             var dataAttribute = new Mock<DataAttribute>();
             dataAttribute.Setup(a => a.GetData(It.IsAny<MethodInfo>())).Returns(data);
             var provider = new Mock<IAutoFixtureInlineAttributeProvider>();
             provider.Setup(p => p.GetAttribute(It.IsAny<IFixture>())).Returns(dataAttribute.Object);
-            var attribute = new InlineAutoMoqDataAttribute(fixture.Object, provider.Object);
+            var attribute = new InlineAutoMoqDataAttribute(fixture.Object, provider.Object)
+            {
+                IgnoreVirtualMembers = ignoreVirtualMembers
+            };
             var methodInfo = typeof(AutoMoqDataAttributeTests).GetMethod("TestMethod");
 
             // Act
@@ -164,9 +167,12 @@
 
             // Assert
             result.Should().BeSameAs(data);
-            fixture.Verify(customizeExpression, Times.Exactly(2));
             provider.VerifyAll();
             dataAttribute.VerifyAll();
+
+            customizations[0].Should().BeOfType<AutoMoqDataCustomization>();
+            customizations[1].Should().BeOfType<IgnoreVirtualMembersCustomization>();
+            ((IgnoreVirtualMembersCustomization)customizations[1]).IgnoreVirtualMembers.Should().Be(ignoreVirtualMembers);
         }
 
         [InlineAutoMoqData(100)]
