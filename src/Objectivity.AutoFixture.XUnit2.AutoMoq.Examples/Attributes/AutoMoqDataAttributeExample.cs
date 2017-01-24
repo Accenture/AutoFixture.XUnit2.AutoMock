@@ -4,6 +4,7 @@
     using AutoMoq.Attributes;
     using FluentAssertions;
     using Helpers;
+    using Moq;
     using Xunit;
     using Xunit.Abstractions;
 
@@ -41,6 +42,14 @@
 
             testObject.VirtualProperty.Should().BeNull();
             Output.WriteLine($"Virtual Property: {testObject.VirtualProperty}");
+        }
+
+        [Theory]
+        [AutoMoqData]
+        public void ComplexTypeGenerationFromInterface(IUser user)
+        {
+            Output.WriteLine($"Name: {user.Name}");
+            Output.WriteLine($"Surname: {user.Surname}");
         }
     }
 }

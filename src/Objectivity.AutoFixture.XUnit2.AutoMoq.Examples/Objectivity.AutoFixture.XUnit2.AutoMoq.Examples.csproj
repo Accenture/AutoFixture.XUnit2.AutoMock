@@ -112,7 +112,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TipsAndTricks\FixtureInjectionExample.cs" />
     <Compile Include="TipsAndTricks\IgnoreVirtualMembersIssue.cs" />
-    <Compile Include="TipsAndTricks\ObjectConstructionFromInterfaceExample.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\CodeAnalysisDictionary.xml">

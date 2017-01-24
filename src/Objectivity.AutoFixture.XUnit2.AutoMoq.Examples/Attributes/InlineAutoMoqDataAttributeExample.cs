@@ -55,5 +55,17 @@
             testObject.VirtualProperty.Should().BeNull();
             Output.WriteLine($"Virtual Property: {testObject.VirtualProperty}");
         }
+
+        [Theory]
+        [InlineAutoMoqData("Text1")]
+        [InlineAutoMoqData("Text2", 1)]
+        public void ComplexTypeGenerationFromInterface(string text, int number, IUser user)
+        {
+            Output.WriteLine($"Text: {text}");
+            Output.WriteLine($"Number: {number}");
+
+            Output.WriteLine($"Name: {user.Name}");
+            Output.WriteLine($"Surname: {user.Surname}");
+        }
     }
 }

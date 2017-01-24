@@ -39,6 +39,22 @@
             new object[] {"name4"}
         };
 
+        public static IEnumerable<object[]> ComplexDataWithUser { get; } = new List<object[]>
+        {
+            new object[]
+            {
+                "text1", 1, new User
+                {
+                    Name = "Name1",
+                    Surname = "surname1",
+                    Substitute = null
+                }
+            },
+            new object[] { "text2", 2},
+            new object[] {"text3"},
+            new object[] { "text4" }
+        };
+
         public static IEnumerable<object[]> ComplexDataWithIgnoreVirtualMembers { get; } = new List<object[]>
         {
             new object[]
@@ -87,6 +103,17 @@
             Output.WriteLine($"Not Virtual Property: {testObject.NotVirtualProperty}");
             testObject.VirtualProperty.Should().BeNull();
             Output.WriteLine($"Virtual Property: {testObject.VirtualProperty}");
+        }
+
+        [Theory]
+        [MemberAutoMoqData("ComplexDataWithUser")]
+        public void ComplexTypeGenerationFromInterface(string text, int number, IUser user)
+        {
+            Output.WriteLine($"Text: {text}");
+            Output.WriteLine($"Number: {number}");
+
+            Output.WriteLine($"Name: {user.Name}");
+            Output.WriteLine($"Surname: {user.Surname}");
         }
     }
 }
