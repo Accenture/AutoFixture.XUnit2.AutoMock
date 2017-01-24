@@ -5,6 +5,8 @@
     using Ploeh.AutoFixture;
     using Xunit;
 
+    [Collection("TipsAndTricks")]
+    [Trait("Category", "Samples")]
     public class FixtureInjectionExample
     {
         [Theory]

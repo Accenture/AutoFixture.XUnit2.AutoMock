@@ -7,6 +7,8 @@
     using Xunit;
     using Xunit.Abstractions;
 
+    [Collection("InlineAutoMoqDataAttribute")]
+    [Trait("Category", "Samples")]
     public class InlineAutoMoqDataAttributeExample : BaseAttributeExample
     {
 

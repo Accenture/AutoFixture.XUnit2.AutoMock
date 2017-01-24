@@ -7,6 +7,8 @@
     using Xunit;
     using Xunit.Abstractions;
 
+    [Collection("MemberAutoMoqDataAttribute")]
+    [Trait("Category", "Samples")]
     public class MemberAutoMoqDataAttributeExample : BaseAttributeExample
     {
         public MemberAutoMoqDataAttributeExample(ITestOutputHelper output) : base(output)

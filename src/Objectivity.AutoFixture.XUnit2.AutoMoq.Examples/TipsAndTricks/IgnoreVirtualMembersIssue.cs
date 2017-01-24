@@ -5,6 +5,8 @@
     using Helpers;
     using Xunit;
 
+    [Collection("TipsAndTricks")]
+    [Trait("Category", "Samples")]
     public class IgnoreVirtualMembersIssue
     {
         [Theory]
