@@ -66,9 +66,11 @@
 
         [Theory(DisplayName = "GIVEN existing fixture and attribute provider WHEN constructor is invoked THEN has fixture attribute provider and no values")]
         [AutoData]
-        public void GivenExistingFixtureAndAttributeProvider_WhenConstructorIsInvoked_ThenHasFixtureAttributeProviderAndNoValues(Fixture fixture, InlineAutoDataAttributeProvider provider)
+        public void GivenExistingFixtureAndAttributeProvider_WhenConstructorIsInvoked_ThenHasFixtureAttributeProviderAndNoValues(Fixture fixture)
         {
             // Arrange
+            var provider = new InlineAutoDataAttributeProvider();
+
             // Act
             var attribute = new InlineAutoMoqDataAttribute(fixture, provider);
 
@@ -81,9 +83,10 @@
 
         [Theory(DisplayName = "GIVEN existing fixture, attribute provider and values WHEN constructor is invoked THEN has specified fixture, attribute provider and values")]
         [AutoData]
-        public void GivenExistingFixtureAttributeProviderAndValues_WhenConstructorIsInvoked_ThenHasSpecifiedFixtureAttributeProviderAndValues(Fixture fixture, InlineAutoDataAttributeProvider provider)
+        public void GivenExistingFixtureAttributeProviderAndValues_WhenConstructorIsInvoked_ThenHasSpecifiedFixtureAttributeProviderAndValues(Fixture fixture)
         {
             // Arrange
+            var provider = new InlineAutoDataAttributeProvider();
             var initialValues = new[] { "test", 1, new object() };
 
             // Act
@@ -98,9 +101,10 @@
 
         [Theory(DisplayName = "GIVEN existing fixture, attribute provider and uninitialized values WHEN constructor is invoked THEN has specified fixture, attribute provider and no values")]
         [AutoData]
-        public void GivenExistingFixtureAttributeProviderAndUninitializedValues_WhenConstructorIsInvoked_ThenHasSpecifiedFixtureAttributeProviderAndNoValues(Fixture fixture, InlineAutoDataAttributeProvider provider)
+        public void GivenExistingFixtureAttributeProviderAndUninitializedValues_WhenConstructorIsInvoked_ThenHasSpecifiedFixtureAttributeProviderAndNoValues(Fixture fixture)
         {
             // Arrange
+            var provider = new InlineAutoDataAttributeProvider();
             const object[] initialValues = null;
 
             // Act
@@ -113,12 +117,13 @@
             attribute.Values.Should().HaveCount(0);
         }
 
-        [Theory(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]
+        [Fact(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]
         [AutoData]
-        public void GivenUninitializedFixture_WhenConstructorIsInvoked_ThenExceptionIsThrown(InlineAutoDataAttributeProvider provider)
+        public void GivenUninitializedFixture_WhenConstructorIsInvoked_ThenExceptionIsThrown()
         {
             // Arrange
             const Fixture fixture = null;
+            var provider = new InlineAutoDataAttributeProvider();
 
             // Act
             // Assert

@@ -4,7 +4,7 @@
     using Ploeh.AutoFixture.Xunit2;
     using Xunit.Sdk;
 
-    public class AutoDataAttributeProvider : IAutoFixtureAttributeProvider
+    internal class AutoDataAttributeProvider : IAutoFixtureAttributeProvider
     {
         public DataAttribute GetAttribute(IFixture fixture)
         {

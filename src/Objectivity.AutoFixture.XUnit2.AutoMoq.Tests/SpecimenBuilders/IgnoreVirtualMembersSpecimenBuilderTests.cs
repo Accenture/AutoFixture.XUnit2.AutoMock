@@ -4,7 +4,6 @@
     using FluentAssertions;
     using Moq;
     using Ploeh.AutoFixture.Kernel;
-    using Ploeh.AutoFixture.Xunit2;
     using Xunit;
 
     [Collection("IgnoreVirtualMembersSpecimenBuilder")]
@@ -18,11 +17,12 @@
             this.context = new Mock<ISpecimenContext>().Object;
         }
 
-        [Theory(DisplayName = "GIVEN uninitialized request WHEN Create is invoked THEN NoSpecimen is returned")]
-        [AutoData]
-        public void GivenUninitializedRequest_WhenCreateInvoked_ThenNoSpecimenInstance(IgnoreVirtualMembersSpecimenBuilder builder)
+        [Fact(DisplayName = "GIVEN uninitialized request WHEN Create is invoked THEN NoSpecimen is returned")]
+        public void GivenUninitializedRequest_WhenCreateInvoked_ThenNoSpecimenInstance()
         {
             // Arrange
+            var builder = new IgnoreVirtualMembersSpecimenBuilder();
+
             // Act
             var specimen = builder.Create(null, this.context);
 
@@ -30,11 +30,12 @@
             specimen.Should().BeOfType<NoSpecimen>();
         }
 
-        [Theory(DisplayName = "GIVEN not PropertyInfo request WHEN Create is invoked THEN NoSpecimen is returned")]
-        [AutoData]
-        public void GivenNotPropertyInfoRequest_WhenCreateInvoked_ThenNoSpecimenInstance(IgnoreVirtualMembersSpecimenBuilder builder)
+        [Fact(DisplayName = "GIVEN not PropertyInfo request WHEN Create is invoked THEN NoSpecimen is returned")]
+        public void GivenNotPropertyInfoRequest_WhenCreateInvoked_ThenNoSpecimenInstance()
         {
             // Arrange
+            var builder = new IgnoreVirtualMembersSpecimenBuilder();
+
             // Act
             var specimen = builder.Create(new object(), this.context);
 
@@ -42,11 +43,11 @@
             specimen.Should().BeOfType<NoSpecimen>();
         }
 
-        [Theory(DisplayName = "GIVEN not virtual PropertyInfo request WHEN Create is invoked THEN NoSpecimen is returned")]
-        [AutoData]
-        public void GivenNotVirtualPropertyInfoRequest_WhenCreateInvoked_ThenNoSpecimenInstance(IgnoreVirtualMembersSpecimenBuilder builder)
+        [Fact(DisplayName = "GIVEN not virtual PropertyInfo request WHEN Create is invoked THEN NoSpecimen is returned")]
+        public void GivenNotVirtualPropertyInfoRequest_WhenCreateInvoked_ThenNoSpecimenInstance()
         {
             // Arrange
+            var builder = new IgnoreVirtualMembersSpecimenBuilder();
             var notVirtualPropertyInfo = typeof(FakeObject).GetProperty(nameof(FakeObject.NotVirtualProperty));
 
             // Act
@@ -56,11 +57,11 @@
             specimen.Should().BeOfType<NoSpecimen>();
         }
 
-        [Theory(DisplayName = "GIVEN virtual PropertyInfo request WHEN Create is invoked THEN null is returned")]
-        [AutoData]
-        public void GivenVirtualPropertyInfoRequest_WhenCreateInvoked_ThenNoSpecimenInstance(IgnoreVirtualMembersSpecimenBuilder builder)
+        [Fact(DisplayName = "GIVEN virtual PropertyInfo request WHEN Create is invoked THEN null is returned")]
+        public void GivenVirtualPropertyInfoRequest_WhenCreateInvoked_ThenNoSpecimenInstance()
         {
             // Arrange
+            var builder = new IgnoreVirtualMembersSpecimenBuilder();
             var virtualPropertyInfo = typeof(FakeObject).GetProperty(nameof(FakeObject.VirtualProperty));
 
             // Act

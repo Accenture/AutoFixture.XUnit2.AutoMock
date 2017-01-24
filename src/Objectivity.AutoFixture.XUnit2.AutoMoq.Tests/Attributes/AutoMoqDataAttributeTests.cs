@@ -36,9 +36,11 @@
 
         [Theory(DisplayName = "GIVEN existing fixture and attribute provider WHEN constructor is invoked THEN has specified fixture and attribute provider")]
         [AutoData]
-        public void GivenExistingFixtureAndAttributeProvider_WhenConstructorIsInvoked_ThenHasSpecifiedFixtureAndAttributeProvider(Fixture fixture, AutoDataAttributeProvider provider)
+        public void GivenExistingFixtureAndAttributeProvider_WhenConstructorIsInvoked_ThenHasSpecifiedFixtureAndAttributeProvider(Fixture fixture)
         {
             // Arrange
+            var provider = new AutoDataAttributeProvider();
+
             // Act
             var attribute = new AutoMoqDataAttribute(fixture, provider);
 
@@ -48,12 +50,12 @@
             attribute.IgnoreVirtualMembers.Should().BeFalse();
         }
 
-        [Theory(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]
-        [AutoData]
-        public void GivenUninitializedFixture_WhenConstructorIsInvoked_ThenExceptionIsThrown(AutoDataAttributeProvider provider)
+        [Fact(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]
+        public void GivenUninitializedFixture_WhenConstructorIsInvoked_ThenExceptionIsThrown()
         {
             // Arrange
             const Fixture fixture = null;
+            var provider = new AutoDataAttributeProvider();
 
             // Act
             // Assert
@@ -85,10 +87,8 @@
                 new object[] {7, 8, 9}
             };
             var fixture = new Mock<IFixture>();
-            
             var customizations = new List<ICustomization>();
             fixture.Setup(x => x.Customize(It.IsAny<ICustomization>())).Callback<ICustomization>(customization => customizations.Add(customization));
-
             var dataAttribute = new Mock<DataAttribute>();
             dataAttribute.Setup(a => a.GetData(It.IsAny<MethodInfo>())).Returns(data);
             var provider = new Mock<IAutoFixtureAttributeProvider>();
