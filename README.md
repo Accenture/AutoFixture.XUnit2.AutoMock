@@ -1,1 +1,2 @@
 # Objectivity.AutoFixture.XUnit2.AutoMoq
+[![Build Status](https://travis-ci.org/ObjectivityLtd/AutoFixture.XUnit2.AutoMoq.svg?branch=master)](https://travis-ci.org/ObjectivityLtd/AutoFixture.XUnit2.AutoMoq)
