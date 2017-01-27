@@ -1,0 +1,5 @@
+language: csharp
+solution: ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.sln
+script:
+  - xbuild /p:Configuration=Release ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.sln
+  - mono ./src/packages/xunit.runner.console.*/tools/xunit.console.exe ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.Tests/bin/Release/Objectivity.AutoFixture.XUnit2.AutoMoq.Tests.dll

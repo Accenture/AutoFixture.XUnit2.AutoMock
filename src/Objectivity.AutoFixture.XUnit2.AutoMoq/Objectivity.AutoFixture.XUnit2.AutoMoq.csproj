@@ -20,7 +20,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Objectivity.AutoFixture.XUnit2.AutoMoq.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRuleSet>..\Analysers.ruleset</CodeAnalysisRuleSet>
@@ -34,12 +35,16 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Objectivity.AutoFixture.XUnit2.AutoMoq.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRuleSet>..\Analysers.ruleset</CodeAnalysisRuleSet>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(OS)' != 'Windows_NT'">
+    <NoWarn>1701</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
