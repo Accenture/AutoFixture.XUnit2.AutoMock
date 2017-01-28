@@ -39,6 +39,9 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
   </PropertyGroup>
+  <!--
+	MJI: Ignore the CS1701 errors when building on something else than Windows due to mono issue related to dll binding redirect (no way to specify "not msbuild" or mono)
+  -->
   <PropertyGroup Condition="'$(OS)' != 'Windows_NT'">
     <NoWarn>1701</NoWarn>
   </PropertyGroup>
