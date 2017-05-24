@@ -82,7 +82,7 @@ The member must return something compatible with `Enumerable<object[]>` with the
 ```csharp
 public class CurrencyConverterFixture
 {
-	public static IEnumerable<object[]> CurrencyConversionRatesWithResult()
+    public static IEnumerable<object[]> CurrencyConversionRatesWithResult()
     {
     	return new List<object[]>
             {
