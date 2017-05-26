@@ -1,6 +1,5 @@
 # Objectivity.AutoFixture.XUnit2.AutoMoq
 [![Build Status](https://travis-ci.org/ObjectivityLtd/AutoFixture.XUnit2.AutoMoq.svg?branch=master)](https://travis-ci.org/ObjectivityLtd/AutoFixture.XUnit2.AutoMoq)
-[![Downloads](http://nuget-stats-api.jankowskimichal.pl/api/badges/Objectivity.AutoFixture.XUnit2.AutoMoq/totalDownloads)](https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMoq)
 
 Accelerates preparation of mocked structures for unit tests under  [XUnit2](http://xunit.github.io/) by configuring [AutoFixture](https://github.com/AutoFixture/AutoFixture) data generation to use [Moq](https://github.com/moq/moq4). Gracefully handles recursive structures by omitting recursions.
 It provides 3 attributes:
