@@ -79,7 +79,9 @@
             // Arrange
             var fixture = new Mock<IFixture>();
             var customizations = new List<ICustomization>();
-            fixture.Setup(x => x.Customize(It.IsAny<ICustomization>())).Callback<ICustomization>(customization => customizations.Add(customization));
+            fixture.Setup(x => x.Customize(It.IsAny<ICustomization>()))
+                .Callback<ICustomization>(customization => customizations.Add(customization))
+                .Returns(fixture.Object);
 
             var attribute = new MemberAutoMoqDataAttribute(fixture.Object, "TestData")
             {
