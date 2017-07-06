@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using AutoMoq.Attributes;
     using AutoMoq.Customizations;
@@ -108,10 +109,12 @@
             result.Should().BeSameAs(data);
             provider.VerifyAll();
             dataAttribute.VerifyAll();
-
-            customizations[0].Should().BeOfType<AutoMoqDataCustomization>();
-            customizations[1].Should().BeOfType<IgnoreVirtualMembersCustomization>();
-            ((IgnoreVirtualMembersCustomization)customizations[1]).IgnoreVirtualMembers.Should().Be(ignoreVirtualMembers);
+            customizations.Count.Should().Be(1);
+            customizations[0]
+                .Should()
+                .BeOfType<AutoMoqDataCustomization>()
+                .Which.IgnoreVirtualMembers.Should()
+                .Be(ignoreVirtualMembers);
         }
 
         [AutoMoqData]

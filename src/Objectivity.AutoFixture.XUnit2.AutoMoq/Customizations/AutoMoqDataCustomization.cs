@@ -3,15 +3,28 @@
     using Common;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.AutoMoq;
+    using SpecimenBuilders;
 
     public class AutoMoqDataCustomization : ICustomization
     {
+        public AutoMoqDataCustomization(bool ignoreVirtualMembers)
+        {
+            this.IgnoreVirtualMembers = ignoreVirtualMembers;
+        }
+
+        public bool IgnoreVirtualMembers { get; }
+
         public void Customize(IFixture fixture)
         {
             fixture.NotNull(nameof(fixture))
                 .Customize(new AutoConfiguredMoqCustomization())
                 .Customize(new DoNotThrowOnRecursionCustomization())
                 .Customize(new OmitOnRecursionCustomization());
+
+            if (this.IgnoreVirtualMembers)
+            {
+                fixture.Customize(new IgnoreVirtualMembersCustomization());
+            }
         }
     }
 }

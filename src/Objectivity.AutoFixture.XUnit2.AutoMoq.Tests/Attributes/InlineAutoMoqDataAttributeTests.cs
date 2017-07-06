@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq.Expressions;
     using System.Reflection;
     using AutoMoq.Attributes;
     using AutoMoq.Customizations;
@@ -167,7 +166,7 @@
             {
                 IgnoreVirtualMembers = ignoreVirtualMembers
             };
-            var methodInfo = typeof(AutoMoqDataAttributeTests).GetMethod("TestMethod");
+            var methodInfo = typeof(InlineAutoMoqDataAttribute).GetMethod("TestMethod");
 
             // Act
             var result = attribute.GetData(methodInfo);
@@ -176,14 +175,16 @@
             result.Should().BeSameAs(data);
             provider.VerifyAll();
             dataAttribute.VerifyAll();
-
-            customizations[0].Should().BeOfType<AutoMoqDataCustomization>();
-            customizations[1].Should().BeOfType<IgnoreVirtualMembersCustomization>();
-            ((IgnoreVirtualMembersCustomization)customizations[1]).IgnoreVirtualMembers.Should().Be(ignoreVirtualMembers);
+            customizations.Count.Should().Be(1);
+            customizations[0]
+                .Should()
+                .BeOfType<AutoMoqDataCustomization>()
+                .Which.IgnoreVirtualMembers.Should()
+                .Be(ignoreVirtualMembers);
         }
 
-        [InlineAutoMoqData(100)]
         [Theory(DisplayName = "GIVEN test method has some inline parameters WHEN test run THEN parameters are generated")]
+        [InlineAutoMoqData(100)]
         public void GivenTestMethodHasSomeInlineParameters_WhenTestRun_ThenParametersAreGenerated(int value, IDisposable disposable)
         {
             // Arrange

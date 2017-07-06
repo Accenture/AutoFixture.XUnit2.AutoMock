@@ -113,7 +113,6 @@
     <Compile Include="Customizations\IgnoreVirtualMembersCustomizationTests.cs" />
     <Compile Include="Customizations\OmitOnRecursionCustomizationTests.cs" />
     <Compile Include="FixtureAssertionExtensions.cs" />
-    <Compile Include="Fixture\FixtureExtensionsTests.cs" />
     <Compile Include="MemberData\MemberAutoMoqDataItemConverterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\CheckTests.cs" />

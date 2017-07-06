@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Reflection;
     using Common;
-    using Fixture;
+    using Customizations;
     using Ploeh.AutoFixture;
     using Providers;
     using Xunit.Sdk;
@@ -34,7 +34,7 @@
 
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
-            this.Fixture.ApplyCustomizations(this.IgnoreVirtualMembers);
+            this.Fixture.Customize(new AutoMoqDataCustomization(this.IgnoreVirtualMembers));
             return this.Provider.GetAttribute(this.Fixture).GetData(testMethod);
         }
     }

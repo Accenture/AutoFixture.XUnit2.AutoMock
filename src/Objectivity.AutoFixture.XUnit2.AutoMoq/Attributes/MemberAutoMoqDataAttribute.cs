@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Reflection;
     using Common;
-    using Fixture;
+    using Customizations;
     using MemberData;
     using Ploeh.AutoFixture;
     using Providers;
@@ -41,7 +41,7 @@
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
             // Customize shared fixture
-            this.Fixture.ApplyCustomizations(this.IgnoreVirtualMembers);
+            this.Fixture.Customize(new AutoMoqDataCustomization(this.IgnoreVirtualMembers));
 
             return base.GetData(testMethod);
         }
@@ -50,7 +50,7 @@
         {
             var fixture = this.ShareFixture
                 ? this.Fixture
-                : new Fixture().ApplyCustomizations(this.IgnoreVirtualMembers);
+                : new Fixture().Customize(new AutoMoqDataCustomization(this.IgnoreVirtualMembers));
 
             var converter = new MemberAutoMoqDataItemConverter(fixture, new InlineAutoDataAttributeProvider());
 
