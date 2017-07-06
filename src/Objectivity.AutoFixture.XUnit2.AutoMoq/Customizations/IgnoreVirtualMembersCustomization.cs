@@ -6,19 +6,9 @@
 
     public class IgnoreVirtualMembersCustomization : ICustomization
     {
-        public IgnoreVirtualMembersCustomization(bool ignoreVirtualMembers)
-        {
-            this.IgnoreVirtualMembers = ignoreVirtualMembers;
-        }
-
-        public bool IgnoreVirtualMembers { get; }
-
         public void Customize(IFixture fixture)
         {
-            if (this.IgnoreVirtualMembers)
-            {
-                fixture.NotNull(nameof(fixture)).Customizations.Add(new IgnoreVirtualMembersSpecimenBuilder());
-            }
+            fixture.NotNull(nameof(fixture)).Customizations.Add(new IgnoreVirtualMembersSpecimenBuilder());
         }
     }
 }

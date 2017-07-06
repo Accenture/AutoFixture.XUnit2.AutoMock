@@ -41,26 +41,20 @@
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
             // Customize shared fixture
-            this.CustomizeFixture(this.Fixture);
+            this.Fixture.Customize(new AutoMoqDataCustomization(this.IgnoreVirtualMembers));
 
             return base.GetData(testMethod);
         }
 
         protected override object[] ConvertDataItem(MethodInfo testMethod, object item)
         {
-            var fixture = this.ShareFixture ? this.Fixture : this.CustomizeFixture(new Fixture());
+            var fixture = this.ShareFixture
+                ? this.Fixture
+                : new Fixture().Customize(new AutoMoqDataCustomization(this.IgnoreVirtualMembers));
 
             var converter = new MemberAutoMoqDataItemConverter(fixture, new InlineAutoDataAttributeProvider());
 
             return converter.Convert(testMethod, item, this.MemberName, this.MemberType);
-        }
-
-        private IFixture CustomizeFixture(IFixture fixture)
-        {
-            fixture.Customize(new AutoMoqDataCustomization());
-            fixture.Customize(new IgnoreVirtualMembersCustomization(this.IgnoreVirtualMembers));
-
-            return fixture;
         }
     }
 }

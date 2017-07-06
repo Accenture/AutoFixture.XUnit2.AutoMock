@@ -34,9 +34,7 @@
 
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
-            this.Fixture.Customize(new AutoMoqDataCustomization());
-            this.Fixture.Customize(new IgnoreVirtualMembersCustomization(this.IgnoreVirtualMembers));
-
+            this.Fixture.Customize(new AutoMoqDataCustomization(this.IgnoreVirtualMembers));
             return this.Provider.GetAttribute(this.Fixture).GetData(testMethod);
         }
     }
