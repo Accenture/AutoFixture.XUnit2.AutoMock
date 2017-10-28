@@ -4,15 +4,18 @@
     using System.Collections.Generic;
     using System.Linq.Expressions;
     using System.Reflection;
-    using AutoMoq.Attributes;
-    using AutoMoq.Customizations;
-    using AutoMoq.Providers;
+    using Objectivity.AutoFixture.XUnit2.Core.Attributes;
+    using Objectivity.AutoFixture.XUnit2.Core.Customizations;
+    using Objectivity.AutoFixture.XUnit2.Core.Providers;
     using FluentAssertions;
     using Moq;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.Xunit2;
     using Xunit;
     using Xunit.Sdk;
+    using Ploeh.AutoFixture.AutoMoq;
+    using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
+    using Objectivity.AutoFixture.XUnit2.AutoMoq.Providers;
 
     [Collection("InlineAutoMoqDataAttribute")]
     [Trait("Category", "Attributes")]
@@ -175,9 +178,10 @@
             provider.VerifyAll();
             dataAttribute.VerifyAll();
 
-            customizations[0].Should().BeOfType<AutoMoqDataCustomization>();
-            customizations[1].Should().BeOfType<IgnoreVirtualMembersCustomization>();
-            ((IgnoreVirtualMembersCustomization)customizations[1]).IgnoreVirtualMembers.Should().Be(ignoreVirtualMembers);
+            customizations[0].Should().BeOfType<AutoConfiguredMoqCustomization>();
+            customizations[1].Should().BeOfType<AutoDataCommonCustomization>();
+            customizations[2].Should().BeOfType<IgnoreVirtualMembersCustomization>();
+            ((IgnoreVirtualMembersCustomization)customizations[2]).IgnoreVirtualMembers.Should().Be(ignoreVirtualMembers);
         }
 
         [InlineAutoMoqData(100)]

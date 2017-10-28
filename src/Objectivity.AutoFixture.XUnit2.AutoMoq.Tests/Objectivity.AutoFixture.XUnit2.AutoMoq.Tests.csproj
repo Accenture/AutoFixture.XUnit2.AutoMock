@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Objectivity.AutoFixture.XUnit2.AutoMoq.Tests</RootNamespace>
     <AssemblyName>Objectivity.AutoFixture.XUnit2.AutoMoq.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
@@ -68,17 +68,14 @@
       <HintPath>..\packages\Moq.4.5.30\lib\net45\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Ploeh.AutoFixture, Version=3.50.2.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoFixture.3.50.2\lib\net40\Ploeh.AutoFixture.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Ploeh.AutoFixture, Version=3.51.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoFixture.3.51.0\lib\net40\Ploeh.AutoFixture.dll</HintPath>
     </Reference>
-    <Reference Include="Ploeh.AutoFixture.AutoMoq, Version=3.50.2.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoFixture.AutoMoq.3.50.2\lib\net40\Ploeh.AutoFixture.AutoMoq.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Ploeh.AutoFixture.AutoMoq, Version=3.51.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoFixture.AutoMoq.3.51.0\lib\net40\Ploeh.AutoFixture.AutoMoq.dll</HintPath>
     </Reference>
-    <Reference Include="Ploeh.AutoFixture.Xunit2, Version=3.50.2.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoFixture.Xunit2.3.50.2\lib\net45\Ploeh.AutoFixture.Xunit2.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Ploeh.AutoFixture.Xunit2, Version=3.51.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoFixture.Xunit2.3.51.0\lib\net45\Ploeh.AutoFixture.Xunit2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -108,17 +105,9 @@
     <Compile Include="Attributes\AutoMoqDataAttributeTests.cs" />
     <Compile Include="Attributes\InlineAutoMoqDataAttributeTests.cs" />
     <Compile Include="Attributes\MemberAutoMoqDataAttributeTests.cs" />
-    <Compile Include="Customizations\AutoMoqDataCustomizationTests.cs" />
-    <Compile Include="Customizations\DoNotThrowOnRecursionCustomizationTests.cs" />
-    <Compile Include="Customizations\IgnoreVirtualMembersCustomizationTests.cs" />
-    <Compile Include="Customizations\OmitOnRecursionCustomizationTests.cs" />
-    <Compile Include="FixtureAssertionExtensions.cs" />
-    <Compile Include="MemberData\MemberAutoMoqDataItemConverterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Common\CheckTests.cs" />
     <Compile Include="Providers\AutoDataAttributeProviderTests.cs" />
     <Compile Include="Providers\InlineAutoDataAttributeProviderTests.cs" />
-    <Compile Include="SpecimenBuilders\IgnoreVirtualMembersSpecimenBuilderTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -132,8 +121,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Objectivity.AutoFixture.XUnit2.AutoMoq\Objectivity.AutoFixture.XUnit2.AutoMoq.csproj">
-      <Project>{B7ADCA12-249E-4A13-90A3-16AD9E3EDFD0}</Project>
+      <Project>{b7adca12-249e-4a13-90a3-16ad9e3edfd0}</Project>
       <Name>Objectivity.AutoFixture.XUnit2.AutoMoq</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Objectivity.AutoFixture.XUnit2.Core\Objectivity.AutoFixture.XUnit2.Core.csproj">
+      <Project>{6717bc95-f2d2-4eae-a680-d871d58a773b}</Project>
+      <Name>Objectivity.AutoFixture.XUnit2.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

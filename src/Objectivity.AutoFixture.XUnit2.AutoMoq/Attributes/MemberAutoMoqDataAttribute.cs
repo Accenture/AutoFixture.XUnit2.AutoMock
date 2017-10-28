@@ -3,64 +3,39 @@
     using System;
     using System.Collections.Generic;
     using System.Reflection;
-    using Common;
-    using Customizations;
-    using MemberData;
+    using Objectivity.AutoFixture.XUnit2.Core.Attributes;
+    using Objectivity.AutoFixture.XUnit2.Core.Common;
+    using Objectivity.AutoFixture.XUnit2.Core.Customizations;
+    using Objectivity.AutoFixture.XUnit2.Core.MemberData;
+    using Objectivity.AutoFixture.XUnit2.Core.Providers;
     using Ploeh.AutoFixture;
+    using Ploeh.AutoFixture.AutoMoq;
     using Providers;
     using Xunit;
     using Xunit.Sdk;
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     [DataDiscoverer("Xunit.Sdk.MemberDataDiscoverer", "xunit.core")]
-    public sealed class MemberAutoMoqDataAttribute : MemberDataAttributeBase
+    public sealed class MemberAutoMoqDataAttribute : MemberAutoMoqDataBaseAttribute
     {
         public MemberAutoMoqDataAttribute(string memberName, params object[] parameters)
-            : this(new Fixture(), memberName.NotNull(nameof(memberName)), parameters)
+            : this(new Fixture(), memberName, parameters)
         {
         }
 
         public MemberAutoMoqDataAttribute(IFixture fixture, string memberName, params object[] parameters)
-            : base(memberName.NotNull(nameof(memberName)), parameters)
+            : base(fixture, memberName, parameters)
         {
-            this.Fixture = fixture.NotNull(nameof(fixture));
         }
 
-        public IFixture Fixture { get; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether virtual members should be ignored during object creation.
-        /// </summary>
-        public bool IgnoreVirtualMembers { get; set; } = false;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to share a fixture across all data items; true by default.
-        /// </summary>
-        public bool ShareFixture { get; set; } = true;
-
-        public override IEnumerable<object[]> GetData(MethodInfo testMethod)
+        protected override IAutoFixtureInlineAttributeProvider CreateProvider()
         {
-            // Customize shared fixture
-            this.CustomizeFixture(this.Fixture);
-
-            return base.GetData(testMethod);
+            return new InlineAutoDataAttributeProvider();
         }
 
-        protected override object[] ConvertDataItem(MethodInfo testMethod, object item)
+        protected override IFixture Customize(IFixture fixture)
         {
-            var fixture = this.ShareFixture ? this.Fixture : this.CustomizeFixture(new Fixture());
-
-            var converter = new MemberAutoMoqDataItemConverter(fixture, new InlineAutoDataAttributeProvider());
-
-            return converter.Convert(testMethod, item, this.MemberName, this.MemberType);
-        }
-
-        private IFixture CustomizeFixture(IFixture fixture)
-        {
-            fixture.Customize(new AutoMoqDataCustomization());
-            fixture.Customize(new IgnoreVirtualMembersCustomization(this.IgnoreVirtualMembers));
-
-            return fixture;
+            return fixture.NotNull(nameof(fixture)).Customize(new AutoConfiguredMoqCustomization());
         }
     }
 }

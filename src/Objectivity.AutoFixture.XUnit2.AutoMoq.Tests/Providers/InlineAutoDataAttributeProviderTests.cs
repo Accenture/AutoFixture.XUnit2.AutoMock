@@ -2,11 +2,12 @@
 {
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using AutoMoq.Providers;
+    using Objectivity.AutoFixture.XUnit2.Core.Providers;
     using FluentAssertions;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.Xunit2;
     using Xunit;
+    using Objectivity.AutoFixture.XUnit2.AutoMoq.Providers;
 
     [Collection("InlineAutoDataAttributeProvider")]
     [Trait("Category", "Providers")]

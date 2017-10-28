@@ -3,13 +3,15 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using AutoMoq.Attributes;
-    using AutoMoq.Customizations;
+    using Objectivity.AutoFixture.XUnit2.Core.Attributes;
+    using Objectivity.AutoFixture.XUnit2.Core.Customizations;
     using FluentAssertions;
     using Moq;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.Xunit2;
     using Xunit;
+    using Ploeh.AutoFixture.AutoMoq;
+    using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
 
     [Collection("MemberAutoMoqDataAttribute")]
     [Trait("Category", "Attributes")]
@@ -91,9 +93,10 @@
             attribute.GetData(methodInfo);
 
             // Assert
-            customizations[0].Should().BeOfType<AutoMoqDataCustomization>();
-            customizations[1].Should().BeOfType<IgnoreVirtualMembersCustomization>();
-            ((IgnoreVirtualMembersCustomization)customizations[1]).IgnoreVirtualMembers.Should().Be(ignoreVirtualMembers);
+            customizations[0].Should().BeOfType<AutoConfiguredMoqCustomization>();
+            customizations[1].Should().BeOfType<AutoDataCommonCustomization>();
+            customizations[2].Should().BeOfType<IgnoreVirtualMembersCustomization>();
+            ((IgnoreVirtualMembersCustomization)customizations[2]).IgnoreVirtualMembers.Should().Be(ignoreVirtualMembers);
         }
 
         [Fact(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]

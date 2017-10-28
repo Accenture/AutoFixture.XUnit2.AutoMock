@@ -1,0 +1,26 @@
+﻿namespace Objectivity.AutoFixture.XUnit2.Core.Common
+{
+    using System;
+    using System.Diagnostics;
+    using JetBrains.Annotations;
+
+    /// <summary>
+    /// Copied from <see cref="!:https://github.com/aspnet/EntityFramework/blob/dev/src/Shared/Check.cs">Check.cs</see>
+    /// </summary>
+    [DebuggerStepThrough]
+    public static class Check
+    {
+        [ContractAnnotation("value:null => halt")]
+        public static T NotNull<T>(
+            [NoEnumeration] [ValidatedNotNull] this T value,
+            [InvokerParameterName] [NotNull] string parameterName)
+        {
+            if (ReferenceEquals(value, null))
+            {
+                throw new ArgumentNullException(parameterName);
+            }
+
+            return value;
+        }
+    }
+}

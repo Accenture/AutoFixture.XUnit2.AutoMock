@@ -1,5 +1,6 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Providers
 {
+    using Objectivity.AutoFixture.XUnit2.Core.Providers;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.Xunit2;
     using Xunit;
