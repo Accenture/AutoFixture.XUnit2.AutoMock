@@ -1,8 +1,8 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.SpecimenBuilders
 {
-    using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
     using FluentAssertions;
     using Moq;
+    using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
     using Ploeh.AutoFixture.Kernel;
     using Xunit;
 
@@ -74,7 +74,8 @@
         private class FakeObject
         {
             public object NotVirtualProperty { get; set; }
-            public virtual object VirtualProperty{ get; set; }
+
+            public virtual object VirtualProperty { get; set; }
         }
     }
 }

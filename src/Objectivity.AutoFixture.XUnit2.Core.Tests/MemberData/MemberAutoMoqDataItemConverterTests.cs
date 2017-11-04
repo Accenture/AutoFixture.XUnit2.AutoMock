@@ -3,10 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Reflection;
-    using Objectivity.AutoFixture.XUnit2.Core.MemberData;
-    using Objectivity.AutoFixture.XUnit2.Core.Providers;
     using FluentAssertions;
     using Moq;
+    using Objectivity.AutoFixture.XUnit2.Core.MemberData;
+    using Objectivity.AutoFixture.XUnit2.Core.Providers;
     using Ploeh.AutoFixture;
     using Xunit;
     using Xunit.Sdk;
@@ -25,12 +25,12 @@
 
         public MemberAutoMoqDataItemConverterTests()
         {
-            var data = fixture.Create<IEnumerable<object[]>>();
-            dataAttributeProvider.Setup(p => p.GetAttribute(fixture, It.IsAny<object[]>())).Returns(dataAttribute.Object);
-            dataAttribute.Setup(a => a.GetData(It.IsAny<MethodInfo>())).Returns(data);
-            converter = new MemberAutoMoqDataItemConverter(fixture, this.dataAttributeProvider.Object);
-            testMethod = memberType.GetMethod("TestMethod");
-            memberName = fixture.Create<string>();
+            var data = this.fixture.Create<IEnumerable<object[]>>();
+            this.dataAttributeProvider.Setup(p => p.GetAttribute(this.fixture, It.IsAny<object[]>())).Returns(this.dataAttribute.Object);
+            this.dataAttribute.Setup(a => a.GetData(It.IsAny<MethodInfo>())).Returns(data);
+            this.converter = new MemberAutoMoqDataItemConverter(this.fixture, this.dataAttributeProvider.Object);
+            this.testMethod = this.memberType.GetMethod("TestMethod");
+            this.memberName = this.fixture.Create<string>();
         }
 
         public void TestMethod()
@@ -41,15 +41,15 @@
         public void GivenValidParameters_WhenConvertIsInvoked_ThenAppropriateCodeIsInvokedAndDataIsReturned()
         {
             // Arrange
-            var item = fixture.Create<object[]>();
+            var item = this.fixture.Create<object[]>();
 
             // Act
-            var data = converter.Convert(testMethod, item, memberName, memberType);
+            var data = this.converter.Convert(this.testMethod, item, this.memberName, this.memberType);
 
             // Assert
             data.Should().NotBeNull();
-            dataAttributeProvider.VerifyAll();
-            dataAttribute.VerifyAll();
+            this.dataAttributeProvider.VerifyAll();
+            this.dataAttribute.VerifyAll();
         }
 
         [Fact(DisplayName = "GIVEN uninitialized item WHEN Convert is invoked THEN exception is thrown")]
@@ -59,7 +59,7 @@
             const object item = null;
 
             // Act
-            var data = converter.Convert(testMethod, item, memberName, memberType);
+            var data = this.converter.Convert(this.testMethod, item, this.memberName, this.memberType);
 
             // Assert
             data.Should().BeNull();
@@ -69,11 +69,11 @@
         public void GivenItemOfUnexpectedType_WhenConvertIsInvoked_ThenExceptionIsThrown()
         {
             // Arrange
-            var item = fixture.Create<object>();
+            var item = this.fixture.Create<object>();
 
             // Act
             // Assert
-            Assert.Throws<ArgumentException>(() => converter.Convert(testMethod, item, memberName, memberType));
+            Assert.Throws<ArgumentException>(() => this.converter.Convert(this.testMethod, item, this.memberName, this.memberType));
         }
 
         [Fact(DisplayName = "GIVEN uninitialized test method WHEN Convert is invoked THEN exception is thrown")]
@@ -81,11 +81,11 @@
         {
             // Arrange
             const MethodInfo method = null;
-            var item = fixture.Create<object[]>();
+            var item = this.fixture.Create<object[]>();
 
             // Act
             // Assert
-            Assert.Throws<ArgumentNullException>(() => converter.Convert(method, item, memberName, memberType));
+            Assert.Throws<ArgumentNullException>(() => this.converter.Convert(method, item, this.memberName, this.memberType));
         }
     }
 }

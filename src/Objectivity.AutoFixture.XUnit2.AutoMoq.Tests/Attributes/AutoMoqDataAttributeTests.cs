@@ -38,46 +38,6 @@
             attribute.IgnoreVirtualMembers.Should().BeFalse();
         }
 
-        [Theory(DisplayName = "GIVEN existing fixture and attribute provider WHEN constructor is invoked THEN has specified fixture and attribute provider")]
-        [AutoData]
-        public void GivenExistingFixtureAndAttributeProvider_WhenConstructorIsInvoked_ThenHasSpecifiedFixtureAndAttributeProvider(Fixture fixture)
-        {
-            // Arrange
-            var provider = new AutoDataAttributeProvider();
-
-            // Act
-            var attribute = new AutoMoqDataAttribute(fixture, provider);
-
-            // Assert
-            attribute.Fixture.Should().Be(fixture);
-            attribute.Provider.Should().Be(provider);
-            attribute.IgnoreVirtualMembers.Should().BeFalse();
-        }
-
-        [Fact(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]
-        public void GivenUninitializedFixture_WhenConstructorIsInvoked_ThenExceptionIsThrown()
-        {
-            // Arrange
-            const Fixture fixture = null;
-            var provider = new AutoDataAttributeProvider();
-
-            // Act
-            // Assert
-            Assert.Throws<ArgumentNullException>(() => new AutoMoqDataAttribute(fixture, provider));
-        }
-
-        [Theory(DisplayName = "GIVEN uninitialized attribute provider WHEN constructor is invoked THEN exception is thrown")]
-        [AutoData]
-        public void GivenUninitializedAttributeProvider_WhenConstructorIsInvoked_ThenExceptionIsThrown(Fixture fixture)
-        {
-            // Arrange
-            const AutoDataAttributeProvider provider = null;
-
-            // Act
-            // Assert
-            Assert.Throws<ArgumentNullException>(() => new AutoMoqDataAttribute(fixture, provider));
-        }
-
         [Theory(DisplayName = "WHEN GetData is invoked THEN fixture is configured and data returned")]
         [InlineAutoData(true)]
         [InlineAutoData(false)]

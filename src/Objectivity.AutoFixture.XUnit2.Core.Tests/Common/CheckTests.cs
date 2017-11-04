@@ -2,8 +2,8 @@
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
-    using Objectivity.AutoFixture.XUnit2.Core.Common;
     using FluentAssertions;
+    using Objectivity.AutoFixture.XUnit2.Core.Common;
     using Xunit;
 
     [Collection("Check")]

@@ -2,8 +2,8 @@
 {
     using System;
     using System.Linq.Expressions;
-    using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
     using FluentAssertions;
+    using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.Kernel;
 
