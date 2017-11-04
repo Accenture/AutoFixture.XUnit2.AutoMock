@@ -3,15 +3,15 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Objectivity.AutoFixture.XUnit2.Core.Attributes;
-    using Objectivity.AutoFixture.XUnit2.Core.Customizations;
     using FluentAssertions;
     using Moq;
+    using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
+    using Objectivity.AutoFixture.XUnit2.Core.Attributes;
+    using Objectivity.AutoFixture.XUnit2.Core.Customizations;
     using Ploeh.AutoFixture;
+    using Ploeh.AutoFixture.AutoMoq;
     using Ploeh.AutoFixture.Xunit2;
     using Xunit;
-    using Ploeh.AutoFixture.AutoMoq;
-    using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
 
     [Collection("MemberAutoMoqDataAttribute")]
     [Trait("Category", "Attributes")]
@@ -19,9 +19,9 @@
     {
         public static IEnumerable<object[]> TestData { get; } = new[]
         {
-            new object[] {1, 2, 3},
-            new object[] {4, 5, 6},
-            new object[] {7, 8, 9}
+            new object[] { 1, 2, 3 },
+            new object[] { 4, 5, 6 },
+            new object[] { 7, 8, 9 }
         };
 
         public int TestMethod(int first, int second, int third, int fourth, IDisposable disposable)
@@ -126,7 +126,6 @@
             // Assert
             Assert.Throws<ArgumentNullException>(() => new MemberAutoMoqDataAttribute(memberName));
         }
-
 
         [MemberAutoMoqData("TestData")]
         [Theory(DisplayName = "GIVEN test method has some member generated parameters WHEN test run THEN parameters are provided")]

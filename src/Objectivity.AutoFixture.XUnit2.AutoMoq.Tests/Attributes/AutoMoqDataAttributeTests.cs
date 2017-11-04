@@ -4,27 +4,23 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using FluentAssertions;
+    using Moq;
+    using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
+    using Objectivity.AutoFixture.XUnit2.AutoMoq.Providers;
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
     using Objectivity.AutoFixture.XUnit2.Core.Providers;
-    using FluentAssertions;
-    using Moq;
     using Ploeh.AutoFixture;
+    using Ploeh.AutoFixture.AutoMoq;
     using Ploeh.AutoFixture.Xunit2;
     using Xunit;
     using Xunit.Sdk;
-    using Ploeh.AutoFixture.AutoMoq;
-    using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
-    using Objectivity.AutoFixture.XUnit2.AutoMoq.Providers;
 
     [Collection("AutoMoqDataAttribute")]
     [Trait("Category", "Attributes")]
     public class AutoMoqDataAttributeTests
     {
-        public void TestMethod()
-        {
-        }
-
         [Fact(DisplayName = "WHEN parameterless constructor is invoked THEN fixture and attribute provider are created")]
         public void WhenParameterlessConstructorIsInvoked_ThenFixtureAndAttributeProviderAreCreated()
         {
@@ -46,9 +42,9 @@
             // Arrange
             var data = new[]
             {
-                new object[] {1, 2, 3},
-                new object[] {4, 5, 6},
-                new object[] {7, 8, 9}
+                new object[] { 1, 2, 3 },
+                new object[] { 4, 5, 6 },
+                new object[] { 7, 8, 9 }
             };
             var fixture = new Mock<IFixture>();
             var customizations = new List<ICustomization>();
@@ -63,7 +59,7 @@
             {
                 IgnoreVirtualMembers = ignoreVirtualMembers
             };
-            var methodInfo = typeof(AutoMoqDataAttributeTests).GetMethod("TestMethod");
+            var methodInfo = typeof(AutoMoqDataAttributeTests).GetMethod("TestMethod", BindingFlags.Instance | BindingFlags.NonPublic);
 
             // Act
             var result = attribute.GetData(methodInfo);
@@ -93,6 +89,10 @@
 
             disposable.Should().NotBeNull();
             disposable.GetType().Name.Should().StartWith("ObjectProxy", "that way we know it was mocked with MOQ.");
+        }
+
+        protected void TestMethod()
+        {
         }
     }
 }

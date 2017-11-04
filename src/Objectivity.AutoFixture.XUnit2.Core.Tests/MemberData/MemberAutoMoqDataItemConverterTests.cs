@@ -29,12 +29,8 @@
             this.dataAttributeProvider.Setup(p => p.GetAttribute(this.fixture, It.IsAny<object[]>())).Returns(this.dataAttribute.Object);
             this.dataAttribute.Setup(a => a.GetData(It.IsAny<MethodInfo>())).Returns(data);
             this.converter = new MemberAutoMoqDataItemConverter(this.fixture, this.dataAttributeProvider.Object);
-            this.testMethod = this.memberType.GetMethod("TestMethod");
+            this.testMethod = this.memberType.GetMethod("TestMethod", BindingFlags.Instance | BindingFlags.NonPublic);
             this.memberName = this.fixture.Create<string>();
-        }
-
-        public void TestMethod()
-        {
         }
 
         [Fact(DisplayName = "GIVEN valid parameters WHEN Convert is invoked THEN appropriate code is invoked and data is returned")]
@@ -86,6 +82,10 @@
             // Act
             // Assert
             Assert.Throws<ArgumentNullException>(() => this.converter.Convert(method, item, this.memberName, this.memberType));
+        }
+
+        protected void TestMethod()
+        {
         }
     }
 }

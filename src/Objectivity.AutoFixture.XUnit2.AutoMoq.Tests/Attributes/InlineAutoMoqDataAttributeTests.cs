@@ -3,18 +3,18 @@
     using System;
     using System.Collections.Generic;
     using System.Reflection;
+    using FluentAssertions;
+    using Moq;
+    using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
+    using Objectivity.AutoFixture.XUnit2.AutoMoq.Providers;
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
     using Objectivity.AutoFixture.XUnit2.Core.Providers;
-    using FluentAssertions;
-    using Moq;
     using Ploeh.AutoFixture;
+    using Ploeh.AutoFixture.AutoMoq;
     using Ploeh.AutoFixture.Xunit2;
     using Xunit;
     using Xunit.Sdk;
-    using Ploeh.AutoFixture.AutoMoq;
-    using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
-    using Objectivity.AutoFixture.XUnit2.AutoMoq.Providers;
 
     [Collection("InlineAutoMoqDataAttribute")]
     [Trait("Category", "Attributes")]
@@ -38,7 +38,7 @@
         public void GivenExistingInlineValues_WhenConstructorIsInvoked_ThenHasSpecifiedValuesAndFixtureAndAttributeProviderAreCreated()
         {
             // Arrange
-            var initialValues = new[] {"test", 1, new object()};
+            var initialValues = new[] { "test", 1, new object() };
 
             // Act
             var attribute = new InlineAutoMoqDataAttribute(initialValues[0], initialValues[1], initialValues[2]);
@@ -74,9 +74,9 @@
             // Arrange
             var data = new[]
             {
-                new object[] {1, 2, 3},
-                new object[] {4, 5, 6},
-                new object[] {7, 8, 9}
+                new object[] { 1, 2, 3 },
+                new object[] { 4, 5, 6 },
+                new object[] { 7, 8, 9 }
             };
             var fixture = new Mock<IFixture>();
             var customizations = new List<ICustomization>();
