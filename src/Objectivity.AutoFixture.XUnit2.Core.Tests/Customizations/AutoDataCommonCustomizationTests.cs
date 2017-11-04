@@ -7,19 +7,40 @@
 
     [Collection("AutoMoqDataCustomization")]
     [Trait("Category", "Customizations")]
-    public class AutoMoqDataCustomizationTests
+    public class AutoDataCommonCustomizationTests
     {
-        [Theory(DisplayName = "GIVEN existing customization for fixture WHEN Customize is invoked THEN fixture is appropriately customized")]
+        [Theory(DisplayName = "GIVEN existing customization with ignoring virtual members WHEN Customize is invoked THEN fixture is appropriately customized")]
         [AutoData]
-        public void GivenExistingCustomizationForFixture_WhenCustomizeIsInvoked_ThenFixtureIsAppropriatelyCustomized(Fixture fixture, AutoDataCommonCustomization customization)
+        public void GivenExistingCustomizationForFixture_WhenCustomizeIsInvoked_ThenFixtureIsAppropriatelyCustomized(Fixture fixture)
         {
             // Arrange
+            const bool ignoreVirtualMembers = true;
+            var customization = new AutoDataCommonCustomization(ignoreVirtualMembers);
+
             // Act
             fixture.Customize(customization);
 
             // Assert
             fixture.ShouldNotThrowOnRecursion();
             fixture.ShouldOmitRecursion();
+            fixture.ShouldIgnoreVirtualMembers();
+        }
+
+        [Theory(DisplayName = "GIVEN existing customization without ignoring virtual members WHEN Customize is invoked THEN fixture is appropriately customized")]
+        [AutoData]
+        public void GivenExistingCustomizationWithoutIgnoringVirtualMembers_WhenCustomizeIsInvoked_ThenFixtureIsAppropriatelyCustomized(Fixture fixture)
+        {
+            // Arrange
+            const bool ignoreVirtualMembers = false;
+            var customization = new AutoDataCommonCustomization(ignoreVirtualMembers);
+
+            // Act
+            fixture.Customize(customization);
+
+            // Assert
+            fixture.ShouldNotThrowOnRecursion();
+            fixture.ShouldOmitRecursion();
+            fixture.ShouldNotIgnoreVirtualMembers();
         }
     }
 }

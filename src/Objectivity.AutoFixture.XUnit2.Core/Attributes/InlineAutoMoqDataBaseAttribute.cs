@@ -36,9 +36,8 @@
 
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
+            this.Fixture.Customize(new AutoDataCommonCustomization(this.IgnoreVirtualMembers));
             this.Customize(this.Fixture);
-            this.Fixture.Customize(new AutoDataCommonCustomization());
-            this.Fixture.Customize(new IgnoreVirtualMembersCustomization(this.IgnoreVirtualMembers));
 
             return this.Provider.GetAttribute(this.Fixture, this.values).GetData(testMethod);
         }

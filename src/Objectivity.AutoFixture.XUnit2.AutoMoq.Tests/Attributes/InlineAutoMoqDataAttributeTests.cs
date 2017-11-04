@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq.Expressions;
     using System.Reflection;
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
@@ -159,7 +158,9 @@
             };
             var fixture = new Mock<IFixture>();
             var customizations = new List<ICustomization>();
-            fixture.Setup(x => x.Customize(It.IsAny<ICustomization>())).Callback<ICustomization>(customization => customizations.Add(customization));
+            fixture.Setup(x => x.Customize(It.IsAny<ICustomization>()))
+                .Callback<ICustomization>(customization => customizations.Add(customization))
+                .Returns(fixture.Object);
             var dataAttribute = new Mock<DataAttribute>();
             dataAttribute.Setup(a => a.GetData(It.IsAny<MethodInfo>())).Returns(data);
             var provider = new Mock<IAutoFixtureInlineAttributeProvider>();
@@ -168,7 +169,7 @@
             {
                 IgnoreVirtualMembers = ignoreVirtualMembers
             };
-            var methodInfo = typeof(AutoMoqDataAttributeTests).GetMethod("TestMethod");
+            var methodInfo = typeof(InlineAutoMoqDataAttribute).GetMethod("TestMethod");
 
             // Act
             var result = attribute.GetData(methodInfo);
@@ -178,10 +179,13 @@
             provider.VerifyAll();
             dataAttribute.VerifyAll();
 
-            customizations[0].Should().BeOfType<AutoConfiguredMoqCustomization>();
-            customizations[1].Should().BeOfType<AutoDataCommonCustomization>();
-            customizations[2].Should().BeOfType<IgnoreVirtualMembersCustomization>();
-            ((IgnoreVirtualMembersCustomization)customizations[2]).IgnoreVirtualMembers.Should().Be(ignoreVirtualMembers);
+            customizations.Count.Should().Be(2);
+            customizations[0]
+                .Should()
+                .BeOfType<AutoDataCommonCustomization>()
+                .Which.IgnoreVirtualMembers.Should()
+                .Be(ignoreVirtualMembers);
+            customizations[1].Should().BeOfType<AutoConfiguredMoqCustomization>();
         }
 
         [InlineAutoMoqData(100)]

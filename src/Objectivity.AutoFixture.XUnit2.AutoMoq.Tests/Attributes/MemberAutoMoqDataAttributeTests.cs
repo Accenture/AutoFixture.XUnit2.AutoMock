@@ -81,7 +81,9 @@
             // Arrange
             var fixture = new Mock<IFixture>();
             var customizations = new List<ICustomization>();
-            fixture.Setup(x => x.Customize(It.IsAny<ICustomization>())).Callback<ICustomization>(customization => customizations.Add(customization));
+            fixture.Setup(x => x.Customize(It.IsAny<ICustomization>()))
+                .Callback<ICustomization>(customization => customizations.Add(customization))
+                .Returns(fixture.Object);
 
             var attribute = new MemberAutoMoqDataAttribute(fixture.Object, "TestData")
             {
@@ -93,10 +95,13 @@
             attribute.GetData(methodInfo);
 
             // Assert
-            customizations[0].Should().BeOfType<AutoConfiguredMoqCustomization>();
-            customizations[1].Should().BeOfType<AutoDataCommonCustomization>();
-            customizations[2].Should().BeOfType<IgnoreVirtualMembersCustomization>();
-            ((IgnoreVirtualMembersCustomization)customizations[2]).IgnoreVirtualMembers.Should().Be(ignoreVirtualMembers);
+            customizations.Count.Should().Be(2);
+            customizations[0]
+                .Should()
+                .BeOfType<AutoDataCommonCustomization>()
+                .Which.IgnoreVirtualMembers.Should()
+                .Be(ignoreVirtualMembers);
+            customizations[1].Should().BeOfType<AutoConfiguredMoqCustomization>();
         }
 
         [Fact(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]

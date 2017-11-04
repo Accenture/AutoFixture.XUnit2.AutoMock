@@ -9,32 +9,16 @@
     [Trait("Category", "Customizations")]
     public class IgnoreVirtualMembersCustomizationTests
     {
-        [Theory(DisplayName = "GIVEN existing customization for fixture with ignore virtual members set to true WHEN Customize is invoked THEN fixture should not create virtual members")]
+        [Theory(DisplayName = "GIVEN existing customization to ignore virtual members for fixture WHEN Customize is invoked THEN fixture should not create virtual members")]
         [AutoData]
-        public void GivenExistingCustomizationForFixtureWithIgnoreVirtualMembersSetToTrue_WhenCustomizeIsInvoked_ThenFixtureShouldNotCreateVirtualMembers(Fixture fixture)
+        public void GivenExistingCustomizationToIgnoreVirtualMembersForFixture_WhenCustomizeIsInvoked_ThenFixtureShouldNotCreateVirtualMembers(Fixture fixture, IgnoreVirtualMembersCustomization customization)
         {
             // Arrange
-            var customization = new IgnoreVirtualMembersCustomization(ignoreVirtualMembers: true);
-
             // Act
             fixture.Customize(customization);
 
             // Assert
             fixture.ShouldIgnoreVirtualMembers();
-        }
-
-        [Theory(DisplayName = "GIVEN existing customization for fixture with ignore virtual members set to false WHEN Customize is invoked THEN fixture should create virtual members")]
-        [AutoData]
-        public void GivenExistingCustomizationForFixtureWithIgnoreVirtualMembersSetToFalse_WhenCustomizeIsInvoked_ThenFixtureShouldCreateVirtualMembers(Fixture fixture)
-        {
-            // Arrange
-            var customization = new IgnoreVirtualMembersCustomization(ignoreVirtualMembers: false);
-
-            // Act
-            fixture.Customize(customization);
-
-            // Assert
-            fixture.ShouldNotIgnoreVirtualMembers();
         }
     }
 }
