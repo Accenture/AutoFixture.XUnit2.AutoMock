@@ -1,7 +1,6 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Attributes
 {
     using System;
-    using Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Providers;
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Common;
     using Objectivity.AutoFixture.XUnit2.Core.Providers;

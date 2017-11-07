@@ -10,7 +10,6 @@
     using Objectivity.AutoFixture.XUnit2.Core.Providers;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.AutoMoq;
-    using Providers;
     using Xunit.Sdk;
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]

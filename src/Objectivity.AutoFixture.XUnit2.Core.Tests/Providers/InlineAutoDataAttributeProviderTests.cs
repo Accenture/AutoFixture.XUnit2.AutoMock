@@ -1,9 +1,8 @@
-﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Tests.Providers
+﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Providers
 {
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using FluentAssertions;
-    using Objectivity.AutoFixture.XUnit2.AutoMoq.Providers;
     using Objectivity.AutoFixture.XUnit2.Core.Providers;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.Xunit2;

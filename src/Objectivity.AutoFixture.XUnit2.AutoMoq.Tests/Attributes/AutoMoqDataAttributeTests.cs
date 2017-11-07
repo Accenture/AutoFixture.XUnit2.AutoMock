@@ -7,7 +7,6 @@
     using FluentAssertions;
     using Moq;
     using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
-    using Objectivity.AutoFixture.XUnit2.AutoMoq.Providers;
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
     using Objectivity.AutoFixture.XUnit2.Core.Providers;

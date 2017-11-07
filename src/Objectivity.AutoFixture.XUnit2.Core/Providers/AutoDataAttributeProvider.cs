@@ -1,11 +1,10 @@
-﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Providers
+﻿namespace Objectivity.AutoFixture.XUnit2.Core.Providers
 {
-    using Objectivity.AutoFixture.XUnit2.Core.Providers;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.Xunit2;
     using Xunit.Sdk;
 
-    internal class AutoDataAttributeProvider : IAutoFixtureAttributeProvider
+    public sealed class AutoDataAttributeProvider : IAutoFixtureAttributeProvider
     {
         public DataAttribute GetAttribute(IFixture fixture)
         {
