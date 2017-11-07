@@ -1,6 +1,8 @@
 language: csharp
 mono: 5.2.0
-solution: ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.sln
+install:
+  - nuget restore ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.sln
+  - nuget restore ./src/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.sln
 script:
   - xbuild /p:Configuration=Release ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.sln
   - xbuild /p:Configuration=Release ./src/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.sln
