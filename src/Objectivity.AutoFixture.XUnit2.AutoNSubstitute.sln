@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2006
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Objectivity.AutoFixture.XUnit2.AutoNSubstitute", "Objectivity.AutoFixture.XUnit2.AutoNSubstitute\Objectivity.AutoFixture.XUnit2.AutoNSubstitute.csproj", "{D3E477EA-F0A1-4287-A22D-C8D982231849}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests", "Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests\Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests.csproj", "{05464055-95CA-4BD8-A1C4-9E01885351B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Objectivity.AutoFixture.XUnit2.Core", "Objectivity.AutoFixture.XUnit2.Core\Objectivity.AutoFixture.XUnit2.Core.csproj", "{6717BC95-F2D2-4EAE-A680-D871D58A773B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Objectivity.AutoFixture.XUnit2.Core.Tests", "Objectivity.AutoFixture.XUnit2.Core.Tests\Objectivity.AutoFixture.XUnit2.Core.Tests.csproj", "{BE5BF6E2-2EDC-4223-A89B-AE1D4BE1FF4E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D3E477EA-F0A1-4287-A22D-C8D982231849}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3E477EA-F0A1-4287-A22D-C8D982231849}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3E477EA-F0A1-4287-A22D-C8D982231849}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3E477EA-F0A1-4287-A22D-C8D982231849}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05464055-95CA-4BD8-A1C4-9E01885351B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05464055-95CA-4BD8-A1C4-9E01885351B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05464055-95CA-4BD8-A1C4-9E01885351B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05464055-95CA-4BD8-A1C4-9E01885351B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6717BC95-F2D2-4EAE-A680-D871D58A773B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6717BC95-F2D2-4EAE-A680-D871D58A773B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6717BC95-F2D2-4EAE-A680-D871D58A773B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6717BC95-F2D2-4EAE-A680-D871D58A773B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE5BF6E2-2EDC-4223-A89B-AE1D4BE1FF4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE5BF6E2-2EDC-4223-A89B-AE1D4BE1FF4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE5BF6E2-2EDC-4223-A89B-AE1D4BE1FF4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE5BF6E2-2EDC-4223-A89B-AE1D4BE1FF4E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BBE586AB-DA28-47E4-9E95-4D9A9C69456E}
+	EndGlobalSection
+EndGlobal
