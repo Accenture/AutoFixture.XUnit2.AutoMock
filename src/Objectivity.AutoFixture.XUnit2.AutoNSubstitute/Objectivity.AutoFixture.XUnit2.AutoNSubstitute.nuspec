@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>ObjectivityLtd</owners>
+    <licenseUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMoq/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMoq</projectUrl>
+    <iconUrl>https://github.com/ObjectivityLtd.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Accelerates preparation of mocked structures for unit tests under xUnit2 by configuring AutoFixture data generation to use NSubstitute. Gracefully handles recursive structures by omitting recursions.</description>
+	<summary>$description$</summary>
+    <releaseNotes>See https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMoq/releases</releaseNotes>
+    <copyright>$copyright$</copyright>
+    <tags>AutoFixture NSubstitute xUnit xUnit2 AutoSubstitute</tags>
+    <dependencies>
+      <dependency id="AutoFixture.AutoNSubstitute" version="3.51.0" />
+      <dependency id="AutoFixture.Xunit2" version="3.51.0" />
+      <dependency id="JetBrains.Annotations" version="10.2.1" />
+      <dependency id="NSubstitute" version="2.0.3" />
+      <dependency id="xunit.core" version="2.3.1" />
+    </dependencies>
+  </metadata>
+</package>
