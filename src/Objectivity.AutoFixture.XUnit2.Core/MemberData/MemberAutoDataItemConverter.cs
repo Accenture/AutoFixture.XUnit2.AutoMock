@@ -4,13 +4,13 @@
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
-    using Common;
+    using Objectivity.AutoFixture.XUnit2.Core.Common;
+    using Objectivity.AutoFixture.XUnit2.Core.Providers;
     using Ploeh.AutoFixture;
-    using Providers;
 
-    internal class MemberAutoMockDataItemConverter : IDataItemConverter
+    internal class MemberAutoDataItemConverter : IDataItemConverter
     {
-        public MemberAutoMockDataItemConverter(IFixture fixture, IAutoFixtureInlineAttributeProvider dataAttributeProvider)
+        public MemberAutoDataItemConverter(IFixture fixture, IAutoFixtureInlineAttributeProvider dataAttributeProvider)
         {
             this.Fixture = fixture.NotNull(nameof(fixture));
             this.DataAttributeProvider = dataAttributeProvider.NotNull(nameof(dataAttributeProvider));

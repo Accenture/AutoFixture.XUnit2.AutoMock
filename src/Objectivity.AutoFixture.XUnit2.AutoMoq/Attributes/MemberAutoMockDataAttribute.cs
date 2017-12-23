@@ -15,7 +15,7 @@
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     [DataDiscoverer("Xunit.Sdk.MemberDataDiscoverer", "xunit.core")]
-    public sealed class MemberAutoMockDataAttribute : MemberAutoMockDataBaseAttribute
+    public sealed class MemberAutoMockDataAttribute : MemberAutoDataBaseAttribute
     {
         public MemberAutoMockDataAttribute(string memberName, params object[] parameters)
             : this(new Fixture(), memberName, parameters)

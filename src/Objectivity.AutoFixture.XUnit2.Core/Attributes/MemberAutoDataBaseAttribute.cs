@@ -13,9 +13,9 @@
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     [DataDiscoverer("Xunit.Sdk.MemberDataDiscoverer", "xunit.core")]
-    public abstract class MemberAutoMockDataBaseAttribute : MemberDataAttributeBase
+    public abstract class MemberAutoDataBaseAttribute : MemberDataAttributeBase
     {
-        protected MemberAutoMockDataBaseAttribute(IFixture fixture, string memberName, params object[] parameters)
+        protected MemberAutoDataBaseAttribute(IFixture fixture, string memberName, params object[] parameters)
             : base(memberName.NotNull(nameof(memberName)), parameters)
         {
             this.Fixture = fixture.NotNull(nameof(fixture));
@@ -45,7 +45,7 @@
         {
             var fixture = this.ShareFixture ? this.Fixture : this.CustomizeFixture(new Fixture());
 
-            var converter = new MemberAutoMockDataItemConverter(fixture, this.CreateProvider());
+            var converter = new MemberAutoDataItemConverter(fixture, this.CreateProvider());
 
             return converter.Convert(testMethod, item, this.MemberName, this.MemberType);
         }

@@ -9,9 +9,9 @@
     using Ploeh.AutoFixture.Xunit2;
     using Xunit;
 
-    [Collection("InlineAutoMockDataBaseAttribute")]
+    [Collection("InlineAutoDataBaseAttribute")]
     [Trait("Category", "Attributes")]
-    public class InlineAutoMockDataBaseAttributeTests
+    public class InlineMockDataBaseAttributeTests
     {
         [Theory(DisplayName = "GIVEN existing fixture and attribute provider WHEN constructor is invoked THEN has fixture attribute provider and no values")]
         [AutoData]
@@ -21,7 +21,7 @@
             var provider = new Mock<IAutoFixtureInlineAttributeProvider>();
 
             // Act
-            var attribute = new InlineAutoMockDataBaseAttributeUnderTest(fixture, provider.Object);
+            var attribute = new InlineAutoDataBaseAttributeUnderTest(fixture, provider.Object);
 
             // Assert
             attribute.Fixture.Should().Be(fixture);
@@ -39,7 +39,7 @@
             var initialValues = new[] { "test", 1, new object() };
 
             // Act
-            var attribute = new InlineAutoMockDataBaseAttributeUnderTest(fixture, provider.Object, initialValues[0], initialValues[1], initialValues[2]);
+            var attribute = new InlineAutoDataBaseAttributeUnderTest(fixture, provider.Object, initialValues[0], initialValues[1], initialValues[2]);
 
             // Assert
             attribute.Fixture.Should().Be(fixture);
@@ -57,7 +57,7 @@
             const object[] initialValues = null;
 
             // Act
-            var attribute = new InlineAutoMockDataBaseAttributeUnderTest(fixture, provider.Object, initialValues);
+            var attribute = new InlineAutoDataBaseAttributeUnderTest(fixture, provider.Object, initialValues);
 
             // Assert
             attribute.Fixture.Should().Be(fixture);
@@ -75,7 +75,7 @@
 
             // Act
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new InlineAutoMockDataBaseAttributeUnderTest(fixture, provider.Object));
+            Assert.Throws<ArgumentNullException>(() => new InlineAutoDataBaseAttributeUnderTest(fixture, provider.Object));
         }
 
         [Theory(DisplayName = "GIVEN uninitialized attribute provider WHEN constructor is invoked THEN exception is thrown")]
@@ -87,12 +87,12 @@
 
             // Act
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new InlineAutoMockDataBaseAttributeUnderTest(fixture, provider));
+            Assert.Throws<ArgumentNullException>(() => new InlineAutoDataBaseAttributeUnderTest(fixture, provider));
         }
 
-        private class InlineAutoMockDataBaseAttributeUnderTest : InlineAutoMockDataBaseAttribute
+        private class InlineAutoDataBaseAttributeUnderTest : InlineAutoDataBaseAttribute
         {
-            public InlineAutoMockDataBaseAttributeUnderTest(IFixture fixture, IAutoFixtureInlineAttributeProvider provider, params object[] values)
+            public InlineAutoDataBaseAttributeUnderTest(IFixture fixture, IAutoFixtureInlineAttributeProvider provider, params object[] values)
                 : base(fixture, provider, values)
             {
             }

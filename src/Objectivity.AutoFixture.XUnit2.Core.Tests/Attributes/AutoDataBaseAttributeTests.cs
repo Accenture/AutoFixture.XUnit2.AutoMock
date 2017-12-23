@@ -9,9 +9,9 @@
     using Ploeh.AutoFixture.Xunit2;
     using Xunit;
 
-    [Collection("AutoMockDataBaseAttribute")]
+    [Collection("AutoDataBaseAttribute")]
     [Trait("Category", "Attributes")]
-    public class AutoMockDataBaseAttributeTests
+    public class AutoDataBaseAttributeTests
     {
         [Theory(DisplayName = "GIVEN existing fixture and attribute provider WHEN constructor is invoked THEN has specified fixture and attribute provider")]
         [AutoData]
@@ -21,7 +21,7 @@
             var provider = new Mock<IAutoFixtureAttributeProvider>();
 
             // Act
-            var attribute = new AutoMockDataBaseAttributeUnderTest(fixture, provider.Object);
+            var attribute = new AutoDataBaseAttributeUnderTest(fixture, provider.Object);
 
             // Assert
             attribute.Fixture.Should().Be(fixture);
@@ -38,7 +38,7 @@
 
             // Act
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new AutoMockDataBaseAttributeUnderTest(fixture, provider.Object));
+            Assert.Throws<ArgumentNullException>(() => new AutoDataBaseAttributeUnderTest(fixture, provider.Object));
         }
 
         [Theory(DisplayName = "GIVEN uninitialized attribute provider WHEN constructor is invoked THEN exception is thrown")]
@@ -50,12 +50,12 @@
 
             // Act
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new AutoMockDataBaseAttributeUnderTest(fixture, provider));
+            Assert.Throws<ArgumentNullException>(() => new AutoDataBaseAttributeUnderTest(fixture, provider));
         }
 
-        private class AutoMockDataBaseAttributeUnderTest : AutoMockDataBaseAttribute
+        private class AutoDataBaseAttributeUnderTest : AutoDataBaseAttribute
         {
-            public AutoMockDataBaseAttributeUnderTest(IFixture fixture, IAutoFixtureAttributeProvider provider)
+            public AutoDataBaseAttributeUnderTest(IFixture fixture, IAutoFixtureAttributeProvider provider)
                 : base(fixture, provider)
             {
             }
