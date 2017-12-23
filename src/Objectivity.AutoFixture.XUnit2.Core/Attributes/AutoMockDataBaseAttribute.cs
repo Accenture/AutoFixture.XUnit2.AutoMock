@@ -10,9 +10,9 @@
     using Xunit.Sdk;
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public abstract class AutoMoqDataBaseAttribute : DataAttribute
+    public abstract class AutoMockDataBaseAttribute : DataAttribute
     {
-        protected AutoMoqDataBaseAttribute(IFixture fixture, IAutoFixtureAttributeProvider provider)
+        protected AutoMockDataBaseAttribute(IFixture fixture, IAutoFixtureAttributeProvider provider)
         {
             this.Fixture = fixture.NotNull(nameof(fixture));
             this.Provider = provider.NotNull(nameof(provider));

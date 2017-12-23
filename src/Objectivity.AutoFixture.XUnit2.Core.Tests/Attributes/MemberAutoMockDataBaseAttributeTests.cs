@@ -9,9 +9,9 @@
     using Xunit;
     using Xunit.Sdk;
 
-    [Collection("MemberAutoMoqDataBaseAttribute")]
+    [Collection("MemberAutoMockDataBaseAttribute")]
     [Trait("Category", "Attributes")]
-    public class MemberAutoMoqDataBaseAttributeTests
+    public class MemberAutoMockDataBaseAttributeTests
     {
         [Theory(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]
         [AutoData]
@@ -23,12 +23,12 @@
 
             // Act
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new InlineAutoMoqDataBaseAttributeUnderTest(fixture, memberName, provider.Object));
+            Assert.Throws<ArgumentNullException>(() => new InlineAutoMockDataBaseAttributeUnderTest(fixture, memberName, provider.Object));
         }
 
-        private class InlineAutoMoqDataBaseAttributeUnderTest : MemberAutoMoqDataBaseAttribute
+        private class InlineAutoMockDataBaseAttributeUnderTest : MemberAutoMockDataBaseAttribute
         {
-            public InlineAutoMoqDataBaseAttributeUnderTest(IFixture fixture, string memberName, params object[] parameters)
+            public InlineAutoMockDataBaseAttributeUnderTest(IFixture fixture, string memberName, params object[] parameters)
                 : base(fixture, memberName, parameters)
             {
             }

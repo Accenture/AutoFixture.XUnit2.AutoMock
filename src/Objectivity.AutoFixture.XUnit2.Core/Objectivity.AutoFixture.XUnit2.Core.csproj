@@ -84,9 +84,9 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Attributes\AutoMoqDataBaseAttribute.cs" />
-    <Compile Include="Attributes\InlineAutoMoqDataBaseAttribute.cs" />
-    <Compile Include="Attributes\MemberAutoMoqDataBaseAttribute.cs" />
+    <Compile Include="Attributes\AutoMockDataBaseAttribute.cs" />
+    <Compile Include="Attributes\InlineAutoMockDataBaseAttribute.cs" />
+    <Compile Include="Attributes\MemberAutoMockDataBaseAttribute.cs" />
     <Compile Include="Common\Check.cs" />
     <Compile Include="Common\ValidatedNotNullAttribute.cs" />
     <Compile Include="Customizations\AutoDataCommonCustomization.cs" />
@@ -94,7 +94,7 @@
     <Compile Include="Customizations\IgnoreVirtualMembersCustomization.cs" />
     <Compile Include="Customizations\OmitOnRecursionCustomization.cs" />
     <Compile Include="MemberData\IDataItemConverter.cs" />
-    <Compile Include="MemberData\MemberAutoMoqDataItemConverter.cs" />
+    <Compile Include="MemberData\MemberAutoMockDataItemConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\AutoDataAttributeProvider.cs" />
     <Compile Include="Providers\IAutoFixtureAttributeProvider.cs" />

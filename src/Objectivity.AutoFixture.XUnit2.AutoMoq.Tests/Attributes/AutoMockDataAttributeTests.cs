@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using FluentAssertions;
     using Moq;
@@ -15,54 +16,21 @@
     using Xunit;
     using Xunit.Sdk;
 
-    [Collection("InlineAutoMoqDataAttribute")]
+    [Collection("AutoMockDataAttribute")]
     [Trait("Category", "Attributes")]
-    public class InlineAutoMoqDataAttributeTests
+    public class AutoMockDataAttributeTests
     {
-        [Fact(DisplayName = "WHEN parameterless constructor is invoked THEN has no values but fixture and attribute provider are created")]
-        public void WhenParameterlessConstructorIsInvoked_ThenHasNoValuesButFixtureAndAttributeProviderAreCreated()
+        [Fact(DisplayName = "WHEN parameterless constructor is invoked THEN fixture and attribute provider are created")]
+        public void WhenParameterlessConstructorIsInvoked_ThenFixtureAndAttributeProviderAreCreated()
         {
             // Arrange
             // Act
-            var attribute = new InlineAutoMoqDataAttribute();
+            var attribute = new AutoMockDataAttribute();
 
             // Assert
             attribute.Fixture.Should().NotBeNull();
-            attribute.IgnoreVirtualMembers.Should().BeFalse();
             attribute.Provider.Should().NotBeNull();
-            attribute.Values.Should().HaveCount(0);
-        }
-
-        [Fact(DisplayName = "GIVEN existing inline values WHEN constructor is invoked THEN has specified values and fixture and attribute provider are created")]
-        public void GivenExistingInlineValues_WhenConstructorIsInvoked_ThenHasSpecifiedValuesAndFixtureAndAttributeProviderAreCreated()
-        {
-            // Arrange
-            var initialValues = new[] { "test", 1, new object() };
-
-            // Act
-            var attribute = new InlineAutoMoqDataAttribute(initialValues[0], initialValues[1], initialValues[2]);
-
-            // Assert
-            attribute.Fixture.Should().NotBeNull();
             attribute.IgnoreVirtualMembers.Should().BeFalse();
-            attribute.Provider.Should().NotBeNull();
-            attribute.Values.Should().BeEquivalentTo(initialValues);
-        }
-
-        [Fact(DisplayName = "GIVEN uninitialized values WHEN constructor is invoked THEN has no values and fixture and attribute provider are created")]
-        public void GivenUninitializedValues_WhenConstructorIsInvoked_ThenHasNoValuesAndFixtureAndAttributeProviderAreCreated()
-        {
-            // Arrange
-            const object[] initialValues = null;
-
-            // Act
-            var attribute = new InlineAutoMoqDataAttribute(initialValues);
-
-            // Assert
-            attribute.Fixture.Should().NotBeNull();
-            attribute.IgnoreVirtualMembers.Should().BeFalse();
-            attribute.Provider.Should().NotBeNull();
-            attribute.Values.Should().HaveCount(0);
         }
 
         [Theory(DisplayName = "WHEN GetData is invoked THEN fixture is configured and data returned")]
@@ -84,13 +52,13 @@
                 .Returns(fixture.Object);
             var dataAttribute = new Mock<DataAttribute>();
             dataAttribute.Setup(a => a.GetData(It.IsAny<MethodInfo>())).Returns(data);
-            var provider = new Mock<IAutoFixtureInlineAttributeProvider>();
+            var provider = new Mock<IAutoFixtureAttributeProvider>();
             provider.Setup(p => p.GetAttribute(It.IsAny<IFixture>())).Returns(dataAttribute.Object);
-            var attribute = new InlineAutoMoqDataAttribute(fixture.Object, provider.Object)
+            var attribute = new AutoMockDataAttribute(fixture.Object, provider.Object)
             {
                 IgnoreVirtualMembers = ignoreVirtualMembers
             };
-            var methodInfo = typeof(InlineAutoMoqDataAttribute).GetMethod("TestMethod");
+            var methodInfo = typeof(AutoMockDataAttributeTests).GetMethod("TestMethod", BindingFlags.Instance | BindingFlags.NonPublic);
 
             // Act
             var result = attribute.GetData(methodInfo);
@@ -109,17 +77,21 @@
             customizations[1].Should().BeOfType<AutoConfiguredMoqCustomization>();
         }
 
-        [InlineAutoMoqData(100)]
-        [Theory(DisplayName = "GIVEN test method has some inline parameters WHEN test run THEN parameters are generated")]
-        public void GivenTestMethodHasSomeInlineParameters_WhenTestRun_ThenParametersAreGenerated(int value, IDisposable disposable)
+        [AutoMockData]
+        [Theory(DisplayName = "GIVEN test method has some parameters WHEN test run THEN parameters are generated")]
+        public void GivenTestMethodHasSomeParameters_WhenTestRun_ThenParametersAreGenerated(int value, IDisposable disposable)
         {
             // Arrange
             // Act
             // Assert
-            value.Should().Be(100);
+            value.Should().NotBe(default(int));
 
             disposable.Should().NotBeNull();
             disposable.GetType().Name.Should().StartWith("ObjectProxy", "that way we know it was mocked with MOQ.");
+        }
+
+        protected void TestMethod()
+        {
         }
     }
 }

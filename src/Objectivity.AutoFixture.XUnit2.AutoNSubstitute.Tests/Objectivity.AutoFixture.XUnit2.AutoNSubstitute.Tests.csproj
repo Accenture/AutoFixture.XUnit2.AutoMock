@@ -100,9 +100,9 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Attributes\AutoMoqDataAttributeTests.cs" />
-    <Compile Include="Attributes\InlineAutoMoqDataAttributeTests.cs" />
-    <Compile Include="Attributes\MemberAutoMoqDataAttributeTests.cs" />
+    <Compile Include="Attributes\AutoMockDataAttributeTests.cs" />
+    <Compile Include="Attributes\InlineAutoMockDataAttributeTests.cs" />
+    <Compile Include="Attributes\MemberAutoMockDataAttributeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

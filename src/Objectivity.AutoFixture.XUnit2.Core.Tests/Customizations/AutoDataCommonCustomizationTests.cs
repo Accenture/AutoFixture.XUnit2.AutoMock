@@ -5,7 +5,7 @@
     using Ploeh.AutoFixture.Xunit2;
     using Xunit;
 
-    [Collection("AutoMoqDataCustomization")]
+    [Collection("AutoDataCommonCustomization")]
     [Trait("Category", "Customizations")]
     public class AutoDataCommonCustomizationTests
     {

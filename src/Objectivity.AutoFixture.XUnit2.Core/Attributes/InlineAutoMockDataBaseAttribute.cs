@@ -12,11 +12,11 @@
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1019:DefineAccessorsForAttributeArguments", Justification = "Parameter 'values' is exposed with ReadOnlyCollection.")]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public abstract class InlineAutoMoqDataBaseAttribute : DataAttribute
+    public abstract class InlineAutoMockDataBaseAttribute : DataAttribute
     {
         private readonly object[] values;
 
-        protected InlineAutoMoqDataBaseAttribute(IFixture fixture, IAutoFixtureInlineAttributeProvider provider, params object[] values)
+        protected InlineAutoMockDataBaseAttribute(IFixture fixture, IAutoFixtureInlineAttributeProvider provider, params object[] values)
         {
             this.Provider = provider.NotNull(nameof(provider));
             this.Fixture = fixture.NotNull(nameof(fixture));

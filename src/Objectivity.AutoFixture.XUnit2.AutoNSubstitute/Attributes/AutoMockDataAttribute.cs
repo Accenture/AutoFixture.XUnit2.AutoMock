@@ -8,14 +8,14 @@
     using Ploeh.AutoFixture.AutoNSubstitute;
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public sealed class AutoMoqDataAttribute : AutoMoqDataBaseAttribute
+    public sealed class AutoMockDataAttribute : AutoMockDataBaseAttribute
     {
-        public AutoMoqDataAttribute()
+        public AutoMockDataAttribute()
             : this(new Fixture(), new AutoDataAttributeProvider())
         {
         }
 
-        public AutoMoqDataAttribute(IFixture fixture, IAutoFixtureAttributeProvider provider)
+        public AutoMockDataAttribute(IFixture fixture, IAutoFixtureAttributeProvider provider)
             : base(fixture, provider)
         {
         }

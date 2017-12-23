@@ -13,9 +13,9 @@
     using Ploeh.AutoFixture.Xunit2;
     using Xunit;
 
-    [Collection("MemberAutoMoqDataAttribute")]
+    [Collection("MemberAutoMockDataAttribute")]
     [Trait("Category", "Attributes")]
-    public class MemberAutoMoqDataAttributeTests
+    public class MemberAutoMockDataAttributeTests
     {
         public static IEnumerable<object[]> TestData { get; } = new[]
         {
@@ -41,7 +41,7 @@
         {
             // Arrange
             // Act
-            var attribute = new MemberAutoMoqDataAttribute(fixture.Create<string>());
+            var attribute = new MemberAutoMockDataAttribute(fixture.Create<string>());
 
             // Assert
             attribute.Fixture.Should().NotBeNull();
@@ -53,8 +53,8 @@
         public void GivenExistingMemberName_WhenGetDataIsInvoked_ThenAppropriateDataIsReturned()
         {
             // Arrange
-            var attribute = new MemberAutoMoqDataAttribute("TestData");
-            var methodInfo = typeof(MemberAutoMoqDataAttributeTests).GetMethod("TestMethod");
+            var attribute = new MemberAutoMockDataAttribute("TestData");
+            var methodInfo = typeof(MemberAutoMockDataAttributeTests).GetMethod("TestMethod");
             var numberOfParameters = methodInfo.GetParameters().Length;
 
             // Act
@@ -84,11 +84,11 @@
             fixture.Customize(Arg.Do<ICustomization>(customization => customizations.Add(customization)))
                 .Returns(fixture);
 
-            var attribute = new MemberAutoMoqDataAttribute(fixture, "TestData")
+            var attribute = new MemberAutoMockDataAttribute(fixture, "TestData")
             {
                 IgnoreVirtualMembers = ignoreVirtualMembers
             };
-            var methodInfo = typeof(MemberAutoMoqDataAttributeTests).GetMethod("TestMethod");
+            var methodInfo = typeof(MemberAutoMockDataAttributeTests).GetMethod("TestMethod");
 
             // Act
             attribute.GetData(methodInfo);
@@ -112,7 +112,7 @@
 
             // Act
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new MemberAutoMoqDataAttribute(uninitializedFixture, fixture.Create<string>()));
+            Assert.Throws<ArgumentNullException>(() => new MemberAutoMockDataAttribute(uninitializedFixture, fixture.Create<string>()));
         }
 
         [Fact(DisplayName = "GIVEN uninitialized member name WHEN constructor is invoked THEN exception is thrown")]
@@ -123,10 +123,10 @@
 
             // Act
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new MemberAutoMoqDataAttribute(memberName));
+            Assert.Throws<ArgumentNullException>(() => new MemberAutoMockDataAttribute(memberName));
         }
 
-        [MemberAutoMoqData("TestData")]
+        [MemberAutoMockData("TestData")]
         [Theory(DisplayName = "GIVEN test method has some member generated parameters WHEN test run THEN parameters are provided")]
         public void GivenTestMethodHasSomeMemberGeneratedParameters_WhenTestRun_ThenParametersAreProvided(int first, int second, int third, int fourth, IDisposable disposable)
         {

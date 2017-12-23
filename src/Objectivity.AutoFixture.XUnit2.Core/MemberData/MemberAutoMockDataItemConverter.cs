@@ -8,9 +8,9 @@
     using Ploeh.AutoFixture;
     using Providers;
 
-    internal class MemberAutoMoqDataItemConverter : IDataItemConverter
+    internal class MemberAutoMockDataItemConverter : IDataItemConverter
     {
-        public MemberAutoMoqDataItemConverter(IFixture fixture, IAutoFixtureInlineAttributeProvider dataAttributeProvider)
+        public MemberAutoMockDataItemConverter(IFixture fixture, IAutoFixtureInlineAttributeProvider dataAttributeProvider)
         {
             this.Fixture = fixture.NotNull(nameof(fixture));
             this.DataAttributeProvider = dataAttributeProvider.NotNull(nameof(dataAttributeProvider));

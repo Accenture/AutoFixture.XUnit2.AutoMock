@@ -13,14 +13,14 @@
     using Xunit.Sdk;
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public sealed class InlineAutoMoqDataAttribute : InlineAutoMoqDataBaseAttribute
+    public sealed class InlineAutoMockDataAttribute : InlineAutoMockDataBaseAttribute
     {
-        public InlineAutoMoqDataAttribute(params object[] values)
+        public InlineAutoMockDataAttribute(params object[] values)
             : this(new Fixture(), new InlineAutoDataAttributeProvider(), values)
         {
         }
 
-        public InlineAutoMoqDataAttribute(IFixture fixture, IAutoFixtureInlineAttributeProvider provider, params object[] values)
+        public InlineAutoMockDataAttribute(IFixture fixture, IAutoFixtureInlineAttributeProvider provider, params object[] values)
             : base(fixture, provider, values)
         {
         }

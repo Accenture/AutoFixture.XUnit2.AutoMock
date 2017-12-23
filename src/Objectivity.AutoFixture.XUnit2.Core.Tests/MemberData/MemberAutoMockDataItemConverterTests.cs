@@ -11,24 +11,24 @@
     using Xunit;
     using Xunit.Sdk;
 
-    [Collection("MemberAutoMoqDataItemConverter")]
+    [Collection("MemberAutoMockDataItemConverter")]
     [Trait("Category", "MemberData")]
-    public class MemberAutoMoqDataItemConverterTests
+    public class MemberAutoMockDataItemConverterTests
     {
         private readonly Fixture fixture = new Fixture();
         private readonly Mock<IAutoFixtureInlineAttributeProvider> dataAttributeProvider = new Mock<IAutoFixtureInlineAttributeProvider>();
         private readonly Mock<DataAttribute> dataAttribute = new Mock<DataAttribute>();
-        private readonly MemberAutoMoqDataItemConverter converter;
-        private readonly Type memberType = typeof(MemberAutoMoqDataItemConverterTests);
+        private readonly MemberAutoMockDataItemConverter converter;
+        private readonly Type memberType = typeof(MemberAutoMockDataItemConverterTests);
         private readonly MethodInfo testMethod;
         private readonly string memberName;
 
-        public MemberAutoMoqDataItemConverterTests()
+        public MemberAutoMockDataItemConverterTests()
         {
             var data = this.fixture.Create<IEnumerable<object[]>>();
             this.dataAttributeProvider.Setup(p => p.GetAttribute(this.fixture, It.IsAny<object[]>())).Returns(this.dataAttribute.Object);
             this.dataAttribute.Setup(a => a.GetData(It.IsAny<MethodInfo>())).Returns(data);
-            this.converter = new MemberAutoMoqDataItemConverter(this.fixture, this.dataAttributeProvider.Object);
+            this.converter = new MemberAutoMockDataItemConverter(this.fixture, this.dataAttributeProvider.Object);
             this.testMethod = this.memberType.GetMethod("TestMethod", BindingFlags.Instance | BindingFlags.NonPublic);
             this.memberName = this.fixture.Create<string>();
         }

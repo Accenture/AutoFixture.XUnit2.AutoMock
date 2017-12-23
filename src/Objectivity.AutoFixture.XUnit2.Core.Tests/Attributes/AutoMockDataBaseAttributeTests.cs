@@ -9,9 +9,9 @@
     using Ploeh.AutoFixture.Xunit2;
     using Xunit;
 
-    [Collection("AutoMoqDataBaseAttribute")]
+    [Collection("AutoMockDataBaseAttribute")]
     [Trait("Category", "Attributes")]
-    public class AutoMoqDataBaseAttributeTests
+    public class AutoMockDataBaseAttributeTests
     {
         [Theory(DisplayName = "GIVEN existing fixture and attribute provider WHEN constructor is invoked THEN has specified fixture and attribute provider")]
         [AutoData]
@@ -21,7 +21,7 @@
             var provider = new Mock<IAutoFixtureAttributeProvider>();
 
             // Act
-            var attribute = new AutoMoqDataBaseAttributeUnderTest(fixture, provider.Object);
+            var attribute = new AutoMockDataBaseAttributeUnderTest(fixture, provider.Object);
 
             // Assert
             attribute.Fixture.Should().Be(fixture);
@@ -38,7 +38,7 @@
 
             // Act
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new AutoMoqDataBaseAttributeUnderTest(fixture, provider.Object));
+            Assert.Throws<ArgumentNullException>(() => new AutoMockDataBaseAttributeUnderTest(fixture, provider.Object));
         }
 
         [Theory(DisplayName = "GIVEN uninitialized attribute provider WHEN constructor is invoked THEN exception is thrown")]
@@ -50,12 +50,12 @@
 
             // Act
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new AutoMoqDataBaseAttributeUnderTest(fixture, provider));
+            Assert.Throws<ArgumentNullException>(() => new AutoMockDataBaseAttributeUnderTest(fixture, provider));
         }
 
-        private class AutoMoqDataBaseAttributeUnderTest : AutoMoqDataBaseAttribute
+        private class AutoMockDataBaseAttributeUnderTest : AutoMockDataBaseAttribute
         {
-            public AutoMoqDataBaseAttributeUnderTest(IFixture fixture, IAutoFixtureAttributeProvider provider)
+            public AutoMockDataBaseAttributeUnderTest(IFixture fixture, IAutoFixtureAttributeProvider provider)
                 : base(fixture, provider)
             {
             }

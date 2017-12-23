@@ -1,4 +1,4 @@
-﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes
+﻿namespace Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Attributes
 {
     using System;
     using System.Collections.Generic;
@@ -9,20 +9,20 @@
     using Objectivity.AutoFixture.XUnit2.Core.MemberData;
     using Objectivity.AutoFixture.XUnit2.Core.Providers;
     using Ploeh.AutoFixture;
-    using Ploeh.AutoFixture.AutoMoq;
+    using Ploeh.AutoFixture.AutoNSubstitute;
     using Xunit;
     using Xunit.Sdk;
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     [DataDiscoverer("Xunit.Sdk.MemberDataDiscoverer", "xunit.core")]
-    public sealed class MemberAutoMoqDataAttribute : MemberAutoMoqDataBaseAttribute
+    public sealed class MemberAutoMockDataAttribute : MemberAutoMockDataBaseAttribute
     {
-        public MemberAutoMoqDataAttribute(string memberName, params object[] parameters)
+        public MemberAutoMockDataAttribute(string memberName, params object[] parameters)
             : this(new Fixture(), memberName, parameters)
         {
         }
 
-        public MemberAutoMoqDataAttribute(IFixture fixture, string memberName, params object[] parameters)
+        public MemberAutoMockDataAttribute(IFixture fixture, string memberName, params object[] parameters)
             : base(fixture, memberName, parameters)
         {
         }
@@ -34,7 +34,7 @@
 
         protected override IFixture Customize(IFixture fixture)
         {
-            return fixture.NotNull(nameof(fixture)).Customize(new AutoConfiguredMoqCustomization());
+            return fixture.NotNull(nameof(fixture)).Customize(new AutoConfiguredNSubstituteCustomization());
         }
     }
 }

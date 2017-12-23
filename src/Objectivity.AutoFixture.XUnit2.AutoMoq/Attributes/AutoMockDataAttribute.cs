@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Reflection;
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Common;
@@ -12,20 +11,20 @@
     using Ploeh.AutoFixture.AutoMoq;
     using Xunit.Sdk;
 
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public sealed class InlineAutoMoqDataAttribute : InlineAutoMoqDataBaseAttribute
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+    public sealed class AutoMockDataAttribute : AutoMockDataBaseAttribute
     {
-        public InlineAutoMoqDataAttribute(params object[] values)
-            : this(new Fixture(), new InlineAutoDataAttributeProvider(), values)
+        public AutoMockDataAttribute()
+            : this(new Fixture(), new AutoDataAttributeProvider())
         {
         }
 
-        public InlineAutoMoqDataAttribute(IFixture fixture, IAutoFixtureInlineAttributeProvider provider, params object[] values)
-            : base(fixture, provider, values)
+        public AutoMockDataAttribute(IFixture fixture, IAutoFixtureAttributeProvider provider)
+            : base(fixture, provider)
         {
         }
 
-        protected override IFixture Customize(IFixture fixture)
+        public override IFixture Customize(IFixture fixture)
         {
             return fixture.NotNull(nameof(fixture)).Customize(new AutoConfiguredMoqCustomization());
         }
