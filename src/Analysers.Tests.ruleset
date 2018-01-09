@@ -93,7 +93,7 @@
     <Rule Id="CA1502" Action="Error" />
     <Rule Id="CA1504" Action="Error" />
     <Rule Id="CA1505" Action="Error" />
-    <Rule Id="CA1506" Action="Error" />
+    <Rule Id="CA1506" Action="None" />
     <Rule Id="CA1600" Action="Error" />
     <Rule Id="CA1601" Action="Error" />
     <Rule Id="CA1700" Action="None" />
@@ -407,5 +407,6 @@
     <Rule Id="SA1601" Action="None" />
     <Rule Id="SA1633" Action="None" />
     <Rule Id="SA1649" Action="None" />
+	<Rule Id="SA1652" Action="None" />
   </Rules> 
 </RuleSet>

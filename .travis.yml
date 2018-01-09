@@ -1,5 +1,9 @@
 language: csharp
-solution: ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.sln
+mono: 5.2.0
+install:
+  - nuget restore ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.sln
+  - nuget restore ./src/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.sln
 script:
   - xbuild /p:Configuration=Release ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.sln
-  - mono ./src/packages/xunit.runner.console.*/tools/xunit.console.exe ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.Tests/bin/Release/Objectivity.AutoFixture.XUnit2.AutoMoq.Tests.dll
+  - xbuild /p:Configuration=Release ./src/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.sln
+  - mono ./src/packages/xunit.runner.console.*/tools/net452/xunit.console.exe ./src/Objectivity.AutoFixture.XUnit2.Core.Tests/bin/Release/Objectivity.AutoFixture.XUnit2.Core.Tests.dll ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.Tests/bin/Release/Objectivity.AutoFixture.XUnit2.AutoMoq.Tests.dll ./src/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests/bin/Release/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests.dll

@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Objectivity.AutoFixture.XUnit2.AutoMoq", "Objectivity.AutoFixture.XUnit2.AutoMoq\Objectivity.AutoFixture.XUnit2.AutoMoq.csproj", "{B7ADCA12-249E-4A13-90A3-16AD9E3EDFD0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Objectivity.AutoFixture.XUnit2.AutoMoq.Tests", "Objectivity.AutoFixture.XUnit2.AutoMoq.Tests\Objectivity.AutoFixture.XUnit2.AutoMoq.Tests.csproj", "{B1851B64-3E9C-4EA2-A9F3-343B8D1EDB3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Objectivity.AutoFixture.XUnit2.Core", "Objectivity.AutoFixture.XUnit2.Core\Objectivity.AutoFixture.XUnit2.Core.csproj", "{6717BC95-F2D2-4EAE-A680-D871D58A773B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Objectivity.AutoFixture.XUnit2.Core.Tests", "Objectivity.AutoFixture.XUnit2.Core.Tests\Objectivity.AutoFixture.XUnit2.Core.Tests.csproj", "{BE5BF6E2-2EDC-4223-A89B-AE1D4BE1FF4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +25,19 @@ Global
 		{B1851B64-3E9C-4EA2-A9F3-343B8D1EDB3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1851B64-3E9C-4EA2-A9F3-343B8D1EDB3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1851B64-3E9C-4EA2-A9F3-343B8D1EDB3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6717BC95-F2D2-4EAE-A680-D871D58A773B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6717BC95-F2D2-4EAE-A680-D871D58A773B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6717BC95-F2D2-4EAE-A680-D871D58A773B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6717BC95-F2D2-4EAE-A680-D871D58A773B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE5BF6E2-2EDC-4223-A89B-AE1D4BE1FF4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE5BF6E2-2EDC-4223-A89B-AE1D4BE1FF4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE5BF6E2-2EDC-4223-A89B-AE1D4BE1FF4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE5BF6E2-2EDC-4223-A89B-AE1D4BE1FF4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E3AAE9C8-382F-4228-B7B2-74601518A964}
 	EndGlobalSection
 EndGlobal
