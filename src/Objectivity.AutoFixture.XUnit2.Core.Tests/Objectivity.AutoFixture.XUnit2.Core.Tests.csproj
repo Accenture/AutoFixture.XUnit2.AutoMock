@@ -97,6 +97,7 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Attributes\AutoDataAdapterAttributeTests.cs" />
     <Compile Include="Attributes\AutoDataBaseAttributeTests.cs" />
     <Compile Include="Attributes\InlineAutoDataBaseAttributeTests.cs" />
     <Compile Include="Attributes\MemberAutoDataBaseAttributeTests.cs" />
