@@ -1,9 +1,9 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.SpecimenBuilders
 {
     using FluentAssertions;
+    using global::AutoFixture.Kernel;
     using Moq;
     using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
-    using Ploeh.AutoFixture.Kernel;
     using Xunit;
 
     [Collection("IgnoreVirtualMembersSpecimenBuilder")]

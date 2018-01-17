@@ -3,11 +3,11 @@
     using System;
     using System.Collections.Generic;
     using System.Reflection;
+    using global::AutoFixture;
     using Objectivity.AutoFixture.XUnit2.Core.Common;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
     using Objectivity.AutoFixture.XUnit2.Core.MemberData;
     using Objectivity.AutoFixture.XUnit2.Core.Providers;
-    using Ploeh.AutoFixture;
     using Xunit;
     using Xunit.Sdk;
 

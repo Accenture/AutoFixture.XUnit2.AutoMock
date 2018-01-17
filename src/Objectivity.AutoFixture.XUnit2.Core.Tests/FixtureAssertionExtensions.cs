@@ -1,8 +1,8 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests
 {
     using FluentAssertions;
+    using global::AutoFixture;
     using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
-    using Ploeh.AutoFixture;
 
     internal static class FixtureAssertionExtensions
     {

@@ -1,7 +1,7 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Customizations
 {
     using Common;
-    using Ploeh.AutoFixture;
+    using global::AutoFixture;
 
     public class OmitOnRecursionCustomization : ICustomization
     {

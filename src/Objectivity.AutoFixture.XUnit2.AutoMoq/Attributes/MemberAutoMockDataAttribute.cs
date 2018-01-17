@@ -1,11 +1,11 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes
 {
     using System;
+    using global::AutoFixture;
+    using global::AutoFixture.AutoMoq;
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Common;
     using Objectivity.AutoFixture.XUnit2.Core.Providers;
-    using Ploeh.AutoFixture;
-    using Ploeh.AutoFixture.AutoMoq;
     using Xunit.Sdk;
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]

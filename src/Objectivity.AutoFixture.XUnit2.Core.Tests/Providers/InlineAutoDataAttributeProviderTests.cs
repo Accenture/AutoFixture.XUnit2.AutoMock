@@ -3,9 +3,10 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using FluentAssertions;
+    using global::AutoFixture;
+    using global::AutoFixture.Xunit2;
+    using Objectivity.AutoFixture.XUnit2.Core.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Providers;
-    using Ploeh.AutoFixture;
-    using Ploeh.AutoFixture.Xunit2;
     using Xunit;
 
     [Collection("InlineAutoDataAttributeProvider")]
@@ -25,7 +26,7 @@
 
             // Assert
             dataAttribute.Should().NotBeNull();
-            dataAttribute.Attributes.FirstOrDefault(a => a is AutoDataAttribute).As<AutoDataAttribute>().Fixture.Should().Be(fixture);
+            dataAttribute.Attributes.FirstOrDefault(a => a is AutoDataAdapterAttribute).As<AutoDataAdapterAttribute>().AdaptedFixture.Should().Be(fixture);
         }
     }
 }
