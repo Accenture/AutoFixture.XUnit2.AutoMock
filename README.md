@@ -1,7 +1,8 @@
 # Objectivity.AutoFixture.XUnit2.AutoMock
 
-[![Build Status](https://travis-ci.org/ObjectivityLtd/AutoFixture.XUnit2.AutoMoq.svg?branch=master)](https://travis-ci.org/ObjectivityLtd/AutoFixture.XUnit2.AutoMoq)
-[![Downloads](https://img.shields.io/nuget/dt/Objectivity.AutoFixture.XUnit2.AutoMoq.svg)](https://www.nuget.org/packages/Objectivity.AutoFixture.XUnit2.AutoMoq/)
+[![Build Status](https://travis-ci.org/ObjectivityLtd/AutoFixture.XUnit2.AutoMock.svg?branch=master)](https://travis-ci.org/ObjectivityLtd/AutoFixture.XUnit2.AutoMock)
+[![AutoMock Downloads](https://img.shields.io/nuget/dt/Objectivity.AutoFixture.XUnit2.AutoMoq.svg)](https://www.nuget.org/packages/Objectivity.AutoFixture.XUnit2.AutoMoq/)
+[![AutoNSubstitute Downloads](https://img.shields.io/nuget/dt/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.svg)](https://www.nuget.org/packages/Objectivity.AutoFixture.XUnit2.AutoNSubstitute/)
 
 Accelerates preparation of mocked structures for unit tests under  [XUnit2](http://xunit.github.io/) by configuring [AutoFixture](https://github.com/AutoFixture/AutoFixture) data generation to use a mocking library of your choice - currently supported: [Moq](https://github.com/moq/moq4) and [NSubstitute](https://github.com/nsubstitute/NSubstitute). Gracefully handles recursive structures by omitting recursions.
 It provides 3 attributes:
