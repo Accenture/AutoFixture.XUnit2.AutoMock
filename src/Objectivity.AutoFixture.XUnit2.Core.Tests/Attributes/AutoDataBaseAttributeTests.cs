@@ -60,7 +60,7 @@
             {
             }
 
-            public override IFixture Customize(IFixture fixture)
+            protected override IFixture Customize(IFixture fixture)
             {
                 throw new NotImplementedException();
             }

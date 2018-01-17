@@ -35,6 +35,6 @@
             return this.Provider.GetAttribute(this.Fixture).GetData(testMethod);
         }
 
-        public abstract IFixture Customize(IFixture fixture);
+        protected abstract IFixture Customize(IFixture fixture);
     }
 }

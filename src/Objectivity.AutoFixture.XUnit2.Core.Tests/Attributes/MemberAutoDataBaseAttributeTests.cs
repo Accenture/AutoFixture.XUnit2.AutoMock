@@ -7,7 +7,6 @@
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.Xunit2;
     using Xunit;
-    using Xunit.Sdk;
 
     [Collection("MemberAutoDataBaseAttribute")]
     [Trait("Category", "Attributes")]

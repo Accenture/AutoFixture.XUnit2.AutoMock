@@ -20,7 +20,7 @@
         {
         }
 
-        public override IFixture Customize(IFixture fixture)
+        protected override IFixture Customize(IFixture fixture)
         {
             return fixture.NotNull(nameof(fixture)).Customize(new AutoConfiguredNSubstituteCustomization());
         }

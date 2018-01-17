@@ -6,7 +6,6 @@
     using FluentAssertions;
     using Moq;
     using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
-    using Objectivity.AutoFixture.XUnit2.Core.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.AutoMoq;

@@ -2,7 +2,6 @@
 {
     using Common;
     using Ploeh.AutoFixture;
-    using SpecimenBuilders;
 
     public class AutoDataCommonCustomization : ICustomization
     {

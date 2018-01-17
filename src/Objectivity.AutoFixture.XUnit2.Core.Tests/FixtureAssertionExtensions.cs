@@ -1,11 +1,8 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests
 {
-    using System;
-    using System.Linq.Expressions;
     using FluentAssertions;
     using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
     using Ploeh.AutoFixture;
-    using Ploeh.AutoFixture.Kernel;
 
     internal static class FixtureAssertionExtensions
     {

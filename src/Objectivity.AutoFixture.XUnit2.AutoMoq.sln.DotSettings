@@ -613,7 +613,7 @@
   <s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=StringCompareIsCultureSpecific_002E1/@EntryIndexedValue">WARNING</s:String>
   <s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=VBWarnings_003A_003ABC40008/@EntryIndexedValue">WARNING</s:String>
   <s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=BuildScriptErrors/@EntryIndexedValue">WARNING</s:String>
-  <s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=RedundantNameQualifier/@EntryIndexedValue">WARNING</s:String>
+  <s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=RedundantNameQualifier/@EntryIndexedValue">DO_NOT_SHOW</s:String>
   <s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=ReplaceWithOfType_002E3/@EntryIndexedValue">SUGGESTION</s:String>
   <s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=PossibleInvalidOperationException/@EntryIndexedValue">WARNING</s:String>
   <s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=HeuristicallyUnreachableCode/@EntryIndexedValue">WARNING</s:String>

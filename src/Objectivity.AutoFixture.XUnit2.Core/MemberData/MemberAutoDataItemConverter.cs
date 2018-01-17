@@ -36,8 +36,7 @@
 
         private static object[] EnsureDataStructure(object item, string memberName, Type memgerType)
         {
-            var objArray = item as object[];
-            if (objArray != null)
+            if (item is object[] objArray)
             {
                 return objArray;
             }

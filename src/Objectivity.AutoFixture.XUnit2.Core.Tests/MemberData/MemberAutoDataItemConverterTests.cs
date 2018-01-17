@@ -18,7 +18,7 @@
         private readonly Fixture fixture = new Fixture();
         private readonly Mock<IAutoFixtureInlineAttributeProvider> dataAttributeProvider = new Mock<IAutoFixtureInlineAttributeProvider>();
         private readonly Mock<DataAttribute> dataAttribute = new Mock<DataAttribute>();
-        private readonly MemberAutoDataItemConverter converter;
+        private readonly IDataItemConverter converter;
         private readonly Type memberType = typeof(MemberAutoDataItemConverterTests);
         private readonly MethodInfo testMethod;
         private readonly string memberName;

@@ -1,16 +1,11 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Attributes
 {
     using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Reflection;
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Common;
-    using Objectivity.AutoFixture.XUnit2.Core.Customizations;
     using Objectivity.AutoFixture.XUnit2.Core.Providers;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.AutoNSubstitute;
-    using Xunit.Sdk;
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public sealed class InlineAutoMockDataAttribute : InlineAutoDataBaseAttribute

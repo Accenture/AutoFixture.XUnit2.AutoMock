@@ -6,7 +6,6 @@
     using FluentAssertions;
     using NSubstitute;
     using Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Attributes;
-    using Objectivity.AutoFixture.XUnit2.Core.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.AutoNSubstitute;
