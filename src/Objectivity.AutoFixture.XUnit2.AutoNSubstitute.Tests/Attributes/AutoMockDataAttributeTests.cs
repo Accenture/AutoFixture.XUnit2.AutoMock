@@ -4,13 +4,13 @@
     using System.Collections.Generic;
     using System.Reflection;
     using FluentAssertions;
+    using global::AutoFixture;
+    using global::AutoFixture.AutoNSubstitute;
+    using global::AutoFixture.Xunit2;
     using NSubstitute;
     using Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
     using Objectivity.AutoFixture.XUnit2.Core.Providers;
-    using Ploeh.AutoFixture;
-    using Ploeh.AutoFixture.AutoNSubstitute;
-    using Ploeh.AutoFixture.Xunit2;
     using Xunit;
     using Xunit.Sdk;
 

@@ -2,9 +2,10 @@
 {
     using System.Diagnostics.CodeAnalysis;
     using FluentAssertions;
+    using global::AutoFixture;
+    using global::AutoFixture.Xunit2;
+    using Objectivity.AutoFixture.XUnit2.Core.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Providers;
-    using Ploeh.AutoFixture;
-    using Ploeh.AutoFixture.Xunit2;
     using Xunit;
 
     [Collection("AutoDataAttributeProvider")]
@@ -20,11 +21,11 @@
             var provider = new AutoDataAttributeProvider();
 
             // Act
-            var dataAttribute = provider.GetAttribute(fixture) as AutoDataAttribute;
+            var dataAttribute = provider.GetAttribute(fixture) as AutoDataAdapterAttribute;
 
             // Assert
             dataAttribute.Should().NotBeNull();
-            dataAttribute.Fixture.Should().Be(fixture);
+            dataAttribute.AdaptedFixture.Should().Be(fixture);
         }
     }
 }

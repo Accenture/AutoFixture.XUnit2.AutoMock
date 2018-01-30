@@ -4,9 +4,9 @@
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
+    using global::AutoFixture;
     using Objectivity.AutoFixture.XUnit2.Core.Common;
     using Objectivity.AutoFixture.XUnit2.Core.Providers;
-    using Ploeh.AutoFixture;
 
     internal class MemberAutoDataItemConverter : IDataItemConverter
     {

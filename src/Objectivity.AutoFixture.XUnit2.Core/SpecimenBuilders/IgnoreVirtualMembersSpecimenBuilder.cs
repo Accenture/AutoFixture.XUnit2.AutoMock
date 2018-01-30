@@ -1,7 +1,7 @@
 namespace Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders
 {
     using System.Reflection;
-    using Ploeh.AutoFixture.Kernel;
+    using global::AutoFixture.Kernel;
 
     internal class IgnoreVirtualMembersSpecimenBuilder : ISpecimenBuilder
     {

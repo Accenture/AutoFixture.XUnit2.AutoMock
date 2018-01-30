@@ -4,12 +4,12 @@
     using System.Collections.Generic;
     using System.Linq;
     using FluentAssertions;
+    using global::AutoFixture;
+    using global::AutoFixture.AutoMoq;
+    using global::AutoFixture.Xunit2;
     using Moq;
     using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
-    using Ploeh.AutoFixture;
-    using Ploeh.AutoFixture.AutoMoq;
-    using Ploeh.AutoFixture.Xunit2;
     using Xunit;
 
     [Collection("MemberAutoMockDataAttribute")]

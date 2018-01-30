@@ -2,11 +2,11 @@
 {
     using System;
     using FluentAssertions;
+    using global::AutoFixture;
+    using global::AutoFixture.Xunit2;
     using Moq;
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Providers;
-    using Ploeh.AutoFixture;
-    using Ploeh.AutoFixture.Xunit2;
     using Xunit;
 
     [Collection("AutoDataBaseAttribute")]

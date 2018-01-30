@@ -1,8 +1,8 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Customizations
 {
+    using global::AutoFixture;
+    using global::AutoFixture.Xunit2;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
-    using Ploeh.AutoFixture;
-    using Ploeh.AutoFixture.Xunit2;
     using Xunit;
 
     [Collection("IgnoreVirtualMembersCustomization")]

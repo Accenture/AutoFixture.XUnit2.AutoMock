@@ -2,7 +2,7 @@
 {
     using System.Linq;
     using Common;
-    using Ploeh.AutoFixture;
+    using global::AutoFixture;
 
     public class DoNotThrowOnRecursionCustomization : ICustomization
     {
