@@ -105,7 +105,7 @@
                 .BeOfType<AutoDataCommonCustomization>()
                 .Which.IgnoreVirtualMembers.Should()
                 .Be(ignoreVirtualMembers);
-            customizations[1].Should().BeOfType<AutoConfiguredMoqCustomization>();
+            customizations[1].Should().BeOfType<AutoMoqCustomization>();
         }
 
         [InlineAutoMockData(100)]

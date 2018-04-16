@@ -29,7 +29,7 @@
 
         protected override IFixture Customize(IFixture fixture)
         {
-            return fixture.NotNull(nameof(fixture)).Customize(new AutoConfiguredMoqCustomization());
+            return fixture.NotNull(nameof(fixture)).Customize(new AutoMoqCustomization { ConfigureMembers = true });
         }
     }
 }

@@ -100,7 +100,7 @@
                 .BeOfType<AutoDataCommonCustomization>()
                 .Which.IgnoreVirtualMembers.Should()
                 .Be(ignoreVirtualMembers);
-            customizations[1].Should().BeOfType<AutoConfiguredMoqCustomization>();
+            customizations[1].Should().BeOfType<AutoMoqCustomization>();
         }
 
         [Fact(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]

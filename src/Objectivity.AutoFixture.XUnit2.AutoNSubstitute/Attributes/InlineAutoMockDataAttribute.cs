@@ -22,7 +22,7 @@
 
         protected override IFixture Customize(IFixture fixture)
         {
-            return fixture.NotNull(nameof(fixture)).Customize(new AutoConfiguredNSubstituteCustomization());
+            return fixture.NotNull(nameof(fixture)).Customize(new AutoNSubstituteCustomization { ConfigureMembers = true });
         }
     }
 }
