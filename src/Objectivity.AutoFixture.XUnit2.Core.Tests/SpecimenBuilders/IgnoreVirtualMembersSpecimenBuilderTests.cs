@@ -1,5 +1,7 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.SpecimenBuilders
 {
+    using System.Diagnostics.CodeAnalysis;
+    using System.Reflection;
     using FluentAssertions;
     using global::AutoFixture.Kernel;
     using Moq;
@@ -71,6 +73,7 @@
             specimen.Should().BeNull();
         }
 
+        [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Design required by tests.")]
         private class FakeObject
         {
             public object NotVirtualProperty { get; set; }

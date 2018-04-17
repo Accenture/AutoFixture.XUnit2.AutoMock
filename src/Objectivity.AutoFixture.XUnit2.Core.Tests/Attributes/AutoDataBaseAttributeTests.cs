@@ -53,6 +53,7 @@
             Assert.Throws<ArgumentNullException>(() => new AutoDataBaseAttributeUnderTest(fixture, provider));
         }
 
+        [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
         private class AutoDataBaseAttributeUnderTest : AutoDataBaseAttribute
         {
             public AutoDataBaseAttributeUnderTest(IFixture fixture, IAutoFixtureAttributeProvider provider)

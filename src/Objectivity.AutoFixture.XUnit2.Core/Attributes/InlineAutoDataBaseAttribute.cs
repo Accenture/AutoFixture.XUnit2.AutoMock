@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
     using global::AutoFixture;
     using Objectivity.AutoFixture.XUnit2.Core.Common;
@@ -10,7 +11,7 @@
     using Objectivity.AutoFixture.XUnit2.Core.Providers;
     using Xunit.Sdk;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1019:DefineAccessorsForAttributeArguments", Justification = "Parameter 'values' is exposed with ReadOnlyCollection.")]
+    [SuppressMessage("Microsoft.Design", "CA1019:DefineAccessorsForAttributeArguments", Justification = "Parameter 'values' is exposed with ReadOnlyCollection.")]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public abstract class InlineAutoDataBaseAttribute : DataAttribute
     {
@@ -20,7 +21,7 @@
         {
             this.Provider = provider.NotNull(nameof(provider));
             this.Fixture = fixture.NotNull(nameof(fixture));
-            this.values = values ?? new object[0];
+            this.values = values ?? Array.Empty<object>();
         }
 
         public IFixture Fixture { get; }

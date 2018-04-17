@@ -90,6 +90,7 @@
             Assert.Throws<ArgumentNullException>(() => new InlineAutoDataBaseAttributeUnderTest(fixture, provider));
         }
 
+        [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
         private class InlineAutoDataBaseAttributeUnderTest : InlineAutoDataBaseAttribute
         {
             public InlineAutoDataBaseAttributeUnderTest(IFixture fixture, IAutoFixtureInlineAttributeProvider provider, params object[] values)
