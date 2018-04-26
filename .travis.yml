@@ -1,9 +1,12 @@
 language: csharp
-mono: 5.2.0
+mono: none
+dotnet: 2.0.0
 install:
-  - nuget restore ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.sln
-  - nuget restore ./src/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.sln
+  - dotnet restore ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.sln
+  - dotnet restore ./src/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.sln
 script:
-  - xbuild /p:Configuration=Release ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.sln
-  - xbuild /p:Configuration=Release ./src/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.sln
-  - mono ./src/packages/xunit.runner.console.*/tools/net452/xunit.console.exe ./src/Objectivity.AutoFixture.XUnit2.Core.Tests/bin/Release/Objectivity.AutoFixture.XUnit2.Core.Tests.dll ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.Tests/bin/Release/Objectivity.AutoFixture.XUnit2.AutoMoq.Tests.dll ./src/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests/bin/Release/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests.dll
+  - dotnet build ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.sln
+  - dotnet build ./src/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.sln
+  - dotnet test ./src/Objectivity.AutoFixture.XUnit2.Core.Tests/Objectivity.AutoFixture.XUnit2.Core.Tests.csproj
+  - dotnet test ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.Tests/Objectivity.AutoFixture.XUnit2.AutoMoq.Tests.csproj
+  - dotnet test ./src/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests.csproj
