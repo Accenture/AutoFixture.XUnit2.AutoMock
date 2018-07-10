@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyTitle("Objectivity.AutoFixture.XUnit2.AutoNSubstitute")]
 [assembly: AssemblyProduct("Objectivity.AutoFixture.XUnit2.AutoNSubstitute")]
-[assembly: AssemblyDescription("Autofixture auto-mocking for XUnit2 using NSubstitute.")]
+[assembly: AssemblyDescription("Accelerates preparation of mocked structures for unit tests under xUnit2 by configuring AutoFixture data generation to use NSubstitute. Gracefully handles recursive structures by omitting recursions.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

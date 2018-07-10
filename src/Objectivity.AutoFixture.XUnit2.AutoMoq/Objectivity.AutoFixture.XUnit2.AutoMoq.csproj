@@ -13,6 +13,16 @@
     <!-- Set StrongNameKeyPath to a default value when not defined by a build server. -->
     <StrongNameKeyPath Condition="'$(StrongNameKeyPath)'==''">..\public.snk</StrongNameKeyPath>
     <AssemblyOriginatorKeyFile>$(StrongNameKeyPath)</AssemblyOriginatorKeyFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>https://github.com/ObjectivityLtd.png</PackageIconUrl>
+    <PackageTags>AutoFixture Moq xUnit xUnit2 AutoMoq AutoMock</PackageTags>
+    <PackageReleaseNotes>See https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock/releases</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <IncludeSymbols>True</IncludeSymbols>
+    <IncludeSource>True</IncludeSource>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net46'">
