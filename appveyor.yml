@@ -4,6 +4,11 @@ branches:
   - netstandard
 image: Visual Studio 2017
 configuration: Release
+assembly_info:
+  patch: true
+  file: '**\GlobalAssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
 environment:
   core_path: ./src/Objectivity.AutoFixture.XUnit2.Core
   StrongNameKeyPath: ..\key.snk
