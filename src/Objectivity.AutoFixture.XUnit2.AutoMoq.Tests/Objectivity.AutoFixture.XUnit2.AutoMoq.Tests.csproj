@@ -6,7 +6,7 @@
 	<IsPackable>false</IsPackable>
     <CodeAnalysisRuleSet>..\Analysers.Tests.ruleset</CodeAnalysisRuleSet>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\key.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\key.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net46'">
@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\key.snk" Link="key.snk" />
+    <None Include="..\key.pfx" Link="key.pfx" />
   </ItemGroup>
 
   <ItemGroup>
