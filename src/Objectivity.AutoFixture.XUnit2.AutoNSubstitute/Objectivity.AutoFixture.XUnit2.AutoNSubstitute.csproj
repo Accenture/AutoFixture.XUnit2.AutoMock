@@ -4,15 +4,6 @@
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <TargetFrameworks Condition="'$(OS)' == 'Windows_NT'">$(TargetFrameworks);net46</TargetFrameworks>
     <CodeAnalysisRuleSet>..\Analysers.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-    <!-- Sign assembly with public & private key only on a build server with a defined key, otherwise delay signing. -->
-    <DelaySign Condition="'$(CI)'=='' OR '$(StrongNameKey)'==''">true</DelaySign>
-    <!-- Set StrongNameKeyPath to a default value when not defined by a build server. -->
-    <StrongNameKeyPath Condition="'$(StrongNameKeyPath)'==''">..\public.snk</StrongNameKeyPath>
-    <AssemblyOriginatorKeyFile>$(StrongNameKeyPath)</AssemblyOriginatorKeyFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock/blob/master/LICENSE</PackageLicenseUrl>
@@ -23,6 +14,15 @@
     <RepositoryType>git</RepositoryType>
     <IncludeSymbols>True</IncludeSymbols>
     <IncludeSource>True</IncludeSource>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+    <!-- Sign assembly with public & private key only on a build server with a defined key, otherwise delay signing. -->
+    <DelaySign Condition="'$(CI)'=='' OR '$(StrongNameKey)'==''">true</DelaySign>
+    <!-- Set StrongNameKeyPath to a default value when not defined by a build server. -->
+    <StrongNameKeyPath Condition="'$(StrongNameKeyPath)'==''">..\public.snk</StrongNameKeyPath>
+    <AssemblyOriginatorKeyFile>$(StrongNameKeyPath)</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net46'">
