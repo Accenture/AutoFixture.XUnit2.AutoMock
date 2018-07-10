@@ -6,14 +6,13 @@
     <CodeAnalysisRuleSet>..\Analysers.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(APPVEYOR)' == 'True'">
+  <PropertyGroup>
     <SignAssembly>true</SignAssembly>
+    <!-- Sign assembly with public & private key only on a build server with a defined key, otherwise delay signing. -->
+    <DelaySign Condition="'$(CI)'=='' OR '$(StrongNameKey)'==''">true</DelaySign>
+    <!-- Set StrongNameKeyPath to a default value when not defined by a build server. -->
+    <StrongNameKeyPath Condition="'$(StrongNameKeyPath)'==''">..\public.snk</StrongNameKeyPath>
     <AssemblyOriginatorKeyFile>$(StrongNameKeyPath)</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(APPVEYOR)' == ''">
-    <SignAssembly>true</SignAssembly>
-    <DelaySign>true</DelaySign>
-    <AssemblyOriginatorKeyFile>..\public.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net46'">

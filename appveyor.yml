@@ -14,7 +14,10 @@ environment:
   - solution_path: ./src/Objectivity.AutoFixture.XUnit2.AutoMoq
   - solution_path: ./src/Objectivity.AutoFixture.XUnit2.AutoNSubstitute
 install:
-- ps: '[IO.File]::WriteAllBytes("$env:APPVEYOR_BUILD_FOLDER\$env:StrongNameKeyPathBuild",[Convert]::FromBase64String($env:StrongNameKey))'
+- ps: >-
+    if($env:StrongNameKey) {
+       [IO.File]::WriteAllBytes("$env:APPVEYOR_BUILD_FOLDER\$env:StrongNameKeyPathBuild",[Convert]::FromBase64String($env:StrongNameKey))
+    }
 build_script:
 - cmd: >-
     dotnet restore %solution_path%.sln
