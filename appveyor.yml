@@ -1,0 +1,27 @@
+version: 1.0.{build}
+branches:
+  only:
+  - netstandard
+image: Visual Studio 2017
+configuration: Release
+environment:
+  core_path: ./src/Objectivity.AutoFixture.XUnit2.Core
+  StrongNameKeyPath: ..\key.snk
+  StrongNameKeyPathBuild: src\key.snk
+  StrongNameKey:
+    secure: emlT+pgXbc71fbq4lkrJcNaY+wQgMmK16MC2qS40MrHm45CV4MFayJMittYhcVjU2oySHyqIjnUhjxm7PmTdulxQ/E0vJFxbCaiQpyn97dF7f8S5UJz0dC3DT+YPZnXK7e9xxtnBdNJRaMVTj776PAyFECrTl4w2i38rhd6buyDSOrssaHPwBHZEwFpkgf3urdJY6P0Z5Yr6+PaMDFJ4osS8liOYACndhKi4M48sM0kGK46hahcig5Sg8SNTa9GstIJYn0j/mx7SYj+c8tpKF621tVyAl5/4tVsEGpcWizzGRSoQurv7jSTkg+m3Yht502TVsS8iD6Zr5DRJXZ4oVrtVMJlKYZsTZnSu3GyFlZYbRnFGBjEZ0igcdB7Iqx7DVJh5arTuqRHjLbZUYdALMXoic9JxmRmGe7hcGSvIWXSnGKUp0JWCfmHtH1b11SpgovLx2oe6izLwZqIqpwDASro+Iu/Fq0ortm0FgpKpsMZqUOm07yi5JgoiS+II/lX5LnrYxqnS58ynv/7rrz277jHY+py4NNmDwP1OVhQwqXfwKkV/aIA/eFpH4BgI6p8LbJHQ0Gz0NQhAhMhbn8HwMNLQKkudwh8eFzzyk3JMpqe9KOmtQqLXeq6WzEAYVT9mhVzKtzgi/SjlFZfUfNRyiXfniq0Te1cWllwmTCPOh6KK/rZJ0bPBDOjf+oi8V10/xqWqUl9gGYPSFzAFQ59AoThn+1tLWkqchj7GiWkkl0GM+0DpNXgZ9tb76aRb017R7KknewpIUvT6UCgBE7cs5HnXJZMlIwb28e7WreqGFrHIH12zh4e9wPc8igDjY/5SmyVz8ik5Dn0nczlFpQfpz/GHlYvtwSCbeOcieruvy02hxmzBEGCrhlo2SHQ3fzQFM9EWlvbxlrw4i98jtl3RJnr28OJx8Z766YFRw6hlnEWCfSEWUxYWKtqU0d/WxT43Z0YTpe1aDOoUtMhdSQFk9trzK34D/jpTGqt/8JnVznBukqg2/INvluFmo9QdpbyXVxtQaDI939MNXleocvfDcVrzDSNPsSW3xZazSfTkpO4=
+  matrix:
+  - solution_path: ./src/Objectivity.AutoFixture.XUnit2.AutoMoq
+  - solution_path: ./src/Objectivity.AutoFixture.XUnit2.AutoNSubstitute
+install:
+- ps: '[IO.File]::WriteAllBytes("$env:APPVEYOR_BUILD_FOLDER\$env:StrongNameKeyPathBuild",[Convert]::FromBase64String($env:StrongNameKey))'
+build_script:
+- cmd: >-
+    dotnet restore %solution_path%.sln
+
+    dotnet build %solution_path%.sln
+test_script:
+- cmd: >-
+    dotnet test %core_path%.Tests
+
+    dotnet test %solution_path%.Tests

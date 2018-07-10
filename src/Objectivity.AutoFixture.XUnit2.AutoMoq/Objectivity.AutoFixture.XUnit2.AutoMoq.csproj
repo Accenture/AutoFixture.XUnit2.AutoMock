@@ -4,10 +4,18 @@
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <TargetFrameworks Condition="'$(OS)' == 'Windows_NT'">$(TargetFrameworks);net46</TargetFrameworks>
     <CodeAnalysisRuleSet>..\Analysers.ruleset</CodeAnalysisRuleSet>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(APPVEYOR)' == 'True'">
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(StrongNameKeyPath)</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(APPVEYOR)' == ''">
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>true</DelaySign>
+    <AssemblyOriginatorKeyFile>..\public.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  
   <ItemGroup Condition="'$(TargetFramework)'=='net46'">
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -20,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\key.snk" Link="key.snk" />
+    <None Include="..\public.snk" Link="public.snk" />
   </ItemGroup>
 
   <ItemGroup>
