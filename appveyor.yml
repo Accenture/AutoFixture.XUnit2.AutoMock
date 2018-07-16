@@ -33,3 +33,10 @@ test_script:
     dotnet test %core_path%.Tests
 
     dotnet test %solution_path%.Tests
+deploy:
+- provider: NuGet
+  api_key:
+    secure: cgoea7HrzrY4TsUflG4ZlhHjEqjhUtFOhKiM7ycikvCd+nqx4JZYOmMVC7ThOTWC
+  on:
+    branch: master
+    appveyor_repo_tag: true
