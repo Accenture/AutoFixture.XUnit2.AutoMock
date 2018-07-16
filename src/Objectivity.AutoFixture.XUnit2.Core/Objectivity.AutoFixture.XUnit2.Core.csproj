@@ -4,6 +4,7 @@
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <TargetFrameworks Condition="'$(OS)' == 'Windows_NT'">$(TargetFrameworks);net46</TargetFrameworks>
     <CodeAnalysisRuleSet>..\Analysers.ruleset</CodeAnalysisRuleSet>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -33,7 +34,7 @@
     <PackageReference Include="AutoFixture" Version="4.2.1" />
     <PackageReference Include="AutoFixture.Xunit2" Version="4.2.1" />
     <PackageReference Include="JetBrains.Annotations" Version="11.1.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
     <PackageReference Include="xunit.abstractions" Version="2.0.1" />
     <PackageReference Include="xunit.core" Version="2.3.1" />
