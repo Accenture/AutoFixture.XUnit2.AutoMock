@@ -1,6 +1,6 @@
 # Objectivity.AutoFixture.XUnit2.AutoMock
 
-[![Build Status](https://travis-ci.org/ObjectivityLtd/AutoFixture.XUnit2.AutoMock.svg?branch=master)](https://travis-ci.org/ObjectivityLtd/AutoFixture.XUnit2.AutoMock)
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/ObjectivityLtd/AutoFixture.XUnit2.AutoMock?branch=master&svg=true)](https://ci.appveyor.com/project/ObjectivityAdminsTeam/autofixture-xunit2-automock)
 [![AutoMock Downloads](https://img.shields.io/nuget/dt/Objectivity.AutoFixture.XUnit2.AutoMoq.svg?label=AutoMoq%20downloads)](https://www.nuget.org/packages/Objectivity.AutoFixture.XUnit2.AutoMoq/)
 [![AutoNSubstitute Downloads](https://img.shields.io/nuget/dt/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.svg?label=AutoNSubstitute%20downloads)](https://www.nuget.org/packages/Objectivity.AutoFixture.XUnit2.AutoNSubstitute/)
 
