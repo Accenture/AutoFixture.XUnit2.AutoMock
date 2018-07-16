@@ -2,10 +2,17 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <TargetFrameworks Condition="'$(OS)' == 'Windows_NT'">$(TargetFrameworks);net46</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)'=='Windows_NT'">$(TargetFrameworks);net46</TargetFrameworks>
+	<!-- Workaround for packaging referenced projects' assemblies into a single nuget package. Issue: https://github.com/NuGet/Home/issues/3891 -->
+    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
     <CodeAnalysisRuleSet>..\Analysers.ruleset</CodeAnalysisRuleSet>
+    <IncludeSymbols>True</IncludeSymbols>
+    <IncludeSource>True</IncludeSource>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	<IsPackable>true</IsPackable>
     <PackageProjectUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock/blob/master/LICENSE</PackageLicenseUrl>
     <PackageIconUrl>https://github.com/ObjectivityLtd.png</PackageIconUrl>
@@ -13,8 +20,13 @@
     <PackageReleaseNotes>See https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock/releases</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <IncludeSymbols>True</IncludeSymbols>
-    <IncludeSource>True</IncludeSource>
+    <Version Condition="'$(Version)'==''">1.0.0</Version>
+    <Company Condition="'$(Company)'==''">Objectivity Ltd</Company>
+    <Authors Condition="'$(Authors)'==''">$(Company)</Authors>
+    <Copyright Condition="'$(Copyright)'==''">Copyright (c) $(Company)</Copyright>
+    <AssemblyTitle Condition="'$(AssemblyTitle)'==''">$(AssemblyName)</AssemblyTitle>
+    <Product Condition="'$(Product)'==''">$(AssemblyName)</Product>
+    <Description Condition="'$(Description)'==''">Accelerates preparation of mocked structures for unit tests under xUnit2 by configuring AutoFixture data generation to use Moq. Gracefully handles recursive structures by omitting recursions.</Description>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -45,11 +57,17 @@
     <PackageReference Include="AutoFixture" Version="4.2.1" />
     <PackageReference Include="AutoFixture.AutoMoq" Version="4.2.1" />
     <PackageReference Include="AutoFixture.Xunit2" Version="4.2.1" />
-	<PackageReference Include="Castle.Core" Version="4.2.1" />
+    <PackageReference Include="Castle.Core" Version="4.2.1" />
     <PackageReference Include="JetBrains.Annotations" Version="11.1.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.0" />
-	<PackageReference Include="Moq" Version="4.7.142" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.0" >
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="NSubstitute" Version="2.0.3" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" >
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="xunit.abstractions" Version="2.0.1" />
     <PackageReference Include="xunit.core" Version="2.3.1" />
     <PackageReference Include="xunit.extensibility.core" Version="2.3.1" />
@@ -57,7 +75,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Objectivity.AutoFixture.XUnit2.Core\Objectivity.AutoFixture.XUnit2.Core.csproj" />
+    <ProjectReference Include="..\Objectivity.AutoFixture.XUnit2.Core\Objectivity.AutoFixture.XUnit2.Core.csproj" PrivateAssets="all" />
   </ItemGroup>
 
-</Project>
+  <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
+    <ItemGroup>
+      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference')->WithMetadataValue('PrivateAssets', 'All'))" />
+    </ItemGroup>
+  </Target>
+ </Project>
