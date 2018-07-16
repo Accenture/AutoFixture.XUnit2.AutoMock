@@ -1,7 +1,4 @@
-version: 1.0.{build}
-branches:
-  only:
-  - netstandard
+version: 3.0.{build}
 image: Visual Studio 2017
 configuration: Release
 assembly_info:
@@ -9,6 +6,15 @@ assembly_info:
   file: '**\GlobalAssemblyInfo.*'
   assembly_version: '{version}'
   assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: '{version}'
+  package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
 environment:
   core_path: ./src/Objectivity.AutoFixture.XUnit2.Core
   StrongNameKeyPath: ..\key.snk
