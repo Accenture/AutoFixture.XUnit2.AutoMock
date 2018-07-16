@@ -31,8 +31,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoFixture" Version="4.2.1" />
-    <PackageReference Include="AutoFixture.Xunit2" Version="4.2.1" />
+    <PackageReference Include="AutoFixture" Version="4.5.0" />
+    <PackageReference Include="AutoFixture.Xunit2" Version="4.5.0" />
     <PackageReference Include="JetBrains.Annotations" Version="11.1.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
