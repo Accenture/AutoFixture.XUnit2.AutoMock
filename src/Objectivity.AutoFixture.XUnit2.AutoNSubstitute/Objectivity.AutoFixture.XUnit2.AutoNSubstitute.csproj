@@ -27,7 +27,7 @@
     <Copyright Condition="'$(Copyright)'==''">Copyright (c) $(Company)</Copyright>
     <AssemblyTitle Condition="'$(AssemblyTitle)'==''">$(AssemblyName)</AssemblyTitle>
     <Product Condition="'$(Product)'==''">$(AssemblyName)</Product>
-    <Description Condition="'$(Description)'==''">Accelerates preparation of mocked structures for unit tests under xUnit2 by configuring AutoFixture data generation to use Moq. Gracefully handles recursive structures by omitting recursions.</Description>
+    <Description Condition="'$(Description)'==''">Accelerates preparation of mocked structures for unit tests under xUnit2 by configuring AutoFixture data generation to use NSubstitute. Gracefully handles recursive structures by omitting recursions.</Description>
   </PropertyGroup>
 
   <PropertyGroup>
