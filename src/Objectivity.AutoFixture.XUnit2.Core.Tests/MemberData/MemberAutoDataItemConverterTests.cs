@@ -29,7 +29,7 @@
             this.dataAttributeProvider.Setup(p => p.GetAttribute(this.fixture, It.IsAny<object[]>())).Returns(this.dataAttribute.Object);
             this.dataAttribute.Setup(a => a.GetData(It.IsAny<MethodInfo>())).Returns(data);
             this.converter = new MemberAutoDataItemConverter(this.fixture, this.dataAttributeProvider.Object);
-            this.testMethod = this.memberType.GetMethod("TestMethod", BindingFlags.Instance | BindingFlags.NonPublic);
+            this.testMethod = this.memberType.GetMethod(nameof(this.TestMethod), BindingFlags.Instance | BindingFlags.NonPublic);
             this.memberName = this.fixture.Create<string>();
         }
 

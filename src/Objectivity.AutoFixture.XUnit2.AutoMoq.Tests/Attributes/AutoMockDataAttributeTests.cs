@@ -56,7 +56,7 @@
             {
                 IgnoreVirtualMembers = ignoreVirtualMembers
             };
-            var methodInfo = typeof(AutoMockDataAttributeTests).GetMethod("TestMethod", BindingFlags.Instance | BindingFlags.NonPublic);
+            var methodInfo = typeof(AutoMockDataAttributeTests).GetMethod(nameof(this.TestMethod), BindingFlags.Instance | BindingFlags.NonPublic);
 
             // Act
             var result = attribute.GetData(methodInfo);
