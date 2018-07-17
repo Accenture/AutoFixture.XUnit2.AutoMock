@@ -88,7 +88,7 @@
             {
                 IgnoreVirtualMembers = ignoreVirtualMembers
             };
-            var methodInfo = typeof(InlineAutoMockDataAttribute).GetMethod("TestMethod");
+            var methodInfo = typeof(InlineAutoMockDataAttributeTests).GetMethod(nameof(this.TestMethod), BindingFlags.Instance | BindingFlags.NonPublic);
 
             // Act
             var result = attribute.GetData(methodInfo);
@@ -117,7 +117,11 @@
             value.Should().Be(100);
 
             disposable.Should().NotBeNull();
-            disposable.GetType().Name.Should().StartWith("IDisposableProxy", "that way we know it was mocked with MOQ.");
+            disposable.GetType().Name.Should().StartWith("IDisposableProxy", "that way we know it was mocked.");
+        }
+
+        protected void TestMethod()
+        {
         }
     }
 }

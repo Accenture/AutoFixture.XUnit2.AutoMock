@@ -52,8 +52,8 @@
         public void GivenExistingMemberName_WhenGetDataIsInvoked_ThenAppropriateDataIsReturned()
         {
             // Arrange
-            var attribute = new MemberAutoMockDataAttribute("TestData");
-            var methodInfo = typeof(MemberAutoMockDataAttributeTests).GetMethod("TestMethod");
+            var attribute = new MemberAutoMockDataAttribute(nameof(TestData));
+            var methodInfo = typeof(MemberAutoMockDataAttributeTests).GetMethod(nameof(this.TestMethod));
             var numberOfParameters = methodInfo.GetParameters().Length;
 
             // Act
@@ -68,7 +68,7 @@
 
                 result.Should().HaveCount(numberOfParameters);
                 result.Should().ContainInOrder(source);
-                result[numberOfParameters - 1].GetType().Name.Should().StartWith("ObjectProxy", "that way we know it was mocked with MOQ.");
+                result[numberOfParameters - 1].GetType().Name.Should().StartWith("IDisposableProxy", "that way we know it was mocked.");
             }
         }
 
@@ -84,11 +84,11 @@
                 .Callback<ICustomization>(customization => customizations.Add(customization))
                 .Returns(fixture.Object);
 
-            var attribute = new MemberAutoMockDataAttribute(fixture.Object, "TestData")
+            var attribute = new MemberAutoMockDataAttribute(fixture.Object, nameof(TestData))
             {
                 IgnoreVirtualMembers = ignoreVirtualMembers
             };
-            var methodInfo = typeof(MemberAutoMockDataAttributeTests).GetMethod("TestMethod");
+            var methodInfo = typeof(MemberAutoMockDataAttributeTests).GetMethod(nameof(this.TestMethod));
 
             // Act
             attribute.GetData(methodInfo);
@@ -126,7 +126,7 @@
             Assert.Throws<ArgumentNullException>(() => new MemberAutoMockDataAttribute(memberName));
         }
 
-        [MemberAutoMockData("TestData")]
+        [MemberAutoMockData(nameof(TestData))]
         [Theory(DisplayName = "GIVEN test method has some member generated parameters WHEN test run THEN parameters are provided")]
         public void GivenTestMethodHasSomeMemberGeneratedParameters_WhenTestRun_ThenParametersAreProvided(int first, int second, int third, int fourth, IDisposable disposable)
         {
@@ -141,7 +141,7 @@
             fourth.Should().NotBe(default(int));
 
             disposable.Should().NotBeNull();
-            disposable.GetType().Name.Should().StartWith("ObjectProxy", "that way we know it was mocked with MOQ.");
+            disposable.GetType().Name.Should().StartWith("IDisposableProxy", "that way we know it was mocked.");
         }
     }
 }

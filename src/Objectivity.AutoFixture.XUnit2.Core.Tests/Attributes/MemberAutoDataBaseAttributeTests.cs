@@ -25,6 +25,7 @@
             Assert.Throws<ArgumentNullException>(() => new MemberAutoDataBaseAttributeUnderTest(fixture, memberName, provider.Object));
         }
 
+        [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
         private class MemberAutoDataBaseAttributeUnderTest : MemberAutoDataBaseAttribute
         {
             public MemberAutoDataBaseAttributeUnderTest(IFixture fixture, string memberName, params object[] parameters)
