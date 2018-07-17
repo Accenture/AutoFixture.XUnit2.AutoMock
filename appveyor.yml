@@ -47,5 +47,4 @@ deploy:
   api_key:
     secure: cgoea7HrzrY4TsUflG4ZlhHjEqjhUtFOhKiM7ycikvCd+nqx4JZYOmMVC7ThOTWC
   on:
-    branch: master
     appveyor_repo_tag: true
