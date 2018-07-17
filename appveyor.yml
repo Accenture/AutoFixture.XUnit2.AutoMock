@@ -24,6 +24,7 @@ environment:
   matrix:
   - solution_path: ./src/Objectivity.AutoFixture.XUnit2.AutoMoq
   - solution_path: ./src/Objectivity.AutoFixture.XUnit2.AutoNSubstitute
+  - solution_path: ./src/Objectivity.AutoFixture.XUnit2.AutoFakeItEasy
 install:
 - ps: >-
     if($env:StrongNameKey) {
