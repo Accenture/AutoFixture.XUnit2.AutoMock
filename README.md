@@ -4,6 +4,7 @@
 [![AutoMock Downloads](https://img.shields.io/nuget/dt/Objectivity.AutoFixture.XUnit2.AutoMoq.svg?label=AutoMoq%20downloads)](https://www.nuget.org/packages/Objectivity.AutoFixture.XUnit2.AutoMoq/)
 [![AutoNSubstitute Downloads](https://img.shields.io/nuget/dt/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.svg?label=AutoNSubstitute%20downloads)](https://www.nuget.org/packages/Objectivity.AutoFixture.XUnit2.AutoNSubstitute/)
 [![AutoFakeItEasy Downloads](https://img.shields.io/nuget/dt/Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.svg?label=AutoFakeItEasy%20downloads)](https://www.nuget.org/packages/Objectivity.AutoFixture.XUnit2.AutoFakeItEasy/)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FObjectivityLtd%2FAutoFixture.XUnit2.AutoMock.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FObjectivityLtd%2FAutoFixture.XUnit2.AutoMock?ref=badge_shield)
 
 Accelerates preparation of mocked structures for unit tests under  [XUnit2](http://xunit.github.io/) by configuring [AutoFixture](https://github.com/AutoFixture/AutoFixture) data generation to use a mocking library of your choice - currently supported:
 - [Moq](https://github.com/moq/moq4)
@@ -195,3 +196,7 @@ public void IssueWithClassThatImplementsInterface(User user)
     Assert.Null(user.Substitute);
 }
 ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FObjectivityLtd%2FAutoFixture.XUnit2.AutoMock.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FObjectivityLtd%2FAutoFixture.XUnit2.AutoMock?ref=badge_large)
