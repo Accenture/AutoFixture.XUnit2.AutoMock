@@ -1,25 +1,24 @@
 # Objectivity.AutoFixture.XUnit2.AutoMock
 
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/ObjectivityLtd/AutoFixture.XUnit2.AutoMock?branch=master&svg=true)](https://ci.appveyor.com/project/ObjectivityAdminsTeam/autofixture-xunit2-automock)
-[![AutoMock Downloads](https://img.shields.io/nuget/dt/Objectivity.AutoFixture.XUnit2.AutoMoq.svg?label=AutoMoq%20downloads)](https://www.nuget.org/packages/Objectivity.AutoFixture.XUnit2.AutoMoq/)
-[![AutoNSubstitute Downloads](https://img.shields.io/nuget/dt/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.svg?label=AutoNSubstitute%20downloads)](https://www.nuget.org/packages/Objectivity.AutoFixture.XUnit2.AutoNSubstitute/)
-[![AutoFakeItEasy Downloads](https://img.shields.io/nuget/dt/Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.svg?label=AutoFakeItEasy%20downloads)](https://www.nuget.org/packages/Objectivity.AutoFixture.XUnit2.AutoFakeItEasy/)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FObjectivityLtd%2FAutoFixture.XUnit2.AutoMock.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FObjectivityLtd%2FAutoFixture.XUnit2.AutoMock?ref=badge_shield)
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/ObjectivityLtd/AutoFixture.XUnit2.AutoMock?branch=master&svg=true)](https://ci.appveyor.com/project/ObjectivityAdminsTeam/autofixture-xunit2-automock) [![Tests Status](https://img.shields.io/appveyor/tests/ObjectivityAdminsTeam/autofixture-xunit2-automock/master.svg)](https://ci.appveyor.com/project/ObjectivityAdminsTeam/autofixture-xunit2-automock) [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FObjectivityLtd%2FAutoFixture.XUnit2.AutoMock.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FObjectivityLtd%2FAutoFixture.XUnit2.AutoMock?ref=badge_shield)
 
-Accelerates preparation of mocked structures for unit tests under  [XUnit2](http://xunit.github.io/) by configuring [AutoFixture](https://github.com/AutoFixture/AutoFixture) data generation to use a mocking library of your choice - currently supported:
-- [Moq](https://github.com/moq/moq4)
-- [NSubstitute](https://github.com/nsubstitute/NSubstitute)
-- [FakeItEasy](https://github.com/FakeItEasy/FakeItEasy)
+Accelerates preparation of mocked structures for unit tests under  [XUnit2](http://xunit.github.io/) by configuring [AutoFixture](https://github.com/AutoFixture/AutoFixture) data generation to use a mocking library of your choice. Gracefully handles recursive structures by omitting recursions.
 
-Gracefully handles recursive structures by omitting recursions.
-
-It provides 3 attributes:
+It provides the following attributes:
 
 - AutoMockData
 - InlineAutoMockData
 - MemberAutoMockData
 
 ***
+
+## Supported mocking libraries
+
+| Mocking library                                           | Corresponding NuGet package |
+| ---------------------------------------------------------:|:--------------------------- |
+| [Moq](https://github.com/moq/moq4)                        | [![AutoMoq](https://img.shields.io/nuget/v/Objectivity.AutoFixture.XUnit2.AutoMoq.svg?label=AutoMoq) ![Downloads](https://img.shields.io/nuget/dt/Objectivity.AutoFixture.XUnit2.AutoMoq.svg)](https://www.nuget.org/packages/Objectivity.AutoFixture.XUnit2.AutoMoq/) |
+| [NSubstitute](https://github.com/nsubstitute/NSubstitute) | [![AutoNSubstitute](https://img.shields.io/nuget/v/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.svg?label=AutoNSubstitute) ![Downloads](https://img.shields.io/nuget/dt/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.svg)](https://www.nuget.org/packages/Objectivity.AutoFixture.XUnit2.AutoNSubstitute/) |
+| [FakeItEasy](https://github.com/FakeItEasy/FakeItEasy)    | [![AutoFakeItEasy](https://img.shields.io/nuget/v/Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.svg?label=AutoFakeItEasy) ![Downloads](https://img.shields.io/nuget/dt/Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.svg)](https://www.nuget.org/packages/Objectivity.AutoFixture.XUnit2.AutoFakeItEasy) |
 
 ## Attributes
 
