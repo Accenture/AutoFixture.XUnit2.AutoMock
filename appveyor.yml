@@ -50,7 +50,7 @@ test_script:
 
     dotnet test ./src/%namespace%.%core_module%.Tests -f netcoreapp2.1 /p:CollectCoverage=true /p:CoverletOutputFormat=%cc% /p:CoverletOutput=%appveyor_build_folder%\%cc%\%namespace%.%core_module%.xml
 
-    dotnet test ./src/%namespace%.%package_module%.Tests -f netcoreapp2.1 /p:CollectCoverage=true /p:CoverletOutputFormat=%cc% /p:CoverletOutput=%appveyor_build_folder%\%cc%\%namespace%.%package_module%.xml /p:Exclude="[%namespace%.%core_module%]*"
+    dotnet test ./src/%namespace%.%package_module%.Tests -f netcoreapp2.1 /p:CollectCoverage=true /p:CoverletOutputFormat=%cc% /p:CoverletOutput=%appveyor_build_folder%\%cc%\%namespace%.%package_module%.xml
 
     codecov -f %appveyor_build_folder%\%cc%\%namespace%.%core_module%.xml
 
