@@ -59,17 +59,17 @@
     <PackageReference Include="AutoFixture.AutoMoq" Version="4.5.0" />
     <PackageReference Include="AutoFixture.Xunit2" Version="4.5.0" />
     <PackageReference Include="Castle.Core" Version="4.3.1" />
-    <PackageReference Include="JetBrains.Annotations" Version="11.1.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2018.2.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Moq" Version="4.9.0" />
+    <PackageReference Include="Moq" Version="4.10.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="xunit.abstractions" Version="2.0.2" />
+    <PackageReference Include="xunit.abstractions" Version="2.0.3" />
     <PackageReference Include="xunit.core" Version="2.4.0" />
     <PackageReference Include="xunit.extensibility.core" Version="2.4.0" />
     <PackageReference Include="xunit.extensibility.execution" Version="2.4.0" />
