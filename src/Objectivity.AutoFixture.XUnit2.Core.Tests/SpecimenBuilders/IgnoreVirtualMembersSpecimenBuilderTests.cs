@@ -58,8 +58,8 @@
             specimen.Should().BeOfType<NoSpecimen>();
         }
 
-        [Fact(DisplayName = "GIVEN virtual PropertyInfo request WHEN Create is invoked THEN null is returned")]
-        public void GivenVirtualPropertyInfoRequest_WhenCreateInvoked_ThenNoSpecimenInstance()
+        [Fact(DisplayName = "GIVEN virtual PropertyInfo request WHEN Create is invoked THEN OmitSpecimen is returned")]
+        public void GivenVirtualPropertyInfoRequest_WhenCreateInvoked_ThenOmitSpecimenInstance()
         {
             // Arrange
             var builder = new IgnoreVirtualMembersSpecimenBuilder();
@@ -69,7 +69,7 @@
             var specimen = builder.Create(virtualPropertyInfo, this.context);
 
             // Assert
-            specimen.Should().BeNull();
+            specimen.Should().BeOfType<OmitSpecimen>();
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Design required by tests.")]
