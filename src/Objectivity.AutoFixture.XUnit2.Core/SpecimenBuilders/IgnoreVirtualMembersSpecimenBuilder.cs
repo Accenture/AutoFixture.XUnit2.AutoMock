@@ -6,8 +6,6 @@ namespace Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders
 
     internal class IgnoreVirtualMembersSpecimenBuilder : ISpecimenBuilder
     {
-        private readonly Type reflectedType;
-
         public IgnoreVirtualMembersSpecimenBuilder()
             : this(null)
         {
@@ -15,16 +13,18 @@ namespace Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders
 
         public IgnoreVirtualMembersSpecimenBuilder(Type reflectedType)
         {
-            this.reflectedType = reflectedType;
+            this.ReflectedType = reflectedType;
         }
+
+        public Type ReflectedType { get; private set; }
 
         public object Create(object request, ISpecimenContext context)
         {
             var pi = request as PropertyInfo;
             if (pi != null) //// is a property
             {
-                if (this.reflectedType == null || //// is hosted anywhere
-                    this.reflectedType == pi.ReflectedType) //// is hosted in defined type
+                if (this.ReflectedType == null || //// is hosted anywhere
+                    this.ReflectedType == pi.ReflectedType) //// is hosted in defined type
                 {
                     if (pi.GetGetMethod().IsVirtual)
                     {

@@ -1,8 +1,10 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.SpecimenBuilders
 {
+    using System;
     using System.Diagnostics.CodeAnalysis;
     using FluentAssertions;
     using global::AutoFixture.Kernel;
+    using global::AutoFixture.Xunit2;
     using Moq;
     using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
     using Xunit;
@@ -70,6 +72,29 @@
 
             // Assert
             specimen.Should().BeOfType<OmitSpecimen>();
+        }
+
+        [Fact(DisplayName = "GIVEN default constructor WHEN invoked THEN reflected type should be null")]
+        public void GivenDefaultConstructor_WhenInvoked_ThenReflectedTypeShouldBeNull()
+        {
+            // Arrange
+            // Act
+            var customization = new IgnoreVirtualMembersSpecimenBuilder();
+
+            // Assert
+            customization.ReflectedType.Should().BeNull();
+        }
+
+        [Theory(DisplayName = "GIVEN existing type WHEN constructor with parameter is invoked THEN that type should be reflected")]
+        [AutoData]
+        public void GivenExistingType_WhenConstructorWithParameterIsInvoked_ThenThatTypeShouldBeReflected(Type reflectedType)
+        {
+            // Arrange
+            // Act
+            var customization = new IgnoreVirtualMembersSpecimenBuilder(reflectedType);
+
+            // Assert
+            customization.ReflectedType.Should().BeSameAs(reflectedType);
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Design required by tests.")]

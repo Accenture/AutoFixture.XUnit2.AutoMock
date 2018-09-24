@@ -8,8 +8,6 @@
 
     public class IgnoreVirtualMembersCustomization : ICustomization
     {
-        private readonly Type reflectedType;
-
         public IgnoreVirtualMembersCustomization()
             : this(null)
         {
@@ -17,17 +15,14 @@
 
         public IgnoreVirtualMembersCustomization(Type reflectedType)
         {
-            this.reflectedType = reflectedType;
+            this.ReflectedType = reflectedType;
         }
+
+        public Type ReflectedType { get; private set; }
 
         public void Customize(IFixture fixture)
         {
-            if (fixture == null)
-            {
-                throw new ArgumentNullException(nameof(fixture));
-            }
-
-            fixture.Customizations.Add(new IgnoreVirtualMembersSpecimenBuilder(this.reflectedType));
+            fixture.NotNull(nameof(fixture)).Customizations.Add(new IgnoreVirtualMembersSpecimenBuilder(this.ReflectedType));
         }
     }
 }
