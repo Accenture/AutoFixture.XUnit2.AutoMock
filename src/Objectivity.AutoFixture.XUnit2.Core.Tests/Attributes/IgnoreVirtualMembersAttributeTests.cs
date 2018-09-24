@@ -47,16 +47,20 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN test method has parameters of same type WHEN last one is decorated with IgnoreVirtualMembersAttribute THEN only that parameter has no virtual properties populated")]
-        public void GivenTestMethodHasParametersOfSameType_WhenLastOneIsDecoratedWithIgnoreVirtualMembersAttribute_ThenOnlyThatParameterHasNoVirtualPropertiesPopulated(
+        [Theory(DisplayName = "GIVEN test method has parameters of same type WHEN second one is decorated with IgnoreVirtualMembersAttribute THEN that parameter and following ones have no virtual properties populated")]
+        public void GivenTestMethodHasParametersOfSameType_WhenSecondOneIsDecoratedWithIgnoreVirtualMembersAttribute_ThenThatParameterAndFollowingOnesHaveNoVirtualPropertiesPopulated(
             UserWithSubstitute user1,
-            [IgnoreVirtualMembers] UserWithSubstitute user2)
+            [IgnoreVirtualMembers] UserWithSubstitute user2,
+            UserWithSubstitute user3)
         {
             user1.Name.Should().NotBeNull();
             user1.Substitute.Should().NotBeNull();
 
             user2.Name.Should().BeNull();
             user2.Substitute.Should().BeNull();
+
+            user3.Name.Should().BeNull();
+            user3.Substitute.Should().BeNull();
         }
 
         [AutoData]
