@@ -3,7 +3,6 @@
     using System;
     using Common;
     using global::AutoFixture;
-    using global::AutoFixture.Kernel;
     using SpecimenBuilders;
 
     public class IgnoreVirtualMembersCustomization : ICustomization
@@ -18,7 +17,7 @@
             this.ReflectedType = reflectedType;
         }
 
-        public Type ReflectedType { get; private set; }
+        public Type ReflectedType { get; }
 
         public void Customize(IFixture fixture)
         {

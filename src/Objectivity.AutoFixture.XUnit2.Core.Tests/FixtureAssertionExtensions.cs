@@ -17,7 +17,7 @@
 
         internal static void ShouldOmitRecursion(this IFixture fixture)
         {
-            // Ensure there is a beaviour added for omitting recursive types
+            // Ensure there is a behaviour added for omitting recursive types
             // on default recursion depth.
             fixture.Behaviors.Should().ContainSingle(b => b is OmitOnRecursionBehavior);
         }

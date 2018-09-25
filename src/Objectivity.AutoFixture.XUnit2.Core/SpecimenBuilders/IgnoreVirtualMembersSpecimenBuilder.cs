@@ -16,7 +16,7 @@ namespace Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders
             this.ReflectedType = reflectedType;
         }
 
-        public Type ReflectedType { get; private set; }
+        public Type ReflectedType { get; }
 
         public object Create(object request, ISpecimenContext context)
         {

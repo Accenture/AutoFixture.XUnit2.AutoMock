@@ -120,7 +120,7 @@
         public void GivenVirtualPropertyInfoRequestHostedInAppropriateType_WhenCreateInvoked_ThenOmitSpecimenInstance()
         {
             // Arrange
-            Type reflectedType = typeof(FakeObject);
+            var reflectedType = typeof(FakeObject);
             var builder = new IgnoreVirtualMembersSpecimenBuilder(reflectedType);
             var virtualPropertyInfo = reflectedType.GetProperty(nameof(FakeObject.VirtualProperty));
 
