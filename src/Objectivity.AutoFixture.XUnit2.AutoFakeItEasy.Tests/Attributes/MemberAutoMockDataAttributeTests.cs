@@ -9,6 +9,7 @@
     using global::AutoFixture.AutoFakeItEasy;
     using global::AutoFixture.Xunit2;
     using Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.Attributes;
+    using Objectivity.AutoFixture.XUnit2.Core.Common;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
     using Xunit;
 
@@ -25,12 +26,7 @@
 
         public int TestMethod(int first, int second, int third, int fourth, IDisposable disposable)
         {
-            if (disposable == null)
-            {
-                throw new ArgumentNullException(nameof(disposable));
-            }
-
-            disposable.Dispose();
+            disposable.NotNull(nameof(disposable)).Dispose();
             return first + second + third + fourth;
         }
 

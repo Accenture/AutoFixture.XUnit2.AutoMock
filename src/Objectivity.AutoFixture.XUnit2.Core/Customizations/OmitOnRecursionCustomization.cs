@@ -7,7 +7,7 @@
     {
         public void Customize(IFixture fixture)
         {
-            // Ommit recursion on first level.
+            // Omit recursion on first level.
             fixture.NotNull(nameof(fixture))
                 .Behaviors
                 .Add(new OmitOnRecursionBehavior());

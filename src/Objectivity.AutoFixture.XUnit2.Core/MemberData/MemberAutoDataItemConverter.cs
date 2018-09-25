@@ -34,7 +34,7 @@
             return dataAttribute.GetData(method).FirstOrDefault();
         }
 
-        private static object[] EnsureDataStructure(object item, string memberName, Type memgerType)
+        private static object[] EnsureDataStructure(object item, string memberName, Type memberType)
         {
             if (item is object[] objArray)
             {
@@ -45,7 +45,7 @@
                 CultureInfo.InvariantCulture,
                 "Property {0} on {1} yielded an item that is not an object[]",
                 memberName,
-                memgerType);
+                memberType);
 
             throw new ArgumentException(message);
         }
