@@ -23,7 +23,7 @@
         /// <summary>
         /// Gets or sets a value indicating whether virtual members should be ignored during object creation.
         /// </summary>
-        public bool IgnoreVirtualMembers { get; set; } = false;
+        public bool IgnoreVirtualMembers { get; set; }
 
         public IAutoFixtureAttributeProvider Provider { get; }
 

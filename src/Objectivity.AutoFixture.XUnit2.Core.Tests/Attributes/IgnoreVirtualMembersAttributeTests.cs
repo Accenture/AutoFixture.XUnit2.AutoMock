@@ -11,6 +11,10 @@
     [Collection("IgnoreVirtualMembersAttribute")]
     [Trait("Category", "Attributes")]
     [SuppressMessage("Design", "CA1034:Nested types should not be visible", Justification = "Test objects", Scope = "type", Target = "~T:Objectivity.AutoFixture.XUnit2.Core.Tests.Attributes.IgnoreVirtualMembersAttributeTests")]
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global", Justification = "Test classes instantiated by AutoFixture.")]
+    [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Test members instantiated by AutoFixture and used in tests.")]
+    [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global", Justification = "Test members instantiated by AutoFixture and used in tests.")]
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global", Justification = "Test members instantiated by AutoFixture and used in tests.")]
     public class IgnoreVirtualMembersAttributeTests
     {
         private interface IUserWithSubstitute

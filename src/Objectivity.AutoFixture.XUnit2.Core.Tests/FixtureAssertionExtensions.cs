@@ -1,10 +1,9 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests
 {
     using System;
-    using System.Linq.Expressions;
+    using System.Linq;
     using FluentAssertions;
     using global::AutoFixture;
-    using global::AutoFixture.Kernel;
     using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
 
     internal static class FixtureAssertionExtensions
@@ -34,10 +33,9 @@
 
         internal static void ShouldIgnoreVirtualMembers(this IFixture fixture, Type reflectedType)
         {
-            Expression<Func<ISpecimenBuilder, bool>> predicate = customization =>
-                customization is IgnoreVirtualMembersSpecimenBuilder &&
-                ((IgnoreVirtualMembersSpecimenBuilder)customization).ReflectedType == reflectedType;
-            fixture.Customizations.Should().ContainSingle(predicate);
+            fixture.Customizations.OfType<IgnoreVirtualMembersSpecimenBuilder>()
+                .Should()
+                .ContainSingle(c => c.ReflectedType == reflectedType);
         }
     }
 }
