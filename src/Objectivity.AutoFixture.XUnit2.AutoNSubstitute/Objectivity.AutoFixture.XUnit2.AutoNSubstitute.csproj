@@ -15,7 +15,7 @@
     <IsPackable>true</IsPackable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIconUrl>https://github.com/ObjectivityLtd.png</PackageIconUrl>
     <PackageTags>AutoFixture NSubstitute xUnit xUnit2 AutoNSubstitute AutoMock</PackageTags>
     <PackageReleaseNotes>See https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock/releases</PackageReleaseNotes>
