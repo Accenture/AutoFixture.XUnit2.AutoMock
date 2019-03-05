@@ -1,6 +1,12 @@
 version: 3.1.{build}
 image: Visual Studio 2017
 configuration: Release
+init:
+- ps: >-
+    if ($env:APPVEYOR_REPO_TAG -eq "true")
+    {
+        Update-AppveyorBuild -Version "$($env:APPVEYOR_REPO_TAG_NAME.split("-")[0])"
+    }
 assembly_info:
   patch: true
   file: '**\GlobalAssemblyInfo.*'
@@ -31,13 +37,23 @@ install:
 - ps: >-
     choco install codecov
 
-    if($env:StrongNameKey) {
-       Set-AppveyorBuildVariable "StrongNameKeyPath" "..\$env:StrongNameKeyName"
-       [IO.File]::WriteAllBytes("$env:APPVEYOR_BUILD_FOLDER\src\$env:StrongNameKeyName",[Convert]::FromBase64String($env:StrongNameKey))
+    if ($env:StrongNameKey)
+    {
+        Set-AppveyorBuildVariable "StrongNameKeyPath" "..\$env:StrongNameKeyName"
+        [IO.File]::WriteAllBytes("$env:APPVEYOR_BUILD_FOLDER\src\$env:StrongNameKeyName",[Convert]::FromBase64String($env:StrongNameKey))
     }
 build_script:
-- cmd: >-
-    dotnet build ./src/%namespace%.%package_module%.sln
+- ps: >-
+    dotnet build ./src/$env:namespace.$env:package_module.sln
+
+    if ($env:APPVEYOR_REPO_TAG -eq "true")
+    {
+        dotnet pack ./src/$env:namespace.$env:package_module --no-build -p:PackageVersion=$env:APPVEYOR_REPO_TAG_NAME
+    }
+    else
+    {
+        dotnet pack ./src/$env:namespace.$env:package_module --no-build -p:PackageVersion=$env:APPVEYOR_BUILD_VERSION
+    }
 test_script:
 - cmd: >-
     dotnet test ./src/%namespace%.%core_module%.Tests -f net46
@@ -63,3 +79,4 @@ deploy:
     secure: cgoea7HrzrY4TsUflG4ZlhHjEqjhUtFOhKiM7ycikvCd+nqx4JZYOmMVC7ThOTWC
   on:
     appveyor_repo_tag: true
+  skip_symbols: false

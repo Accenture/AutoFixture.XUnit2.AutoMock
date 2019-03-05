@@ -13,7 +13,6 @@
 
   <PropertyGroup>
     <IsPackable>true</IsPackable>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIconUrl>https://github.com/ObjectivityLtd.png</PackageIconUrl>
