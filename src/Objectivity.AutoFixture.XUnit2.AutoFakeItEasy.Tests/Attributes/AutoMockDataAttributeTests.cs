@@ -63,8 +63,8 @@
 
             // Assert
             result.Should().BeSameAs(data);
-            A.CallTo(() => provider.GetAttribute(A<IFixture>._)).MustHaveHappened(Repeated.Exactly.Once);
-            A.CallTo(() => dataAttribute.GetData(A<MethodInfo>._)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => provider.GetAttribute(A<IFixture>._)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => dataAttribute.GetData(A<MethodInfo>._)).MustHaveHappenedOnceExactly();
 
             customizations.Count.Should().Be(2);
             customizations[0]

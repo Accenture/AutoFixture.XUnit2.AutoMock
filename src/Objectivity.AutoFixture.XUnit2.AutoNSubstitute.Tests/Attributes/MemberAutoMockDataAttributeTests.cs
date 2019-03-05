@@ -64,7 +64,7 @@
 
                 result.Should().HaveCount(numberOfParameters);
                 result.Should().ContainInOrder(source);
-                result[numberOfParameters - 1].GetType().Name.Should().StartWith("IDisposableProxy", "that way we know it was mocked.");
+                result[numberOfParameters - 1].GetType().Name.Should().StartWith("ObjectProxy", "that way we know it was mocked.");
             }
         }
 
@@ -136,7 +136,7 @@
             fourth.Should().NotBe(default(int));
 
             disposable.Should().NotBeNull();
-            disposable.GetType().Name.Should().StartWith("IDisposableProxy", "that way we know it was mocked.");
+            disposable.GetType().Name.Should().StartWith("ObjectProxy", "that way we know it was mocked.");
         }
     }
 }
