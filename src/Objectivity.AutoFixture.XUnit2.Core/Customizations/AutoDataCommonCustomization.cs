@@ -14,13 +14,13 @@
 
         public void Customize(IFixture fixture)
         {
-            fixture.NotNull(nameof(fixture))
+            var adaptedFixture = fixture.NotNull(nameof(fixture))
                 .Customize(new DoNotThrowOnRecursionCustomization())
                 .Customize(new OmitOnRecursionCustomization());
 
             if (this.IgnoreVirtualMembers)
             {
-                fixture.Customize(new IgnoreVirtualMembersCustomization());
+                adaptedFixture.Customize(new IgnoreVirtualMembersCustomization());
             }
         }
     }

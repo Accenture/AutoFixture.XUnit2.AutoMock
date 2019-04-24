@@ -38,14 +38,14 @@
     <PackageReference Include="AutoFixture" Version="4.8.0" />
     <PackageReference Include="AutoFixture.AutoNSubstitute" Version="4.8.0" />
     <PackageReference Include="AutoFixture.Xunit2" Version="4.8.0" />
-    <PackageReference Include="Castle.Core" Version="4.3.1" />
+    <PackageReference Include="Castle.Core" Version="4.4.0" />
     <PackageReference Include="coverlet.msbuild" Version="2.6.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="FluentAssertions" Version="5.6.0" />
-    <PackageReference Include="JetBrains.Annotations" Version="2018.3.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.3">
+    <PackageReference Include="JetBrains.Annotations" Version="2019.1.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
