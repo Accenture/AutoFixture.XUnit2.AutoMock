@@ -24,6 +24,17 @@
             new object[] { 7, 8, 9 }
         };
 
+        public static IEnumerable<object[]> TestDataShareFixture { get; } = new[]
+        {
+            new object[] { 0, new CurrentDateTimeCustomization() },
+            new object[] { 1, new NumericSequencePerTypeCustomization() },
+        };
+
+        public static IEnumerable<object[]> TestDataDoNotShareFixture
+        {
+            get { return TestDataShareFixture.Select(item => new object[] { item.Last() }); }
+        }
+
         public int TestMethod(int first, int second, int third, int fourth, IDisposable disposable)
         {
             disposable.NotNull(nameof(disposable)).Dispose();
@@ -99,6 +110,34 @@
             customizations[1].Should().BeOfType<AutoFakeItEasyCustomization>();
         }
 
+        [Theory(DisplayName = "GIVEN MemberAutoMockData WHEN ShareFixture is set to true THEN same fixture per data row is used.")]
+        [MemberAutoMockData(nameof(TestDataShareFixture), ShareFixture = true)]
+        public void GivenMemberAutoMockData_WhenShareFixtureIsSetToTrue_ThenSameFixturePerDataRowIsUsed(int index, ICustomization customization, IFixture fixture)
+        {
+            // Arrange
+            var expectedCostomizationsCount = 19;
+
+            // Act
+            var customizations = fixture.Customize(customization);
+
+            // Assert
+            fixture.Customizations.Should().HaveCount(expectedCostomizationsCount + index);
+        }
+
+        [Theory(DisplayName = "GIVEN MemberAutoMockData WHEN ShareFixture is set to false THEN unique fixture per data row is created.")]
+        [MemberAutoMockData(nameof(TestDataDoNotShareFixture), ShareFixture = false)]
+        public void GivenMemberAutoMockData_WhenShareFixtureIsSetToFalse_ThenUniqueFixturePerDataRowIsCreated(ICustomization customization, IFixture fixture)
+        {
+            // Arrange
+            var expectedCostomizationsCount = 19;
+
+            // Act
+            var customizations = fixture.Customize(customization);
+
+            // Assert
+            fixture.Customizations.Should().HaveCount(expectedCostomizationsCount);
+        }
+
         [Fact(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]
         public void GivenUninitializedFixture_WhenConstructorIsInvoked_ThenExceptionIsThrown()
         {
@@ -122,8 +161,8 @@
             Assert.Throws<ArgumentNullException>(() => new MemberAutoMockDataAttribute(memberName));
         }
 
-        [MemberAutoMockData(nameof(TestData))]
         [Theory(DisplayName = "GIVEN test method has some member generated parameters WHEN test run THEN parameters are provided")]
+        [MemberAutoMockData(nameof(TestData))]
         public void GivenTestMethodHasSomeMemberGeneratedParameters_WhenTestRun_ThenParametersAreProvided(int first, int second, int third, int fourth, IDisposable disposable)
         {
             // Arrange

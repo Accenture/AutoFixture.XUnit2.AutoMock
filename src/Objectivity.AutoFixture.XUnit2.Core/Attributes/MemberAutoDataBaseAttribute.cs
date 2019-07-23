@@ -56,8 +56,8 @@
 
         private IFixture CustomizeFixture(IFixture fixture)
         {
-            this.Fixture.Customize(new AutoDataCommonCustomization(this.IgnoreVirtualMembers));
-            this.Customize(this.Fixture);
+            fixture.Customize(new AutoDataCommonCustomization(this.IgnoreVirtualMembers));
+            this.Customize(fixture);
 
             return fixture;
         }
