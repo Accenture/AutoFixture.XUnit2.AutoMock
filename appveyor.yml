@@ -35,7 +35,7 @@ environment:
   - package_module: AutoFakeItEasy
 install:
 - ps: >-
-    choco install codecov
+    choco install codecov --no-progress
 
     if ($env:StrongNameKey)
     {
