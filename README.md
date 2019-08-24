@@ -166,8 +166,8 @@ public class User
 ```
 
 ```csharp
-[AutoData]
 [Theory]
+[AutoData]
 public void IgnoreVirtualMembersUsage(
     User firstUser,
     [IgnoreVirtualMembers] User secondUser,
@@ -181,6 +181,46 @@ public void IgnoreVirtualMembersUsage(
 
     Assert.NotNull(thirdUser.Name);
     Assert.Null(thirdUser.Address);
+}
+```
+
+### CustomizeWith
+
+An attribute that can be applied to parameters in an `AutoDataAttribute`-driven `Theory` to apply additional customization when the `IFixture` creates an instance of that type.
+
+**Caution:** Order is important! Applying `CustomizeWith` attribute to the subsequent paramater makes precedig parameters of the same type to be created without specified customization and the particular parameter with the specified customization.
+
+#### Example
+
+```csharp
+public class LocalDatesCustomization : ICustomization
+{
+    public void Customize(IFixture fixture)
+    {
+        fixture.Register(() => LocalDate.FromDateTime(fixture.Create<DateTime>()));
+    }
+}
+```
+
+```csharp
+[Theory]
+[AutoMockData]
+public void GivenCurrencyConverter_WhenConvertToPlnAtParticularDay_ThenMustReturnCorrectConvertedAmount(
+    string testCurrencySymbol,
+    [CustomizeWith(typeof(LocalDatesCustomization))] LocalDate day,
+    [Frozen] ICurrencyExchangeProvider currencyProvider,
+    CurrencyConverter currencyConverter)
+{
+    // Arrange
+    Mock.Get(currencyProvider)
+        .Setup(cp => cp.GetCurrencyExchangeRate(testCurrencySymbol, day))
+        .Returns(100M);
+
+    // Act
+    decimal result = currencyConverter.ConvertToPln(testCurrencySymbol, 100M, day);
+
+    // Assert
+    Assert.Equal(10000M, result);
 }
 ```
 
