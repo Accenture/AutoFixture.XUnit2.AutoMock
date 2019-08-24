@@ -35,9 +35,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoFixture" Version="4.8.0" />
-    <PackageReference Include="AutoFixture.AutoFakeItEasy" Version="4.8.0" />
-    <PackageReference Include="AutoFixture.Xunit2" Version="4.8.0" />
+    <PackageReference Include="AutoFixture" Version="4.11.0" />
+    <PackageReference Include="AutoFixture.AutoFakeItEasy" Version="4.11.0" />
+    <PackageReference Include="AutoFixture.Xunit2" Version="4.11.0" />
     <PackageReference Include="Castle.Core" Version="4.4.0" />
     <PackageReference Include="coverlet.msbuild" Version="2.6.0">
       <PrivateAssets>all</PrivateAssets>
