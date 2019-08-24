@@ -41,7 +41,7 @@
             {
                 new object[] { 1, 2, 3 },
                 new object[] { 4, 5, 6 },
-                new object[] { 7, 8, 9 }
+                new object[] { 7, 8, 9 },
             };
             var fixture = A.Fake<IFixture>();
             var customizations = new List<ICustomization>();
@@ -54,7 +54,7 @@
             A.CallTo(() => provider.GetAttribute(A<IFixture>._)).Returns(dataAttribute);
             var attribute = new AutoMockDataAttribute(fixture, provider)
             {
-                IgnoreVirtualMembers = ignoreVirtualMembers
+                IgnoreVirtualMembers = ignoreVirtualMembers,
             };
             var methodInfo = typeof(AutoMockDataAttributeTests).GetMethod(nameof(this.TestMethod), BindingFlags.Instance | BindingFlags.NonPublic);
 

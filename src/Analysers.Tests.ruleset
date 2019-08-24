@@ -401,6 +401,7 @@
     <Rule Id="CS8094" Action="Error" />
   </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <Rule Id="SA0001" Action="None" />
     <Rule Id="SA1200" Action="Error" />
     <Rule Id="SA1309" Action="None" />
     <Rule Id="SA1600" Action="None" />

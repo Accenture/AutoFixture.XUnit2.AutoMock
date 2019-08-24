@@ -1,7 +1,7 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Customizations
 {
-    using Common;
     using global::AutoFixture;
+    using Objectivity.AutoFixture.XUnit2.Core.Common;
 
     public class AutoDataCommonCustomization : ICustomization
     {

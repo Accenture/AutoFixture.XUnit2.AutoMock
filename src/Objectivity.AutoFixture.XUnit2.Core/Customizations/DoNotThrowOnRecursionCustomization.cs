@@ -1,8 +1,8 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Customizations
 {
     using System.Linq;
-    using Common;
     using global::AutoFixture;
+    using Objectivity.AutoFixture.XUnit2.Core.Common;
 
     public class DoNotThrowOnRecursionCustomization : ICustomization
     {

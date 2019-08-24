@@ -74,7 +74,7 @@
             {
                 new object[] { 1, 2, 3 },
                 new object[] { 4, 5, 6 },
-                new object[] { 7, 8, 9 }
+                new object[] { 7, 8, 9 },
             };
             var fixture = new Mock<IFixture>();
             var customizations = new List<ICustomization>();
@@ -87,7 +87,7 @@
             provider.Setup(p => p.GetAttribute(It.IsAny<IFixture>())).Returns(dataAttribute.Object);
             var attribute = new InlineAutoMockDataAttribute(fixture.Object, provider.Object)
             {
-                IgnoreVirtualMembers = ignoreVirtualMembers
+                IgnoreVirtualMembers = ignoreVirtualMembers,
             };
             var methodInfo = typeof(InlineAutoMockDataAttributeTests).GetMethod(nameof(this.TestMethod), BindingFlags.Instance | BindingFlags.NonPublic);
 

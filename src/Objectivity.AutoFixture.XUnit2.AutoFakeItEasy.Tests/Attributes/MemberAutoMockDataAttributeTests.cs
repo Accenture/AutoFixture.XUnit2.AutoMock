@@ -21,7 +21,7 @@
         {
             new object[] { 1, 2, 3 },
             new object[] { 4, 5, 6 },
-            new object[] { 7, 8, 9 }
+            new object[] { 7, 8, 9 },
         };
 
         public static IEnumerable<object[]> TestDataShareFixture { get; } = new[]
@@ -93,7 +93,7 @@
 
             var attribute = new MemberAutoMockDataAttribute(fixture, nameof(TestData))
             {
-                IgnoreVirtualMembers = ignoreVirtualMembers
+                IgnoreVirtualMembers = ignoreVirtualMembers,
             };
             var methodInfo = typeof(MemberAutoMockDataAttributeTests).GetMethod(nameof(this.TestMethod));
 

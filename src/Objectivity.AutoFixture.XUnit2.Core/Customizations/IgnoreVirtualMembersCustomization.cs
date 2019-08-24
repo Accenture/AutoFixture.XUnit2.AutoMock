@@ -1,9 +1,9 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Customizations
 {
     using System;
-    using Common;
     using global::AutoFixture;
-    using SpecimenBuilders;
+    using Objectivity.AutoFixture.XUnit2.Core.Common;
+    using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
 
     public class IgnoreVirtualMembersCustomization : ICustomization
     {

@@ -5,7 +5,7 @@
     using JetBrains.Annotations;
 
     /// <summary>
-    /// Copied from <a href="https://github.com/aspnet/EntityFramework/blob/dev/src/Shared/Check.cs">Check.cs</a>
+    /// Copied from <a href="https://github.com/aspnet/EntityFramework/blob/dev/src/Shared/Check.cs">Check.cs</a>.
     /// </summary>
     [DebuggerStepThrough]
     public static class Check
