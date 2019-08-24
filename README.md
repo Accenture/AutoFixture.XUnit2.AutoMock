@@ -184,7 +184,7 @@ public void IgnoreVirtualMembersUsage(
 }
 ```
 
-### CustomizeWith
+### CustomizeWith *(borrowed from [@devdigital](https://github.com/devdigital/practice-guide-dotnet-testing/wiki/Unit-Tests-Implementation))*
 
 An attribute that can be applied to parameters in an `AutoDataAttribute`-driven `Theory` to apply additional customization when the `IFixture` creates an instance of that type.
 
