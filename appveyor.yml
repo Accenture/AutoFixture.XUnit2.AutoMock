@@ -60,19 +60,31 @@ build_script:
 test_script:
 - ps: >-
     cd $env:APPVEYOR_BUILD_FOLDER/src/$env:namespace.$env:core_module.Tests
+
     dotnet xunit -f net46 -nobuild
+
     dotnet xunit -f net47 -nobuild
+
     dotnet xunit -f net48 -nobuild
+
     dotnet test -f netcoreapp2.2 --no-restore
+
     dotnet test -f netcoreapp3.0 --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=$env:cc /p:Exclude="[xunit*]*" /p:CoverletOutput=$env:APPVEYOR_BUILD_FOLDER\$env:cc\$env:namespace.$env:core_module.xml
+
     cd $env:APPVEYOR_BUILD_FOLDER/src/$env:namespace.$env:package_module.Tests
+
     dotnet xunit -f net46 -nobuild
+
     dotnet xunit -f net47 -nobuild
+
     dotnet xunit -f net48 -nobuild
+
     dotnet test -f netcoreapp2.2 --no-restore
+
     dotnet test -f netcoreapp3.0 --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=$env:cc /p:Exclude="[xunit*]*" /p:CoverletOutput=$env:APPVEYOR_BUILD_FOLDER\$env:cc\$env:namespace.$env:package_module.xml
 
     codecov -f $env:APPVEYOR_BUILD_FOLDER\$env:cc\$env:namespace.$env:core_module.xml --flag unittests
+
     codecov -f $env:APPVEYOR_BUILD_FOLDER\$env:cc\$env:namespace.$env:package_module.xml --flag unittests
 artifacts:
 - path: '**\*.nupkg'
