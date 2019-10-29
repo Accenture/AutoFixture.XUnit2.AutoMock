@@ -32,7 +32,7 @@
 
         public static IEnumerable<object[]> TestDataDoNotShareFixture
         {
-            get { return TestDataShareFixture.Select(item => new object[] { item.Last() }); }
+            get { return TestDataShareFixture.Select(item => new[] { item.Last() }); }
         }
 
         public int TestMethod(int first, int second, int third, int fourth, IDisposable disposable)
@@ -115,13 +115,13 @@
         public void GivenMemberAutoMockData_WhenShareFixtureIsSetToTrue_ThenSameFixturePerDataRowIsUsed(int index, ICustomization customization, IFixture fixture)
         {
             // Arrange
-            var expectedCostomizationsCount = 19;
+            var expectedCustomizationsCount = 19;
 
             // Act
-            var customizations = fixture.Customize(customization);
+            fixture.Customize(customization);
 
             // Assert
-            fixture.Customizations.Should().HaveCount(expectedCostomizationsCount + index);
+            fixture.Customizations.Should().HaveCount(expectedCustomizationsCount + index);
         }
 
         [Theory(DisplayName = "GIVEN MemberAutoMockData WHEN ShareFixture is set to false THEN unique fixture per data row is created.")]
@@ -129,13 +129,13 @@
         public void GivenMemberAutoMockData_WhenShareFixtureIsSetToFalse_ThenUniqueFixturePerDataRowIsCreated(ICustomization customization, IFixture fixture)
         {
             // Arrange
-            var expectedCostomizationsCount = 19;
+            var expectedCustomizationsCount = 19;
 
             // Act
-            var customizations = fixture.Customize(customization);
+            fixture.Customize(customization);
 
             // Assert
-            fixture.Customizations.Should().HaveCount(expectedCostomizationsCount);
+            fixture.Customizations.Should().HaveCount(expectedCustomizationsCount);
         }
 
         [Fact(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]
@@ -173,7 +173,7 @@
             first.Should().BeOneOf((int)testData[0][0], (int)testData[1][0], (int)testData[2][0]);
             second.Should().BeOneOf((int)testData[0][1], (int)testData[1][1], (int)testData[2][1]);
             third.Should().BeOneOf((int)testData[0][2], (int)testData[1][2], (int)testData[2][2]);
-            fourth.Should().NotBe(default(int));
+            fourth.Should().NotBe(default);
 
             disposable.Should().NotBeNull();
             disposable.GetType().Name.Should().EndWith("Proxy", "that way we know it was mocked.");
