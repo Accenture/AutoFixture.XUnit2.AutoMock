@@ -59,17 +59,17 @@ build_script:
     }
 test_script:
 - cmd: >-
-    dotnet test ./src/%namespace%.%core_module%.Tests -f net46 --no-restore
+    dotnet xunit ./src/%namespace%.%core_module%.Tests -f net46
 
-    dotnet test ./src/%namespace%.%package_module%.Tests -f net46 --no-restore
+    dotnet xunit ./src/%namespace%.%package_module%.Tests -f net46
 
-    dotnet test ./src/%namespace%.%core_module%.Tests -f net47 --no-restore
+    dotnet xunit ./src/%namespace%.%core_module%.Tests -f net47
 
-    dotnet test ./src/%namespace%.%package_module%.Tests -f net47 --no-restore
+    dotnet xunit ./src/%namespace%.%package_module%.Tests -f net47
 
-    dotnet test ./src/%namespace%.%core_module%.Tests -f net48 --no-restore
+    dotnet xunit ./src/%namespace%.%core_module%.Tests -f net48
 
-    dotnet test ./src/%namespace%.%package_module%.Tests -f net48 --no-restore
+    dotnet xunit ./src/%namespace%.%package_module%.Tests -f net48
 
     dotnet test ./src/%namespace%.%core_module%.Tests -f netcoreapp2.2 --no-restore
 
