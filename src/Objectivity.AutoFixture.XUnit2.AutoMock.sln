@@ -1,0 +1,67 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.779
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Objectivity.AutoFixture.XUnit2.Core", "Objectivity.AutoFixture.XUnit2.Core\Objectivity.AutoFixture.XUnit2.Core.csproj", "{7FF963AD-E151-4E45-9093-7B9E6441BFA0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Objectivity.AutoFixture.XUnit2.Core.Tests", "Objectivity.AutoFixture.XUnit2.Core.Tests\Objectivity.AutoFixture.XUnit2.Core.Tests.csproj", "{D8F331D4-CE28-4BC8-92A0-3DA512E8FCFF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Objectivity.AutoFixture.XUnit2.AutoFakeItEasy", "Objectivity.AutoFixture.XUnit2.AutoFakeItEasy\Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.csproj", "{FA941947-5694-4084-9A75-B0F17D7672B8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.Tests", "Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.Tests\Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.Tests.csproj", "{57BD0984-1649-488B-9535-D54DE1882231}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Objectivity.AutoFixture.XUnit2.AutoMoq", "Objectivity.AutoFixture.XUnit2.AutoMoq\Objectivity.AutoFixture.XUnit2.AutoMoq.csproj", "{576A5EF1-A0D6-485B-AB2D-C050A23B79F8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Objectivity.AutoFixture.XUnit2.AutoMoq.Tests", "Objectivity.AutoFixture.XUnit2.AutoMoq.Tests\Objectivity.AutoFixture.XUnit2.AutoMoq.Tests.csproj", "{75AFB615-C843-4C9A-AF9A-9A71FBAACAAE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Objectivity.AutoFixture.XUnit2.AutoNSubstitute", "Objectivity.AutoFixture.XUnit2.AutoNSubstitute\Objectivity.AutoFixture.XUnit2.AutoNSubstitute.csproj", "{809E0EFD-A1D7-4B5A-A101-788A8D82B063}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests", "Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests\Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests.csproj", "{D83CDAEE-2166-4A3F-9640-AAFED4DFC5D3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7FF963AD-E151-4E45-9093-7B9E6441BFA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FF963AD-E151-4E45-9093-7B9E6441BFA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FF963AD-E151-4E45-9093-7B9E6441BFA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FF963AD-E151-4E45-9093-7B9E6441BFA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8F331D4-CE28-4BC8-92A0-3DA512E8FCFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8F331D4-CE28-4BC8-92A0-3DA512E8FCFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8F331D4-CE28-4BC8-92A0-3DA512E8FCFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8F331D4-CE28-4BC8-92A0-3DA512E8FCFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA941947-5694-4084-9A75-B0F17D7672B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA941947-5694-4084-9A75-B0F17D7672B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA941947-5694-4084-9A75-B0F17D7672B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA941947-5694-4084-9A75-B0F17D7672B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57BD0984-1649-488B-9535-D54DE1882231}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57BD0984-1649-488B-9535-D54DE1882231}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57BD0984-1649-488B-9535-D54DE1882231}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57BD0984-1649-488B-9535-D54DE1882231}.Release|Any CPU.Build.0 = Release|Any CPU
+		{576A5EF1-A0D6-485B-AB2D-C050A23B79F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{576A5EF1-A0D6-485B-AB2D-C050A23B79F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{576A5EF1-A0D6-485B-AB2D-C050A23B79F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{576A5EF1-A0D6-485B-AB2D-C050A23B79F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75AFB615-C843-4C9A-AF9A-9A71FBAACAAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75AFB615-C843-4C9A-AF9A-9A71FBAACAAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75AFB615-C843-4C9A-AF9A-9A71FBAACAAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75AFB615-C843-4C9A-AF9A-9A71FBAACAAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{809E0EFD-A1D7-4B5A-A101-788A8D82B063}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{809E0EFD-A1D7-4B5A-A101-788A8D82B063}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{809E0EFD-A1D7-4B5A-A101-788A8D82B063}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{809E0EFD-A1D7-4B5A-A101-788A8D82B063}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D83CDAEE-2166-4A3F-9640-AAFED4DFC5D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D83CDAEE-2166-4A3F-9640-AAFED4DFC5D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D83CDAEE-2166-4A3F-9640-AAFED4DFC5D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D83CDAEE-2166-4A3F-9640-AAFED4DFC5D3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {565D276E-8621-4E85-98F6-1C6432F7693D}
+	EndGlobalSection
+EndGlobal
