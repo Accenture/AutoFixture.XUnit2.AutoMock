@@ -5,8 +5,7 @@
     using FluentAssertions;
     using global::AutoFixture;
     using global::AutoFixture.Xunit2;
-    using global::Tests.Common.AutoFixture;
-    using Objectivity.AutoFixture;
+    using Objectivity.AutoFixture.XUnit2.Core.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
     using Xunit;
 

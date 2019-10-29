@@ -1,4 +1,4 @@
-﻿namespace Tests.Common.AutoFixture
+﻿namespace Objectivity.AutoFixture.XUnit2.Core.Attributes
 {
     using System;
     using System.Reflection;
