@@ -15,7 +15,7 @@
     <IsPackable>true</IsPackable>
     <PackageProjectUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageIconUrl>https://github.com/ObjectivityLtd.png</PackageIconUrl>
+    <PackageIcon>icon.png</PackageIcon>
     <PackageTags>AutoFixture FakeItEasy xUnit xUnit2 AutoFakeItEasy AutoMock</PackageTags>
     <PackageReleaseNotes>See https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock/releases</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock.git</RepositoryUrl>
@@ -51,6 +51,7 @@
 
   <ItemGroup>
     <None Include="..\public.snk" Link="public.snk" />
+    <None Include="..\..\images\icon.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 
   <ItemGroup>
