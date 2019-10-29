@@ -47,6 +47,8 @@ install:
     }
 build_script:
 - ps: >-
+    dotnet build ./src/$env:namespace.$env:package_module.sln
+
     if ($env:APPVEYOR_REPO_TAG -eq "true")
     {
         dotnet pack ./src/$env:namespace.$env:package_module.sln -p:PackageVersion=$env:APPVEYOR_REPO_TAG_NAME
