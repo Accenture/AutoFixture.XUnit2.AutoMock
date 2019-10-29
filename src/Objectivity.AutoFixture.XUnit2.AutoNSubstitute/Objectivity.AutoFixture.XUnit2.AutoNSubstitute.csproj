@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <TargetFrameworks Condition="'$(OS)'=='Windows_NT'">$(TargetFrameworks);net46;net47</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)'=='Windows_NT'">$(TargetFrameworks);net46;net47;net48</TargetFrameworks>
     <!-- Workaround for packaging referenced projects' assemblies into a single nuget package. Issue: https://github.com/NuGet/Home/issues/3891 -->
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
     <CodeAnalysisRuleSet>..\Analysers.ruleset</CodeAnalysisRuleSet>
@@ -15,7 +15,7 @@
     <IsPackable>true</IsPackable>
     <PackageProjectUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageIconUrl>https://github.com/ObjectivityLtd.png</PackageIconUrl>
+    <PackageIcon>icon.png</PackageIcon>
     <PackageTags>AutoFixture NSubstitute xUnit xUnit2 AutoNSubstitute AutoMock</PackageTags>
     <PackageReleaseNotes>See https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock/releases</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock.git</RepositoryUrl>
@@ -51,6 +51,7 @@
 
   <ItemGroup>
     <None Include="..\public.snk" Link="public.snk" />
+    <None Include="..\..\images\icon.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 
   <ItemGroup>
@@ -59,7 +60,7 @@
     <PackageReference Include="AutoFixture.Xunit2" Version="4.11.0" />
     <PackageReference Include="Castle.Core" Version="4.4.0" />
     <PackageReference Include="JetBrains.Annotations" Version="2019.1.3" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.4">
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.6">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>

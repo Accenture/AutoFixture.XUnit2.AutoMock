@@ -1,5 +1,5 @@
 version: 3.1.{build}
-image: Visual Studio 2017
+image: Visual Studio 2019
 skip_commits:
   files:
     - '**/*.md'
@@ -51,29 +51,41 @@ build_script:
 
     if ($env:APPVEYOR_REPO_TAG -eq "true")
     {
-        dotnet pack ./src/$env:namespace.$env:package_module --no-build -p:PackageVersion=$env:APPVEYOR_REPO_TAG_NAME
+        dotnet pack ./src/$env:namespace.$env:package_module --no-restore -p:PackageVersion=$env:APPVEYOR_REPO_TAG_NAME
     }
     else
     {
-        dotnet pack ./src/$env:namespace.$env:package_module --no-build -p:PackageVersion=$env:APPVEYOR_BUILD_VERSION
+        dotnet pack ./src/$env:namespace.$env:package_module --no-restore -p:PackageVersion=$env:APPVEYOR_BUILD_VERSION
     }
 test_script:
-- cmd: >-
-    dotnet test ./src/%namespace%.%core_module%.Tests -f net46
+- ps: >-
+    cd $env:APPVEYOR_BUILD_FOLDER/src/$env:namespace.$env:core_module.Tests
 
-    dotnet test ./src/%namespace%.%package_module%.Tests -f net46
+    dotnet test -f net46 --no-restore
 
-    dotnet test ./src/%namespace%.%core_module%.Tests -f net47
+    dotnet test -f net47 --no-restore
 
-    dotnet test ./src/%namespace%.%package_module%.Tests -f net47
+    dotnet test -f net48 --no-restore
 
-    dotnet test ./src/%namespace%.%core_module%.Tests -f netcoreapp2.2 /p:CollectCoverage=true /p:CoverletOutputFormat=%cc% /p:Exclude="[xunit*]*" /p:CoverletOutput=%appveyor_build_folder%\%cc%\%namespace%.%core_module%.xml
+    dotnet test -f netcoreapp2.2 --no-restore
 
-    dotnet test ./src/%namespace%.%package_module%.Tests -f netcoreapp2.2 /p:CollectCoverage=true /p:CoverletOutputFormat=%cc% /p:Exclude="[xunit*]*" /p:CoverletOutput=%appveyor_build_folder%\%cc%\%namespace%.%package_module%.xml
+    dotnet test -f netcoreapp3.0 --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=$env:cc /p:Exclude="[xunit*]*" /p:CoverletOutput=$env:APPVEYOR_BUILD_FOLDER\$env:cc\$env:namespace.$env:core_module.xml
 
-    codecov -f %appveyor_build_folder%\%cc%\%namespace%.%core_module%.xml --flag unittests
+    cd $env:APPVEYOR_BUILD_FOLDER/src/$env:namespace.$env:package_module.Tests
 
-    codecov -f %appveyor_build_folder%\%cc%\%namespace%.%package_module%.xml --flag unittests
+    dotnet test -f net46 --no-restore
+
+    dotnet test -f net47 --no-restore
+
+    dotnet test -f net48 --no-restore
+
+    dotnet test -f netcoreapp2.2 --no-restore
+
+    dotnet test -f netcoreapp3.0 --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=$env:cc /p:Exclude="[xunit*]*" /p:CoverletOutput=$env:APPVEYOR_BUILD_FOLDER\$env:cc\$env:namespace.$env:package_module.xml
+
+    codecov -f $env:APPVEYOR_BUILD_FOLDER\$env:cc\$env:namespace.$env:core_module.xml --flag unittests
+
+    codecov -f $env:APPVEYOR_BUILD_FOLDER\$env:cc\$env:namespace.$env:package_module.xml --flag unittests
 artifacts:
 - path: '**\*.nupkg'
 deploy:

@@ -17,7 +17,7 @@
         public void GivenCustomizationTypeWithNoArguments_WhenGetCustomizationIsInvoked_ThenCustomizationInstanceIsReturned()
         {
             // Arrange
-            Type customizationType = typeof(DoNotThrowOnRecursionCustomization);
+            var customizationType = typeof(DoNotThrowOnRecursionCustomization);
             var customizeAttribute = new CustomizeWithAttribute(customizationType);
 
             // Act
@@ -31,7 +31,7 @@
         public void GivenCustomizationTypeWithArguments_WhenGetCustomizationIsInvoked_ThenCustomizationInstanceIsReturned()
         {
             // Arrange
-            Type customizationType = typeof(AutoDataCommonCustomization);
+            var customizationType = typeof(AutoDataCommonCustomization);
             var customizeAttribute = new CustomizeWithAttribute(customizationType, true);
 
             // Act
@@ -45,7 +45,7 @@
         public void GivenCustomizationTypeRequiringArgumentsWithoutAny_WhenGetCustomizationIsInvoked_ThenExceptionIsThrown()
         {
             // Arrange
-            Type customizationType = typeof(AutoDataCommonCustomization);
+            var customizationType = typeof(AutoDataCommonCustomization);
             var customizeAttribute = new CustomizeWithAttribute(customizationType);
 
             // Act
@@ -68,7 +68,7 @@
         public void GivenUnsupportedType_WhenConstructorIsInvoked_ThenExceptionIsThrown()
         {
             // Arrange
-            Type customizationType = typeof(string);
+            var customizationType = typeof(string);
 
             // Act
             // Assert

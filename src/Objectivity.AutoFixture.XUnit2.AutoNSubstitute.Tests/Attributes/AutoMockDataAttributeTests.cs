@@ -81,7 +81,7 @@
             // Arrange
             // Act
             // Assert
-            value.Should().NotBe(default(int));
+            value.Should().NotBe(default);
 
             disposable.Should().NotBeNull();
             disposable.GetType().Name.Should().StartWith("ObjectProxy", "that way we know it was mocked.");
