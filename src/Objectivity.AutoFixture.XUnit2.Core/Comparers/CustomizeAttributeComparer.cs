@@ -4,6 +4,7 @@
     using global::AutoFixture;
     using global::AutoFixture.Xunit2;
 
+    // Direct copy from the AutoFixture source code as the original class is internal.
     internal class CustomizeAttributeComparer : Comparer<IParameterCustomizationSource>
     {
         public override int Compare(IParameterCustomizationSource x, IParameterCustomizationSource y)
