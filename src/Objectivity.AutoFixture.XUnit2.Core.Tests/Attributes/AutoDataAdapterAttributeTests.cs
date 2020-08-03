@@ -6,6 +6,7 @@
     using System.Reflection;
     using FluentAssertions;
     using global::AutoFixture;
+    using global::AutoFixture.Xunit2;
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
     using Xunit;
 
@@ -14,14 +15,13 @@
     [SuppressMessage("Design", "CA1034:Nested types should not be visible", Justification = "Test objects")]
     public class AutoDataAdapterAttributeTests
     {
-        [Fact(DisplayName = "GIVEN fixture WHEN constructor is invoked THEN passed fixture is being adapted and inline values collection is empty")]
-        public void GivenFixture_WhenConstructorIsInvoked_ThenPassedFixtureIsBeingAdaptedAndInlineValuesCollectionIsEmpty()
+        [Theory(DisplayName = "GIVEN fixture WHEN constructor is invoked THEN passed fixture is being adapted and inline values collection is empty")]
+        [AutoData]
+        public void GivenFixture_WhenConstructorIsInvoked_ThenPassedFixtureIsBeingAdaptedAndInlineValuesCollectionIsEmpty(Fixture fixture)
         {
             // Arrange
-            IFixture fixture = new Fixture();
-
             // Act
-            var attribute = new AutoDataAdapterAttribute(fixture);
+            var attribute = new AutoDataAdapterAttribute(fixture, null);
 
             // Assert
             attribute.AdaptedFixture.Should().Be(fixture);
@@ -32,11 +32,21 @@
         public void GivenUninitializedFixture_WhenConstructorIsInvoked_ThenExceptionIsThrown()
         {
             // Arrange
-            const IFixture fixture = null;
+            // Act
+            // Assert
+            Assert.Throws<ArgumentNullException>(() => new AutoDataAdapterAttribute(null));
+        }
+
+        [Theory(DisplayName = "GIVEN uninitialized method info WHEN GetData is invoked THEN exception is thrown")]
+        [AutoData]
+        public void GivenUninitializedMethodInfo_WhenConstructorIsInvoked_ThenExceptionIsThrown(Fixture fixture)
+        {
+            // Arrange
+            var attribute = new AutoDataAdapterAttribute(fixture);
 
             // Act
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new AutoDataAdapterAttribute(fixture));
+            Assert.Throws<ArgumentNullException>(() => attribute.GetData(null));
         }
 
         [Fact(DisplayName = "GIVEN test data with instance WHEN GetData called THEN auto data generation skipped")]
@@ -48,12 +58,13 @@
             var methodInfo = typeof(AutoDataAdapterAttributeTests).GetMethod(nameof(this.TestMethodWithAbstractTestClass), BindingFlags.Instance | BindingFlags.NonPublic);
 
             // Act
-            var data = attribute.GetData(methodInfo);
+            var data = attribute.GetData(methodInfo).ToArray();
 
             // Assert
             data.Should().HaveCount(1)
                 .And.Subject.First().Should().HaveCount(methodInfo.GetParameters().Length)
-                .And.NotContainNulls();
+                .And.NotContainNulls()
+                .And.Subject.Skip(1).Should().AllBeEquivalentTo(data.First().Last());
         }
 
         [Fact(DisplayName = "GIVEN empty test data WHEN GetData called THEN auto data generation throws exception")]
@@ -71,9 +82,9 @@
             data.Should().Throw<Exception>();
         }
 
-        protected string TestMethodWithAbstractTestClass(SpecificTestClass instance, string text)
+        protected string TestMethodWithAbstractTestClass(SpecificTestClass instance, [Frozen]string text, string message)
         {
-            return $"{instance}: {text}";
+            return $"{instance}: {text}, {message}";
         }
 
         public abstract class AbstractTestClass
