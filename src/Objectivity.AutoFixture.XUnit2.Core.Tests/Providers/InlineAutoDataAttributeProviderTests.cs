@@ -1,7 +1,6 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Providers
 {
     using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
     using FluentAssertions;
     using global::AutoFixture;
     using global::AutoFixture.Xunit2;
@@ -16,17 +15,20 @@
         [Theory(DisplayName = "GIVEN initialized fixture WHEN GetAttribute is invoked THEN attribute with specified fixture is returned")]
         [AutoData]
         [SuppressMessage("ReSharper", "PossibleNullReferenceException", Justification = "Assertion checks it earlier and throws exception.")]
-        public void GivenInitializedFixture_WhenGetAttributeIsInvoked_ThenAttributeWithSpecifiedFixtureIsReturned(Fixture fixture)
+        public void GivenInitializedFixture_WhenGetAttributeIsInvoked_ThenAttributeWithSpecifiedFixtureIsReturned(
+            Fixture fixture,
+            object[] inlineValues)
         {
             // Arrange
             var provider = new InlineAutoDataAttributeProvider();
 
             // Act
-            var dataAttribute = provider.GetAttribute(fixture) as CompositeDataAttribute;
+            var attribute = provider.GetAttribute(fixture, inlineValues);
 
             // Assert
-            dataAttribute.Should().NotBeNull();
-            dataAttribute.Attributes.FirstOrDefault(a => a is AutoDataAdapterAttribute).As<AutoDataAdapterAttribute>().AdaptedFixture.Should().Be(fixture);
+            var autoDataAdapterAttribute = attribute.Should().BeOfType<AutoDataAdapterAttribute>().Which;
+            autoDataAdapterAttribute.AdaptedFixture.Should().Be(fixture);
+            autoDataAdapterAttribute.InlineValues.Should().BeEquivalentTo(inlineValues);
         }
     }
 }

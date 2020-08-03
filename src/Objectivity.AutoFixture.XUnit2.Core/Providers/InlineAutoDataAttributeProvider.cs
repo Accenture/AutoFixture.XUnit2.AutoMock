@@ -10,7 +10,7 @@
     {
         public DataAttribute GetAttribute(IFixture fixture, params object[] values)
         {
-            return new CompositeDataAttribute(new InlineDataAttribute(values), new AutoDataAdapterAttribute(fixture));
+            return new AutoDataAdapterAttribute(fixture, values);
         }
     }
 }
