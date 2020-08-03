@@ -118,7 +118,7 @@
             value.Should().Be(100);
 
             disposable.Should().NotBeNull();
-            disposable.GetType().Name.Should().EndWith("Proxy", "that way we know it was mocked.");
+            disposable.GetType().Name.Should().Contain("Proxy", "that way we know it was mocked.");
         }
 
         protected void TestMethod()
