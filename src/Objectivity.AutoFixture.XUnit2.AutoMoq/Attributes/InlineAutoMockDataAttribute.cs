@@ -6,8 +6,10 @@
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Common;
     using Objectivity.AutoFixture.XUnit2.Core.Providers;
+    using Xunit.Sdk;
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    [DataDiscoverer("AutoFixture.Xunit2.NoPreDiscoveryDataDiscoverer", "AutoFixture.Xunit2")]
     public sealed class InlineAutoMockDataAttribute : InlineAutoDataBaseAttribute
     {
         public InlineAutoMockDataAttribute(params object[] values)
