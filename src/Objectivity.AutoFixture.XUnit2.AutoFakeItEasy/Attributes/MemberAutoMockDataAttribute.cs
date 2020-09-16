@@ -9,7 +9,7 @@
     using Xunit.Sdk;
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    [DataDiscoverer("Xunit.Sdk.MemberDataDiscoverer", "xunit.core")]
+    [DataDiscoverer("AutoFixture.Xunit2.NoPreDiscoveryDataDiscoverer", "AutoFixture.Xunit2")]
     public sealed class MemberAutoMockDataAttribute : MemberAutoDataBaseAttribute
     {
         public MemberAutoMockDataAttribute(string memberName, params object[] parameters)
