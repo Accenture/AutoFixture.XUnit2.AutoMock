@@ -15,7 +15,7 @@
         [AutoData]
         public void GivenExistingCustomizationToIgnoreVirtualMembersForFixture_WhenCustomizeIsInvoked_ThenFixtureShouldNotCreateVirtualMembers(
             Fixture fixture,
-            [Modest]IgnoreVirtualMembersCustomization customization)
+            [Modest] IgnoreVirtualMembersCustomization customization)
         {
             // Arrange
             // Act
@@ -29,8 +29,8 @@
         [AutoData]
         public void GivenExistingCustomizationToIgnoreVirtualMembersWithTypeForFixture_WhenCustomizeIsInvoked_ThenFixtureShouldNotCreateVirtualMembers(
             Fixture fixture,
-            [Frozen]Type reflectedType,
-            [Greedy]IgnoreVirtualMembersCustomization customization)
+            [Frozen] Type reflectedType,
+            [Greedy] IgnoreVirtualMembersCustomization customization)
         {
             // Arrange
             // Act

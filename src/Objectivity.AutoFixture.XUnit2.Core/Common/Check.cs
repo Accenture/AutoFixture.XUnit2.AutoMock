@@ -12,8 +12,8 @@
     {
         [ContractAnnotation("value:null => halt")]
         public static T NotNull<T>(
-            [NoEnumeration] [ValidatedNotNull] this T value,
-            [InvokerParameterName] [NotNull] string parameterName)
+            [NoEnumeration][ValidatedNotNull] this T value,
+            [InvokerParameterName][NotNull] string parameterName)
         {
             if (ReferenceEquals(value, null))
             {

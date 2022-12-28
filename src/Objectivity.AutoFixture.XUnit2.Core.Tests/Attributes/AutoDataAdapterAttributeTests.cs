@@ -82,7 +82,7 @@
             data.Should().Throw<Exception>();
         }
 
-        protected string TestMethodWithAbstractTestClass(SpecificTestClass instance, [Frozen]string text, string message)
+        protected string TestMethodWithAbstractTestClass(SpecificTestClass instance, [Frozen] string text, string message)
         {
             return $"{instance}: {text}, {message}";
         }
