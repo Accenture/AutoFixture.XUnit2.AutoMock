@@ -50,7 +50,7 @@ build_script:
     Write-Host "Building package complete" -ForegroundColor Green
     $packageVersion = if ($env:APPVEYOR_REPO_TAG -eq "true") {$env:APPVEYOR_REPO_TAG_NAME} else {$env:APPVEYOR_BUILD_VERSION}
     Write-Host "Preparing package $($packageName) with $($packageVersion) version" -ForegroundColor Cyan
-    dotnet pack ./src/$packageName --no-build --no-restore -p:PackageVersion=$packageVersion
+    dotnet pack ./src/$packageName --no-restore -p:PackageVersion=$packageVersion
     Write-Host "Preparing package complete" -ForegroundColor Green
 test_script:
 - ps: |
@@ -76,7 +76,7 @@ test_script:
                 Write-Host "without Code Coverage" -ForegroundColor Cyan
                 dotnet test -f $framework.Name --no-restore
             }
-            Write-Host "Running tests from $($project) against $($framework.Value) framework complete" -ForegroundColor Green
+            Write-Host "Running tests from $($project) against $($framework.Name) framework complete" -ForegroundColor Green
         }
     }
 artifacts:
