@@ -6,7 +6,7 @@
     using global::AutoFixture.Xunit2;
 
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true)]
-    public class CustomizeWithAttribute : CustomizeAttribute
+    public sealed class CustomizeWithAttribute : CustomizeAttribute
     {
         public CustomizeWithAttribute(Type type, params object[] args)
         {

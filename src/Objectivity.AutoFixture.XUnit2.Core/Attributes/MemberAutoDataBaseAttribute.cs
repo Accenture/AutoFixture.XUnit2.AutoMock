@@ -26,11 +26,13 @@
         /// <summary>
         /// Gets or sets a value indicating whether virtual members should be ignored during object creation.
         /// </summary>
+        /// <value>Indicates whether virtual members should be ignored during object creation.</value>
         public bool IgnoreVirtualMembers { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to share a fixture across all data items; true by default.
         /// </summary>
+        /// <value>Indicates whether to share a fixture across all data items; true by default.</value>
         public bool ShareFixture { get; set; } = true;
 
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)

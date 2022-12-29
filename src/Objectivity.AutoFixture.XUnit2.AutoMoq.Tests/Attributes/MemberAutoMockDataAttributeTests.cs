@@ -88,7 +88,7 @@
             var fixture = new Mock<IFixture>();
             var customizations = new List<ICustomization>();
             fixture.Setup(x => x.Customize(It.IsAny<ICustomization>()))
-                .Callback<ICustomization>(customization => customizations.Add(customization))
+                .Callback<ICustomization>(customizations.Add)
                 .Returns(fixture.Object);
 
             var attribute = new MemberAutoMockDataAttribute(fixture.Object, nameof(TestData))

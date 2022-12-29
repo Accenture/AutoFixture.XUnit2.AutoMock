@@ -54,7 +54,7 @@
         }
 
         [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-        private class AutoDataBaseAttributeUnderTest : AutoDataBaseAttribute
+        private sealed class AutoDataBaseAttributeUnderTest : AutoDataBaseAttribute
         {
             public AutoDataBaseAttributeUnderTest(IFixture fixture, IAutoFixtureAttributeProvider provider)
                 : base(fixture, provider)

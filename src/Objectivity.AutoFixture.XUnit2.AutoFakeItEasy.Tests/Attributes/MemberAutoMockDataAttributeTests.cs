@@ -30,10 +30,7 @@
             new object[] { 1, new NumericSequencePerTypeCustomization() },
         };
 
-        public static IEnumerable<object[]> TestDataDoNotShareFixture
-        {
-            get { return TestDataShareFixture.Select(item => new[] { item.Last() }); }
-        }
+        public static IEnumerable<object[]> TestDataDoNotShareFixture => TestDataShareFixture.Select(item => new[] { item.Last() });
 
         public int TestMethod(int first, int second, int third, int fourth, IDisposable disposable)
         {

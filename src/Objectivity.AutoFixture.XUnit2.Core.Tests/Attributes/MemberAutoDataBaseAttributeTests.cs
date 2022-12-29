@@ -26,7 +26,7 @@
         }
 
         [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-        private class MemberAutoDataBaseAttributeUnderTest : MemberAutoDataBaseAttribute
+        private sealed class MemberAutoDataBaseAttributeUnderTest : MemberAutoDataBaseAttribute
         {
             public MemberAutoDataBaseAttributeUnderTest(IFixture fixture, string memberName, params object[] parameters)
                 : base(fixture, memberName, parameters)

@@ -45,7 +45,7 @@
             };
             var fixture = Substitute.For<IFixture>();
             var customizations = new List<ICustomization>();
-            fixture.Customize(Arg.Do<ICustomization>(customization => customizations.Add(customization)))
+            fixture.Customize(Arg.Do<ICustomization>(customizations.Add))
                 .Returns(fixture);
             var dataAttribute = Substitute.For<DataAttribute>();
             dataAttribute.GetData(Arg.Any<MethodInfo>()).Returns(data);

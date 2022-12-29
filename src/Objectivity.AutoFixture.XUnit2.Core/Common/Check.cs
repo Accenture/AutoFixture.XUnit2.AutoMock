@@ -15,7 +15,7 @@
             [NoEnumeration][ValidatedNotNull] this T value,
             [InvokerParameterName][NotNull] string parameterName)
         {
-            if (ReferenceEquals(value, null))
+            if (value is null)
             {
                 throw new ArgumentNullException(parameterName);
             }

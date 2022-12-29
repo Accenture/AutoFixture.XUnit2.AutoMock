@@ -87,7 +87,7 @@
             // Arrange
             var fixture = Substitute.For<IFixture>();
             var customizations = new List<ICustomization>();
-            fixture.Customize(Arg.Do<ICustomization>(customization => customizations.Add(customization)))
+            fixture.Customize(Arg.Do<ICustomization>(customizations.Add))
                 .Returns(fixture);
 
             var attribute = new MemberAutoMockDataAttribute(fixture, nameof(TestData))

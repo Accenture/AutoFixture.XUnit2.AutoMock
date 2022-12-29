@@ -9,15 +9,15 @@
     {
         public override int Compare(IParameterCustomizationSource x, IParameterCustomizationSource y)
         {
-            var xFrozen = x is FrozenAttribute;
-            var yFrozen = y is FrozenAttribute;
+            var isXFrozen = x is FrozenAttribute;
+            var isYFrozen = y is FrozenAttribute;
 
-            if (xFrozen && !yFrozen)
+            if (isXFrozen && !isYFrozen)
             {
                 return 1;
             }
 
-            if (yFrozen && !xFrozen)
+            if (isYFrozen && !isXFrozen)
             {
                 return -1;
             }
