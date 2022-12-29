@@ -9,6 +9,8 @@
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
     using Xunit;
 
+    [Collection("CustomizeAttributeComparer")]
+    [Trait("Category", "Comparers")]
     public class CustomizeAttributeComparerTests
     {
         private static readonly CustomizeAttributeComparer Comparer = new CustomizeAttributeComparer();
