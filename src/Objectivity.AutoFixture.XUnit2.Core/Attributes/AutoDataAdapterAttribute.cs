@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+
     using global::AutoFixture;
     using global::AutoFixture.Kernel;
     using global::AutoFixture.Xunit2;
@@ -26,7 +27,7 @@
 
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
-            if (testMethod == null)
+            if (testMethod is null)
             {
                 throw new ArgumentNullException(nameof(testMethod));
             }

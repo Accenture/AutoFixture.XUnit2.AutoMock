@@ -3,14 +3,18 @@
     using System;
     using System.Collections.Generic;
     using System.Reflection;
+
     using FluentAssertions;
+
     using global::AutoFixture;
     using global::AutoFixture.AutoMoq;
     using global::AutoFixture.Xunit2;
     using Moq;
+
     using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
     using Objectivity.AutoFixture.XUnit2.Core.Providers;
+
     using Xunit;
     using Xunit.Sdk;
 

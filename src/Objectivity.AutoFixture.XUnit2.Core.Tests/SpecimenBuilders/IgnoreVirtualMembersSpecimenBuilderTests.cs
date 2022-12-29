@@ -2,11 +2,14 @@
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+
     using FluentAssertions;
     using global::AutoFixture.Kernel;
     using global::AutoFixture.Xunit2;
     using Moq;
+
     using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
+
     using Xunit;
 
     [Collection("IgnoreVirtualMembersSpecimenBuilder")]

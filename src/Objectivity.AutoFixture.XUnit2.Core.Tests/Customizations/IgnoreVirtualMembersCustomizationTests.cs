@@ -1,10 +1,13 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Customizations
 {
     using System;
+
     using FluentAssertions;
+
     using global::AutoFixture;
     using global::AutoFixture.Xunit2;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
+
     using Xunit;
 
     [Collection("IgnoreVirtualMembersCustomization")]

@@ -3,14 +3,18 @@
     using System;
     using System.Collections.Generic;
     using System.Reflection;
+
     using FakeItEasy;
+
     using FluentAssertions;
+
     using global::AutoFixture;
     using global::AutoFixture.AutoFakeItEasy;
     using global::AutoFixture.Xunit2;
     using Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
     using Objectivity.AutoFixture.XUnit2.Core.Providers;
+
     using Xunit;
     using Xunit.Sdk;
 

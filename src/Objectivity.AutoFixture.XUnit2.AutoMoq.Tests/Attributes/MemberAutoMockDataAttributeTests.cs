@@ -3,14 +3,18 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
     using FluentAssertions;
+
     using global::AutoFixture;
     using global::AutoFixture.AutoMoq;
     using global::AutoFixture.Xunit2;
     using Moq;
+
     using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Common;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
+
     using Xunit;
 
     [Collection("MemberAutoMockDataAttribute")]
@@ -30,10 +34,7 @@
             new object[] { 1, new NumericSequencePerTypeCustomization() },
         };
 
-        public static IEnumerable<object[]> TestDataDoNotShareFixture
-        {
-            get { return TestDataShareFixture.Select(item => new[] { item.Last() }); }
-        }
+        public static IEnumerable<object[]> TestDataDoNotShareFixture => TestDataShareFixture.Select(item => new[] { item.Last() });
 
         public int TestMethod(int first, int second, int third, int fourth, IDisposable disposable)
         {
@@ -115,7 +116,7 @@
         public void GivenMemberAutoMockData_WhenShareFixtureIsSetToTrue_ThenSameFixturePerDataRowIsUsed(int index, ICustomization customization, IFixture fixture)
         {
             // Arrange
-            var expectedCustomizationsCount = 19;
+            const int expectedCustomizationsCount = 19;
 
             // Act
             fixture.Customize(customization);
@@ -129,7 +130,7 @@
         public void GivenMemberAutoMockData_WhenShareFixtureIsSetToFalse_ThenUniqueFixturePerDataRowIsCreated(ICustomization customization, IFixture fixture)
         {
             // Arrange
-            var expectedCustomizationsCount = 19;
+            const int expectedCustomizationsCount = 19;
 
             // Act
             fixture.Customize(customization);

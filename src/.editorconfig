@@ -181,7 +181,7 @@ roslynator_enum_flag_value_style = decimal_number
 roslynator_enum_has_flag_style = method
 roslynator_equals_token_new_line = after
 roslynator_infinite_loop_style = while
-roslynator_max_line_length = 256
+roslynator_max_line_length = 500
 roslynator_new_line_at_end_of_file = true
 roslynator_new_line_before_while_in_do_statement = false
 roslynator_null_conditional_operator_new_line = after
@@ -603,7 +603,7 @@ dotnet_diagnostic.RCS0010.severity = warning
 dotnet_diagnostic.RCS0011.severity = warning
 
 # RCS0012: Add empty line between single-line declarations.
-dotnet_diagnostic.RCS0012.severity = warning
+dotnet_diagnostic.RCS0012.severity = none
 
 # RCS0013: Add empty line between single-line declarations of different kind.
 dotnet_diagnostic.RCS0013.severity = warning
@@ -708,7 +708,7 @@ dotnet_diagnostic.RCS0052.severity = warning
 dotnet_diagnostic.RCS0053.severity = warning
 
 # RCS0054: Fix formatting of a call chain.
-dotnet_diagnostic.RCS0054.severity = warning
+dotnet_diagnostic.RCS0054.severity = none
 
 # RCS0055: Fix formatting of a binary expression chain.
 dotnet_diagnostic.RCS0055.severity = warning
@@ -783,7 +783,7 @@ dotnet_diagnostic.RCS1015.severity = warning
 #dotnet_diagnostic.RCS1015FadeOut.severity = silent
 
 # RCS1016: Use expression-bodied member.
-dotnet_diagnostic.RCS1016.severity = suggestion
+dotnet_diagnostic.RCS1016.severity = none
 
 # RCS1016FadeOut: Convert block body to expression-body (or vice versa). (NotConfigurable)
 #dotnet_diagnostic.RCS1016FadeOut.severity = silent
@@ -954,7 +954,7 @@ dotnet_diagnostic.RCS1077.severity = warning
 dotnet_diagnostic.RCS1078.severity = warning
 
 # RCS1079: Throwing of new NotImplementedException.
-dotnet_diagnostic.RCS1079.severity = warning
+dotnet_diagnostic.RCS1079.severity = none
 
 # RCS1080: Use 'Count/Length' property instead of 'Any' method.
 dotnet_diagnostic.RCS1080.severity = none
@@ -990,7 +990,7 @@ dotnet_diagnostic.RCS1091.severity = warning
 dotnet_diagnostic.RCS1093.severity = warning
 
 # RCS1094: Declare using directive on top level.
-dotnet_diagnostic.RCS1094.severity = warning
+dotnet_diagnostic.RCS1094.severity = none
 
 # RCS1096: Convert 'HasFlag' call to bitwise operation (or vice versa).
 dotnet_diagnostic.RCS1096.severity = warning
@@ -1392,7 +1392,7 @@ dotnet_diagnostic.RCS1243.severity = warning
 dotnet_diagnostic.RCS1244.severity = warning
 
 # RCS1246: Use element access.
-dotnet_diagnostic.RCS1246.severity = warning
+dotnet_diagnostic.RCS1246.severity = none
 
 # RCS1247: Fix documentation comment tag.
 dotnet_diagnostic.RCS1247.severity = warning
@@ -1640,7 +1640,7 @@ dotnet_diagnostic.IDE0077.severity = warning
 dotnet_diagnostic.IDE0078.severity = warning
 
 # IDE0079: Remove unnecessary suppression
-dotnet_diagnostic.IDE0079.severity = suggestion
+dotnet_diagnostic.IDE0079.severity = none
 
 # IDE0080: Remove unnecessary suppression operator
 dotnet_diagnostic.IDE0080.severity = warning

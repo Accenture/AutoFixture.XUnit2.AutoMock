@@ -1,12 +1,15 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Comparers
 {
     using System.Collections.Generic;
+
     using FluentAssertions;
+
     using global::AutoFixture;
     using global::AutoFixture.Xunit2;
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Comparers;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
+
     using Xunit;
 
     [Collection("CustomizeAttributeComparer")]

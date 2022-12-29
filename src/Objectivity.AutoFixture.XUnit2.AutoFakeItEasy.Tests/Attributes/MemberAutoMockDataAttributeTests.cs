@@ -3,14 +3,18 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
     using FakeItEasy;
+
     using FluentAssertions;
+
     using global::AutoFixture;
     using global::AutoFixture.AutoFakeItEasy;
     using global::AutoFixture.Xunit2;
     using Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Common;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
+
     using Xunit;
 
     [Collection("MemberAutoMockDataAttribute")]
@@ -112,7 +116,7 @@
         public void GivenMemberAutoMockData_WhenShareFixtureIsSetToTrue_ThenSameFixturePerDataRowIsUsed(int index, ICustomization customization, IFixture fixture)
         {
             // Arrange
-            var expectedCustomizationsCount = 19;
+            const int expectedCustomizationsCount = 19;
 
             // Act
             fixture.Customize(customization);
@@ -126,7 +130,7 @@
         public void GivenMemberAutoMockData_WhenShareFixtureIsSetToFalse_ThenUniqueFixturePerDataRowIsCreated(ICustomization customization, IFixture fixture)
         {
             // Arrange
-            var expectedCustomizationsCount = 19;
+            const int expectedCustomizationsCount = 19;
 
             // Act
             fixture.Customize(customization);

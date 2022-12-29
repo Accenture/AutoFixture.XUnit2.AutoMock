@@ -1,12 +1,16 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Attributes
 {
     using System;
+
     using FluentAssertions;
+
     using global::AutoFixture;
     using global::AutoFixture.Xunit2;
     using Moq;
+
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Providers;
+
     using Xunit;
 
     [Collection("AutoDataBaseAttribute")]

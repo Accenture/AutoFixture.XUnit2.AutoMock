@@ -2,8 +2,11 @@
 {
     using System;
     using System.Linq;
+
     using FluentAssertions;
+
     using global::AutoFixture;
+
     using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
 
     internal static class FixtureAssertionExtensions

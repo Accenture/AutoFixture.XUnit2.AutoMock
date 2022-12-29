@@ -2,6 +2,7 @@
 {
     using System;
     using System.Reflection;
+
     using global::AutoFixture;
     using global::AutoFixture.Xunit2;
 
@@ -10,7 +11,7 @@
     {
         public CustomizeWithAttribute(Type type, params object[] args)
         {
-            if (type == null)
+            if (type is null)
             {
                 throw new ArgumentNullException(nameof(type));
             }
