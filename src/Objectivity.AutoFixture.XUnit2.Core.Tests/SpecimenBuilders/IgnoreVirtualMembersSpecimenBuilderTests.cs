@@ -2,11 +2,14 @@
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+
     using FluentAssertions;
     using global::AutoFixture.Kernel;
     using global::AutoFixture.Xunit2;
     using Moq;
+
     using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
+
     using Xunit;
 
     [Collection("IgnoreVirtualMembersSpecimenBuilder")]
@@ -46,7 +49,7 @@
         [Theory(DisplayName = "GIVEN uninitialized request WHEN Create is invoked THEN NoSpecimen is returned")]
         [AutoData]
         public void GivenUninitializedRequest_WhenCreateInvoked_ThenNoSpecimenInstance(
-            [Modest]IgnoreVirtualMembersSpecimenBuilder builder)
+            [Modest] IgnoreVirtualMembersSpecimenBuilder builder)
         {
             // Arrange
             // Act
@@ -59,7 +62,7 @@
         [Theory(DisplayName = "GIVEN not PropertyInfo request WHEN Create is invoked THEN NoSpecimen is returned")]
         [AutoData]
         public void GivenNotPropertyInfoRequest_WhenCreateInvoked_ThenNoSpecimenInstance(
-            [Modest]IgnoreVirtualMembersSpecimenBuilder builder)
+            [Modest] IgnoreVirtualMembersSpecimenBuilder builder)
         {
             // Arrange
             // Act
@@ -72,7 +75,7 @@
         [Theory(DisplayName = "GIVEN not virtual PropertyInfo request WHEN Create is invoked THEN NoSpecimen is returned")]
         [AutoData]
         public void GivenNotVirtualPropertyInfoRequest_WhenCreateInvoked_ThenNoSpecimenInstance(
-            [Modest]IgnoreVirtualMembersSpecimenBuilder builder)
+            [Modest] IgnoreVirtualMembersSpecimenBuilder builder)
         {
             // Arrange
             var notVirtualPropertyInfo = typeof(FakeObject).GetProperty(nameof(FakeObject.NotVirtualProperty));
@@ -87,8 +90,8 @@
         [Theory(DisplayName = "GIVEN virtual PropertyInfo request but hosted in different type WHEN Create is invoked THEN NoSpecimen is returned")]
         [AutoData]
         public void GivenVirtualPropertyInfoRequestHostedInDifferentType_WhenCreateInvoked_ThenNoSpecimenInstance(
-            [Frozen]Type reflectedType,
-            [Greedy]IgnoreVirtualMembersSpecimenBuilder builder)
+            [Frozen] Type reflectedType,
+            [Greedy] IgnoreVirtualMembersSpecimenBuilder builder)
         {
             // Arrange
             var virtualPropertyInfo = typeof(FakeObject).GetProperty(nameof(FakeObject.VirtualProperty));
@@ -104,7 +107,7 @@
         [Theory(DisplayName = "GIVEN virtual PropertyInfo request WHEN Create is invoked THEN OmitSpecimen is returned")]
         [AutoData]
         public void GivenVirtualPropertyInfoRequest_WhenCreateInvoked_ThenOmitSpecimenInstance(
-            [Modest]IgnoreVirtualMembersSpecimenBuilder builder)
+            [Modest] IgnoreVirtualMembersSpecimenBuilder builder)
         {
             // Arrange
             var virtualPropertyInfo = typeof(FakeObject).GetProperty(nameof(FakeObject.VirtualProperty));

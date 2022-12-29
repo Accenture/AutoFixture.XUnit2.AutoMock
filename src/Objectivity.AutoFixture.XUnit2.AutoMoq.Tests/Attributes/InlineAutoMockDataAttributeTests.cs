@@ -3,14 +3,18 @@
     using System;
     using System.Collections.Generic;
     using System.Reflection;
+
     using FluentAssertions;
+
     using global::AutoFixture;
     using global::AutoFixture.AutoMoq;
     using global::AutoFixture.Xunit2;
     using Moq;
+
     using Objectivity.AutoFixture.XUnit2.AutoMoq.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
     using Objectivity.AutoFixture.XUnit2.Core.Providers;
+
     using Xunit;
     using Xunit.Sdk;
 
@@ -79,7 +83,7 @@
             var fixture = new Mock<IFixture>();
             var customizations = new List<ICustomization>();
             fixture.Setup(x => x.Customize(It.IsAny<ICustomization>()))
-                .Callback<ICustomization>(customization => customizations.Add(customization))
+                .Callback<ICustomization>(customizations.Add)
                 .Returns(fixture.Object);
             var dataAttribute = new Mock<DataAttribute>();
             dataAttribute.Setup(a => a.GetData(It.IsAny<MethodInfo>())).Returns(data);
@@ -89,7 +93,7 @@
             {
                 IgnoreVirtualMembers = ignoreVirtualMembers,
             };
-            var methodInfo = typeof(InlineAutoMockDataAttributeTests).GetMethod(nameof(this.TestMethod), BindingFlags.Instance | BindingFlags.NonPublic);
+            var methodInfo = typeof(InlineAutoMockDataAttributeTests).GetMethod(nameof(this.MethodUnderTest), BindingFlags.Instance | BindingFlags.NonPublic);
 
             // Act
             var result = attribute.GetData(methodInfo);
@@ -121,8 +125,9 @@
             disposable.GetType().Name.Should().StartWith("IDisposableProxy", "that way we know it was mocked.");
         }
 
-        protected void TestMethod()
+        protected void MethodUnderTest()
         {
+            // Empty method under test
         }
     }
 }

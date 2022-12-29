@@ -4,10 +4,13 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
+
     using FluentAssertions;
+
     using global::AutoFixture;
     using global::AutoFixture.Xunit2;
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
+
     using Xunit;
 
     [Collection("AutoDataAdapterAttribute")]
@@ -82,7 +85,7 @@
             data.Should().Throw<Exception>();
         }
 
-        protected string TestMethodWithAbstractTestClass(SpecificTestClass instance, [Frozen]string text, string message)
+        protected string TestMethodWithAbstractTestClass(SpecificTestClass instance, [Frozen] string text, string message)
         {
             return $"{instance}: {text}, {message}";
         }
@@ -91,7 +94,7 @@
         {
         }
 
-        public class SpecificTestClass : AbstractTestClass
+        public sealed class SpecificTestClass : AbstractTestClass
         {
             private SpecificTestClass()
             {

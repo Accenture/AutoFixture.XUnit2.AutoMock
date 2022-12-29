@@ -1,10 +1,13 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Customizations
 {
     using System;
+
     using FluentAssertions;
+
     using global::AutoFixture;
     using global::AutoFixture.Xunit2;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
+
     using Xunit;
 
     [Collection("IgnoreVirtualMembersCustomization")]
@@ -15,7 +18,7 @@
         [AutoData]
         public void GivenExistingCustomizationToIgnoreVirtualMembersForFixture_WhenCustomizeIsInvoked_ThenFixtureShouldNotCreateVirtualMembers(
             Fixture fixture,
-            [Modest]IgnoreVirtualMembersCustomization customization)
+            [Modest] IgnoreVirtualMembersCustomization customization)
         {
             // Arrange
             // Act
@@ -29,8 +32,8 @@
         [AutoData]
         public void GivenExistingCustomizationToIgnoreVirtualMembersWithTypeForFixture_WhenCustomizeIsInvoked_ThenFixtureShouldNotCreateVirtualMembers(
             Fixture fixture,
-            [Frozen]Type reflectedType,
-            [Greedy]IgnoreVirtualMembersCustomization customization)
+            [Frozen] Type reflectedType,
+            [Greedy] IgnoreVirtualMembersCustomization customization)
         {
             // Arrange
             // Act

@@ -3,11 +3,16 @@
     using System;
     using System.Collections.Generic;
     using System.Reflection;
+
     using FluentAssertions;
+
     using global::AutoFixture;
+
     using Moq;
+
     using Objectivity.AutoFixture.XUnit2.Core.MemberData;
     using Objectivity.AutoFixture.XUnit2.Core.Providers;
+
     using Xunit;
     using Xunit.Sdk;
 
@@ -15,9 +20,9 @@
     [Trait("Category", "MemberData")]
     public class MemberAutoDataItemConverterTests
     {
-        private readonly Fixture fixture = new Fixture();
-        private readonly Mock<IAutoFixtureInlineAttributeProvider> dataAttributeProvider = new Mock<IAutoFixtureInlineAttributeProvider>();
-        private readonly Mock<DataAttribute> dataAttribute = new Mock<DataAttribute>();
+        private readonly Fixture fixture = new();
+        private readonly Mock<IAutoFixtureInlineAttributeProvider> dataAttributeProvider = new();
+        private readonly Mock<DataAttribute> dataAttribute = new();
         private readonly IDataItemConverter converter;
         private readonly Type memberType = typeof(MemberAutoDataItemConverterTests);
         private readonly MethodInfo testMethod;
@@ -29,7 +34,7 @@
             this.dataAttributeProvider.Setup(p => p.GetAttribute(this.fixture, It.IsAny<object[]>())).Returns(this.dataAttribute.Object);
             this.dataAttribute.Setup(a => a.GetData(It.IsAny<MethodInfo>())).Returns(data);
             this.converter = new MemberAutoDataItemConverter(this.fixture, this.dataAttributeProvider.Object);
-            this.testMethod = this.memberType.GetMethod(nameof(this.TestMethod), BindingFlags.Instance | BindingFlags.NonPublic);
+            this.testMethod = this.memberType.GetMethod(nameof(this.MethodUnderTest), BindingFlags.Instance | BindingFlags.NonPublic);
             this.memberName = this.fixture.Create<string>();
         }
 
@@ -84,8 +89,9 @@
             Assert.Throws<ArgumentNullException>(() => this.converter.Convert(method, item, this.memberName, this.memberType));
         }
 
-        protected void TestMethod()
+        protected void MethodUnderTest()
         {
+            // Empty method under test
         }
     }
 }

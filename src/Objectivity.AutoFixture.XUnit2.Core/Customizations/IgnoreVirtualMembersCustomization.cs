@@ -1,7 +1,9 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Customizations
 {
     using System;
+
     using global::AutoFixture;
+
     using Objectivity.AutoFixture.XUnit2.Core.Common;
     using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
 

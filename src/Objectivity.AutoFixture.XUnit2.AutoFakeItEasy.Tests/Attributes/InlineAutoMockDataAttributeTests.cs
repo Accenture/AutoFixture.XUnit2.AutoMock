@@ -3,14 +3,18 @@
     using System;
     using System.Collections.Generic;
     using System.Reflection;
+
     using FakeItEasy;
+
     using FluentAssertions;
+
     using global::AutoFixture;
     using global::AutoFixture.AutoFakeItEasy;
     using global::AutoFixture.Xunit2;
     using Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
     using Objectivity.AutoFixture.XUnit2.Core.Providers;
+
     using Xunit;
     using Xunit.Sdk;
 
@@ -89,7 +93,7 @@
             {
                 IgnoreVirtualMembers = ignoreVirtualMembers,
             };
-            var methodInfo = typeof(InlineAutoMockDataAttributeTests).GetMethod(nameof(this.TestMethod), BindingFlags.Instance | BindingFlags.NonPublic);
+            var methodInfo = typeof(InlineAutoMockDataAttributeTests).GetMethod(nameof(this.MethodUnderTest), BindingFlags.Instance | BindingFlags.NonPublic);
 
             // Act
             var result = attribute.GetData(methodInfo);
@@ -121,8 +125,9 @@
             disposable.GetType().Name.Should().Contain("Proxy", "that way we know it was mocked.");
         }
 
-        protected void TestMethod()
+        protected void MethodUnderTest()
         {
+            // Empty method under test
         }
     }
 }

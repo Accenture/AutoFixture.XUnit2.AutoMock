@@ -3,14 +3,18 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
     using FluentAssertions;
+
     using global::AutoFixture;
     using global::AutoFixture.AutoNSubstitute;
     using global::AutoFixture.Xunit2;
     using NSubstitute;
+
     using Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Common;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
+
     using Xunit;
 
     [Collection("MemberAutoMockDataAttribute")]
@@ -30,10 +34,7 @@
             new object[] { 1, new NumericSequencePerTypeCustomization() },
         };
 
-        public static IEnumerable<object[]> TestDataDoNotShareFixture
-        {
-            get { return TestDataShareFixture.Select(item => new[] { item.Last() }); }
-        }
+        public static IEnumerable<object[]> TestDataDoNotShareFixture => TestDataShareFixture.Select(item => new[] { item.Last() });
 
         public int TestMethod(int first, int second, int third, int fourth, IDisposable disposable)
         {
@@ -87,7 +88,7 @@
             // Arrange
             var fixture = Substitute.For<IFixture>();
             var customizations = new List<ICustomization>();
-            fixture.Customize(Arg.Do<ICustomization>(customization => customizations.Add(customization)))
+            fixture.Customize(Arg.Do<ICustomization>(customizations.Add))
                 .Returns(fixture);
 
             var attribute = new MemberAutoMockDataAttribute(fixture, nameof(TestData))
@@ -114,7 +115,7 @@
         public void GivenMemberAutoMockData_WhenShareFixtureIsSetToTrue_ThenSameFixturePerDataRowIsUsed(int index, ICustomization customization, IFixture fixture)
         {
             // Arrange
-            var expectedCustomizationsCount = 20;
+            const int expectedCustomizationsCount = 20;
 
             // Act
             fixture.Customize(customization);
@@ -128,7 +129,7 @@
         public void GivenMemberAutoMockData_WhenShareFixtureIsSetToFalse_ThenUniqueFixturePerDataRowIsCreated(ICustomization customization, IFixture fixture)
         {
             // Arrange
-            var expectedCustomizationsCount = 20;
+            const int expectedCustomizationsCount = 20;
 
             // Act
             fixture.Customize(customization);

@@ -4,7 +4,9 @@
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
+
     using global::AutoFixture;
+
     using Objectivity.AutoFixture.XUnit2.Core.Common;
     using Objectivity.AutoFixture.XUnit2.Core.Providers;
 
@@ -22,7 +24,7 @@
 
         public object[] Convert(MethodInfo testMethod, object item, string memberName, Type memberType)
         {
-            if (item == null)
+            if (item is null)
             {
                 return null;
             }

@@ -1,13 +1,12 @@
 version: 3.1.{build}
-image: Visual Studio 2019
+image: Visual Studio 2022
 skip_commits:
   files:
     - '**/*.md'
 configuration: Release
 init:
-- ps: >-
-    if ($env:APPVEYOR_REPO_TAG -eq "true")
-    {
+- ps: |
+    if ($env:APPVEYOR_REPO_TAG -eq "true") {
         Update-AppveyorBuild -Version "$($env:APPVEYOR_REPO_TAG_NAME.split("-")[0])"
     }
 assembly_info:
@@ -37,61 +36,55 @@ environment:
   - package_module: AutoNSubstitute
   - package_module: AutoFakeItEasy
 install:
-- ps: >-
+- ps: |
     choco install codecov --no-progress
-
-    if ($env:StrongNameKey)
-    {
+    if ($env:StrongNameKey) {
         Set-AppveyorBuildVariable "StrongNameKeyPath" "..\$env:StrongNameKeyName"
         [IO.File]::WriteAllBytes("$env:APPVEYOR_BUILD_FOLDER\src\$env:StrongNameKeyName",[Convert]::FromBase64String($env:StrongNameKey))
     }
 build_script:
-- ps: >-
-    dotnet build ./src/$env:namespace.$env:package_module.sln
-
-    if ($env:APPVEYOR_REPO_TAG -eq "true")
-    {
-        dotnet pack ./src/$env:namespace.$env:package_module --no-restore -p:PackageVersion=$env:APPVEYOR_REPO_TAG_NAME
-    }
-    else
-    {
-        dotnet pack ./src/$env:namespace.$env:package_module --no-restore -p:PackageVersion=$env:APPVEYOR_BUILD_VERSION
-    }
+- ps: |
+    $packageName = "$($env:namespace).$($env:package_module)"
+    Write-Host "Building package $($packageName)" -ForegroundColor Cyan
+    dotnet build ./src/$packageName.sln --nologo
+    Write-Host "Building package complete" -ForegroundColor Green
+    $packageVersion = if ($env:APPVEYOR_REPO_TAG -eq "true") {$env:APPVEYOR_REPO_TAG_NAME} else {$env:APPVEYOR_BUILD_VERSION}
+    Write-Host "Preparing package $($packageName) with $($packageVersion) version" -ForegroundColor Cyan
+    dotnet pack ./src/$packageName --no-restore --nologo -p:PackageVersion=$packageVersion
+    Write-Host "Preparing package complete" -ForegroundColor Green
 test_script:
-- ps: >-
-    cd $env:APPVEYOR_BUILD_FOLDER/src/$env:namespace.$env:core_module.Tests
-
-    dotnet test -f net46 --no-restore
-
-    dotnet test -f net47 --no-restore
-
-    dotnet test -f net48 --no-restore
-
-    dotnet test -f netcoreapp2.1 --no-restore
-
-    dotnet test -f netcoreapp3.1 --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=$env:cc /p:Exclude="[xunit*]*" /p:CoverletOutput=$env:APPVEYOR_BUILD_FOLDER\$env:cc\$env:namespace.$env:core_module.xml
-
-    cd $env:APPVEYOR_BUILD_FOLDER/src/$env:namespace.$env:package_module.Tests
-
-    dotnet test -f net46 --no-restore
-
-    dotnet test -f net47 --no-restore
-
-    dotnet test -f net48 --no-restore
-
-    dotnet test -f netcoreapp2.1 --no-restore
-
-    dotnet test -f netcoreapp3.1 --no-restore /p:CollectCoverage=true /p:CoverletOutputFormat=$env:cc /p:Exclude="[xunit*]*" /p:CoverletOutput=$env:APPVEYOR_BUILD_FOLDER\$env:cc\$env:namespace.$env:package_module.xml
-
-    codecov -f $env:APPVEYOR_BUILD_FOLDER\$env:cc\$env:namespace.$env:core_module.netcoreapp3.1.xml --flag unittests
-
-    codecov -f $env:APPVEYOR_BUILD_FOLDER\$env:cc\$env:namespace.$env:package_module.netcoreapp3.1.xml --flag unittests
+- ps: |
+    $modules = ($env:core_module, $env:package_module)
+    $frameworks = [ordered]@{
+      'net472' = $false
+      'net48' = $false
+      'net7.0' = $true
+    }
+    foreach ($module in $modules) {
+        $project = "$($env:namespace).$($module).Tests"
+        cd "$($env:APPVEYOR_BUILD_FOLDER)\src\$($project)"
+        foreach ($framework in $frameworks.GetEnumerator()) {
+            Write-Host "Running tests from $($project) against $($framework.Name) framework " -NoNewline -ForegroundColor Cyan
+            $collectCoverage = $framework.Value
+            if ($collectCoverage) {
+                Write-Host "collecting Code Coverage" -ForegroundColor Cyan
+                $coverletFile="$($env:APPVEYOR_BUILD_FOLDER)\src\$($env:cc)\$($env:namespace).$($module)"
+                # Use environment variables (-e) instead of build parameters (-p) because of the net7.0 issue: https://github.com/coverlet-coverage/coverlet/issues/1391
+                dotnet test -f $framework.Name --no-restore --nologo -e:CollectCoverage=true -e:CoverletOutputFormat=$env:cc -e:Exclude="[xunit*]*" -e:CoverletOutput=$coverletFile.xml
+                codecov -f "$($coverletFile).$($framework.Name).xml" --flag unittests
+            } else {
+                Write-Host "without Code Coverage" -ForegroundColor Cyan
+                dotnet test -f $framework.Name --no-restore --nologo
+            }
+            Write-Host "Running tests from $($project) against $($framework.Name) framework complete" -ForegroundColor Green
+        }
+    }
 artifacts:
 - path: '**\*.nupkg'
 deploy:
 - provider: NuGet
   api_key:
-    secure: BdIlSFzb2tK9ExTFFK9EvN1CIbK3vK/9/ggHZG37CXArUIOjvBs6GYWD8jP7C9Ss
+    secure: xBvG0ZGp+DwXGNFCXf7IbKIIFYxIlFrF1vg7LdfHBZyaR/C6qd9Ax6sEIKhi6ujy
   on:
     appveyor_repo_tag: true
   skip_symbols: true

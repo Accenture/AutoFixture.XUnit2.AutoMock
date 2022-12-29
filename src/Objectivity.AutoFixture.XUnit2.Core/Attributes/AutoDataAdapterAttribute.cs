@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+
     using global::AutoFixture;
     using global::AutoFixture.Kernel;
     using global::AutoFixture.Xunit2;
@@ -17,7 +18,7 @@
             : base(() => fixture)
         {
             this.AdaptedFixture = fixture.NotNull(nameof(fixture));
-            this.InlineValues = inlineValues ?? Array.Empty<object>();
+            this.InlineValues = Array.AsReadOnly(inlineValues ?? Array.Empty<object>());
         }
 
         public IFixture AdaptedFixture { get; }
@@ -26,7 +27,7 @@
 
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
-            if (testMethod == null)
+            if (testMethod is null)
             {
                 throw new ArgumentNullException(nameof(testMethod));
             }

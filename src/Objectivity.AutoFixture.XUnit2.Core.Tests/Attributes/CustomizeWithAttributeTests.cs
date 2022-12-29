@@ -2,11 +2,14 @@
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+
     using FluentAssertions;
+
     using global::AutoFixture;
     using global::AutoFixture.Xunit2;
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
+
     using Xunit;
 
     [Collection("CustomizeWithAttribute")]

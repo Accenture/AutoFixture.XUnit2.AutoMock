@@ -1,4 +1,4 @@
-namespace Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders
+﻿namespace Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders
 {
     using System;
     using System.Reflection;
@@ -21,9 +21,9 @@ namespace Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders
         public object Create(object request, ISpecimenContext context)
         {
             var pi = request as PropertyInfo;
-            if (pi != null) //// is a property
+            if (pi is not null) //// is a property
             {
-                if (this.ReflectedType == null || //// is hosted anywhere
+                if (this.ReflectedType is null || //// is hosted anywhere
                     this.ReflectedType == pi.ReflectedType) //// is hosted in defined type
                 {
                     if (pi.GetGetMethod().IsVirtual)

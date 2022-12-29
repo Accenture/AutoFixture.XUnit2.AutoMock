@@ -3,9 +3,11 @@
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
+
     using FluentAssertions;
     using global::AutoFixture.Xunit2;
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
+
     using Xunit;
 
     [Collection("IgnoreVirtualMembersAttribute")]
