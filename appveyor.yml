@@ -45,10 +45,13 @@ install:
 build_script:
 - ps: |
     $packageName = "$($env:namespace).$($env:package_module)"
-    $packageVersion = if ($env:APPVEYOR_REPO_TAG -eq "true") {$env:APPVEYOR_REPO_TAG_NAME} else {$env:APPVEYOR_BUILD_VERSION}
-    Write-Host "Building package $($packageName) with $($packageVersion) version" -ForegroundColor Cyan
-    dotnet pack ./src/$packageName.sln -p:PackageVersion=$packageVersion
+    Write-Host "Building package $($packageName)" -ForegroundColor Cyan
+    dotnet build ./src/$packageName.sln
     Write-Host "Building package complete" -ForegroundColor Green
+    $packageVersion = if ($env:APPVEYOR_REPO_TAG -eq "true") {$env:APPVEYOR_REPO_TAG_NAME} else {$env:APPVEYOR_BUILD_VERSION}
+    Write-Host "Preparing package $($packageName) with $($packageVersion) version" -ForegroundColor Cyan
+    dotnet pack ./src/$packageName --no-build --no-restore -p:PackageVersion=$packageVersion
+    Write-Host "Preparing package complete" -ForegroundColor Green
 test_script:
 - ps: |
     $modules = ($env:core_module, $env:package_module)
@@ -61,16 +64,16 @@ test_script:
         $project = "$($env:namespace).$($module).Tests"
         cd "$($env:APPVEYOR_BUILD_FOLDER)\src\$($project)"
         foreach ($framework in $frameworks.GetEnumerator()) {
-            Write-Host "Running tests from $($project) against $($framework.Value) framework " -NoNewline -ForegroundColor Cyan
+            Write-Host "Running tests from $($project) against $($framework.Name) framework " -NoNewline -ForegroundColor Cyan
             $collectCoverage = $framework.Value
             if ($collectCoverage) {
-                Write-Host "collecting Code Coverage"
+                Write-Host "collecting Code Coverage" -ForegroundColor Cyan
                 $coverletFile="$($env:APPVEYOR_BUILD_FOLDER)\src\$($env:cc)\$($env:namespace).$($module)"
                 # Use environment variables (-e) instead of build parameters (-p) because of the net7.0 issue: https://github.com/coverlet-coverage/coverlet/issues/1391
                 dotnet test -f $framework.Name --no-restore -e:CollectCoverage=true -e:CoverletOutputFormat=$env:cc -e:Exclude="[xunit*]*" -e:CoverletOutput=$coverletFile.xml
                 codecov -f "$($coverletFile).$($framework.Name).xml" --flag unittests
             } else {
-                Write-Host "without Code Coverage"
+                Write-Host "without Code Coverage" -ForegroundColor Cyan
                 dotnet test -f $framework.Name --no-restore
             }
             Write-Host "Running tests from $($project) against $($framework.Value) framework complete" -ForegroundColor Green
