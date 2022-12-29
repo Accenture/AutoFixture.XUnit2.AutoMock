@@ -678,7 +678,7 @@ dotnet_diagnostic.RCS0042.severity = warning
 dotnet_diagnostic.RCS0043.severity = none
 
 # RCS0044: Use carriage return + linefeed as newline.
-dotnet_diagnostic.RCS0044.severity = warning
+dotnet_diagnostic.RCS0044.severity = none
 
 # RCS0045: Use linefeed as newline.
 dotnet_diagnostic.RCS0045.severity = none
