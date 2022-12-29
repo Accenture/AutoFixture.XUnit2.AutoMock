@@ -13,9 +13,9 @@
     [Trait("Category", "Comparers")]
     public class CustomizeAttributeComparerTests
     {
-        private static readonly CustomizeAttributeComparer Comparer = new CustomizeAttributeComparer();
-        private static readonly CustomizeWithAttribute CustomizeAttribute = new CustomizeWithAttribute(typeof(DoNotThrowOnRecursionCustomization));
-        private static readonly FrozenAttribute FrozenAttribute = new FrozenAttribute();
+        private static readonly CustomizeAttributeComparer Comparer = new ();
+        private static readonly CustomizeWithAttribute CustomizeAttribute = new (typeof(DoNotThrowOnRecursionCustomization));
+        private static readonly FrozenAttribute FrozenAttribute = new ();
 
         public static IEnumerable<object[]> TestData { get; } = new[]
         {

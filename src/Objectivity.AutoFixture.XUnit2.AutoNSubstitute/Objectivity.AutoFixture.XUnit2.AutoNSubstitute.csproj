@@ -12,6 +12,7 @@
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <IncludeSymbols>True</IncludeSymbols>
     <IncludeSource>True</IncludeSource>
+    <LangVersion>latest</LangVersion>
     <IsTestProject>false</IsTestProject>
   </PropertyGroup>
 

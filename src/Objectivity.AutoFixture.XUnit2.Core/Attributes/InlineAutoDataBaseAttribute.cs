@@ -16,12 +16,14 @@
     public abstract class InlineAutoDataBaseAttribute : DataAttribute
     {
         private readonly object[] values;
+        private readonly Lazy<IReadOnlyCollection<object>> readonlyValues;
 
         protected InlineAutoDataBaseAttribute(IFixture fixture, IAutoFixtureInlineAttributeProvider provider, params object[] values)
         {
             this.Provider = provider.NotNull(nameof(provider));
             this.Fixture = fixture.NotNull(nameof(fixture));
             this.values = values ?? Array.Empty<object>();
+            this.readonlyValues = new Lazy<IReadOnlyCollection<object>>(() => Array.AsReadOnly(this.values));
         }
 
         public IFixture Fixture { get; }
@@ -33,7 +35,7 @@
         /// </summary>
         public bool IgnoreVirtualMembers { get; set; }
 
-        public IReadOnlyCollection<object> Values => new ReadOnlyCollection<object>(this.values);
+        public IReadOnlyCollection<object> Values => this.readonlyValues.Value;
 
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {

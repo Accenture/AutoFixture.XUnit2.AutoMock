@@ -8,6 +8,7 @@
     <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
     <AnalysisLevel>latest</AnalysisLevel>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <LangVersion>latest</LangVersion>
     <IsTestProject>false</IsTestProject>
   </PropertyGroup>
 

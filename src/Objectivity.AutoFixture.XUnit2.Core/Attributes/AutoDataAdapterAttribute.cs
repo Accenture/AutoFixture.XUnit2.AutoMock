@@ -17,7 +17,7 @@
             : base(() => fixture)
         {
             this.AdaptedFixture = fixture.NotNull(nameof(fixture));
-            this.InlineValues = inlineValues ?? Array.Empty<object>();
+            this.InlineValues = Array.AsReadOnly(inlineValues ?? Array.Empty<object>());
         }
 
         public IFixture AdaptedFixture { get; }
