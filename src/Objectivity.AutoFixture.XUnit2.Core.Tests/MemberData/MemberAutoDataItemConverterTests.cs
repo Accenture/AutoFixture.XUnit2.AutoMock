@@ -91,6 +91,7 @@
 
         protected void MethodUnderTest()
         {
+            // Empty method under test
         }
     }
 }

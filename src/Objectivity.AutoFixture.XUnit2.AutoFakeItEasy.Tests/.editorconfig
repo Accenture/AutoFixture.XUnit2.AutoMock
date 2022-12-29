@@ -16,3 +16,7 @@ dotnet_diagnostic.CA2000.severity = none
 dotnet_diagnostic.CA2007.severity = none
 # RCS1090: Call 'ConfigureAwait(false)'.
 dotnet_diagnostic.RCS1090.severity = none
+# S3376: Attribute, EventArgs, and Exception type names should end with the type being extended.
+dotnet_diagnostic.S3376.severity = none
+# S4158: Empty collections should not be accessed or iterated.
+dotnet_diagnostic.S4158.severity = none
