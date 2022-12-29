@@ -44,31 +44,36 @@ install:
     }
 build_script:
 - ps: |
-    dotnet build ./src/$env:namespace.$env:package_module.sln
-    if ($env:APPVEYOR_REPO_TAG -eq "true") {
-        dotnet pack ./src/$env:namespace.$env:package_module --no-restore -p:PackageVersion=$env:APPVEYOR_REPO_TAG_NAME
-    } else {
-        dotnet pack ./src/$env:namespace.$env:package_module --no-restore -p:PackageVersion=$env:APPVEYOR_BUILD_VERSION
-    }
+    $packageName = "$($env:namespace).$($env:package_module)"
+    $packageVersion = if ($env:APPVEYOR_REPO_TAG -eq "true") {$env:APPVEYOR_REPO_TAG_NAME} else {$env:APPVEYOR_BUILD_VERSION}
+    Write-Host "Building package $($packageName) with $($packageVersion) version" -ForegroundColor Cyan
+    dotnet pack ./src/$packageName.sln -p:PackageVersion=$packageVersion
+    Write-Host "Building package complete" -ForegroundColor Green
 test_script:
 - ps: |
     $modules = ($env:core_module, $env:package_module)
-    $configs = @(
-        [PSCustomObject]@{Framework='net472'; CollectCoverage=$false},
-        [PSCustomObject]@{Framework='net48'; CollectCoverage=$false},
-        [PSCustomObject]@{Framework='net7.0'; CollectCoverage=$true}
-    )
+    $frameworks = [ordered]@{
+      'net472' = $false
+      'net48' = $false
+      'net7.0' = $true
+    }
     foreach ($module in $modules) {
-        cd "$($env:APPVEYOR_BUILD_FOLDER)\src\$($env:namespace).$($module).Tests"
-        foreach ($config in $configs) {
-            if ($config.CollectCoverage) {
+        $project = "$($env:namespace).$($module).Tests"
+        cd "$($env:APPVEYOR_BUILD_FOLDER)\src\$($project)"
+        foreach ($framework in $frameworks.GetEnumerator()) {
+            Write-Host "Running tests from $($project) against $($framework.Value) framework " -NoNewline -ForegroundColor Cyan
+            $collectCoverage = $framework.Value
+            if ($collectCoverage) {
+                Write-Host "collecting Code Coverage"
                 $coverletFile="$($env:APPVEYOR_BUILD_FOLDER)\src\$($env:cc)\$($env:namespace).$($module)"
                 # Use environment variables (-e) instead of build parameters (-p) because of the net7.0 issue: https://github.com/coverlet-coverage/coverlet/issues/1391
-                dotnet test -f $config.Framework --no-restore -e:CollectCoverage=true -e:CoverletOutputFormat=$env:cc -e:Exclude="[xunit*]*" -e:CoverletOutput=$coverletFile.xml
-                codecov -f "$($coverletFile).$($config.Framework).xml" --flag unittests
+                dotnet test -f $framework.Name --no-restore -e:CollectCoverage=true -e:CoverletOutputFormat=$env:cc -e:Exclude="[xunit*]*" -e:CoverletOutput=$coverletFile.xml
+                codecov -f "$($coverletFile).$($framework.Name).xml" --flag unittests
             } else {
-                dotnet test -f $config.Framework --no-restore
+                Write-Host "without Code Coverage"
+                dotnet test -f $framework.Name --no-restore
             }
+            Write-Host "Running tests from $($project) against $($framework.Value) framework complete" -ForegroundColor Green
         }
     }
 artifacts:
