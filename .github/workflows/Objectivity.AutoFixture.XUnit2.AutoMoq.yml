@@ -23,10 +23,10 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.sln
     - name: Build
-      run: dotnet build --no-restore --configuration Release ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.sln
+      run: dotnet build --no-restore ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.sln
     - name: Test
       run: dotnet test --no-build --verbosity normal ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.sln
     - name: Pack
       run: dotnet pack ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.sln
     - name: Publish
-      run: dotnet nuget push ./src/Objectivity.AutoFixture.XUnit2.AutoMoq/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push ./src/Objectivity.AutoFixture.XUnit2.AutoMoq/bin/Debug/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
