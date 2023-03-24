@@ -28,3 +28,5 @@ jobs:
       run: dotnet test --no-build --verbosity normal ./src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
     - name: Pack
       run: dotnet pack ./src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
+    - name: Publish
+      run: dotnet nuget push ./src/bin/Debug/*.nupkg --api-key {{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
