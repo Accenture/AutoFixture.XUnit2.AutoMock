@@ -26,3 +26,5 @@ jobs:
       run: dotnet build --no-restore ./src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
     - name: Test
       run: dotnet test --no-build --verbosity normal ./src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
+    - name: Pack
+      run: dotnet pack ./src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
