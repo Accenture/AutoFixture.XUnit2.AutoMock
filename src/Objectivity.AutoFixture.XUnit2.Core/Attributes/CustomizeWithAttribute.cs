@@ -7,6 +7,7 @@
 
     using global::AutoFixture;
     using global::AutoFixture.Xunit2;
+    using Objectivity.AutoFixture.XUnit2.Core.Common;
 
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true)]
     [SuppressMessage("Performance", "CA1813:Avoid unsealed attributes", Justification = "This attribute should be extendable by inheritance.")]
@@ -14,10 +15,7 @@
     {
         public CustomizeWithAttribute(Type type, params object[] args)
         {
-            if (type is null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
+            this.Type = type.NotNull(nameof(type));
 
             var customizationType = typeof(ICustomization);
             if (!customizationType.IsAssignableFrom(type))
@@ -25,7 +23,6 @@
                 throw new ArgumentException($"Specified argument {nameof(type)} must implement {customizationType.Name}");
             }
 
-            this.Type = type;
             this.Args = args;
         }
 
@@ -37,18 +34,11 @@
 
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {
-            var args = this.Args;
-            if (this.IncludeParameterType)
-            {
-                if (parameter is null)
-                {
-                    throw new ArgumentNullException(nameof(parameter));
-                }
-
-                args = new object[] { parameter.ParameterType }
+            var args = this.IncludeParameterType
+                ? new object[] { parameter.NotNull(nameof(parameter)).ParameterType }
                     .Concat(this.Args ?? Array.Empty<object>())
-                    .ToArray();
-            }
+                    .ToArray()
+                : this.Args;
 
             return Activator.CreateInstance(this.Type, args) as ICustomization;
         }
