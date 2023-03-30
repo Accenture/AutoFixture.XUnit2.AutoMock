@@ -1,11 +1,13 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Attributes
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
+    using System.Collections.Generic;
+    using System.Linq;
 
     using FluentAssertions;
 
     using global::AutoFixture;
+    using global::AutoFixture.Kernel;
     using global::AutoFixture.Xunit2;
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
@@ -93,44 +95,67 @@
         [Theory(DisplayName = "GIVEN CustomizeWith applied to the second argument WHEN data populated THEN only second one has customization")]
         [AutoData]
         public void GivenCustomizeWithAppliedToTheSecondArgument_WhenDataPopulated_ThenOnlySecondOneHasCustomization(
-            PropertyHolder<string> stringWithoutCustomization,
-            [NoAutoProperties] PropertyHolder<string> stringWithCustomization,
-            PropertyHolder<int?> intWithoutCustomization,
-            [NoAutoProperties] PropertyHolder<int?> intWithCustomization)
+            IList<string> instanceWithoutCustomization,
+            [EmptyCollection] IList<string> instanceWithCustomization)
         {
             // Arrange
             // Act
             // Assert
-            stringWithoutCustomization.Property.Should().NotBeNull();
-            stringWithCustomization.Property.Should().BeNull();
-            intWithoutCustomization.Property.Should().NotBeNull();
-            intWithCustomization.Property.Should().BeNull();
+            instanceWithoutCustomization.Should().NotBeEmpty();
+            instanceWithCustomization.Should().BeEmpty();
         }
 
         [Theory(DisplayName = "GIVEN CustomizeWith applied to the first argument WHEN data populated THEN all arguments has customization")]
         [AutoData]
         public void GivenCustomizeWithAppliedToTheFirstArgument_WhenDataPopulated_ThenAllArgumentsHasCustomization(
-            [CustomizeWith(typeof(NoAutoPropertiesCustomization), typeof(PropertyHolder<string>))] PropertyHolder<string> instanceWithCustomization,
-            PropertyHolder<string> instanceWithoutCustomization)
+            [CustomizeWith(typeof(EmptyCollectionCustomization), typeof(IList<string>))] IList<string> instanceWithCustomization,
+            IList<string> instanceWithoutCustomization)
         {
             // Arrange
             // Act
             // Assert
-            instanceWithoutCustomization.Property.Should().BeNull();
-            instanceWithCustomization.Property.Should().BeNull();
+            instanceWithoutCustomization.Should().BeEmpty();
+            instanceWithCustomization.Should().BeEmpty();
         }
 
-        [SuppressMessage("Design", "CA1034:Nested types should not be visible", Justification = "Test objects")]
-        public class PropertyHolder<T>
+        [Theory(DisplayName = "GIVEN CustomizeWith applied to the first argument of a cecrtain type WHEN data populated THEN only the first one has customization")]
+        [AutoData]
+        public void GivenCustomizeWithAppliedToTheFirstArgumentOfACecrtainType_WhenDataPopulated_ThenOnlyTheFirstOneHasCustomization(
+            [EmptyCollection] IList<string> instanceWithCustomization,
+            IList<int?> instanceOfDifferentTypeWithoutCustomization)
         {
-            public T Property { get; set; }
+            // Arrange
+            // Act
+            // Assert
+            instanceWithCustomization.Should().BeEmpty();
+            instanceOfDifferentTypeWithoutCustomization.Should().NotBeEmpty();
         }
 
-        protected class NoAutoPropertiesAttribute : CustomizeWithAttribute<NoAutoPropertiesCustomization>
+        protected sealed class EmptyCollectionAttribute : CustomizeWithAttribute<EmptyCollectionCustomization>
         {
-            public NoAutoPropertiesAttribute()
+            public EmptyCollectionAttribute()
             {
                 this.IncludeParameterType = true;
+            }
+        }
+
+        protected class EmptyCollectionCustomization : ICustomization
+        {
+            public EmptyCollectionCustomization(Type reflectedType)
+            {
+                this.ReflectedType = reflectedType;
+            }
+
+            public Type ReflectedType { get; }
+
+            public void Customize(IFixture fixture)
+            {
+                var emptyArray = Array.CreateInstance(this.ReflectedType.GenericTypeArguments.Single(), 0);
+
+                fixture.Customizations.Add(
+                    new FilteringSpecimenBuilder(
+                        new FixedBuilder(emptyArray),
+                        new ExactTypeSpecification(this.ReflectedType)));
             }
         }
     }
