@@ -236,7 +236,7 @@ A generic version of the `CustomizeWith` attribute has been introduced for ease 
 #### Example
 
 ```csharp
-protected class EmptyCollectionCustomization : ICustomization
+public class EmptyCollectionCustomization : ICustomization
 {
     public EmptyCollectionCustomization(Type reflectedType)
     {
@@ -258,7 +258,7 @@ protected class EmptyCollectionCustomization : ICustomization
 ```
 
 ```csharp
-protected sealed class EmptyCollectionAttribute : CustomizeWithAttribute<EmptyCollectionCustomization>
+public sealed class EmptyCollectionAttribute : CustomizeWithAttribute<EmptyCollectionCustomization>
 {
     public EmptyCollectionAttribute()
     {
