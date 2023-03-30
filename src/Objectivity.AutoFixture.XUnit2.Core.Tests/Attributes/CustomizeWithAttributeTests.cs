@@ -44,7 +44,7 @@
             customization.Should().NotBeNull().And.BeAssignableTo(customizationType);
         }
 
-        [Fact(DisplayName = "GIVEN customization type requiring arguments without any WHEN GetCustomization is invoked THEN customization instance is returned")]
+        [Fact(DisplayName = "GIVEN customization type requiring arguments without any WHEN GetCustomization is invoked THEN exception is thrown")]
         public void GivenCustomizationTypeRequiringArgumentsWithoutAny_WhenGetCustomizationIsInvoked_ThenExceptionIsThrown()
         {
             // Arrange
@@ -54,6 +54,18 @@
             // Act
             // Assert
             Assert.Throws<MissingMethodException>(() => customizeAttribute.GetCustomization(null));
+        }
+
+        [Fact(DisplayName = "GIVEN CustomizeWithAttribute with IncludeParameterType set WHEN GetCustomization without ParameterInfo is invoked THEN exception is thrown")]
+        public void GivenAttributeWithIncludeParameterTypeSet_WhenGetCustomizationWithoutParameterInfoIsInvoked_ThenExceptionIsThrown()
+        {
+            // Arrange
+            var customizationType = typeof(DoNotThrowOnRecursionCustomization);
+            var customizeAttribute = new CustomizeWithAttribute(customizationType) { IncludeParameterType = true };
+
+            // Act
+            // Assert
+            Assert.Throws<ArgumentNullException>(() => customizeAttribute.GetCustomization(null));
         }
 
         [Fact(DisplayName = "GIVEN uninitialized type WHEN constructor is invoked THEN exception is thrown")]
@@ -81,14 +93,18 @@
         [Theory(DisplayName = "GIVEN CustomizeWith applied to the second argument WHEN data populated THEN only second one has customization")]
         [AutoData]
         public void GivenCustomizeWithAppliedToTheSecondArgument_WhenDataPopulated_ThenOnlySecondOneHasCustomization(
-            PropertyHolder<string> instanceWithoutCustomization,
-            [CustomizeWith(typeof(NoAutoPropertiesCustomization), typeof(PropertyHolder<string>))] PropertyHolder<string> instanceWithCustomization)
+            PropertyHolder<string> stringWithoutCustomization,
+            [NoAutoProperties] PropertyHolder<string> stringWithCustomization,
+            PropertyHolder<int?> intWithoutCustomization,
+            [NoAutoProperties] PropertyHolder<int?> intWithCustomization)
         {
             // Arrange
             // Act
             // Assert
-            instanceWithoutCustomization.Property.Should().NotBeNull();
-            instanceWithCustomization.Property.Should().BeNull();
+            stringWithoutCustomization.Property.Should().NotBeNull();
+            stringWithCustomization.Property.Should().BeNull();
+            intWithoutCustomization.Property.Should().NotBeNull();
+            intWithCustomization.Property.Should().BeNull();
         }
 
         [Theory(DisplayName = "GIVEN CustomizeWith applied to the first argument WHEN data populated THEN all arguments has customization")]
@@ -108,6 +124,14 @@
         public class PropertyHolder<T>
         {
             public T Property { get; set; }
+        }
+
+        protected class NoAutoPropertiesAttribute : CustomizeWithAttribute<NoAutoPropertiesCustomization>
+        {
+            public NoAutoPropertiesAttribute()
+            {
+                this.IncludeParameterType = true;
+            }
         }
     }
 }
