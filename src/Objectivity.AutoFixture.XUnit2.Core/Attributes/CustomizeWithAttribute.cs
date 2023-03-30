@@ -30,6 +30,10 @@
 
         public object[] Args { get; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether attribute target parameter type should included as a first argument when creating customization.
+        /// </summary>
+        /// <value>Indicates whether attribute target parameter type should included as a first argument when creating customization.</value>
         public bool IncludeParameterType { get; set; }
 
         public override ICustomization GetCustomization(ParameterInfo parameter)
