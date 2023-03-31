@@ -3,8 +3,14 @@ name: AutoMoq
 on:
   push:
     branches: [ "master" ]
+    paths:
+      - 'src/**'
+      - '.github/workflows/Objectivity.AutoFixture.XUnit2.AutoMoq.yml'
   pull_request:
     branches: [ "master" ]
+    paths:
+      - 'src/**'
+      - '.github/workflows/Objectivity.AutoFixture.XUnit2.AutoMoq.yml'
 
 jobs:
   build:
