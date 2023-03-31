@@ -1,13 +1,16 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
 name: AutoNSubstitute
 
 on:
   push:
     branches: [ "master" ]
+    paths:
+      - 'src/**'
+      - '.github/workflows/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.yml'
   pull_request:
     branches: [ "master" ]
+    paths:
+      - 'src/**'
+      - '.github/workflows/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.yml'
 
 jobs:
   build:
