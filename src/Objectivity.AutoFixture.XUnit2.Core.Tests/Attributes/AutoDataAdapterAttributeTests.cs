@@ -90,6 +90,7 @@
             return $"{instance}: {text}, {message}";
         }
 
+        [SuppressMessage("Minor Code Smell", "S2094:Classes should not be empty", Justification = "Test class")]
         public abstract class AbstractTestClass
         {
         }
