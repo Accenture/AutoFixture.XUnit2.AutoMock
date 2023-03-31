@@ -1,11 +1,9 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Attributes
 {
     using System;
-    using System.Reflection;
 
     using global::AutoFixture;
     using global::AutoFixture.Xunit2;
-    using Objectivity.AutoFixture.XUnit2.Core.Common;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
 
     /// <summary>
@@ -14,11 +12,11 @@
     /// when the <see cref="IFixture"/> creates an instance of that type.
     /// </summary>
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public sealed class IgnoreVirtualMembersAttribute : CustomizeAttribute
+    public sealed class IgnoreVirtualMembersAttribute : CustomizeWithAttribute<IgnoreVirtualMembersCustomization>
     {
-        public override ICustomization GetCustomization(ParameterInfo parameter)
+        public IgnoreVirtualMembersAttribute()
         {
-            return new IgnoreVirtualMembersCustomization(parameter.NotNull(nameof(parameter)).ParameterType);
+            this.IncludeParameterType = true;
         }
     }
 }

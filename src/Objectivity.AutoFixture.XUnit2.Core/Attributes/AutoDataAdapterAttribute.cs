@@ -27,15 +27,10 @@
 
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
-            if (testMethod is null)
-            {
-                throw new ArgumentNullException(nameof(testMethod));
-            }
-
             // This is an extension of AutoDataAttribute.GetData method
             // with the ability to skip already provided inline values
+            var parameters = testMethod.NotNull(nameof(testMethod)).GetParameters();
             var specimens = new List<object>(this.InlineValues);
-            var parameters = testMethod.GetParameters();
             foreach (var p in parameters.Skip(this.InlineValues.Count))
             {
                 this.CustomizeFixture(p);
