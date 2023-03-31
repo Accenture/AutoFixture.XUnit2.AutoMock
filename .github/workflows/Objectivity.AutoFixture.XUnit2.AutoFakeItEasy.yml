@@ -25,6 +25,6 @@ jobs:
     - name: Build
       run: dotnet build --no-restore ./src/Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.sln
     - name: Test
-      run: dotnet test --no-build --verbosity normal ./src/Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.sln
+      run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover ./src/Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.sln
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
