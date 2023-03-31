@@ -3,9 +3,14 @@ name: fossa-scan
 on:
   push:
     branches: [ "master" ]
+    paths:
+      - 'src/**'
+      - '.github/workflows/fossa-scan.yml'  
   pull_request:
     branches: [ "master" ]
-
+    paths:
+      - 'src/**'
+      - '.github/workflows/fossa-scan.yml'
 jobs:
   fossa-scan:
     runs-on: ubuntu-latest
