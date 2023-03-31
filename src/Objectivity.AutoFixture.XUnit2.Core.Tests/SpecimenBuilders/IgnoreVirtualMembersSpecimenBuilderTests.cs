@@ -136,7 +136,7 @@
 
         [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Design required by tests.")]
         [SuppressMessage("ReSharper", "All", Justification = "Design required by tests.")]
-        private class FakeObject
+        protected class FakeObject
         {
             public object NotVirtualProperty { get; set; }
 
