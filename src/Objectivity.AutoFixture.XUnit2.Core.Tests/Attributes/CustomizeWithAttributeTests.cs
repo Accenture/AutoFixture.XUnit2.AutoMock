@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
 
     using FluentAssertions;
 
@@ -18,6 +19,16 @@
     [Trait("Category", "Attributes")]
     public class CustomizeWithAttributeTests
     {
+        public static IEnumerable<object[]> ArgumentsDiscoveryCustomizationTestData { get; } = new[]
+        {
+            new object[] { false, null, 0 },
+            new object[] { false, Array.Empty<object>(), 0 },
+            new object[] { false, new object[] { bool.TrueString }, 1 },
+            new object[] { true, null, 1 },
+            new object[] { true, Array.Empty<object>(), 1 },
+            new object[] { true, new object[] { bool.TrueString }, 2 },
+        };
+
         [Fact(DisplayName = "GIVEN customization type with no arguments WHEN GetCustomization is invoked THEN customization instance is returned")]
         public void GivenCustomizationTypeWithNoArguments_WhenGetCustomizationIsInvoked_ThenCustomizationInstanceIsReturned()
         {
@@ -92,6 +103,45 @@
             Assert.Throws<ArgumentException>(() => new CustomizeWithAttribute(customizationType));
         }
 
+        [Fact(DisplayName = "GIVEN CustomizeWith attribute with IncludeParameterType set WHEN GetCustomization is invoked THEN customization with expected type is returned")]
+        public void GivenCustomizeWithAttributeWithIncludeParameterTypeSet_WhenGetCustomizationIsInvoked_ThenCustomizationWithExpectedTypeIsReturned()
+        {
+            // Arrange
+            var customizationType = typeof(ArgumentsDiscoveryCustomization);
+            var customizeAttribute = new CustomizeWithAttribute(customizationType) { IncludeParameterType = true };
+            var parameter = typeof(CustomizeWithAttributeTests)
+                .GetMethod(nameof(this.MethodUnderTest), BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetParameters()
+                .First();
+
+            // Act
+            var customization = customizeAttribute.GetCustomization(parameter) as ArgumentsDiscoveryCustomization;
+
+            // Assert
+            customization.Should().NotBeNull().And.BeAssignableTo(customizationType);
+            customization.Args.Should().HaveCount(1).And.Subject.First().Should().Be(parameter.ParameterType);
+        }
+
+        [Theory(DisplayName = "GIVEN CustomizeWith attribute with arguments WHEN GetCustomization is invoked THEN expected customization is returned with expected numner of arguments")]
+        [MemberData(nameof(ArgumentsDiscoveryCustomizationTestData))]
+        public void GivenCustomizeWithAttributeWithArguments_WhenGetCustomizationIsInvoked_ThenExpectedCustomizationIsReturnedWithExpectedNumnerOfArguments(bool includeParameterType, object[] args, int expectedNumberOfArguments)
+        {
+            // Arrange
+            var customizationType = typeof(ArgumentsDiscoveryCustomization);
+            var customizeAttribute = new CustomizeWithAttribute(customizationType, args) { IncludeParameterType = includeParameterType };
+            var parameter = typeof(CustomizeWithAttributeTests)
+                .GetMethod(nameof(this.MethodUnderTest), BindingFlags.Instance | BindingFlags.NonPublic)
+                .GetParameters()
+                .First();
+
+            // Act
+            var customization = customizeAttribute.GetCustomization(parameter) as ArgumentsDiscoveryCustomization;
+
+            // Assert
+            customization.Should().NotBeNull().And.BeAssignableTo(customizationType);
+            customization.Args.Should().HaveCount(expectedNumberOfArguments);
+        }
+
         [Theory(DisplayName = "GIVEN CustomizeWith applied to the second argument WHEN data populated THEN only second one has customization")]
         [AutoData]
         public void GivenCustomizeWithAppliedToTheSecondArgument_WhenDataPopulated_ThenOnlySecondOneHasCustomization(
@@ -131,6 +181,13 @@
             instanceOfDifferentTypeWithoutCustomization.Should().NotBeEmpty();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Roslynator", "RCS1163:Unused parameter.", Justification = "Required for test")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Required for test")]
+        protected void MethodUnderTest(bool parameter)
+        {
+            // Empty method under test
+        }
+
         protected sealed class EmptyCollectionAttribute : CustomizeWithAttribute<EmptyCollectionCustomization>
         {
             public EmptyCollectionAttribute()
@@ -156,6 +213,21 @@
                     new FilteringSpecimenBuilder(
                         new FixedBuilder(emptyArray),
                         new ExactTypeSpecification(this.ReflectedType)));
+            }
+        }
+
+        protected class ArgumentsDiscoveryCustomization : ICustomization
+        {
+            public ArgumentsDiscoveryCustomization(params object[] args)
+            {
+                this.Args = args;
+            }
+
+            public IReadOnlyCollection<object> Args { get; }
+
+            public void Customize(IFixture fixture)
+            {
+                // Method intentionally left empty.
             }
         }
     }
