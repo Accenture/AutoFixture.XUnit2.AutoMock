@@ -54,5 +54,10 @@ jobs:
         AssemblyOriginatorKeyFile: ${{ steps.write_sign_key_file.outputs.filePath }}
     - name: Pack
       run: dotnet pack ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.sln
+    - name: 'Upload NuGet artifact'
+      uses: actions/upload-artifact@v3
+      with:
+        name: AutoMoq
+        path: ./src/Objectivity.AutoFixture.XUnit2.AutoMoq/bin/Debug/*.nupkg
     - name: Publish
       run: dotnet nuget push ./src/Objectivity.AutoFixture.XUnit2.AutoMoq/bin/Debug/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
