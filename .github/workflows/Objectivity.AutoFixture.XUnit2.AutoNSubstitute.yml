@@ -2,12 +2,10 @@ name: AutoNSubstitute
 
 on:
   push:
-    branches: [ "master" ]
     paths:
       - 'src/**'
       - '.github/workflows/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.yml'
   pull_request:
-    branches: [ "master" ]
     paths:
       - 'src/**'
       - '.github/workflows/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.yml'
