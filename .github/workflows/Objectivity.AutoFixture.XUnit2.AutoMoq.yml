@@ -38,7 +38,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Setting up build version
-        run: |
+      run: |
           $version = "1.0.{0:#}" -f $($Env:GITHUB_RUN_NUMBER)
           echo "BUILD_VERSION=$version" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append    
     - name: Setup .NET
