@@ -37,10 +37,8 @@ jobs:
     
     steps:
     - uses: actions/checkout@v3
-    - name: Setting up build version
-      run: |
-          $version = "1.2.3"
-          echo "BUILD_VERSION=$version" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append    
+    - name: Set VERSION variable
+      run: echo "VERSION=1.2.3" >> $GITHUB_ENV    
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
@@ -59,7 +57,7 @@ jobs:
         SignAssembly: true
         AssemblyOriginatorKeyFile: ${{ steps.write_sign_key_file.outputs.filePath }}
     - name: Pack
-      run: dotnet pack -c Release /p:Version=${BUILD_VERSION} --output . ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.sln
+      run: dotnet pack -c Release /p:Version=${VERSION} --output . ./src/Objectivity.AutoFixture.XUnit2.AutoMoq.sln
     - name: 'Upload NuGet artifact'
       uses: actions/upload-artifact@v3
       with:
