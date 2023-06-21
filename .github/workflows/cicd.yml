@@ -1,0 +1,74 @@
+﻿name: CI/CD
+on: 
+  push:
+    branches: [ '*' ]
+    paths: 
+      - 'src/**'
+  pull_request:
+    paths:
+      - 'src/**'
+    types: [opened, synchronize, reopened]
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  version: 0.0.${{ github.run_number }}
+  configuration: Release
+  namespace: Objectivity.AutoFixture.XUnit2
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      matrix:
+        package_module: [AutoMoq, AutoNSubstitute, AutoFakeItEasy]
+    steps:
+      - name: 🤘 checkout
+        uses: actions/checkout@v3
+      - name: 🏭 prepare .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
+      - name: 🖊️ materialize signing key
+        id: write_sign_key_file
+        uses: timheuer/base64-to-file@v1
+        with:
+          fileName: 'private.snk'
+          encodedString: ${{ secrets.SIGNING_KEY }}
+      - name: 🏗️ build
+        run: dotnet build ./src/${{ env.namespace }}.${{ matrix.package_module }}.sln -p:Version=${{ env.version }} -p:AssemblyVersion=${{ env.version }}
+        env:
+          StrongNameKey: true #TODO: consider removing
+          StrongNameKeyPath: ${{ steps.write_sign_key_file.outputs.filePath }}
+      - name: 🧪 test net472
+        run: dotnet test -f net472 --no-build --verbosity normal
+      - name: 🧪 test net48
+        run: dotnet test -f net48 --no-build --verbosity normal
+      - name: 🧪 test net7.0 & collect coverage
+        run: dotnet test -f net7.0 --no-build --verbosity normal -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$coverletFile
+        env:
+          coverletFile: "${{ github.workspace }}/src/opencover/${{ env.namespace }}.${{ matrix.package_module }}.xml"
+      - name: 📤 upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: "${{ github.workspace }}/src/opencover/${{ env.namespace }}.${{ matrix.package_module }}.xml"
+      - name: 📦 pack
+        run: dotnet pack ./src/${{ env.namespace }}.${{ matrix.package_module }} --no-restore -p:Version=${{ env.version }} -p:AssemblyVersion=${{ env.version }} -p:AssemblyFileVersion=${{ env.version }} -p:PackageVersion=${{ env.version }}
+      - name: 🔼 packages
+        uses: actions/upload-artifact@v2
+        with:
+          name: bin
+          path: bin/*.nupkg
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [build]
+    steps:
+      - name: 🤘 checkout
+        uses: actions/checkout@v3
+      # TODO: Publish to NuGet
