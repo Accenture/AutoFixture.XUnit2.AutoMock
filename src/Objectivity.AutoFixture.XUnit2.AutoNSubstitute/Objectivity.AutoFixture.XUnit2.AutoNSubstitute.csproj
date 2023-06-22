@@ -61,7 +61,7 @@
     <PackageReference Include="AutoFixture.Xunit2" Version="4.18.0" />
     <PackageReference Include="Castle.Core" Version="5.1.1" />
     <PackageReference Include="JetBrains.Annotations" Version="2022.3.1" />
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.1">
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -70,15 +70,15 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="NSubstitute" Version="5.0.0" />
-    <PackageReference Include="Roslynator.Analyzers" Version="4.2.0">
+    <PackageReference Include="Roslynator.Analyzers" Version="4.3.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Roslynator.Formatting.Analyzers" Version="4.2.0">
+    <PackageReference Include="Roslynator.Formatting.Analyzers" Version="4.3.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.55.0.65544">
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.4.0.72892">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
