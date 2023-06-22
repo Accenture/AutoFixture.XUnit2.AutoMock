@@ -51,8 +51,8 @@ jobs:
       #   run: dotnet test ./src/${{ env.namespace }}.${{ matrix.package_module }}/ -f net472 --no-build --verbosity normal
       # - name: 🧪 test net48
       #   run: dotnet test ./src/${{ env.namespace }}.${{ matrix.package_module }}/ -f net48 --no-build --verbosity normal
-      - name: 🧪 test net7.0 & collect coverage
-        run: dotnet test ${{ github.workspace }}/src/${{ env.namespace }}.${{ matrix.package_module }}/ --no-build --verbosity normal -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$coverletFile
+      - name: 🧪 test collect coverage
+        run: dotnet test ${{ github.workspace }}/src/${{ env.namespace }}.${{ matrix.package_module }}.sln --no-restore -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$coverletFile
         env:
           coverletFile: "${{ github.workspace }}/src/opencover/${{ env.namespace }}.${{ matrix.package_module }}.xml"
       - name: 📤 upload coverage reports to Codecov
