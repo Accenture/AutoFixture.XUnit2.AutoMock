@@ -57,6 +57,7 @@ jobs:
       - name: 📤 upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           files: ${{ github.workspace }}/src/opencover/${{ env.Namespace }}.Core.net7.0.xml,${{ github.workspace }}/src/opencover/${{ env.Namespace }}.${{ matrix.package_module }}.net7.0.xml
           flags: unittests
       - name: 📦 pack
