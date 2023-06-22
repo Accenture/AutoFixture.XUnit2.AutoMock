@@ -47,18 +47,20 @@ jobs:
           # StrongNameKey: true #TODO: consider removing
           # StrongNameKeyPath: ${{ steps.write_sign_key_file.outputs.filePath }}
           Version: ${{ env.version }}
-      # - name: 🧪 test net472
-      #   run: dotnet test ./src/${{ env.namespace }}.${{ matrix.package_module }}/ -f net472 --no-build --verbosity normal
-      # - name: 🧪 test net48
-      #   run: dotnet test ./src/${{ env.namespace }}.${{ matrix.package_module }}/ -f net48 --no-build --verbosity normal
-      - name: 🧪 test collect coverage
-        run: dotnet test ${{ github.workspace }}/src/${{ env.namespace }}.${{ matrix.package_module }}.sln --no-restore -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$coverletFile
+      - name: 🧪 test & collect coverage for Core
+        run: dotnet test ${{ github.workspace }}/src/${{ env.namespace }}.Core.Tests/ -f net7.0 --no-restore -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$coverletFile
+        env:
+          coverletFile: "${{ github.workspace }}/src/opencover/${{ env.namespace }}.Core.xml"
+      - name: 🧪 test & collect coverage for ${{ matrix.package_module }}
+        run: dotnet test ${{ github.workspace }}/src/${{ env.namespace }}.${{ matrix.package_module }}.Tests/ -f net7.0 --no-restore -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$coverletFile
         env:
           coverletFile: "${{ github.workspace }}/src/opencover/${{ env.namespace }}.${{ matrix.package_module }}.xml"
       - name: 📤 upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         with:
-          files: "${{ github.workspace }}/src/opencover/${{ env.namespace }}.${{ matrix.package_module }}.xml"
+          files: |
+            "${{ github.workspace }}/src/opencover/${{ env.namespace }}.Core.net7.0.xml"
+            "${{ github.workspace }}/src/opencover/${{ env.namespace }}.${{ matrix.package_module }}.net7.0.xml"
       - name: 📦 pack
         run: dotnet pack ./src/${{ env.namespace }}.${{ matrix.package_module }} --no-restore
         env:
