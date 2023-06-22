@@ -25,12 +25,7 @@
     <PackageReleaseNotes>See https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock/releases</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Version Condition="'$(Version)'==''">1.0.0</Version>
-    <Company Condition="'$(Company)'==''">Objectivity Ltd</Company>
-    <Authors Condition="'$(Authors)'==''">$(Company)</Authors>
-    <Copyright Condition="'$(Copyright)'==''">Copyright (c) $(Company)</Copyright>
-    <AssemblyTitle Condition="'$(AssemblyTitle)'==''">$(AssemblyName)</AssemblyTitle>
-    <Product Condition="'$(Product)'==''">$(AssemblyName)</Product>
+    <PackageVersion>$(Version)</PackageVersion>
     <Description Condition="'$(Description)'==''">Accelerates preparation of mocked structures for unit tests under xUnit2 by configuring AutoFixture data generation to use NSubstitute. Gracefully handles recursive structures by omitting recursions.</Description>
   </PropertyGroup>
 
@@ -53,10 +48,6 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="..\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
   </ItemGroup>
 
   <ItemGroup>

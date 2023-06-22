@@ -41,10 +41,11 @@ jobs:
           fileName: 'private.snk'
           encodedString: ${{ secrets.SIGNING_KEY }}
       - name: 🏗️ build
-        run: dotnet build ./src/${{ env.namespace }}.${{ matrix.package_module }}.sln -p:Version=${{ env.version }} -p:AssemblyVersion=${{ env.version }}
+        run: dotnet build ./src/${{ env.namespace }}.${{ matrix.package_module }}.sln
         env:
-          StrongNameKey: true #TODO: consider removing
-          StrongNameKeyPath: ${{ steps.write_sign_key_file.outputs.filePath }}
+          # StrongNameKey: true #TODO: consider removing
+          # StrongNameKeyPath: ${{ steps.write_sign_key_file.outputs.filePath }}
+          Version: ${{ env.version }}
       - name: 🧪 test net472
         run: dotnet test -f net472 --no-build --verbosity normal
       - name: 🧪 test net48
@@ -58,7 +59,9 @@ jobs:
         with:
           files: "${{ github.workspace }}/src/opencover/${{ env.namespace }}.${{ matrix.package_module }}.xml"
       - name: 📦 pack
-        run: dotnet pack ./src/${{ env.namespace }}.${{ matrix.package_module }} --no-restore -p:Version=${{ env.version }} -p:AssemblyVersion=${{ env.version }} -p:AssemblyFileVersion=${{ env.version }} -p:PackageVersion=${{ env.version }}
+        run: dotnet pack ./src/${{ env.namespace }}.${{ matrix.package_module }} --no-restore
+        env:
+          Version: ${{ env.version }}
       - name: 🔼 packages
         uses: actions/upload-artifact@v2
         with:

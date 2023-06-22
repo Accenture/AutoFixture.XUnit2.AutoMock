@@ -33,10 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\public.snk" Link="public.snk" />
   </ItemGroup>
 
