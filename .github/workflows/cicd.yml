@@ -57,9 +57,7 @@ jobs:
       - name: 📤 upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         with:
-          files: |
-            "./src/opencover/${{ env.Namespace }}.Core.net7.0.xml"
-            "./src/opencover/${{ env.Namespace }}.${{ matrix.package_module }}.net7.0.xml"
+          directory: ./src/opencover/
       - name: 📦 pack
         run: dotnet pack ./src/${{ env.Namespace }}.${{ matrix.package_module }} --no-restore
       - name: 🔼 packages
