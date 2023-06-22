@@ -49,11 +49,11 @@ jobs:
       - name: 🧪 test & collect coverage for Core
         run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ -f net7.0 --no-restore -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$coverletFile
         env:
-          coverletFile: "./src/opencover/${{ env.Namespace }}.Core.xml"
+          coverletFile: ./src/opencover/${{ env.Namespace }}.Core.xml
       - name: 🧪 test & collect coverage for ${{ matrix.package_module }}
         run: dotnet test ./src/${{ env.Namespace }}.${{ matrix.package_module }}.Tests/ -f net7.0 --no-restore -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$coverletFile
         env:
-          coverletFile: "./src/opencover/${{ env.Namespace }}.${{ matrix.package_module }}.xml"
+          coverletFile: ./src/opencover/${{ env.Namespace }}.${{ matrix.package_module }}.xml
       - name: 📤 upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         with:
