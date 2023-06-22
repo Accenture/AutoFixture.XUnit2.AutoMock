@@ -65,6 +65,11 @@ jobs:
         with:
           name: bin
           path: ./src/**/*.nupkg
+      - name: 🔼 CC
+        uses: actions/upload-artifact@v2
+        with:
+          name: CC
+          path: ./src/opencover/*.xml
   publish:
     runs-on: ubuntu-latest
     timeout-minutes: 15
