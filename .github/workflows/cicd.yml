@@ -23,7 +23,7 @@ defaults:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-latest #We are using windows instead of ubuntu becaus it provides support for net472 & net48.
     timeout-minutes: 15
     strategy:
       matrix:
@@ -58,7 +58,7 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ${{ github.workspace }}/src/opencover/${{ env.Namespace }}.Core.net7.0.xml,${{ github.workspace }}/src/opencover/${{ env.Namespace }}.${{ matrix.package_module }}.net7.0.xml
+          files: ${{ github.workspace }}\src\opencover\${{ env.Namespace }}.Core.net7.0.xml,${{ github.workspace }}\src\opencover\${{ env.Namespace }}.${{ matrix.package_module }}.net7.0.xml
           flags: unittests
       - name: 📦 pack
         run: dotnet pack ./src/${{ env.Namespace }}.${{ matrix.package_module }} --no-restore
