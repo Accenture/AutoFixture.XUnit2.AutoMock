@@ -47,11 +47,11 @@ jobs:
           # StrongNameKey: true #TODO: consider removing
           # StrongNameKeyPath: ${{ steps.write_sign_key_file.outputs.filePath }}
       - name: 🧪 test & collect coverage for Core
-        run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-restore -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$coverletFile
+        run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-restore -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$Env:coverletFile
         env:
           coverletFile: ${{ github.workspace }}/src/opencover/${{ env.Namespace }}.Core.xml
       - name: 🧪 test & collect coverage for ${{ matrix.package_module }}
-        run: dotnet test ./src/${{ env.Namespace }}.${{ matrix.package_module }}.Tests/ --no-restore -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$coverletFile
+        run: dotnet test ./src/${{ env.Namespace }}.${{ matrix.package_module }}.Tests/ --no-restore -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$Env:coverletFile
         env:
           coverletFile: ${{ github.workspace }}/src/opencover/${{ env.Namespace }}.${{ matrix.package_module }}.xml
       - name: 📤 upload coverage reports to Codecov
