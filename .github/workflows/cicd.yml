@@ -42,7 +42,7 @@ jobs:
           fileName: 'private.snk'
           encodedString: ${{ secrets.SIGNING_KEY }}
       - name: 🏗️ build
-        run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package_module }}.sln
+        run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package_module }}.sln -v n
         env:
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
           StrongNameKeyPath: ${{ steps.write_sign_key_file.outputs.filePath }}
