@@ -42,6 +42,7 @@ jobs:
       - name: 🏗️ build
         run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package_module }}.sln
         env:
+          CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
           StrongNameKeyPath: ..\${{ env.StrongNameKeyName }}
       - name: 🧪 test & collect coverage for Core
