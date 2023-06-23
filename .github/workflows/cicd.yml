@@ -16,6 +16,7 @@ env:
   Version: 0.0.${{ github.run_number }}
   Configuration: Release
   Namespace: Objectivity.AutoFixture.XUnit2
+  StrongNameKeyName: key.snk
 
 defaults:
   run:
@@ -39,14 +40,14 @@ jobs:
         id: write_sign_key_file
         uses: timheuer/base64-to-file@v1
         with:
-          fileName: 'private.snk'
-          fileDir: './src/'
+          fileName: ${{ env.Namespace }}
+          fileDir: '${{ github.workspace }}\src'
           encodedString: ${{ secrets.SIGNING_KEY }}
       - name: 🏗️ build
-        run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package_module }}.sln -v d
+        run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package_module }}.sln
         env:
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
-          StrongNameKeyPath: ${{ steps.write_sign_key_file.outputs.filePath }}
+          StrongNameKeyPath: ..\${{ env.Namespace }}
       - name: 🧪 test & collect coverage for Core
         run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-restore -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$Env:coverletFile
         env:
