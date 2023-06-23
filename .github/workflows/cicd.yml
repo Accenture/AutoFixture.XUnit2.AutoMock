@@ -32,22 +32,18 @@ jobs:
     steps:
       - name: 🤘 checkout
         uses: actions/checkout@v3
-      # - name: 🏭 prepare .NET
-      #   uses: actions/setup-dotnet@v3
-      #   with:
-      #     dotnet-version: 7.0.x
       - name: 🖊️ materialize signing key
         id: write_sign_key_file
         uses: timheuer/base64-to-file@v1
         with:
-          fileName: ${{ env.Namespace }}
+          fileName: ${{ env.StrongNameKeyName }}
           fileDir: '${{ github.workspace }}\src'
           encodedString: ${{ secrets.SIGNING_KEY }}
       - name: 🏗️ build
         run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package_module }}.sln
         env:
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
-          StrongNameKeyPath: ..\${{ env.Namespace }}
+          StrongNameKeyPath: ..\${{ env.StrongNameKeyName }}
       - name: 🧪 test & collect coverage for Core
         run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-restore -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$Env:coverletFile
         env:
