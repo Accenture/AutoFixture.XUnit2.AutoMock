@@ -37,7 +37,7 @@ jobs:
         run: |
           $path = [IO.Path]::Combine("${{ github.workspace }}","src","${{ env.StrongNameKeyName }}")
           [IO.File]::WriteAllBytes($path, [Convert]::FromBase64String("$env:StrongNameKey"))
-          echo "PATH=$($path)" >> "$GITHUB_OUTPUT"
+          "PATH=$path" >> $env:GITHUB_OUTPUT
         env:
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
       - name: 🏗️ build
