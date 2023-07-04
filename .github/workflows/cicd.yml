@@ -45,21 +45,21 @@ jobs:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
           StrongNameKeyPath: ..\${{ env.StrongNameKeyName }}
-      - name: 🧪 test & collect coverage for Core in net7.0
+      - name: 🧪 test Core in net7.0 & collect coverage
         run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f net7.0 -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$env:coverletFile
         env:
           coverletFile: ${{ github.workspace }}\src\opencover\${{ env.Namespace }}.Core.xml
-      - name: 🧪 test for Core in net472
+      - name: 🧪 test Core in net472
         run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f net472
-      - name: 🧪 test for Core in net48
+      - name: 🧪 test Core in net48
         run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f net48
-      - name: 🧪 test & collect coverage for ${{ matrix.package_module }} in net7.0
+      - name: 🧪 test ${{ matrix.package_module }} in net7.0  & collect coverage 
         run: dotnet test ./src/${{ env.Namespace }}.${{ matrix.package_module }}.Tests/ --no-build -f net7.0 -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$env:coverletFile
         env:
           coverletFile: ${{ github.workspace }}\src\opencover\${{ env.Namespace }}.${{ matrix.package_module }}.xml
-      - name: 🧪 test & collect coverage for ${{ matrix.package_module }} in net472
+      - name: 🧪 test ${{ matrix.package_module }} in net472
         run: dotnet test ./src/${{ env.Namespace }}.${{ matrix.package_module }}.Tests/ --no-build -f net472
-      - name: 🧪 test & collect coverage for ${{ matrix.package_module }} in net48
+      - name: 🧪 test ${{ matrix.package_module }} in net48
         run: dotnet test ./src/${{ env.Namespace }}.${{ matrix.package_module }}.Tests/ --no-build -f net48
       - name: 📤 upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
@@ -68,11 +68,7 @@ jobs:
           files: ${{ github.workspace }}\src\opencover\${{ env.Namespace }}.Core.net7.0.xml,${{ github.workspace }}\src\opencover\${{ env.Namespace }}.${{ matrix.package_module }}.net7.0.xml
           flags: unittests
       - name: 📦 pack
-        run: dotnet pack ./src/${{ env.Namespace }}.${{ matrix.package_module }} --no-restore
-        env:
-          CI: true
-          StrongNameKey: ${{ secrets.SIGNING_KEY }}
-          StrongNameKeyPath: ..\${{ env.StrongNameKeyName }}
+        run: dotnet pack ./src/${{ env.Namespace }}.${{ matrix.package_module }} --no-build
       - name: 🔼 packages
         uses: actions/upload-artifact@v2
         with:
