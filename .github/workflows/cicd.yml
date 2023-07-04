@@ -37,7 +37,7 @@ jobs:
         run: |
           $path = [IO.Path]::Combine("${{ github.workspace }}","src","${{ env.StrongNameKeyName }}")
           [IO.File]::WriteAllBytes($path, [Convert]::FromBase64String("$env:StrongNameKey"))
-          echo "STRONG_KEY_PATH=$path" >> "$GITHUB_OUTPUT"
+          echo "PATH=$($path)" >> "$GITHUB_OUTPUT"
         env:
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
       - name: 🏗️ build
@@ -45,7 +45,7 @@ jobs:
         env:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
-          StrongNameKeyPath: ${{ steps.signing-key.outputs.STRONG_KEY_PATH }}
+          StrongNameKeyPath: ${{ steps.signing-key.outputs.PATH }}
       - name: 🧪 test Core in net7.0 & collect coverage
         run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f net7.0 -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$env:coverletFile
         env:
@@ -73,7 +73,7 @@ jobs:
         env:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
-          StrongNameKeyPath: ${{ steps.signing-key.outputs.STRONG_KEY_PATH }}
+          StrongNameKeyPath: ${{ steps.signing-key.outputs.PATH }}
       - name: 🔼 packages
         uses: actions/upload-artifact@v2
         with:
