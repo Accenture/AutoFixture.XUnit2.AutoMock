@@ -86,16 +86,20 @@ jobs:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
           StrongNameKeyPath: ${{ steps.signing-key.outputs.PATH }}
-      - name: 🔼 packages
-        uses: actions/upload-artifact@v2
+      - name: 🔼 upload packages
+        uses: actions/upload-artifact@v3
         with:
-          name: bin
+          name: packages
           path: ./src/**/*.nupkg
   publish:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [build]
     steps:
-      - name: 🤘 checkout
-        uses: actions/checkout@v3
+      - name: 🔽 download packages
+        uses: actions/download-artifact@v3
+        with:
+          name: packages
+      - name: Display structure of downloaded files
+        run: ls -R
       # TODO: Publish to NuGet
