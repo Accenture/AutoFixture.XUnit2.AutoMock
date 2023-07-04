@@ -33,10 +33,11 @@ jobs:
       - name: 🤘 checkout
         uses: actions/checkout@v3
       - name: 🖊️ materialize signing key
+        id: signing-key
         run: |
           $path = [IO.Path]::Combine("${{ github.workspace }}","src","${{ env.StrongNameKeyName }}")
-          Write-Host "Storing signing key in $($path)"
           [IO.File]::WriteAllBytes($path, [Convert]::FromBase64String("$env:StrongNameKey"))
+          echo "STRONG_KEY_PATH=$path" >> "$GITHUB_OUTPUT"
         env:
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
       - name: 🏗️ build
@@ -44,7 +45,7 @@ jobs:
         env:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
-          StrongNameKeyPath: ..\${{ env.StrongNameKeyName }}
+          StrongNameKeyPath: ${{ steps.signing-key.outputs.STRONG_KEY_PATH }}
       - name: 🧪 test Core in net7.0 & collect coverage
         run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f net7.0 -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$env:coverletFile
         env:
@@ -68,7 +69,11 @@ jobs:
           files: ${{ github.workspace }}\src\opencover\${{ env.Namespace }}.Core.net7.0.xml,${{ github.workspace }}\src\opencover\${{ env.Namespace }}.${{ matrix.package_module }}.net7.0.xml
           flags: unittests
       - name: 📦 pack
-        run: dotnet pack ./src/${{ env.Namespace }}.${{ matrix.package_module }} --no-build
+        run: dotnet pack ./src/${{ env.Namespace }}.${{ matrix.package_module }} --no-restore
+        env:
+          CI: true
+          StrongNameKey: ${{ secrets.SIGNING_KEY }}
+          StrongNameKeyPath: ${{ steps.signing-key.outputs.STRONG_KEY_PATH }}
       - name: 🔼 packages
         uses: actions/upload-artifact@v2
         with:
