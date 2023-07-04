@@ -48,14 +48,15 @@ jobs:
       - id: set-matrix
         run: |
           $allModules = @{
-            AutoMoq=$${{inputs.AutoMoq}},
-            AutoNSubstitute=$${{inputs.AutoNSubstitute}},
+            AutoMoq=$${{inputs.AutoMoq}};
+            AutoNSubstitute=$${{inputs.AutoNSubstitute}};
             AutoFakeItEasy=$${{inputs.AutoFakeItEasy}}
           }
           $runModules = Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name}
           Write-Host "Modules to run: $($runModules)"
           "MATRIX=$runModules" >> $env:GITHUB_OUTPUT
   build:
+    needs: init
     runs-on: windows-latest #We are using windows instead of ubuntu becaus it provides support for net472 & net48.
     timeout-minutes: 15
     strategy:
