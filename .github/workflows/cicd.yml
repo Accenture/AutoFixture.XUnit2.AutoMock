@@ -48,9 +48,9 @@ jobs:
       - id: set-matrix
         run: |
           $allModules = @{
-            AutoMoq=${{inputs.AutoMoq}},
-            AutoNSubstitute=${{inputs.AutoNSubstitute}},
-            AutoFakeItEasy=${{inputs.AutoFakeItEasy}}
+            AutoMoq=$${{inputs.AutoMoq}},
+            AutoNSubstitute=$${{inputs.AutoNSubstitute}},
+            AutoFakeItEasy=$${{inputs.AutoFakeItEasy}}
           }
           $runModules = Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name}
           Write-Host "Modules to run: $($runModules)"
