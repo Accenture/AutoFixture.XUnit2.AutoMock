@@ -49,9 +49,9 @@ jobs:
         id: set-matrix
         run: |
           $allModules = @{
-            AutoMoq=$(${{inputs.buildAutoMoq}} ?? "true");
-            AutoNSubstitute=$(${{inputs.buildAutoNSubstitute}} ?? "true");
-            AutoFakeItEasy=$(${{inputs.buildAutoFakeItEasy}} ?? "true")
+            AutoMoq=if (${{inputs.buildAutoMoq}} -eq $null) { $true } else { $${{inputs.buildAutoMoq}} };
+            AutoNSubstitute=if (${{inputs.buildAutoNSubstitute}} -eq $null) { $true } else { $${{inputs.buildAutoNSubstitute}} };
+            AutoFakeItEasy=if ((${{inputs.buildAutoFakeItEasy}} -eq $null) { $true } else { $${{inputs.buildAutoFakeItEasy}} }
           }
           $matrix = @{
             package_module = Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name}
