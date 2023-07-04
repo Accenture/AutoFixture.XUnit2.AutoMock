@@ -34,15 +34,11 @@ jobs:
         uses: actions/checkout@v3
       - name: 🖊️ materialize signing key
         run: |
-          [IO.File]::WriteAllBytes("${{ github.workspace }}\src\${{ env.StrongNameKeyName }}",[Convert]::FromBase64String($env:StrongNameKey))
+          $path = [IO.Path]::Combine("${{ github.workspace }}","src","${{ env.StrongNameKeyName }}")
+          Write-Host "Storing signing key in $($path)"
+          [IO.File]::WriteAllBytes($path, [Convert]::FromBase64String("$env:StrongNameKey"))
         env:
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
-        # id: write_sign_key_file
-        # uses: timheuer/base64-to-file@v1
-        # with:
-        #   fileName: ${{ env.StrongNameKeyName }}
-        #   fileDir: '${{ github.workspace }}\src'
-        #   encodedString: ${{ secrets.SIGNING_KEY }}
       - name: 🏗️ build
         run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package_module }}.sln
         env:
