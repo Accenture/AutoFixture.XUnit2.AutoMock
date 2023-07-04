@@ -52,16 +52,16 @@ jobs:
             AutoNSubstitute=$${{inputs.AutoNSubstitute}};
             AutoFakeItEasy=$${{inputs.AutoFakeItEasy}}
           }
-          $runModules = Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name}
-          Write-Host "Modules to run: $($runModules)"
-          "MATRIX=$runModules" >> $env:GITHUB_OUTPUT
+          $matrix = @{
+            package_module = Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name}
+          }
+          "MATRIX=$($matrix | ConvertTo-JSON -Compress))" >> $env:GITHUB_OUTPUT
   build:
     needs: init
     runs-on: windows-latest #We are using windows instead of ubuntu becaus it provides support for net472 & net48.
     timeout-minutes: 15
     strategy:
-      matrix:
-        package_module: [AutoMoq, AutoNSubstitute, AutoFakeItEasy]
+      matrix: ${{ needs.init.outputs.matrix }} #[AutoMoq, AutoNSubstitute, AutoFakeItEasy]
     steps:
       - name: 🤘 checkout
         uses: actions/checkout@v3
