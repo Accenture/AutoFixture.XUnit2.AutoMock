@@ -2,18 +2,18 @@
 on:
   workflow_dispatch:
     inputs:
-      AutoMoq:
-        description: 'Run for AutoMoq package'
+      buildAutoMoq:
+        description: 'Build AutoMoq'
         required: true
         type: boolean
         default: true
-      AutoNSubstitute:
-        description: 'Run for AutoNSubstitute package'
+      buildAutoNSubstitute:
+        description: 'Build AutoNSubstitute'
         required: true
         type: boolean
         default: true
-      AutoFakeItEasy:
-        description: 'Run for AutoFakeItEasy package'
+      buildAutoFakeItEasy:
+        description: 'Build AutoFakeItEasy'
         required: true
         type: boolean
         default: true
@@ -48,9 +48,9 @@ jobs:
       - id: set-matrix
         run: |
           $allModules = @{
-            AutoMoq=$${{inputs.AutoMoq}};
-            AutoNSubstitute=$${{inputs.AutoNSubstitute}};
-            AutoFakeItEasy=$${{inputs.AutoFakeItEasy}}
+            AutoMoq=$${{inputs.buildAutoMoq}};
+            AutoNSubstitute=$${{inputs.buildAutoNSubstitute}};
+            AutoFakeItEasy=$${{inputs.buildAutoFakeItEasy}}
           }
           $matrix = @{
             package_module = Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name}
@@ -61,7 +61,7 @@ jobs:
     runs-on: windows-latest #We are using windows instead of ubuntu becaus it provides support for net472 & net48.
     timeout-minutes: 15
     strategy:
-      matrix: ${{ needs.init.outputs.matrix }} #[AutoMoq, AutoNSubstitute, AutoFakeItEasy]
+      matrix: ${{ fromJSON(needs.init.outputs.matrix) }}
     steps:
       - name: 🤘 checkout
         uses: actions/checkout@v3
