@@ -1,6 +1,22 @@
 ﻿name: CI/CD
 on:
   workflow_dispatch:
+    inputs:
+      AutoMoq:
+        description: 'Run for AutoMoq package'
+        required: true
+        type: boolean
+        default: true
+      AutoNSubstitute:
+        description: 'Run for AutoNSubstitute package'
+        required: true
+        type: boolean
+        default: true
+      AutoFakeItEasy:
+        description: 'Run for AutoFakeItEasy package'
+        required: true
+        type: boolean
+        default: true
   push:
     branches: [ '*' ]
     paths: 
@@ -24,6 +40,21 @@ defaults:
     shell: pwsh
 
 jobs:
+  init:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.MATRIX }}
+    steps:
+      - id: set-matrix
+        run: |
+          $allModules = @{
+            AutoMoq=${{inputs.AutoMoq}},
+            AutoNSubstitute=${{inputs.AutoNSubstitute}},
+            AutoFakeItEasy=${{inputs.AutoFakeItEasy}}
+          }
+          $runModules = Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name}
+          Write-Host "Modules to run: $($runModules)"
+          "MATRIX=$runModules" >> $env:GITHUB_OUTPUT
   build:
     runs-on: windows-latest #We are using windows instead of ubuntu becaus it provides support for net472 & net48.
     timeout-minutes: 15
