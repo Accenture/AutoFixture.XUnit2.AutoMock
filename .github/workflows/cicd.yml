@@ -47,17 +47,25 @@ jobs:
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
           StrongNameKeyPath: ${{ steps.signing-key.outputs.PATH }}
       - name: 🧪 test Core in net7.0 & collect coverage
-        run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f net7.0 -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$env:coverletFile
+        id: core-code-coverage
+        run: |
+          dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f $env:targetFramework -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$env:coverletFile.xml
+          "PATH=$env:coverletFile.$env:targetFramework.xml" >> $env:GITHUB_OUTPUT
         env:
-          coverletFile: ${{ github.workspace }}\src\opencover\${{ env.Namespace }}.Core.xml
+          coverletFile: ${{ github.workspace }}\src\opencover\${{ env.Namespace }}.Core
+          targetFramework: net7.0
       - name: 🧪 test Core in net472
         run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f net472
       - name: 🧪 test Core in net48
         run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f net48
       - name: 🧪 test ${{ matrix.package_module }} in net7.0  & collect coverage 
-        run: dotnet test ./src/${{ env.Namespace }}.${{ matrix.package_module }}.Tests/ --no-build -f net7.0 -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$env:coverletFile
+        id: module-code-coverage
+        run: |
+          dotnet test ./src/${{ env.Namespace }}.${{ matrix.package_module }}.Tests/ --no-build -f $env:targetFramework -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$env:coverletFile.xml
+          "PATH=$env:coverletFile.$env:targetFramework.xml" >> $env:GITHUB_OUTPUT
         env:
-          coverletFile: ${{ github.workspace }}\src\opencover\${{ env.Namespace }}.${{ matrix.package_module }}.xml
+          coverletFile: ${{ github.workspace }}\src\opencover\${{ env.Namespace }}.${{ matrix.package_module }}
+          targetFramework: net7.0
       - name: 🧪 test ${{ matrix.package_module }} in net472
         run: dotnet test ./src/${{ env.Namespace }}.${{ matrix.package_module }}.Tests/ --no-build -f net472
       - name: 🧪 test ${{ matrix.package_module }} in net48
@@ -66,7 +74,7 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ${{ github.workspace }}\src\opencover\${{ env.Namespace }}.Core.net7.0.xml,${{ github.workspace }}\src\opencover\${{ env.Namespace }}.${{ matrix.package_module }}.net7.0.xml
+          files: ${{ steps.core-code-coverage.outputs.PATH }},${{ steps.module-code-coverage.outputs.PATH }}
           flags: unittests
       - name: 📦 pack
         run: dotnet pack ./src/${{ env.Namespace }}.${{ matrix.package_module }} --no-restore
