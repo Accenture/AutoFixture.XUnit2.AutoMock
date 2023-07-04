@@ -45,13 +45,13 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.MATRIX }}
     steps:
-      - name: prepare strategy matrix
+      - name: 🎰 prepare strategy matrix
         id: set-matrix
         run: |
           $allModules = @{
-            AutoMoq=${$${{inputs.buildAutoMoq}}:-$true};
-            AutoNSubstitute=${$${{inputs.buildAutoNSubstitute}}:-$true};
-            AutoFakeItEasy=${$${{inputs.buildAutoFakeItEasy}}:-$true}
+            AutoMoq=$(${{inputs.buildAutoMoq}} ?? "true");
+            AutoNSubstitute=$(${{inputs.buildAutoNSubstitute}} ?? "true");
+            AutoFakeItEasy=$(${{inputs.buildAutoFakeItEasy}} ?? "true")
           }
           $matrix = @{
             package_module = Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name}
