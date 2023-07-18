@@ -136,4 +136,7 @@ jobs:
           name: packages
       - name: Display structure of downloaded files
         run: ls -R
+      - name: push
+        run: dotnet nuget verify **/*.nupkg
+
       # TODO: Publish to NuGet
