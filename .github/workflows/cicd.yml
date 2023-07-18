@@ -3,27 +3,27 @@ on:
   workflow_dispatch:
     inputs:
       buildAutoMoq:
-        description: 'Build AutoMoq'
+        description: "Build AutoMoq"
         required: true
         type: boolean
         default: true
       buildAutoNSubstitute:
-        description: 'Build AutoNSubstitute'
+        description: "Build AutoNSubstitute"
         required: true
         type: boolean
         default: true
       buildAutoFakeItEasy:
-        description: 'Build AutoFakeItEasy'
+        description: "Build AutoFakeItEasy"
         required: true
         type: boolean
         default: true
   push:
-    branches: [ '*' ]
-    paths: 
-      - 'src/**'
+    branches: ["*"]
+    paths:
+      - "src/**"
   pull_request:
     paths:
-      - 'src/**'
+      - "src/**"
     types: [opened, synchronize, reopened]
 
 env:
@@ -93,7 +93,7 @@ jobs:
         run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f net472
       - name: 🧪 test Core in net48
         run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f net48
-      - name: 🧪 test ${{ matrix.package_module }} in net7.0  & collect coverage 
+      - name: 🧪 test ${{ matrix.package_module }} in net7.0  & collect coverage
         id: module-code-coverage
         run: |
           $path = [IO.Path]::Combine("$env:CoverageDirectory","$env:CoverageFileName.xml")
@@ -128,6 +128,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [build]
+    environment: test
     steps:
       - name: 🔽 download packages
         uses: actions/download-artifact@v3
