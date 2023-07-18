@@ -141,6 +141,6 @@ jobs:
       - name: addSource
         run: dotnet nuget add source --username krzysztofkaczorowski --password ${{ secrets.PKG_TOKEN_PERSONAL }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/krzysztofkaczorowski/index.json"
       - name: push
-        run: dotnet nuget push **/*.nupkg  --api-key YOUR_GITHUB_PAT --source "github"
+        run: dotnet nuget push **/*.nupkg  --api-key ${{ secrets.PKG_TOKEN_PERSONAL }} --source "github"
 
       # TODO: Publish to NuGet
