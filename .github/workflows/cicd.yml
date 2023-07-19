@@ -79,14 +79,17 @@ jobs:
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0
         with:
-          versionSpec: '5.x'
+          versionSpec: "5.x"
       - name: Determine Version
-        id:   gitversion
+        id: gitversion
         uses: gittools/actions/gitversion/execute@v0
         with:
           useConfigFile: true
       - name: Fetch GitVersion
-        run: echo "VERSION=${{ steps.gitversion.outputs.MajorMinorPatch }}" >> "$GITHUB_ENV"
+        run: |
+          echo "MY_VERSION=${{ steps.gitversion.outputs.MajorMinorPatch }}" >> "$GITHUB_ENV"
+          echo "Version=${{ steps.gitversion.outputs.MajorMinorPatch }}" >> "$GITHUB_ENV"
+          echo "VERSION=${{ steps.gitversion.outputs.MajorMinorPatch }}" >> "$GITHUB_ENV"
       - name: 🏗️ build
         run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package_module }}.sln
         env:
@@ -152,4 +155,4 @@ jobs:
       - name: addSource
         run: dotnet nuget add source --username krzysztofkaczorowski --password ${{ secrets.PKG_TOKEN_PERSONAL }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/krzysztofkaczorowski/index.json"
       - name: push
-        run: dotnet nuget push **/*.nupkg  --api-key ${{ secrets.PKG_TOKEN_PERSONAL }} --source "github" --skip-duplicate 
+        run: dotnet nuget push **/*.nupkg  --api-key ${{ secrets.PKG_TOKEN_PERSONAL }} --source "github" --skip-duplicate
