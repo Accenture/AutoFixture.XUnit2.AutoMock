@@ -87,9 +87,9 @@ jobs:
           useConfigFile: true
       - name: Fetch GitVersion
         run: |
-          echo "MY_VERSION=${{ steps.gitversion.outputs.MajorMinorPatch }}" >> "$GITHUB_ENV"
-          echo "Version=${{ steps.gitversion.outputs.MajorMinorPatch }}" >> "$GITHUB_ENV"
-          echo "VERSION=${{ steps.gitversion.outputs.MajorMinorPatch }}" >> "$GITHUB_ENV"
+          echo "MY_VERSION=${{ steps.gitversion.outputs.MajorMinorPatch }}" >> "GITHUB_ENV
+          echo "Version=${{ steps.gitversion.outputs.MajorMinorPatch }}" >> $GITHUB_ENV
+          echo "VERSION=${{ steps.gitversion.outputs.MajorMinorPatch }}" >> $GITHUB_ENV
       - name: 🏗️ build
         run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package_module }}.sln
         env:
