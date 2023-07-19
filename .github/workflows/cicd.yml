@@ -29,7 +29,6 @@ on:
 env:
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
-  #Version: 0.0.${{ github.run_number }}
   Configuration: Release
   Namespace: Objectivity.AutoFixture.XUnit2
   StrongNameKeyName: key.snk
@@ -87,9 +86,7 @@ jobs:
           useConfigFile: true
       - name: Fetch GitVersion
         run: |
-          echo "MY_VERSION=${{ steps.gitversion.outputs.MajorMinorPatch }}" >> $env:GITHUB_ENV
           echo "Version=${{ steps.gitversion.outputs.MajorMinorPatch }}" >> $env:GITHUB_ENV
-          echo "VERSION=${{ steps.gitversion.outputs.MajorMinorPatch }}" >> $env:GITHUB_ENV
       - name: 🏗️ build
         run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package_module }}.sln
         env:
@@ -144,7 +141,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [build]
-    environment: test
+    environment: prod
     steps:
       - name: 🔽 download packages
         uses: actions/download-artifact@v3
@@ -153,6 +150,6 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
       - name: addSource
-        run: dotnet nuget add source --username krzysztofkaczorowski --password ${{ secrets.PKG_TOKEN_PERSONAL }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/krzysztofkaczorowski/index.json"
+        run: dotnet nuget add source --username piotrzajac --password ${{ secrets.NUGET_API_KEY }} --store-password-in-clear-text --name github "https://api.nuget.org/v3/index.json"
       - name: push
-        run: dotnet nuget push **/*.nupkg  --api-key ${{ secrets.PKG_TOKEN_PERSONAL }} --source "github" --skip-duplicate
+        run: dotnet nuget push **/*.nupkg  --api-key ${{ secrets.NUGET_API_KEY }} --source "github" --skip-duplicate
