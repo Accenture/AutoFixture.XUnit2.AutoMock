@@ -85,8 +85,8 @@ jobs:
         uses: gittools/actions/gitversion/execute@v0
         with:
           useConfigFile: true
-      - name: fetchGitVersion
-        run: ls Env:\
+      - name: Fetch GitVersion
+        run: echo "Version=${{ steps.gitversion.outputs.MajorMinorPatch }}" >> "$GITHUB_ENV"
       - name: 🏗️ build
         run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package_module }}.sln
         env:
