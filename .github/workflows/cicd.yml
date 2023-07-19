@@ -74,8 +74,12 @@ jobs:
           "PATH=$path" >> $env:GITHUB_OUTPUT
         env:
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
-      - name: gitVersion
-        run: (dotnet gitversion | ConvertFrom-Json).MajorMinorPatch >> $env:Version
+      - name: Determine Version
+        uses: gittools/actions/gitversion/execute@v0
+        with:
+          useConfigFile: true
+      - name: fetchGitVersion
+        run: "${{ steps.gitversion.outputs.MajorMinorPatch }} >> $env:Version"
       - name: 🏗️ build
         run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package_module }}.sln
         env:
