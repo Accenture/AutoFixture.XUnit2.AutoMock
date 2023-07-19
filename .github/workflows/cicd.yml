@@ -74,6 +74,10 @@ jobs:
           "PATH=$path" >> $env:GITHUB_OUTPUT
         env:
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0
+        with:
+          versionSpec: '5.x'
       - name: Determine Version
         uses: gittools/actions/gitversion/execute@v0
         with:
