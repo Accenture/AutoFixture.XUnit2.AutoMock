@@ -86,7 +86,7 @@ jobs:
         with:
           useConfigFile: true
       - name: fetchGitVersion
-        run: Set-Item Env:\Version -Value ${{ steps.gitversion.outputs.MajorMinorPatch }}
+        run: ls Env:\
       - name: 🏗️ build
         run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package_module }}.sln
         env:
