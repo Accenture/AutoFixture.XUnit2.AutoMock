@@ -81,11 +81,12 @@ jobs:
         with:
           versionSpec: '5.x'
       - name: Determine Version
+        id:   gitversion
         uses: gittools/actions/gitversion/execute@v0
         with:
           useConfigFile: true
       - name: fetchGitVersion
-        run: "${{ steps.gitversion.outputs.MajorMinorPatch }} >> $env:Version"
+        run: Set-Item Env:\Version -Value ${{ steps.gitversion.outputs.MajorMinorPatch }}
       - name: 🏗️ build
         run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package_module }}.sln
         env:
