@@ -66,6 +66,8 @@ jobs:
     steps:
       - name: 🤘 checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: 🖊️ materialize signing key
         id: signing-key
         run: |
