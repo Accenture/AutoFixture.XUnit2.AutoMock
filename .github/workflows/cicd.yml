@@ -29,7 +29,7 @@ on:
 env:
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
-  Version: 0.0.${{ github.run_number }}
+  #Version: 0.0.${{ github.run_number }}
   Configuration: Release
   Namespace: Objectivity.AutoFixture.XUnit2
   StrongNameKeyName: key.snk
@@ -74,6 +74,8 @@ jobs:
           "PATH=$path" >> $env:GITHUB_OUTPUT
         env:
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
+      - name: gitVersion
+        run: (dotnet gitversion | ConvertFrom-Json).MajorMinorPatch >> $env:Version
       - name: 🏗️ build
         run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package_module }}.sln
         env:
@@ -136,11 +138,7 @@ jobs:
           name: packages
       - name: Display structure of downloaded files
         run: ls -R
-      # - name: verify
-      #   run: dotnet nuget verify **/*.nupkg
       - name: addSource
         run: dotnet nuget add source --username krzysztofkaczorowski --password ${{ secrets.PKG_TOKEN_PERSONAL }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/krzysztofkaczorowski/index.json"
       - name: push
         run: dotnet nuget push **/*.nupkg  --api-key ${{ secrets.PKG_TOKEN_PERSONAL }} --source "github" --skip-duplicate 
-
-      # TODO: Publish to NuGet
