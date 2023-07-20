@@ -152,7 +152,7 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
       - name: addSource
-        run: dotnet nuget add source --username piotrzajac --password ${{ secrets.NUGET_API_KEY }} --store-password-in-clear-text --name github "https://api.nuget.org/v3/index.json"
+        run: dotnet nuget list source #dotnet nuget add source --username pzajac --password ${{ secrets.NUGET_API_KEY }} --store-password-in-clear-text --name github "https://api.nuget.org/v3/index.json"
       #- name: push
       #  run: dotnet nuget push **/*.nupkg  --api-key ${{ secrets.NUGET_API_KEY }} --source "github" --skip-duplicate
       - name: Add Tag
