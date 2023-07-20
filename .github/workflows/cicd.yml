@@ -153,7 +153,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [build]
-    environment: prod
+    environment: ${{inputs.environment}}
     steps:
       - name: 🔽 download packages
         uses: actions/download-artifact@v3
