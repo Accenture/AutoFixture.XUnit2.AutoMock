@@ -17,6 +17,11 @@ on:
         required: true
         type: boolean
         default: true
+      environment:
+        description: "Environment"
+        type: environment
+        required: true
+        default: prod
   push:
     branches: ["*"]
     paths:
@@ -43,6 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.MATRIX }}
+      Version: ${{ steps.gitversion.outputs.MajorMinorPatch }}
     steps:
       - name: 🎰 prepare strategy matrix
         id: set-matrix
@@ -56,14 +62,26 @@ jobs:
             package_module = Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name}
           }
           "MATRIX=$($matrix | ConvertTo-JSON -Compress))" >> $env:GITHUB_OUTPUT
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0
+        with:
+          versionSpec: "5.x"
+      - name: Determine Version
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0
+        with:
+          useConfigFile: true
+      - name: Fetch GitVersion
+        run: |
+          echo "Version=${{ steps.gitversion.outputs.MajorMinorPatch }}" >> $env:GITHUB_ENV
   build:
     needs: init
     runs-on: windows-latest #We are using windows instead of ubuntu becaus it provides support for net472 & net48.
     timeout-minutes: 15
+    env: 
+      Version: ${{ needs.init.outputs.Version }}
     strategy:
       matrix: ${{ fromJSON(needs.init.outputs.matrix) }}
-    outputs:
-      Version: ${{ steps.gitversion.outputs.MajorMinorPatch }}
     steps:
       - name: 🤘 checkout
         uses: actions/checkout@v3
@@ -77,18 +95,6 @@ jobs:
           "PATH=$path" >> $env:GITHUB_OUTPUT
         env:
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
-      - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0
-        with:
-          versionSpec: "5.x"
-      - name: Determine Version
-        id: gitversion
-        uses: gittools/actions/gitversion/execute@v0
-        with:
-          useConfigFile: true
-      - name: Fetch GitVersion
-        run: |
-          echo "Version=${{ steps.gitversion.outputs.MajorMinorPatch }}" >> $env:GITHUB_ENV
       - name: 🏗️ build
         run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package_module }}.sln
         env:
@@ -153,6 +159,11 @@ jobs:
         run: ls -R
       - name: push
         run: dotnet nuget push **/*.nupkg  --api-key ${{ secrets.NUGET_API_KEY }} --source "nuget.org" --skip-duplicate
+  add-tags:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [publish, init]
+    steps:
       - name: 🤘 checkout
         uses: actions/checkout@v3
         if: ${{ github.ref == 'refs/heads/main' }}
@@ -161,5 +172,5 @@ jobs:
       - name: Add Tag
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |
-          git tag "${{ needs.build.outputs.Version }}"
-          git push origin "${{ needs.build.outputs.Version }}"
+          git tag "${{ needs.init.outputs.Version }}"
+          git push origin "${{ needs.init.outputs.Version }}"
