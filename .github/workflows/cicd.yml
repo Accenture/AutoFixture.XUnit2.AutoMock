@@ -160,6 +160,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Add Tag
+        if: ${{ github.ref == 'refs/heads/main' }}
         run: |
           git tag "${{ needs.build.outputs.Version }}"
           git push origin "${{ needs.build.outputs.Version }}"
