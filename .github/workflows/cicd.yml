@@ -75,9 +75,6 @@ jobs:
         uses: gittools/actions/gitversion/execute@v0
         with:
           useConfigFile: true
-      - name: Fetch GitVersion
-        run: |
-          echo "Version=${{ steps.gitversion.outputs.MajorMinorPatch }}" >> $env:GITHUB_ENV
   build:
     needs: init
     runs-on: windows-latest #We are using windows instead of ubuntu becaus it provides support for net472 & net48.
