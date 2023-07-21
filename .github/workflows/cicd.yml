@@ -3,33 +3,37 @@ on:
   workflow_dispatch:
     inputs:
       buildAutoMoq:
-        description: 'Build AutoMoq'
+        description: "Build AutoMoq"
         required: true
         type: boolean
         default: true
       buildAutoNSubstitute:
-        description: 'Build AutoNSubstitute'
+        description: "Build AutoNSubstitute"
         required: true
         type: boolean
         default: true
       buildAutoFakeItEasy:
-        description: 'Build AutoFakeItEasy'
+        description: "Build AutoFakeItEasy"
         required: true
         type: boolean
         default: true
+      environment:
+        description: "Environment"
+        type: environment
+        required: true
+        default: prod
   push:
-    branches: [ '*' ]
-    paths: 
-      - 'src/**'
+    branches: ["*"]
+    paths:
+      - "src/**"
   pull_request:
     paths:
-      - 'src/**'
+      - "src/**"
     types: [opened, synchronize, reopened]
 
 env:
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
-  Version: 0.0.${{ github.run_number }}
   Configuration: Release
   Namespace: Objectivity.AutoFixture.XUnit2
   StrongNameKeyName: key.snk
@@ -44,6 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.MATRIX }}
+      Version: ${{ steps.gitversion.outputs.MajorMinorPatch }}
     steps:
       - name: 🎰 prepare strategy matrix
         id: set-matrix
@@ -57,15 +62,32 @@ jobs:
             package_module = Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name}
           }
           "MATRIX=$($matrix | ConvertTo-JSON -Compress))" >> $env:GITHUB_OUTPUT
+      - name: 🤘 checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0
+        with:
+          versionSpec: "5.x"
+      - name: Determine Version
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0
+        with:
+          useConfigFile: true
   build:
     needs: init
     runs-on: windows-latest #We are using windows instead of ubuntu becaus it provides support for net472 & net48.
     timeout-minutes: 15
+    env: 
+      Version: ${{ needs.init.outputs.Version }}
     strategy:
       matrix: ${{ fromJSON(needs.init.outputs.matrix) }}
     steps:
       - name: 🤘 checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: 🖊️ materialize signing key
         id: signing-key
         run: |
@@ -93,7 +115,7 @@ jobs:
         run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f net472
       - name: 🧪 test Core in net48
         run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f net48
-      - name: 🧪 test ${{ matrix.package_module }} in net7.0  & collect coverage 
+      - name: 🧪 test ${{ matrix.package_module }} in net7.0  & collect coverage
         id: module-code-coverage
         run: |
           $path = [IO.Path]::Combine("$env:CoverageDirectory","$env:CoverageFileName.xml")
@@ -128,6 +150,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [build]
+    environment: ${{inputs.environment}}
     steps:
       - name: 🔽 download packages
         uses: actions/download-artifact@v3
@@ -135,4 +158,20 @@ jobs:
           name: packages
       - name: Display structure of downloaded files
         run: ls -R
-      # TODO: Publish to NuGet
+      - name: push
+        run: dotnet nuget push **/*.nupkg  --api-key ${{ secrets.NUGET_API_KEY }} --source "nuget.org" --skip-duplicate
+  add-tags:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [publish, init]
+    steps:
+      - name: 🤘 checkout
+        uses: actions/checkout@v3
+        if: ${{ github.ref == 'refs/heads/main' }}
+        with:
+          fetch-depth: 0
+      - name: Add Tag
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          git tag "${{ needs.init.outputs.Version }}"
+          git push origin "${{ needs.init.outputs.Version }}"
