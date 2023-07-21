@@ -150,7 +150,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [build]
-    environment: ${{inputs.environment}}
+    environment: ${{ inputs.environment }}
+    if: ${{ inputs.environment != null }}
     steps:
       - name: 🔽 download packages
         uses: actions/download-artifact@v3
@@ -164,14 +165,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [publish, init]
+    if: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - name: 🤘 checkout
         uses: actions/checkout@v3
-        if: ${{ github.ref == 'refs/heads/main' }}
         with:
           fetch-depth: 0
       - name: Add Tag
-        if: ${{ github.ref == 'refs/heads/main' }}
         run: |
           git tag "${{ needs.init.outputs.Version }}"
           git push origin "${{ needs.init.outputs.Version }}"
