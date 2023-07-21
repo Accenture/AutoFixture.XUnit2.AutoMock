@@ -22,13 +22,11 @@ on:
         type: environment
         required: true
         default: prod
-  push:
-    branches: ["*"]
-    paths:
-      - "src/**"
   pull_request:
-    paths:
-      - "src/**"
+    branches: ["*"]
+    paths-ignore:
+      - "**.md"
+      - "**.png"
     types: [opened, synchronize, reopened]
 
 env:
