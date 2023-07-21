@@ -1,7 +1,1 @@
-mode: Mainline
-ignore:
-  sha: 
-  - 2e8c2afb1198f6c7e8e59c4e959e4e9e1af6fb6e 
-  - 41229fc8a1789171da7f020fa1173f74c27fcc41
-  - 038b707919a2d1b492f74cca4896198b2e701d57
-  - 2bcf4832d930defd9bab030ddb1d6f27a107115d
+mode: ContinuousDelivery
