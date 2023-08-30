@@ -60,15 +60,15 @@ jobs:
             package_module = @(Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name})
           }
           "MATRIX=$($matrix | ConvertTo-JSON -Compress)" >> $env:GITHUB_OUTPUT
-      - name: 🤘 checkout
+      - name: 📥 checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Install GitVersion
+      - name: 🗜️ install GitVersion
         uses: gittools/actions/gitversion/setup@v0
         with:
           versionSpec: "5.x"
-      - name: Determine Version
+      - name: 🎱 determine version
         id: gitversion
         uses: gittools/actions/gitversion/execute@v0
         with:
@@ -82,7 +82,7 @@ jobs:
     strategy:
       matrix: ${{ fromJSON(needs.init.outputs.matrix) }}
     steps:
-      - name: 🤘 checkout
+      - name: 📥 checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -109,7 +109,7 @@ jobs:
         env:
           CoverageFileName: ${{ env.Namespace }}.Core
           TargetFramework: net7.0
-      - name: 🧪 test Core in net472 #TODO: investigate https://github.com/coverlet-coverage/coverlet/blob/master/Documentation/KnownIssues.md#tests-fail-if-assembly-is-strong-named
+      - name: 🧪 test Core in net472
         run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f net472
       - name: 🧪 test Core in net48
         run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f net48
@@ -155,9 +155,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: packages
-      - name: Display structure of downloaded files
-        run: ls -R
-      - name: push
+      - name: 📤 push
         run: dotnet nuget push **/*.nupkg  --api-key ${{ secrets.NUGET_API_KEY }} --source "nuget.org" --skip-duplicate
   add-tags:
     runs-on: ubuntu-latest
@@ -165,11 +163,11 @@ jobs:
     needs: [publish, init]
     if: ${{ github.ref == 'refs/heads/main' }}
     steps:
-      - name: 🤘 checkout
+      - name: 📥 checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Add Tag
+      - name: 🏷️ tag version
         run: |
           git tag "${{ needs.init.outputs.Version }}"
           git push origin "${{ needs.init.outputs.Version }}"
