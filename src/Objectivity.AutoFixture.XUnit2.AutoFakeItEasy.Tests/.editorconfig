@@ -20,3 +20,5 @@ dotnet_diagnostic.RCS1090.severity = none
 dotnet_diagnostic.S3376.severity = none
 # S4158: Empty collections should not be accessed or iterated.
 dotnet_diagnostic.S4158.severity = none
+# S6608: Prefer indexing instead of "Enumerable" methods on types implementing "IList"
+dotnet_diagnostic.S6608.severity = none
