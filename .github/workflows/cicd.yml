@@ -80,7 +80,7 @@ jobs:
           useConfigFile: true
   build:
     needs: init
-    runs-on: windows-latest #We are using windows instead of ubuntu becaus it provides support for net472 & net48.
+    runs-on: windows-latest # We are using windows instead of ubuntu becaus it provides support for net472 & net48.
     timeout-minutes: 15
     env: 
       Version: ${{ needs.init.outputs.Version }}
@@ -166,7 +166,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [publish, init]
-    if: ${{ github.ref == 'refs/heads/main' }}
+    # Allow tagging only on the master branch
+    if: ${{ github.ref_name == 'master' }}
     steps:
       - name: 📥 checkout
         uses: actions/checkout@v3
