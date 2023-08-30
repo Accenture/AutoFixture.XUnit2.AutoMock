@@ -2,15 +2,18 @@ name: fossa-scan
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - "master" # Run the workflow when pushing to the master branch
     paths:
       - 'src/**'
       - '.github/workflows/fossa-scan.yml'  
   pull_request:
-    branches: [ "master" ]
+    branches:
+      - "*" # Run the workflow for all pull requests
     paths:
       - 'src/**'
       - '.github/workflows/fossa-scan.yml'
+
 jobs:
   fossa-scan:
     runs-on: ubuntu-latest
