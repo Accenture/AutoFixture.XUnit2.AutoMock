@@ -57,9 +57,9 @@ jobs:
             AutoFakeItEasy=if ('${{inputs.buildAutoFakeItEasy}}') { $${{inputs.buildAutoFakeItEasy}} } else { $true }
           }
           $matrix = @{
-            package_module = Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name}
+            package_module = @(Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name})
           }
-          "MATRIX=$($matrix | ConvertTo-JSON -Compress))" >> $env:GITHUB_OUTPUT
+          "MATRIX=$($matrix | ConvertTo-JSON -Compress)" >> $env:GITHUB_OUTPUT
       - name: 🤘 checkout
         uses: actions/checkout@v3
         with:
