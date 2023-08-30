@@ -24,6 +24,7 @@
     <PackageIcon>icon.png</PackageIcon>
     <PackageTags>AutoFixture Moq xUnit xUnit2 AutoMoq AutoMock</PackageTags>
     <PackageReleaseNotes>See https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock/releases</PackageReleaseNotes>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageVersion>$(Version)</PackageVersion>
@@ -66,6 +67,7 @@
   <ItemGroup>
     <None Include="..\public.snk" Link="public.snk" />
     <None Include="..\..\images\icon.png" Pack="true" Visible="false" PackagePath="" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
   <ItemGroup>
