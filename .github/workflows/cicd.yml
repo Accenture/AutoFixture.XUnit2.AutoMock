@@ -1,4 +1,5 @@
 ﻿name: CI/CD
+
 on:
   workflow_dispatch:
     inputs:
@@ -22,8 +23,12 @@ on:
         type: environment
         required: true
         default: prod
+  push:
+    branches:
+      - "master" # Run the workflow when pushing to the master branch
   pull_request:
-    branches: ["*"]
+    branches:
+      - "*" # Run the workflow for all pull requests
     paths-ignore:
       - "**.md"
       - "**.png"
