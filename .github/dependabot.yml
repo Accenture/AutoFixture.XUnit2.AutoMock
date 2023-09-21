@@ -7,5 +7,17 @@ updates:
       day: "sunday"
       time: "03:00"
       timezone: "CET"
+    groups:
+      xUnit:
+        patterns:
+          - "xunit.*"
+        exclude-patterns:
+          - "xunit.analyzers"
+      AutoFixture:
+        patterns:
+          - "AutoFixture*"
+      Analyzers:
+        patterns:
+          - "*analyzer*"
     ignore:
       - dependency-name: "Moq"
