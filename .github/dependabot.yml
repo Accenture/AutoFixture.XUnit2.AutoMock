@@ -12,13 +12,13 @@ updates:
         patterns:
           - "xunit"
           - "xunit.*"
-        exclude-patterns:
-          - "xunit.analyzers"
       AutoFixture:
         patterns:
           - "AutoFixture*"
       Analyzers:
         patterns:
           - "*analyzer*"
+        exclude-patterns:
+          - "xunit.analyzers"
     ignore:
       - dependency-name: "Moq"
