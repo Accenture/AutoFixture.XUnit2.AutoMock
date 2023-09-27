@@ -1,6 +1,5 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.AutoMoq.Tests.Attributes
 {
-    using System;
     using System.Collections.Generic;
     using System.Reflection;
 
@@ -80,16 +79,24 @@
         }
 
         [AutoMockData]
-        [Theory(DisplayName = "GIVEN test method has some parameters WHEN test run THEN parameters are generated")]
-        public void GivenTestMethodHasSomeParameters_WhenTestRun_ThenParametersAreGenerated(int value, IDisposable disposable)
+        [Theory(DisplayName = "GIVEN test method has some value parameters WHEN test run THEN parameters are generated")]
+        public void GivenTestMethodHasSomeValueParameters_WhenTestRun_ThenParametersAreGenerated(int value)
         {
             // Arrange
             // Act
             // Assert
             value.Should().NotBe(default);
+        }
 
-            disposable.Should().NotBeNull();
-            disposable.GetType().Name.Should().StartWith("IDisposableProxy", "that way we know it was mocked.");
+        [AutoMockData]
+        [Theory(DisplayName = "GIVEN test method has some object parameters WHEN test run THEN parameters are generated")]
+        public void GivenTestMethodHasSomeObjectParameters_WhenTestRun_ThenParametersAreGenerated(IFakeObjectUnderTest value)
+        {
+            // Arrange
+            // Act
+            // Assert
+            value.Should().NotBeNull();
+            value.StringProperty.Should().NotBeNullOrEmpty();
         }
 
         protected void MethodUnderTest()

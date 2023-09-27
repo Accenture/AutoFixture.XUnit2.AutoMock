@@ -1,6 +1,5 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests.Attributes
 {
-    using System;
     using System.Collections.Generic;
     using System.Reflection;
 
@@ -113,15 +112,19 @@
 
         [InlineAutoMockData(100)]
         [Theory(DisplayName = "GIVEN test method has some inline parameters WHEN test run THEN parameters are generated")]
-        public void GivenTestMethodHasSomeInlineParameters_WhenTestRun_ThenParametersAreGenerated(int value, IDisposable disposable)
+        public void GivenTestMethodHasSomeInlineParameters_WhenTestRun_ThenParametersAreGenerated(
+            int firstValueInstance,
+            int secondValueInstance,
+            IFakeObjectUnderTest objectInstance)
         {
             // Arrange
             // Act
             // Assert
-            value.Should().Be(100);
+            firstValueInstance.Should().Be(100);
+            secondValueInstance.Should().NotBe(default);
 
-            disposable.Should().NotBeNull();
-            disposable.GetType().Name.Should().StartWith("ObjectProxy", "that way we know it was mocked.");
+            objectInstance.Should().NotBeNull();
+            objectInstance.StringProperty.Should().NotBeNullOrEmpty();
         }
 
         protected void MethodUnderTest()
