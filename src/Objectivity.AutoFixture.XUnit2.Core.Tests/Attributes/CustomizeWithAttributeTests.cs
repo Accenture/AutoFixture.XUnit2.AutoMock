@@ -100,7 +100,8 @@
 
             // Act
             // Assert
-            Assert.Throws<ArgumentException>(() => new CustomizeWithAttribute(customizationType));
+            var exception = Assert.Throws<ArgumentException>(() => new CustomizeWithAttribute(customizationType));
+            exception.Message.Should().NotBeNullOrEmpty().And.Contain(nameof(ICustomization));
         }
 
         [Fact(DisplayName = "GIVEN CustomizeWith attribute with IncludeParameterType set WHEN GetCustomization is invoked THEN customization with expected type is returned")]

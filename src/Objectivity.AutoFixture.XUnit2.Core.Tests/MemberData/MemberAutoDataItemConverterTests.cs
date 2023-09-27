@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
 
     using FluentAssertions;
@@ -20,12 +21,12 @@
     [Trait("Category", "MemberData")]
     public class MemberAutoDataItemConverterTests
     {
+        private static readonly Type MemberType = typeof(MemberAutoDataItemConverterTests);
+        private static readonly MethodInfo TestMethod = MemberType.GetMethod(nameof(MethodUnderTest), BindingFlags.Instance | BindingFlags.NonPublic);
         private readonly Fixture fixture = new();
         private readonly Mock<IAutoFixtureInlineAttributeProvider> dataAttributeProvider = new();
         private readonly Mock<DataAttribute> dataAttribute = new();
         private readonly IDataItemConverter converter;
-        private readonly Type memberType = typeof(MemberAutoDataItemConverterTests);
-        private readonly MethodInfo testMethod;
         private readonly string memberName;
 
         public MemberAutoDataItemConverterTests()
@@ -34,8 +35,35 @@
             this.dataAttributeProvider.Setup(p => p.GetAttribute(this.fixture, It.IsAny<object[]>())).Returns(this.dataAttribute.Object);
             this.dataAttribute.Setup(a => a.GetData(It.IsAny<MethodInfo>())).Returns(data);
             this.converter = new MemberAutoDataItemConverter(this.fixture, this.dataAttributeProvider.Object);
-            this.testMethod = this.memberType.GetMethod(nameof(this.MethodUnderTest), BindingFlags.Instance | BindingFlags.NonPublic);
             this.memberName = this.fixture.Create<string>();
+        }
+
+        public static IEnumerable<object[]> MemberTypeTestData { get; } = new[]
+        {
+            new object[] { MemberType, MemberType.Name },
+            new object[] { typeof(string), nameof(String) },
+            new object[] { null, MemberType.Name },
+        };
+
+        [Fact(DisplayName = "GIVEN provider with no data attribute WHEN Convert is invoked THEN Null is returned")]
+        public void GivenProviderWithNoDataAttribute_WhenConvertIsInvoked_ThenNullReturned()
+        {
+            // Arrange
+            var noData = Enumerable.Empty<object[]>();
+            var noDataAttribute = new Mock<DataAttribute>();
+            noDataAttribute.Setup(a => a.GetData(It.IsAny<MethodInfo>())).Returns(noData);
+            var noDataProvider = new Mock<IAutoFixtureInlineAttributeProvider>();
+            noDataProvider.Setup(x => x.GetAttribute(It.IsAny<IFixture>(), It.IsNotNull<object[]>())).Returns(noDataAttribute.Object);
+            var noDataConverter = new MemberAutoDataItemConverter(this.fixture, noDataProvider.Object);
+            var item = this.fixture.Create<object[]>();
+
+            // Act
+            var data = noDataConverter.Convert(TestMethod, item, this.memberName, MemberType);
+
+            // Assert
+            data.Should().BeNull();
+            noDataProvider.VerifyAll();
+            noDataAttribute.VerifyAll();
         }
 
         [Fact(DisplayName = "GIVEN valid parameters WHEN Convert is invoked THEN appropriate code is invoked and data is returned")]
@@ -45,7 +73,7 @@
             var item = this.fixture.Create<object[]>();
 
             // Act
-            var data = this.converter.Convert(this.testMethod, item, this.memberName, this.memberType);
+            var data = this.converter.Convert(TestMethod, item, this.memberName, MemberType);
 
             // Assert
             data.Should().NotBeNull();
@@ -53,28 +81,32 @@
             this.dataAttribute.VerifyAll();
         }
 
-        [Fact(DisplayName = "GIVEN uninitialized item WHEN Convert is invoked THEN exception is thrown")]
+        [Fact(DisplayName = "GIVEN uninitialized item WHEN Convert is invoked THEN Null is returned")]
         public void GivenUninitializedItem_WhenConvertInvoked_ThenNullReturned()
         {
             // Arrange
             const object item = null;
 
             // Act
-            var data = this.converter.Convert(this.testMethod, item, this.memberName, this.memberType);
+            var data = this.converter.Convert(TestMethod, item, this.memberName, MemberType);
 
             // Assert
             data.Should().BeNull();
         }
 
-        [Fact(DisplayName = "GIVEN item of unexpected type WHEN Convert is invoked THEN exception is thrown")]
-        public void GivenItemOfUnexpectedType_WhenConvertIsInvoked_ThenExceptionIsThrown()
+        [Theory(DisplayName = "GIVEN item of unexpected type WHEN Convert is invoked THEN exception is thrown")]
+        [MemberData(nameof(MemberTypeTestData))]
+        public void GivenItemOfUnexpectedType_WhenConvertIsInvoked_ThenExceptionIsThrown(
+            Type memberType,
+            string expectedTypeName)
         {
             // Arrange
             var item = this.fixture.Create<object>();
 
             // Act
             // Assert
-            Assert.Throws<ArgumentException>(() => this.converter.Convert(this.testMethod, item, this.memberName, this.memberType));
+            var exception = Assert.Throws<ArgumentException>(() => this.converter.Convert(TestMethod, item, this.memberName, memberType));
+            exception.Message.Should().NotBeNullOrEmpty().And.Contain(this.memberName).And.Contain(expectedTypeName);
         }
 
         [Fact(DisplayName = "GIVEN uninitialized test method WHEN Convert is invoked THEN exception is thrown")]
@@ -86,7 +118,7 @@
 
             // Act
             // Assert
-            Assert.Throws<ArgumentNullException>(() => this.converter.Convert(method, item, this.memberName, this.memberType));
+            Assert.Throws<ArgumentNullException>(() => this.converter.Convert(method, item, this.memberName, MemberType));
         }
 
         protected void MethodUnderTest()
