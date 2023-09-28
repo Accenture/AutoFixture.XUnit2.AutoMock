@@ -47,8 +47,9 @@ jobs:
           dotnet new tool-manifest
           dotnet tool install --local dotnet-stryker
       - name: 👾 test mutations
+        working-directory: ./src
         run: |
-          dotnet tool run dotnet-stryker -s ${{ github.workspace }}/src/${{ env.Namespace }}.AutoMock.sln -r 'ClearText'
+          dotnet tool run dotnet-stryker -s ${{ env.Namespace }}.AutoMock.sln -r 'ClearText'
         env:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
