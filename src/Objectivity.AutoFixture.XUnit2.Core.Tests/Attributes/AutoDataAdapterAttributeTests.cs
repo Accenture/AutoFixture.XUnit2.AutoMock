@@ -8,6 +8,7 @@
     using FluentAssertions;
 
     using global::AutoFixture;
+    using global::AutoFixture.Kernel;
     using global::AutoFixture.Xunit2;
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
 
@@ -59,13 +60,14 @@
             IFixture fixture = new Fixture();
             var attribute = new AutoDataAdapterAttribute(fixture, SpecificTestClass.Create());
             var methodInfo = typeof(AutoDataAdapterAttributeTests).GetMethod(nameof(this.TestMethodWithAbstractTestClass), BindingFlags.Instance | BindingFlags.NonPublic);
+            var expectedNumberOfParameters = methodInfo.GetParameters().Length;
 
             // Act
             var data = attribute.GetData(methodInfo).ToArray();
 
             // Assert
             data.Should().HaveCount(1)
-                .And.Subject.First().Should().HaveCount(methodInfo.GetParameters().Length)
+                .And.Subject.First().Should().HaveCount(expectedNumberOfParameters)
                 .And.NotContainNulls()
                 .And.Subject.Skip(1).Should().AllBeEquivalentTo(data.First().Last());
         }
@@ -85,9 +87,45 @@
             data.Should().Throw<Exception>();
         }
 
-        protected string TestMethodWithAbstractTestClass(SpecificTestClass instance, [Frozen] string text, string message)
+        [Fact(DisplayName = "GIVEN test method with Frozen customization after others WHEN GetData called THEN ensure parameter is frozen on the end")]
+        public void GivenTestMethodWithFrozenCustomizationAfterOthers_WhenGetDataCalled_ThenEnsureParameterIsFrozenOnTheEnd()
+        {
+            // Arrange
+            IFixture fixture = new Fixture();
+            var attribute = new AutoDataAdapterAttribute(fixture, null);
+            var methodInfo = typeof(AutoDataAdapterAttributeTests).GetMethod(nameof(this.TestMethodWithFrozenCustomizationBeforeOthers), BindingFlags.Instance | BindingFlags.NonPublic);
+            var expectedNumberOfParameters = methodInfo.GetParameters().Length;
+
+            // Act
+            var data = attribute.GetData(methodInfo).ToArray();
+
+            // Assert
+            data.Should().HaveCount(1)
+                .And.Subject.First().Should().HaveCount(expectedNumberOfParameters)
+                .And.NotContainNulls()
+                .And.Subject.Skip(1).Should().AllSatisfy((x) =>
+                {
+                    var parameters = data.First();
+                    x.Should().Be(parameters.Last())
+                        .And.NotBe(parameters.First())
+                        .And.Subject.As<string>().Should().Contain(StopStringCustomization.Value);
+                });
+        }
+
+        protected string TestMethodWithAbstractTestClass(
+            SpecificTestClass instance,
+            [Frozen] string text,
+            string message)
         {
             return $"{instance}: {text}, {message}";
+        }
+
+        protected string TestMethodWithFrozenCustomizationBeforeOthers(
+            string first,
+            [Frozen][StopString] string second,
+            string third)
+        {
+            return $"{first}: {second}, {third}";
         }
 
         [SuppressMessage("Minor Code Smell", "S2094:Classes should not be empty", Justification = "Test class")]
@@ -104,6 +142,23 @@
             public static AbstractTestClass Create()
             {
                 return new SpecificTestClass();
+            }
+        }
+
+        protected sealed class StopStringAttribute : CustomizeWithAttribute<StopStringCustomization>
+        {
+        }
+
+        protected class StopStringCustomization : ICustomization
+        {
+            public const string Value = "STOP";
+
+            public void Customize(IFixture fixture)
+            {
+                fixture.Customizations.Add(
+                    new FilteringSpecimenBuilder(
+                        new FixedBuilder(Value),
+                        new ExactTypeSpecification(Value.GetType())));
             }
         }
     }
