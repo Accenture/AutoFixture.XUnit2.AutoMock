@@ -48,7 +48,7 @@ jobs:
           dotnet tool install --local dotnet-stryker
       - name: 👾 test mutations
         run: |
-          dotnet-stryker -s ./src/${{ env.Namespace }}.AutoMock.sln -r 'ClearText'
+          dotnet tool run dotnet-stryker -s ./src/${{ env.Namespace }}.AutoMock.sln -r 'ClearText'
         env:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
