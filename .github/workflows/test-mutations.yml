@@ -48,7 +48,7 @@ jobs:
       - name: 👾 test mutations
         working-directory: ./src
         run: |
-          dotnet tool run dotnet-stryker -f stryker-config.yaml -r dashboard -v ${{ github.ref_name }} --dashboard-api-key ${{ secrets.STRYKER_API_KEY }}
+          dotnet tool run dotnet-stryker -f stryker-config.yaml -r dashboard -v ${{ github.ref_name }} --dashboard-api-key ${{ secrets.STRYKER_API_KEY }} -V debug
         env:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
