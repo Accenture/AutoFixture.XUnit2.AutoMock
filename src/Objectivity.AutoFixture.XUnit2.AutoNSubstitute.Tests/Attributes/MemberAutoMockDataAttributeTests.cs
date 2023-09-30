@@ -163,7 +163,12 @@
 
         [Theory(DisplayName = "GIVEN test method has some member generated parameters WHEN test run THEN parameters are provided")]
         [MemberAutoMockData(nameof(TestData))]
-        public void GivenTestMethodHasSomeMemberGeneratedParameters_WhenTestRun_ThenParametersAreProvided(int first, int second, int third, int fourth, IDisposable disposable)
+        public void GivenTestMethodHasSomeMemberGeneratedParameters_WhenTestRun_ThenParametersAreProvided(
+            int first,
+            int second,
+            int third,
+            int fourth,
+            IFakeObjectUnderTest objectInstance)
         {
             // Arrange
             var testData = TestData.ToList();
@@ -175,8 +180,8 @@
             third.Should().BeOneOf((int)testData[0][2], (int)testData[1][2], (int)testData[2][2]);
             fourth.Should().NotBe(default);
 
-            disposable.Should().NotBeNull();
-            disposable.GetType().Name.Should().StartWith("ObjectProxy", "that way we know it was mocked.");
+            objectInstance.Should().NotBeNull();
+            objectInstance.StringProperty.Should().NotBeNullOrEmpty();
         }
     }
 }

@@ -1,0 +1,56 @@
+name: test-mutations
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "master" # Run the workflow when pushing to the master branch
+    paths-ignore:
+      - "**.md"
+      - "**.png"
+  pull_request:
+    branches:
+      - "*" # Run the workflow for all pull requests
+    paths-ignore:
+      - "**.md"
+      - "**.png"
+  
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  Configuration: Release
+  StrongNameKeyName: key.snk
+      
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  init:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: 🖊️ materialize signing key
+        id: signing-key
+        run: |
+          $path = [IO.Path]::Combine("${{ github.workspace }}","src","${{ env.StrongNameKeyName }}")
+          [IO.File]::WriteAllBytes($path, [Convert]::FromBase64String("$env:StrongNameKey"))
+          "PATH=$path" >> $env:GITHUB_OUTPUT
+        env:
+          StrongNameKey: ${{ secrets.SIGNING_KEY }}
+      - name: 💾 install stryker.net
+        run: |
+          dotnet new tool-manifest
+          dotnet tool install --local dotnet-stryker
+      - name: 👾 test mutations
+        working-directory: ./src
+        run: |
+          dotnet tool run dotnet-stryker -f stryker-config.yaml -r dashboard -v ${{ github.ref_name }} --dashboard-api-key ${{ secrets.STRYKER_API_KEY }} -V debug
+        env:
+          CI: true
+          StrongNameKey: ${{ secrets.SIGNING_KEY }}
+          StrongNameKeyPath: ${{ steps.signing-key.outputs.PATH }}
+  
