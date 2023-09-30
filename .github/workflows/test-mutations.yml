@@ -19,7 +19,6 @@ env:
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   Configuration: Release
-  Namespace: Objectivity.AutoFixture.XUnit2
   StrongNameKeyName: key.snk
       
 defaults:
@@ -49,7 +48,7 @@ jobs:
       - name: 👾 test mutations
         working-directory: ./src
         run: |
-          dotnet tool run dotnet-stryker -s ${{ env.Namespace }}.AutoMock.sln -r 'ClearText'
+          dotnet tool run dotnet-stryker -f stryker-config.yaml -r dashboard -v ${{ github.ref_name }} --dashboard-api-key ${{ secrets.STRYKER_API_KEY }}
         env:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
