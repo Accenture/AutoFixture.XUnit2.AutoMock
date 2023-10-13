@@ -148,7 +148,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: packages
-          path: ./src/**/*.nupkg
+          path: |
+            ./src/**/*.nupkg
+            ./src/**/*.snupkg
   publish:
     runs-on: ubuntu-latest
     timeout-minutes: 15
