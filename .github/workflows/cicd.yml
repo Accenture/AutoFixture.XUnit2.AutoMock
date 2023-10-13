@@ -92,7 +92,7 @@ jobs:
           fetch-depth: 0
       - name: 🖊️ materialize signing key
         id: signing-key
-        uses: actions/materialize-signing-key@reusable-actions
+        uses: ./.github/actions/materialize-signing-key
       - name: 🏗️ build
         run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package_module }}.sln
         env:
