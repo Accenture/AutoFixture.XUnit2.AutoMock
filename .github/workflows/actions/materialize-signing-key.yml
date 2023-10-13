@@ -1,0 +1,22 @@
+name: Materialize signing key
+description: Materializes key to sign assemblies
+outputs:
+  file-path:
+    description: "signing key file path"
+    value: ${{ steps.signing-key.outputs.PATH }}
+env:
+  StrongNameKeyName: key.snk
+defaults:
+  run:
+    shell: pwsh
+runs:
+  using: "composite"
+  steps:
+    - name: 🖊️ materialize signing key
+      id: signing-key
+      run: |
+        $path = [IO.Path]::Combine("${{ github.workspace }}","src","${{ env.StrongNameKeyName }}")
+        [IO.File]::WriteAllBytes($path, [Convert]::FromBase64String("$env:StrongNameKey"))
+        "PATH=$path" >> $env:GITHUB_OUTPUT
+      env:
+        StrongNameKey: ${{ secrets.SIGNING_KEY }}

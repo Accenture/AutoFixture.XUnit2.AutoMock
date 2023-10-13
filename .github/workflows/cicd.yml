@@ -39,7 +39,6 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   Configuration: Release
   Namespace: Objectivity.AutoFixture.XUnit2
-  StrongNameKeyName: key.snk
   CoverageDirectory: ${{ github.workspace }}\src\opencover
 
 defaults:
@@ -93,18 +92,13 @@ jobs:
           fetch-depth: 0
       - name: 🖊️ materialize signing key
         id: signing-key
-        run: |
-          $path = [IO.Path]::Combine("${{ github.workspace }}","src","${{ env.StrongNameKeyName }}")
-          [IO.File]::WriteAllBytes($path, [Convert]::FromBase64String("$env:StrongNameKey"))
-          "PATH=$path" >> $env:GITHUB_OUTPUT
-        env:
-          StrongNameKey: ${{ secrets.SIGNING_KEY }}
+        uses: actions/materialize-signing-key@reusable-actions
       - name: 🏗️ build
         run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package_module }}.sln
         env:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
-          StrongNameKeyPath: ${{ steps.signing-key.outputs.PATH }}
+          StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
       - name: 🧪 test Core in net7.0 & collect coverage
         id: core-code-coverage
         run: |
@@ -143,7 +137,7 @@ jobs:
         env:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
-          StrongNameKeyPath: ${{ steps.signing-key.outputs.PATH }}
+          StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
       - name: 🔼 upload packages
         uses: actions/upload-artifact@v3
         with:
