@@ -1,19 +1,22 @@
-name: test-mutations
+name: 'Stryker.NET: Mutation testing'
 
 on:
-  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'stryker-config.yml'
+      - '.github/workflows/test-mutations.yml'
+      - '.github/actions/materialize-signing-key/**'
+    types: [opened, synchronize, reopened]
   push:
     branches:
-      - "master" # Run the workflow when pushing to the master branch
-    paths-ignore:
-      - "**.md"
-      - "**.png"
-  pull_request:
-    branches:
-      - "*" # Run the workflow for all pull requests
-    paths-ignore:
-      - "**.md"
-      - "**.png"
+      - 'master'
+    paths:
+      - 'src/**'
+      - 'stryker-config.yml'
+      - '.github/workflows/test-mutations.yml'
+      - '.github/actions/materialize-signing-key/**'
+  workflow_dispatch:
   
 env:
   DOTNET_NOLOGO: true
@@ -44,9 +47,8 @@ jobs:
       - name: 👾 test mutations
         working-directory: ./src
         run: |
-          dotnet tool run dotnet-stryker -f stryker-config.yaml -r dashboard -v ${{ github.ref_name }} --dashboard-api-key ${{ secrets.STRYKER_API_KEY }}
+          dotnet tool run dotnet-stryker -f ../stryker-config.yml -r dashboard -v ${{ github.ref_name }} --dashboard-api-key ${{ secrets.STRYKER_API_KEY }}
         env:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
           StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
-  

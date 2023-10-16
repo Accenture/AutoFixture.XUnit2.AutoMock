@@ -1,13 +1,20 @@
-name: "CodeQL"
+name: 'CodeQL: Semantic code analysis'
 
 on:
-  push:
-    branches: [ "master" ]
   pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [ "master" ]
+    paths:
+      - 'src/**'
+      - '.github/workflows/codeql.yml'
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - 'master'
+    paths:
+      - 'src/**'
+      - '.github/workflows/codeql.yml'
   schedule:
     - cron: '20 23 * * 0'
+  workflow_dispatch:
 
 env:
   DOTNET_NOLOGO: true
@@ -47,4 +54,4 @@ jobs:
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
       with:
-        category: "/language:${{matrix.language}}"
+        category: '/language:${{matrix.language}}'

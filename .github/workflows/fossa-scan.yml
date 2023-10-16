@@ -1,18 +1,18 @@
-name: fossa-scan
+name: 'FOSSA: License & security scan'
 
 on:
-  push:
-    branches:
-      - "master" # Run the workflow when pushing to the master branch
-    paths:
-      - 'src/**'
-      - '.github/workflows/fossa-scan.yml'  
   pull_request:
-    branches:
-      - "*" # Run the workflow for all pull requests
     paths:
       - 'src/**'
       - '.github/workflows/fossa-scan.yml'
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - 'master'
+    paths:
+      - 'src/**'
+      - '.github/workflows/fossa-scan.yml'  
+  workflow_dispatch:
 
 jobs:
   fossa-scan:
@@ -22,4 +22,3 @@ jobs:
       - uses: fossas/fossa-action@main
         with:
           api-key: ${{ secrets.FOSSA_API_KEY }}
-
