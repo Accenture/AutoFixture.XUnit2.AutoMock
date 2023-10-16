@@ -1,4 +1,4 @@
-name: fossa-scan
+name: Check license compliance and security issues FOSSA
 
 on:
   push:
@@ -8,11 +8,10 @@ on:
       - 'src/**'
       - '.github/workflows/fossa-scan.yml'  
   pull_request:
-    branches:
-      - "*" # Run the workflow for all pull requests
     paths:
       - 'src/**'
       - '.github/workflows/fossa-scan.yml'
+    types: [opened, synchronize, reopened]
 
 jobs:
   fossa-scan:

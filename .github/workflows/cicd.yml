@@ -26,12 +26,17 @@ on:
   push:
     branches:
       - "master" # Run the workflow when pushing to the master branch
+    paths:
+      - 'src/**'
+      - 'GitVersion.yml'
+      - '.github/workflows/cicd.yml'
+      - '.github/actions/materialize-signing-key/**'
   pull_request:
-    branches:
-      - "*" # Run the workflow for all pull requests
-    paths-ignore:
-      - "**.md"
-      - "**.png"
+    paths:
+      - 'src/**'
+      - 'GitVersion.yml'
+      - '.github/workflows/cicd.yml'
+      - '.github/actions/materialize-signing-key/**'
     types: [opened, synchronize, reopened]
 
 env:
