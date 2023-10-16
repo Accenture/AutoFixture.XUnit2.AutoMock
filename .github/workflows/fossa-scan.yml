@@ -1,17 +1,18 @@
 name: 'FOSSA: License & security scan'
 
 on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - '.github/workflows/fossa-scan.yml'
+    types: [opened, synchronize, reopened]
   push:
     branches:
       - 'master'
     paths:
       - 'src/**'
       - '.github/workflows/fossa-scan.yml'  
-  pull_request:
-    paths:
-      - 'src/**'
-      - '.github/workflows/fossa-scan.yml'
-    types: [opened, synchronize, reopened]
+  workflow_dispatch:
 
 jobs:
   fossa-scan:

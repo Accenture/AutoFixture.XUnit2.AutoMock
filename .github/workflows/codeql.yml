@@ -1,19 +1,20 @@
 name: 'CodeQL: Semantic code analysis'
 
 on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - '.github/workflows/codeql.yml'
+    types: [opened, synchronize, reopened]
   push:
     branches:
       - 'master'
     paths:
       - 'src/**'
       - '.github/workflows/codeql.yml'
-  pull_request:
-    paths:
-      - 'src/**'
-      - '.github/workflows/codeql.yml'
-    types: [opened, synchronize, reopened]
   schedule:
     - cron: '20 23 * * 0'
+  workflow_dispatch:
 
 env:
   DOTNET_NOLOGO: true

@@ -1,6 +1,21 @@
 ﻿name: CI/CD
 
 on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'GitVersion.yml'
+      - '.github/workflows/cicd.yml'
+      - '.github/actions/materialize-signing-key/**'
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - 'master'
+    paths:
+      - 'src/**'
+      - 'GitVersion.yml'
+      - '.github/workflows/cicd.yml'
+      - '.github/actions/materialize-signing-key/**'
   workflow_dispatch:
     inputs:
       buildAutoMoq:
@@ -23,21 +38,6 @@ on:
         type: environment
         required: true
         default: prod
-  push:
-    branches:
-      - 'master'
-    paths:
-      - 'src/**'
-      - 'GitVersion.yml'
-      - '.github/workflows/cicd.yml'
-      - '.github/actions/materialize-signing-key/**'
-  pull_request:
-    paths:
-      - 'src/**'
-      - 'GitVersion.yml'
-      - '.github/workflows/cicd.yml'
-      - '.github/actions/materialize-signing-key/**'
-    types: [opened, synchronize, reopened]
 
 env:
   DOTNET_NOLOGO: true
