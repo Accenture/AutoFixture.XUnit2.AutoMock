@@ -1,10 +1,10 @@
-name: test-mutations
+name: 'Stryker.NET: Mutation testing'
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - "master"
+      - 'master'
     paths:
       - 'src/**'
       - 'stryker-config.yml'

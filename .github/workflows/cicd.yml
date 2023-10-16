@@ -4,28 +4,28 @@ on:
   workflow_dispatch:
     inputs:
       buildAutoMoq:
-        description: "Build AutoMoq"
+        description: 'Build AutoMoq'
         required: true
         type: boolean
         default: true
       buildAutoNSubstitute:
-        description: "Build AutoNSubstitute"
+        description: 'Build AutoNSubstitute'
         required: true
         type: boolean
         default: true
       buildAutoFakeItEasy:
-        description: "Build AutoFakeItEasy"
+        description: 'Build AutoFakeItEasy'
         required: true
         type: boolean
         default: true
       environment:
-        description: "Environment"
+        description: 'Environment'
         type: environment
         required: true
         default: prod
   push:
     branches:
-      - "master" # Run the workflow when pushing to the master branch
+      - 'master'
     paths:
       - 'src/**'
       - 'GitVersion.yml'
@@ -76,7 +76,7 @@ jobs:
       - name: 🗜️ install GitVersion
         uses: gittools/actions/gitversion/setup@v0
         with:
-          versionSpec: "5.x"
+          versionSpec: '5.x'
       - name: 🎱 determine version
         id: gitversion
         uses: gittools/actions/gitversion/execute@v0

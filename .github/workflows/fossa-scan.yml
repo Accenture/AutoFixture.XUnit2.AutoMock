@@ -1,9 +1,9 @@
-name: Check license compliance and security issues FOSSA
+name: 'FOSSA: License & security scan'
 
 on:
   push:
     branches:
-      - "master" # Run the workflow when pushing to the master branch
+      - 'master'
     paths:
       - 'src/**'
       - '.github/workflows/fossa-scan.yml'  
@@ -21,4 +21,3 @@ jobs:
       - uses: fossas/fossa-action@main
         with:
           api-key: ${{ secrets.FOSSA_API_KEY }}
-

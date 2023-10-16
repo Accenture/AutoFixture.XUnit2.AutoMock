@@ -1,9 +1,9 @@
-name: "CodeQL"
+name: 'CodeQL: Semantic code analysis'
 
 on:
   push:
     branches:
-      - "master"
+      - 'master'
     paths:
       - 'src/**'
       - '.github/workflows/codeql.yml'
@@ -53,4 +53,4 @@ jobs:
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
       with:
-        category: "/language:${{matrix.language}}"
+        category: '/language:${{matrix.language}}'
