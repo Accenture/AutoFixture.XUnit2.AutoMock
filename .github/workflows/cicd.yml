@@ -93,6 +93,8 @@ jobs:
       - name: 🖊️ materialize signing key
         id: signing-key
         uses: ./.github/actions/materialize-signing-key
+        with:
+          signing-key-value: ${{ secrets.SIGNING_KEY }}
       - name: 🏗️ build
         run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package_module }}.sln
         env:
