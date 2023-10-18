@@ -68,6 +68,7 @@ jobs:
           $matrix = @{
             package_module = @(Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name})
           }
+          if ($matrix.package_module.count -gt 0) { $matrix.package_module = @("Core") + $matrix.package_module }
           "MATRIX=$($matrix | ConvertTo-JSON -Compress)" >> $env:GITHUB_OUTPUT
       - name: 📥 checkout
         uses: actions/checkout@v3
@@ -106,46 +107,21 @@ jobs:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
           StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
-      - name: 🧪 test Core in net7.0 & collect coverage
-        id: core-code-coverage
-        run: |
-          $path = [IO.Path]::Combine("$env:CoverageDirectory","$env:CoverageFileName.xml")
-          dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f $env:TargetFramework -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$path
-          "FILE=$env:CoverageFileName.$env:TargetFramework.xml" >> $env:GITHUB_OUTPUT
-        env:
-          CoverageFileName: ${{ env.Namespace }}.Core
-          TargetFramework: net7.0
-      - name: 🧪 test Core in net472
-        run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f net472
-      - name: 🧪 test Core in net48
-        run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f net48
-      - name: 🧪 test ${{ matrix.package_module }} in net7.0  & collect coverage
-        id: module-code-coverage
-        run: |
-          $path = [IO.Path]::Combine("$env:CoverageDirectory","$env:CoverageFileName.xml")
-          dotnet test ./src/${{ env.Namespace }}.${{ matrix.package_module }}.Tests/ --no-build -f $env:TargetFramework -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$path
-          "FILE=$env:CoverageFileName.$env:TargetFramework.xml" >> $env:GITHUB_OUTPUT
-        env:
-          CoverageFileName: ${{ env.Namespace }}.${{ matrix.package_module }}
-          TargetFramework: net7.0
-      - name: 🧪 test ${{ matrix.package_module }} in net472
-        run: dotnet test ./src/${{ env.Namespace }}.${{ matrix.package_module }}.Tests/ --no-build -f net472
-      - name: 🧪 test ${{ matrix.package_module }} in net48
-        run: dotnet test ./src/${{ env.Namespace }}.${{ matrix.package_module }}.Tests/ --no-build -f net48
-      - name: 📤 upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
+      - name: 🧪 test
+        uses: ./.github/actions/test-module
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ${{ steps.core-code-coverage.outputs.FILE }},${{ steps.module-code-coverage.outputs.FILE }}
-          directory: ${{ env.CoverageDirectory }}
-          flags: unittests
+          module-name: ${{ matrix.package_module }}
+          module-namespace: ${{ env.Namespace }}
+          codecov-token: ${{ secrets.CODECOV_TOKEN }}
       - name: 📦 pack
+        if: ${{ startsWith(matrix.package_module, 'Auto' ) }}
         run: dotnet pack ./src/${{ env.Namespace }}.${{ matrix.package_module }} --no-restore
         env:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
           StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
       - name: 🔼 upload packages
+        if: ${{ startsWith(matrix.package_module, 'Auto' ) }}
         uses: actions/upload-artifact@v3
         with:
           name: packages

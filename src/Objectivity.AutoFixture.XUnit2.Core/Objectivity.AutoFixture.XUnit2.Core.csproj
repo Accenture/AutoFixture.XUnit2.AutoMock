@@ -19,6 +19,10 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <SignAssembly>true</SignAssembly>
     <!-- Sign assembly with public & private key only on a build server with a defined key, otherwise delay signing. -->
     <DelaySign Condition="'$(CI)'=='' OR '$(StrongNameKey)'==''">true</DelaySign>
