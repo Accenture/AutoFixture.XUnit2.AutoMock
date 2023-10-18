@@ -44,7 +44,6 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   Configuration: Release
   Namespace: Objectivity.AutoFixture.XUnit2
-  CoverageDirectory: ${{ github.workspace }}\src\opencover
 
 defaults:
   run:
