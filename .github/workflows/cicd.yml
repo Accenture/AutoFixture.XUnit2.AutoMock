@@ -106,39 +106,51 @@ jobs:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
           StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
-      - name: 🧪 test Core in net7.0 & collect coverage
-        id: core-code-coverage
-        run: |
-          $path = [IO.Path]::Combine("$env:CoverageDirectory","$env:CoverageFileName.xml")
-          dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f $env:TargetFramework -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$path
-          "FILE=$env:CoverageFileName.$env:TargetFramework.xml" >> $env:GITHUB_OUTPUT
-        env:
-          CoverageFileName: ${{ env.Namespace }}.Core
-          TargetFramework: net7.0
-      - name: 🧪 test Core in net472
-        run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f net472
-      - name: 🧪 test Core in net48
-        run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f net48
-      - name: 🧪 test ${{ matrix.package_module }} in net7.0  & collect coverage
-        id: module-code-coverage
-        run: |
-          $path = [IO.Path]::Combine("$env:CoverageDirectory","$env:CoverageFileName.xml")
-          dotnet test ./src/${{ env.Namespace }}.${{ matrix.package_module }}.Tests/ --no-build -f $env:TargetFramework -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$path
-          "FILE=$env:CoverageFileName.$env:TargetFramework.xml" >> $env:GITHUB_OUTPUT
-        env:
-          CoverageFileName: ${{ env.Namespace }}.${{ matrix.package_module }}
-          TargetFramework: net7.0
-      - name: 🧪 test ${{ matrix.package_module }} in net472
-        run: dotnet test ./src/${{ env.Namespace }}.${{ matrix.package_module }}.Tests/ --no-build -f net472
-      - name: 🧪 test ${{ matrix.package_module }} in net48
-        run: dotnet test ./src/${{ env.Namespace }}.${{ matrix.package_module }}.Tests/ --no-build -f net48
-      - name: 📤 upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ${{ steps.core-code-coverage.outputs.FILE }},${{ steps.module-code-coverage.outputs.FILE }}
-          directory: ${{ env.CoverageDirectory }}
-          flags: unittests
+      - name: 🧪 test Core
+        uses: ./.github/actions/test-module
+          with:
+            module-name: Core
+            module-namespace: ${{ env.Namespace }}
+            codecov-token: ${{ secrets.CODECOV_TOKEN }}
+      - name: 🧪 test ${{ matrix.package_module }}
+        uses: ./.github/actions/test-module
+          with:
+            module-name: ${{ matrix.package_module }}
+            module-namespace: ${{ env.Namespace }}
+            codecov-token: ${{ secrets.CODECOV_TOKEN }}
+      # - name: 🧪 test Core in net7.0 & collect coverage
+      #   id: core-code-coverage
+      #   run: |
+      #     $path = [IO.Path]::Combine("$env:CoverageDirectory","$env:CoverageFileName.xml")
+      #     dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f $env:TargetFramework -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$path
+      #     "FILE=$env:CoverageFileName.$env:TargetFramework.xml" >> $env:GITHUB_OUTPUT
+      #   env:
+      #     CoverageFileName: ${{ env.Namespace }}.Core
+      #     TargetFramework: net7.0
+      # - name: 🧪 test Core in net472
+      #   run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f net472
+      # - name: 🧪 test Core in net48
+      #   run: dotnet test ./src/${{ env.Namespace }}.Core.Tests/ --no-build -f net48
+      # - name: 🧪 test ${{ matrix.package_module }} in net7.0  & collect coverage
+      #   id: module-code-coverage
+      #   run: |
+      #     $path = [IO.Path]::Combine("$env:CoverageDirectory","$env:CoverageFileName.xml")
+      #     dotnet test ./src/${{ env.Namespace }}.${{ matrix.package_module }}.Tests/ --no-build -f $env:TargetFramework -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$path
+      #     "FILE=$env:CoverageFileName.$env:TargetFramework.xml" >> $env:GITHUB_OUTPUT
+      #   env:
+      #     CoverageFileName: ${{ env.Namespace }}.${{ matrix.package_module }}
+      #     TargetFramework: net7.0
+      # - name: 🧪 test ${{ matrix.package_module }} in net472
+      #   run: dotnet test ./src/${{ env.Namespace }}.${{ matrix.package_module }}.Tests/ --no-build -f net472
+      # - name: 🧪 test ${{ matrix.package_module }} in net48
+      #   run: dotnet test ./src/${{ env.Namespace }}.${{ matrix.package_module }}.Tests/ --no-build -f net48
+      # - name: 📤 upload coverage reports to Codecov
+      #   uses: codecov/codecov-action@v3
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     files: ${{ steps.core-code-coverage.outputs.FILE }},${{ steps.module-code-coverage.outputs.FILE }}
+      #     directory: ${{ env.CoverageDirectory }}
+      #     flags: unittests
       - name: 📦 pack
         run: dotnet pack ./src/${{ env.Namespace }}.${{ matrix.package_module }} --no-restore
         env:
