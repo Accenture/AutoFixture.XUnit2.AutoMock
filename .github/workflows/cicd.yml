@@ -108,16 +108,16 @@ jobs:
           StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
       - name: 🧪 test Core
         uses: ./.github/actions/test-module
-          with:
-            module-name: Core
-            module-namespace: ${{ env.Namespace }}
-            codecov-token: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          module-name: Core
+          module-namespace: ${{ env.Namespace }}
+          codecov-token: ${{ secrets.CODECOV_TOKEN }}
       - name: 🧪 test ${{ matrix.package_module }}
         uses: ./.github/actions/test-module
-          with:
-            module-name: ${{ matrix.package_module }}
-            module-namespace: ${{ env.Namespace }}
-            codecov-token: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          module-name: ${{ matrix.package_module }}
+          module-namespace: ${{ env.Namespace }}
+          codecov-token: ${{ secrets.CODECOV_TOKEN }}
       # - name: 🧪 test Core in net7.0 & collect coverage
       #   id: core-code-coverage
       #   run: |
