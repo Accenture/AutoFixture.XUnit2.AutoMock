@@ -102,7 +102,7 @@ jobs:
         with:
           signing-key-value: ${{ secrets.SIGNING_KEY }}
       - name: 🏗️ build
-        run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package_module }}/
+        run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package_module }}.sln
         env:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
