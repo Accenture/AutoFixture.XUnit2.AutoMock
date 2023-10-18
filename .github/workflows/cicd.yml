@@ -107,7 +107,7 @@ jobs:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
           StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
-      - name: 🧪 test ${{ matrix.package_module }}
+      - name: 🧪 test
         uses: ./.github/actions/test-module
         with:
           module-name: ${{ matrix.package_module }}
