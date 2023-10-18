@@ -106,37 +106,6 @@ jobs:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
           StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
-      - name: 🔼 upload binaries
-        uses: actions/upload-artifact@v3
-        with:
-          name: bin
-          path: |
-            ./src/**/*.dll
-      - name: 📦 pack
-        run: dotnet pack ./src/${{ env.Namespace }}.${{ matrix.package_module }} --no-restore
-        env:
-          CI: true
-          StrongNameKey: ${{ secrets.SIGNING_KEY }}
-          StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
-      - name: 🔼 upload packages
-        uses: actions/upload-artifact@v3
-        with:
-          name: packages
-          path: |
-            ./src/**/*.nupkg
-            ./src/**/*.snupkg
-  test:
-    needs: [build, init]
-    runs-on: windows-latest # We are using windows instead of ubuntu becaus it provides support for net472 & net48.
-    timeout-minutes: 15
-    strategy:
-      matrix: ${{ fromJSON(needs.init.outputs.matrix) }}
-    steps:
-      - name: 🔽 download binaries
-        uses: actions/download-artifact@v3
-        with:
-          name: bin
-          path: src
       - name: 🧪 test Core in net7.0 & collect coverage
         id: core-code-coverage
         run: |
@@ -170,6 +139,19 @@ jobs:
           files: ${{ steps.core-code-coverage.outputs.FILE }},${{ steps.module-code-coverage.outputs.FILE }}
           directory: ${{ env.CoverageDirectory }}
           flags: unittests
+      - name: 📦 pack
+        run: dotnet pack ./src/${{ env.Namespace }}.${{ matrix.package_module }} --no-restore
+        env:
+          CI: true
+          StrongNameKey: ${{ secrets.SIGNING_KEY }}
+          StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
+      - name: 🔼 upload packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: packages
+          path: |
+            ./src/**/*.nupkg
+            ./src/**/*.snupkg
   publish:
     runs-on: ubuntu-latest
     timeout-minutes: 15
