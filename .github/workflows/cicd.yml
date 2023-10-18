@@ -68,7 +68,7 @@ jobs:
           $matrix = @{
             package_module = @(Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name})
           }
-          if ($matrix.package_module.count -gt 0) { $matrix.package_module += "Core" }
+          if ($matrix.package_module.count -gt 0) { $matrix.package_module = @("Core") + $matrix.package_module }
           "MATRIX=$($matrix | ConvertTo-JSON -Compress)" >> $env:GITHUB_OUTPUT
       - name: 📥 checkout
         uses: actions/checkout@v3
