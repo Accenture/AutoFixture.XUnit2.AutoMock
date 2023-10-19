@@ -17,22 +17,16 @@ inputs:
   target-framework:
     description: Framework version to run tests against
     required: true
-outputs:
-  file-path:
-    description: Signing key file path
-    value: ${{ steps.signing-key.outputs.PATH }}
 runs:
   using: composite
   steps:
     - name: 🧪 test ${{ inputs.module-name }} in ${{ inputs.target-framework }} & collect coverage
       id: test-and-collect-code-coverage
       run: |
-        $path = [IO.Path]::Combine("${{ inputs.coverage-directory }}","$env:ModuleFullName.xml")
-        dotnet test ./src/$env:ModuleFullName.Tests/ --no-build -f ${{ inputs.target-framework }} -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$path
-        "FILE=$env:ModuleFullName.${{ inputs.target-framework }}.xml" >> $env:GITHUB_OUTPUT
+        $path = [IO.Path]::Combine("${{ inputs.coverage-directory }}","${{ inputs.module-namespace }}.${{ inputs.module-name }}.xml")
+        dotnet test ./src/${{ inputs.module-namespace }}.${{ inputs.module-name }}.Tests/ --no-build -f ${{ inputs.target-framework }} -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$path
+        "FILE=${{ inputs.module-namespace }}.${{ inputs.module-name }}.${{ inputs.target-framework }}.xml" >> $env:GITHUB_OUTPUT
       shell: pwsh
-      env:
-        ModuleFullName: ${{ inputs.module-namespace }}.${{ inputs.module-name }}
     - name: 📤 upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
       with:

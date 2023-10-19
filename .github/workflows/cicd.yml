@@ -121,7 +121,7 @@ jobs:
       - name: 🧪 test ${{ matrix.package-module }} in ${{ matrix.target-framework }}
         if: ${{ matrix.collect-code-coverage != true }}
         run: dotnet test ./src/${{ env.Namespace }}.${{ matrix.package-module }}.Tests/ --no-build -f ${{ matrix.target-framework }}
-      - name: 🧪 test ${{ matrix.package-module }} in ${{ matrix.target-framework }} and collect code coverage
+      - name: 🧪 test ${{ matrix.package-module }} in ${{ matrix.target-framework }} & collect coverage
         if: ${{ matrix.collect-code-coverage == true }}
         uses: ./.github/actions/test-module
         with:
