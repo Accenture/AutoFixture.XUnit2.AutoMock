@@ -64,12 +64,10 @@ jobs:
             AutoNSubstitute=if ('${{inputs.buildAutoNSubstitute}}') { $${{inputs.buildAutoNSubstitute}} } else { $true };
             AutoFakeItEasy=if ('${{inputs.buildAutoFakeItEasy}}') { $${{inputs.buildAutoFakeItEasy}} } else { $true }
           }
-          $matrix = @{
-            package_module = @(Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name})
-          }
-          if ($matrix.package_module.count -gt 0) { $matrix.package_module = @("Core") + $matrix.package_module }
+          $matrix = @(Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name})
+          if ($matrix.count -gt 0) { $matrix = @("Core") + $matrix }
           "MATRIX=$($matrix | ConvertTo-JSON -Compress)" >> $env:GITHUB_OUTPUT
-      - run: Write-Output "Matrix:${{ steps.set-matrix.outputs.MATRIX }}, MatrixJSON:${{ fromJSON(steps.set-matrix.outputs.MATRIX) }}"
+      - run: Write-Output "Matrix:${{ steps.set-matrix.outputs.MATRIX }}"
       - name: 📥 checkout
         uses: actions/checkout@v3
         with:
@@ -90,7 +88,8 @@ jobs:
     env: 
       Version: ${{ needs.init.outputs.Version }}
     strategy:
-      matrix: ${{ fromJSON(needs.init.outputs.matrix) }}
+      matrix:
+        package_module: ${{ fromJSON(needs.init.outputs.matrix) }}
     steps:
       - name: 📥 checkout
         uses: actions/checkout@v3
