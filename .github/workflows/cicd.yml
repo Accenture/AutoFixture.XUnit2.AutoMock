@@ -89,9 +89,9 @@ jobs:
     strategy:
       matrix:
         package-module: ${{ fromJSON(needs.init.outputs.matrix) }}
-        target-framework: [net7.0, net472, net48]
+        target-framework: [net472, net48] # What to do with net7.0?
         include:
-          - target-framework: net7.0
+          - target-framework: net48
             collect-code-coverage: true
     if: ${{ needs.init.outputs.matrix != '' }}
     steps:
@@ -110,10 +110,10 @@ jobs:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
           StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
-      - name: 🧪 test ${{ matrix.package-module }} in net472
+      - name: 🧪 test ${{ matrix.package-module }} in ${{ matrix.target-framework }}
         if: ${{ matrix.collect-code-coverage != true }}
         run: dotnet test ./src/${{ env.Namespace }}.${{ matrix.package-module }}.Tests/ --no-build -f ${{ matrix.target-framework }}
-      - name: 🧪 test
+      - name: 🧪 test ${{ matrix.package-module }} in ${{ matrix.target-framework }} and collect code coverage
         if: ${{ matrix.collect-code-coverage == true }}
         uses: ./.github/actions/test-module
         with:
