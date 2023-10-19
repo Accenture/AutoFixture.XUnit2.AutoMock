@@ -42,6 +42,7 @@ on:
 env:
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
   Configuration: Release
   Namespace: Objectivity.AutoFixture.XUnit2
 
@@ -104,6 +105,13 @@ jobs:
         uses: ./.github/actions/materialize-signing-key
         with:
           signing-key-value: ${{ secrets.SIGNING_KEY }}
+      - name: 💾 cache nuget packages
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.NUGET_PACKAGES }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
       - name: 🏗️ build
         run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package-module }}.sln -f ${{ matrix.target-framework }}
         env:
@@ -141,9 +149,16 @@ jobs:
         uses: ./.github/actions/materialize-signing-key
         with:
           signing-key-value: ${{ secrets.SIGNING_KEY }}
+      - name: 💾 cache nuget packages
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.NUGET_PACKAGES }}
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
       - name: 📦 pack
         if: ${{ startsWith(matrix.package-module, 'Auto' ) }}
-        run: dotnet pack ./src/${{ env.Namespace }}.${{ matrix.package-module }} --no-restore
+        run: dotnet pack ./src/${{ env.Namespace }}.${{ matrix.package-module }}
         env:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
