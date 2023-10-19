@@ -80,7 +80,7 @@ jobs:
         uses: gittools/actions/gitversion/execute@v0
         with:
           useConfigFile: true
-  build:
+  build-and-test:
     needs: init
     runs-on: windows-latest # We are using windows instead of ubuntu becaus it provides support for net472 & net48.
     timeout-minutes: 15
@@ -88,7 +88,11 @@ jobs:
       Version: ${{ needs.init.outputs.Version }}
     strategy:
       matrix:
-        package_module: ${{ fromJSON(needs.init.outputs.matrix) }}
+        package-module: ${{ fromJSON(needs.init.outputs.matrix) }}
+        target-framework: [net7.0, net472, net48]
+        include:
+          - target-framework: net7.0
+            collect-code-coverage: true
     if: ${{ needs.init.outputs.matrix != '' }}
     steps:
       - name: 📥 checkout
@@ -101,26 +105,51 @@ jobs:
         with:
           signing-key-value: ${{ secrets.SIGNING_KEY }}
       - name: 🏗️ build
-        run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package_module }}.sln
+        run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package-module }}.sln -f ${{ matrix.target-framework }}
         env:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
           StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
+      - name: 🧪 test ${{ matrix.package-module }} in net472
+        if: ${{ matrix.collect-code-coverage != true }}
+        run: dotnet test ./src/${{ env.Namespace }}.${{ matrix.package-module }}.Tests/ --no-build -f ${{ matrix.target-framework }}
       - name: 🧪 test
+        if: ${{ matrix.collect-code-coverage == true }}
         uses: ./.github/actions/test-module
         with:
-          module-name: ${{ matrix.package_module }}
-          module-namespace: ${{ env.Namespace }}
           codecov-token: ${{ secrets.CODECOV_TOKEN }}
+          module-name: ${{ matrix.package-module }}
+          module-namespace: ${{ env.Namespace }}
+          target-framework: ${{ matrix.target-framework }}
+  pack:
+    needs: [init, build-and-test]
+    runs-on: windows-latest # We are using windows instead of ubuntu becaus it provides support for net472 & net48.
+    timeout-minutes: 15
+    env: 
+      Version: ${{ needs.init.outputs.Version }}
+    strategy:
+      matrix:
+        package-module: ${{ fromJSON(needs.init.outputs.matrix) }}
+    if: ${{ needs.init.outputs.matrix != '' }}
+    steps:
+      - name: 📥 checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: 🖊️ materialize signing key
+        id: signing-key
+        uses: ./.github/actions/materialize-signing-key
+        with:
+          signing-key-value: ${{ secrets.SIGNING_KEY }}
       - name: 📦 pack
-        if: ${{ startsWith(matrix.package_module, 'Auto' ) }}
-        run: dotnet pack ./src/${{ env.Namespace }}.${{ matrix.package_module }} --no-restore
+        if: ${{ startsWith(matrix.package-module, 'Auto' ) }}
+        run: dotnet pack ./src/${{ env.Namespace }}.${{ matrix.package-module }} --no-restore
         env:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
           StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
       - name: 🔼 upload packages
-        if: ${{ startsWith(matrix.package_module, 'Auto' ) }}
+        if: ${{ startsWith(matrix.package-module, 'Auto' ) }}
         uses: actions/upload-artifact@v3
         with:
           name: packages
@@ -130,7 +159,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    needs: [build]
+    needs: [pack]
     environment: ${{ inputs.environment }}
     if: ${{ inputs.environment != null }}
     steps:

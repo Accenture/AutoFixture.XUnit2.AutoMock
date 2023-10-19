@@ -1,12 +1,6 @@
 name: Test module
 description: Run tests against specified module
 inputs:
-  module-name:
-    description: Name of the module
-    required: true
-  module-namespace:
-    description: Name of the module namespace
-    required: true
   codecov-token:
     description: Value of Codecov token used to upload code coverage results
     required: true
@@ -14,6 +8,15 @@ inputs:
     description: Path to code coverage directory where results are being stored
     required: false
     default: ${{ github.workspace }}\src\opencover
+  module-name:
+    description: Name of the module
+    required: true
+  module-namespace:
+    description: Name of the module namespace
+    required: true
+  target-framework:
+    description: Framework version to run tests against
+    required: true
 outputs:
   file-path:
     description: Signing key file path
@@ -21,27 +24,19 @@ outputs:
 runs:
   using: composite
   steps:
-    - name: 🧪 test ${{ matrix.package_module }} in net7.0  & collect coverage
-      id: module-code-coverage
+    - name: 🧪 test ${{ inputs.module-name }} in ${{ inputs.target-framework }} & collect coverage
+      id: test-and-collect-code-coverage
       run: |
-        $path = [IO.Path]::Combine("$env:CoverageDirectory","$env:ModuleFullName.xml")
-        dotnet test ./src/$env:ModuleFullName.Tests/ --no-build -f $env:TargetFramework -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$path
-        "FILE=$env:ModuleFullName.$env:TargetFramework.xml" >> $env:GITHUB_OUTPUT
+        $path = [IO.Path]::Combine("${{ inputs.coverage-directory }}","$env:ModuleFullName.xml")
+        dotnet test ./src/$env:ModuleFullName.Tests/ --no-build -f ${{ inputs.target-framework }} -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$path
+        "FILE=$env:ModuleFullName.${{ inputs.target-framework }}.xml" >> $env:GITHUB_OUTPUT
       shell: pwsh
       env:
-        CoverageDirectory: ${{ inputs.coverage-directory }}
         ModuleFullName: ${{ inputs.module-namespace }}.${{ inputs.module-name }}
-        TargetFramework: net7.0
-    - name: 🧪 test ${{ matrix.package_module }} in net472
-      run: dotnet test ./src/${{ inputs.module-namespace }}.${{ inputs.module-name }}.Tests/ --no-build -f net472
-      shell: pwsh
-    - name: 🧪 test ${{ matrix.package_module }} in net48
-      run: dotnet test ./src/${{ inputs.module-namespace }}.${{ inputs.module-name }}.Tests/ --no-build -f net48
-      shell: pwsh
     - name: 📤 upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
       with:
         token: ${{ inputs.codecov-token }}
-        files: ${{ steps.module-code-coverage.outputs.FILE }}
+        files: ${{ steps.test-and-collect-code-coverage.outputs.FILE }}
         directory: ${{ inputs.coverage-directory }}
         flags: unittests
