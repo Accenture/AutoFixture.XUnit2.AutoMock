@@ -113,7 +113,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
       - name: 🏗️ build
-        run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package-module }}.sln -f ${{ matrix.target-framework }}
+        run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package-module }}.sln #-f ${{ matrix.target-framework }}
         env:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
