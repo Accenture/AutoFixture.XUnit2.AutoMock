@@ -92,7 +92,7 @@ jobs:
         package-module: ${{ fromJSON(needs.init.outputs.matrix) }}
         target-framework: [net472, net48] # What to do with net7.0?
         include:
-          - target-framework: net48
+          - target-framework: net472
             collect-code-coverage: true
     if: ${{ needs.init.outputs.matrix != '' }}
     steps:
