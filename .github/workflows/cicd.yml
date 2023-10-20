@@ -90,10 +90,11 @@ jobs:
     strategy:
       matrix:
         package-module: ${{ fromJSON(needs.init.outputs.matrix) }}
-        target-framework: [net472, net48] # What to do with net7.0?
+        target-framework: [net472, net48, net7.0]
         include:
-          - target-framework: net472
+          - target-framework: net7.0
             collect-code-coverage: true
+            skip-target-framework-on-build: true
     if: ${{ needs.init.outputs.matrix != '' }}
     steps:
       - name: 📥 checkout
@@ -112,8 +113,16 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
-      - name: 🏗️ build
+      - name: 🏗️ build for ${{ matrix.target-framework }}
+        if: ${{ matrix.skip-target-framework-on-build != true }}
         run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package-module }}.sln -f ${{ matrix.target-framework }}
+        env:
+          CI: true
+          StrongNameKey: ${{ secrets.SIGNING_KEY }}
+          StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
+      - name: 🏗️ build
+        if: ${{ matrix.skip-target-framework-on-build == true }}
+        run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package-module }}.sln
         env:
           CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
