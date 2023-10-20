@@ -182,6 +182,7 @@ jobs:
             ./src/**/*.snupkg
   publish:
     runs-on: ubuntu-latest
+    continue-on-error: true
     timeout-minutes: 15
     needs: [pack]
     environment: ${{ inputs.environment }}
@@ -198,7 +199,7 @@ jobs:
     timeout-minutes: 15
     needs: [publish, init]
     # Allow tagging only on the master branch
-    if: ${{ github.ref_name == 'master' }}
+    if: ${{ github.ref_name == 'master' && needs.publish.result == 'success' }}
     steps:
       - name: 📥 checkout
         uses: actions/checkout@v3
