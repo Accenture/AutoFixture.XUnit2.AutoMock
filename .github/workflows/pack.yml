@@ -16,6 +16,7 @@ on:
         type: string
     secrets:
       signing-key-value:
+        description: Value of the signing key
         required: true
 env:
   NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages

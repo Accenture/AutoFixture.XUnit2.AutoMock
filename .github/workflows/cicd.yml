@@ -83,10 +83,6 @@ jobs:
           useConfigFile: true
   build-and-test:
     needs: init
-    runs-on: windows-latest # We are using windows instead of ubuntu becaus it provides support for net472 & net48.
-    timeout-minutes: 15
-    env: 
-      Version: ${{ needs.init.outputs.Version }}
     strategy:
       matrix:
         package-module: ${{ fromJSON(needs.init.outputs.matrix) }}
@@ -96,48 +92,16 @@ jobs:
             collect-code-coverage: true
             skip-target-framework-on-build: true
     if: ${{ needs.init.outputs.matrix != '' }}
-    steps:
-      - name: 📥 checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: 🖊️ materialize signing key
-        id: signing-key
-        uses: ./.github/actions/materialize-signing-key
-        with:
-          signing-key-value: ${{ secrets.SIGNING_KEY }}
-      - name: 💾 cache nuget packages
-        uses: actions/cache@v3
-        with:
-          path: ${{ env.NUGET_PACKAGES }}
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
-      - name: 🏗️ build for ${{ matrix.target-framework }}
-        if: ${{ matrix.skip-target-framework-on-build != true }}
-        run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package-module }}.sln -f ${{ matrix.target-framework }}
-        env:
-          CI: true
-          StrongNameKey: ${{ secrets.SIGNING_KEY }}
-          StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
-      - name: 🏗️ build
-        if: ${{ matrix.skip-target-framework-on-build == true }}
-        run: dotnet build ./src/${{ env.Namespace }}.${{ matrix.package-module }}.sln
-        env:
-          CI: true
-          StrongNameKey: ${{ secrets.SIGNING_KEY }}
-          StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
-      - name: 🧪 test ${{ matrix.package-module }} in ${{ matrix.target-framework }}
-        if: ${{ matrix.collect-code-coverage != true }}
-        run: dotnet test ./src/${{ env.Namespace }}.${{ matrix.package-module }}.Tests/ --no-build -f ${{ matrix.target-framework }}
-      - name: 🧪 test ${{ matrix.package-module }} in ${{ matrix.target-framework }} & collect coverage
-        if: ${{ matrix.collect-code-coverage == true }}
-        uses: ./.github/actions/test-module
-        with:
-          codecov-token: ${{ secrets.CODECOV_TOKEN }}
-          module-name: ${{ matrix.package-module }}
-          module-namespace: ${{ env.Namespace }}
-          target-framework: ${{ matrix.target-framework }}
+    uses: ./.github/workflows/build-and-test.yml
+    with:
+      version: ${{ needs.init.outputs.Version }}
+      package-module: ${{ matrix.package-module }}
+      namespace: Objectivity.AutoFixture.XUnit2
+      target-framework: ${{ matrix.target-framework }}
+      skip-target-framework-on-build: ${{ matrix.skip-target-framework-on-build }}
+      collect-code-coverage: ${{ matrix.collect-code-coverage }}
+    secrets:
+      signing-key-value: ${{ secrets.SIGNING_KEY }}
   pack:
     needs: [init, build-and-test]
     strategy:
