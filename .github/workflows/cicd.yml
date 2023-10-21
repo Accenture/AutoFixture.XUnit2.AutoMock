@@ -98,8 +98,8 @@ jobs:
       package-module: ${{ matrix.package-module }}
       namespace: Objectivity.AutoFixture.XUnit2
       target-framework: ${{ matrix.target-framework }}
-      skip-target-framework-on-build: ${{ matrix.skip-target-framework-on-build }}
-      collect-code-coverage: ${{ matrix.collect-code-coverage }}
+      skip-target-framework-on-build: ${{ matrix.skip-target-framework-on-build == true }}
+      collect-code-coverage: ${{ matrix.collect-code-coverage == true }}
     secrets:
       signing-key-value: ${{ secrets.SIGNING_KEY }}
   pack:
