@@ -49,9 +49,9 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ${{ env.NUGET_PACKAGES }}
-        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        key: ${{ runner.os }}-nuget-${{ inputs.module-name }}-${{ hashFiles('**/*.csproj') }}
         restore-keys: |
-          ${{ runner.os }}-nuget-
+          ${{ runner.os }}-nuget-${{ inputs.module-name }}
     - name: 🏗️ build
       run: dotnet build ./src/${{ inputs.module-namespace }}.${{ inputs.module-name }}.sln
       env:
