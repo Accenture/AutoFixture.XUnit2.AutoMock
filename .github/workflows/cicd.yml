@@ -61,6 +61,7 @@ jobs:
       version: ${{ needs.init.outputs.version }}
     secrets:
       signing-key-value: ${{ secrets.SIGNING_KEY }}
+      codecov-token: ${{ secrets.CODECOV_TOKEN }}
   publish:
     runs-on: ubuntu-latest
     continue-on-error: true

@@ -19,13 +19,16 @@ on:
         required: true
         type: string
     secrets:
+      codecov-token:
+        description: Value of Codecov token used to upload code coverage results
+        required: true
       signing-key-value:
         description: Value of the signing key
         required: true
 env:
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
-  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+  NUGET_PACKAGES: ${{ github.workspace }}\.nuget\packages
   Version: ${{ inputs.version }}
   Configuration: ${{ inputs.configuration }}
 defaults:
@@ -56,7 +59,7 @@ jobs:
       run: dotnet build ./src/${{ inputs.module-namespace }}.${{ inputs.module-name }}.sln
       env:
         CI: true
-        StrongNameKey: ${{ secrets.SIGNING_KEY }}
+        StrongNameKey: ${{ secrets.signing-key-value }}
         StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
     - name: 🧪 test ${{ inputs.module-name }} in [net472, net48]
       run: |
@@ -65,7 +68,7 @@ jobs:
     - name: 🧪 test ${{ inputs.module-name }} in net7.0 & collect coverage
       uses: ./.github/actions/test-and-collect-coverage
       with:
-        codecov-token: ${{ secrets.CODECOV_TOKEN }}
+        codecov-token: ${{ secrets.codecov-token }}
         module-name: ${{ inputs.module-name }}
         module-namespace: ${{ inputs.module-namespace }}
         target-framework: net7.0
