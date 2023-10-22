@@ -66,6 +66,7 @@ jobs:
             AutoFakeItEasy = if ('${{inputs.buildAutoFakeItEasy}}') { $${{inputs.buildAutoFakeItEasy}} } else { $true }
           }
           $matrix = @(Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name})
+          if ($matrix.count -gt 0) { $matrix = @("Core") + $matrix }
           "MATRIX=$($matrix | ConvertTo-JSON -AsArray -Compress)" >> $env:GITHUB_OUTPUT
       - name: 📥 checkout
         uses: actions/checkout@v3
@@ -87,8 +88,6 @@ jobs:
         package-module: ${{ fromJSON(needs.init.outputs.matrix) }}
         target-framework: [net472, net48, net7.0]
         include:
-          - package-module: 'Core'
-            target-framework: [net472, net48, net7.0]
           - target-framework: net7.0
             collect-code-coverage: true
             skip-target-framework-on-build: true
@@ -108,6 +107,8 @@ jobs:
     strategy:
       matrix:
         package-module: ${{ fromJSON(needs.init.outputs.matrix) }}
+        exclude:
+          - package-module: Core
     if: ${{ needs.init.outputs.matrix != '' }}
     uses: ./.github/workflows/pack.yml
     with:
