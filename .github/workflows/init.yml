@@ -4,17 +4,17 @@ on:
     inputs:
       buildAutoFakeItEasy:
         description: 'Build AutoFakeItEasy'
-        required: true
+        required: false
         type: boolean
         default: true
       buildAutoMoq:
         description: 'Build AutoMoq'
-        required: true
+        required: false
         type: boolean
         default: true
       buildAutoNSubstitute:
         description: 'Build AutoNSubstitute'
-        required: true
+        required: false
         type: boolean
         default: true
     outputs:
