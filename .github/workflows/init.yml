@@ -54,7 +54,6 @@ jobs:
           AutoFakeItEasy = if ('${{inputs.buildAutoFakeItEasy}}') { $${{inputs.buildAutoFakeItEasy}} } else { $true }
         }
         $selectedModules = @(Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name})
-        if ($selectedModules.count -gt 0) { $selectedModules = @("Core") + $selectedModules }
         "modules=$($selectedModules | ConvertTo-JSON -AsArray -Compress)" >> $env:GITHUB_OUTPUT
     - name: 🎱 determine next version
       id: determine-version
