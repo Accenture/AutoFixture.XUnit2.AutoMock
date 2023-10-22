@@ -3,17 +3,17 @@ name: 'CodeQL: Semantic code analysis'
 on:
   pull_request:
     paths:
-      - 'src/**'
-      - '.github/workflows/codeql.yml'
+    - 'src/**'
+    - '.github/workflows/codeql.yml'
     types: [opened, synchronize, reopened]
   push:
     branches:
-      - 'master'
+    - 'master'
     paths:
-      - 'src/**'
-      - '.github/workflows/codeql.yml'
+    - 'src/**'
+    - '.github/workflows/codeql.yml'
   schedule:
-    - cron: '20 23 * * 0'
+  - cron: '20 23 * * 0'
   workflow_dispatch:
 
 env:

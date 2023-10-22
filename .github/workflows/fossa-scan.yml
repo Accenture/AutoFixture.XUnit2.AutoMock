@@ -3,24 +3,24 @@ name: 'FOSSA: License & security scan'
 on:
   pull_request:
     paths:
-      - 'src/**'
-      - '.github/workflows/fossa-scan.yml'
+    - 'src/**'
+    - '.github/workflows/fossa-scan.yml'
     types: [opened, synchronize, reopened]
   push:
     branches:
-      - 'master'
+    - 'master'
     paths:
-      - 'src/**'
-      - '.github/workflows/fossa-scan.yml'  
+    - 'src/**'
+    - '.github/workflows/fossa-scan.yml'  
   workflow_dispatch:
 
 jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
-      - name: 📥 checkout
-        uses: actions/checkout@v3
-      - name: 🔬 scan
-        uses: fossas/fossa-action@main
-        with:
-          api-key: ${{ secrets.FOSSA_API_KEY }}
+    - name: 📥 checkout
+      uses: actions/checkout@v3
+    - name: 🔬 scan
+      uses: fossas/fossa-action@main
+      with:
+        api-key: ${{ secrets.FOSSA_API_KEY }}

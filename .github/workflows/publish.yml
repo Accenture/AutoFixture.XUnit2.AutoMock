@@ -29,9 +29,9 @@ jobs:
     environment:
       name: ${{ inputs.environment }}
     steps:
-      - name: 🔽 download packages
-        uses: actions/download-artifact@v3
-        with:
-          name: packages
-      - name: 📤 push
-        run: dotnet nuget push **/*.nupkg  --api-key ${{ secrets.nuget-api-key }} --source "nuget.org" --skip-duplicate
+    - name: 🔽 download packages
+      uses: actions/download-artifact@v3
+      with:
+        name: packages
+    - name: 📤 push
+      run: dotnet nuget push **/*.nupkg  --api-key ${{ secrets.nuget-api-key }} --source "nuget.org" --skip-duplicate
