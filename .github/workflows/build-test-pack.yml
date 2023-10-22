@@ -70,12 +70,14 @@ jobs:
         module-namespace: ${{ inputs.module-namespace }}
         target-framework: net7.0
     - name: 📦 pack
+      if: ${{ startsWith(inputs.module-name, 'Auto' ) }}
       run: dotnet pack ./src/${{ inputs.module-namespace }}.${{ inputs.module-name }}
       env:
           CI: true
           StrongNameKey: ${{ secrets.signing-key-value }}
           StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
     - name: 🔼 upload packages
+      if: ${{ startsWith(inputs.module-name, 'Auto' ) }}
       uses: actions/upload-artifact@v3
       with:
           name: packages
