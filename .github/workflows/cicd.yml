@@ -42,42 +42,22 @@ defaults:
     shell: pwsh
 jobs:
   init:
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.determine-modules.outputs.modules }}
-      version: ${{ steps.determine-version.outputs.version }}
-      namespace: Objectivity.AutoFixture.XUnit2
-      configuration: Release
-    steps:
-      - name: 🎰 determine modules
-        id: determine-modules
-        run: |
-          $allModules = @{
-            AutoMoq = if ('${{inputs.buildAutoMoq}}') { $${{inputs.buildAutoMoq}} } else { $true };
-            AutoNSubstitute = if ('${{inputs.buildAutoNSubstitute}}') { $${{inputs.buildAutoNSubstitute}} } else { $true };
-            AutoFakeItEasy = if ('${{inputs.buildAutoFakeItEasy}}') { $${{inputs.buildAutoFakeItEasy}} } else { $true }
-          }
-          $selectedModules = @(Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name})
-          if ($selectedModules.count -gt 0) { $selectedModules = @("Core") + $selectedModules }
-          "modules=$($selectedModules | ConvertTo-JSON -AsArray -Compress)" >> $env:GITHUB_OUTPUT
-      - name: 📥 checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: 🎱 determine next version
-        id: determine-version
-        uses: ./.github/actions/determine-next-version
+    uses: ./.github/workflows/init.yml
+    with:
+      buildAutoMoq: ${{inputs.buildAutoMoq}}
+      buildAutoNSubstitute: ${{inputs.buildAutoNSubstitute}}
+      buildAutoFakeItEasy: ${{inputs.buildAutoFakeItEasy}}
   build-and-test:
     needs: init
     strategy:
       matrix:
-        module-name: ${{ fromJSON(needs.init.outputs.matrix) }}
+        module-name: ${{ fromJSON(needs.init.outputs.modules) }}
         target-framework: [net472, net48, net7.0]
         include:
           - target-framework: net7.0
             collect-code-coverage: true
             skip-target-framework-on-build: true
-    if: ${{ needs.init.outputs.matrix != '' }}
+    if: ${{ needs.init.outputs.modules != '' }}
     uses: ./.github/workflows/build-and-test.yml
     with:
       version: ${{ needs.init.outputs.version }}
@@ -93,10 +73,10 @@ jobs:
     needs: [init, build-and-test]
     strategy:
       matrix:
-        module-name: ${{ fromJSON(needs.init.outputs.matrix) }}
+        module-name: ${{ fromJSON(needs.init.outputs.modules) }}
         exclude:
           - module-name: Core
-    if: ${{ needs.init.outputs.matrix != '' }}
+    if: ${{ needs.init.outputs.modules != '' }}
     uses: ./.github/workflows/pack.yml
     with:
       version: ${{ needs.init.outputs.version }}
