@@ -61,7 +61,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-nuget-
     - name: 🏗️ build
-      run: dotnet build ./src/${{ inputs.namespace }}.${{ inputs.package-module }}.sln${{ inputs.skip-target-framework-on-build == true && '' || format(' -f {0}', inputs.target-framework)}}
+      run: dotnet build ./src/${{ inputs.namespace }}.${{ inputs.package-module }}.sln${{ inputs.skip-target-framework-on-build == false && format(' -f {0}', inputs.target-framework) || '' }}
       env:
         CI: true
         StrongNameKey: ${{ secrets.SIGNING_KEY }}
