@@ -3,17 +3,17 @@ name: 'CodeQL: Semantic code analysis'
 on:
   pull_request:
     paths:
-      - 'src/**'
-      - '.github/workflows/codeql.yml'
+    - 'src/**'
+    - '.github/workflows/codeql.yml'
     types: [opened, synchronize, reopened]
   push:
     branches:
-      - 'master'
+    - 'master'
     paths:
-      - 'src/**'
-      - '.github/workflows/codeql.yml'
+    - 'src/**'
+    - '.github/workflows/codeql.yml'
   schedule:
-    - cron: '20 23 * * 0'
+  - cron: '20 23 * * 0'
   workflow_dispatch:
 
 env:
@@ -21,9 +21,12 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   Configuration: Release
 
+defaults:
+  run:
+    shell: pwsh
+
 jobs:
   analyze:
-    name: Analyze
     runs-on: ubuntu-latest
     timeout-minutes: 360
     permissions:
@@ -37,21 +40,18 @@ jobs:
         language: [ 'csharp' ]
 
     steps:
-    - name: Checkout repository
+    - name: 📥 checkout
       uses: actions/checkout@v3
 
-    # Initializes the CodeQL tools for scanning.
-    - name: Initialize CodeQL
+    - name: 🎰 initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
 
-    - name: build
+    - name: 🏗️ build
       run: dotnet build ./src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
-      env:
-        CI: true
 
-    - name: Perform CodeQL Analysis
+    - name: 🔬 analyze with CodeQL
       uses: github/codeql-action/analyze@v2
       with:
-        category: '/language:${{matrix.language}}'
+        category: '/language:${{ matrix.language }}'

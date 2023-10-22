@@ -1,0 +1,18 @@
+name: Determine next version
+description: Determines next version for building and packing
+outputs:
+  version:
+    description: Next version
+    value: ${{ steps.gitversion.outputs.MajorMinorPatch }}
+runs:
+  using: composite
+  steps:
+  - name: 🗜️ install GitVersion
+    uses: gittools/actions/gitversion/setup@v0
+    with:
+      versionSpec: '5.x'
+  - name: 🎱 determine version
+    id: gitversion
+    uses: gittools/actions/gitversion/execute@v0
+    with:
+      useConfigFile: true

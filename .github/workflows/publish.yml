@@ -1,0 +1,36 @@
+name: Publish NuGet packages
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: Name of environment
+        type: string
+        required: true
+        default: prod
+    secrets:
+      nuget-api-key:
+        description: Value of NuGet API key used to upload packages
+        required: true
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: ${{ inputs.environment }}
+    steps:
+    - name: 🔽 download packages
+      uses: actions/download-artifact@v3
+      with:
+        name: packages
+    - name: 📤 push
+      run: dotnet nuget push **/*.nupkg  --api-key ${{ secrets.nuget-api-key }} --source "nuget.org" --skip-duplicate

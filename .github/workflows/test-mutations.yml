@@ -3,19 +3,19 @@ name: 'Stryker.NET: Mutation testing'
 on:
   pull_request:
     paths:
-      - 'src/**'
-      - 'stryker-config.yml'
-      - '.github/workflows/test-mutations.yml'
-      - '.github/actions/materialize-signing-key/**'
+    - 'src/**'
+    - 'stryker-config.yml'
+    - '.github/workflows/test-mutations.yml'
+    - '.github/actions/materialize-signing-key/**'
     types: [opened, synchronize, reopened]
   push:
     branches:
-      - 'master'
+    - 'master'
     paths:
-      - 'src/**'
-      - 'stryker-config.yml'
-      - '.github/workflows/test-mutations.yml'
-      - '.github/actions/materialize-signing-key/**'
+    - 'src/**'
+    - 'stryker-config.yml'
+    - '.github/workflows/test-mutations.yml'
+    - '.github/actions/materialize-signing-key/**'
   workflow_dispatch:
   
 env:
@@ -28,27 +28,26 @@ defaults:
     shell: pwsh
 
 jobs:
-  init:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - name: 📥 checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: 🖊️ materialize signing key
-        id: signing-key
-        uses: ./.github/actions/materialize-signing-key
-        with:
-          signing-key-value: ${{ secrets.SIGNING_KEY }}
-      - name: 💾 install stryker.net
-        run: |
-          dotnet new tool-manifest
-          dotnet tool install --local dotnet-stryker
-      - name: 👾 test mutations
-        working-directory: ./src
-        run: |
-          dotnet tool run dotnet-stryker -f ../stryker-config.yml -r dashboard -v ${{ github.ref_name }} --dashboard-api-key ${{ secrets.STRYKER_API_KEY }}
-        env:
-          CI: true
-          StrongNameKey: ${{ secrets.SIGNING_KEY }}
-          StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
+    - name: 📥 checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: 🖊️ materialize signing key
+      id: signing-key
+      uses: ./.github/actions/materialize-signing-key
+      with:
+        signing-key-value: ${{ secrets.SIGNING_KEY }}
+    - name: 💾 install stryker.net
+      run: |
+        dotnet new tool-manifest
+        dotnet tool install --local dotnet-stryker
+    - name: 👾 test mutations
+      working-directory: ./src
+      run: |
+        dotnet tool run dotnet-stryker -f ../stryker-config.yml -r dashboard -v ${{ github.ref_name }} --dashboard-api-key ${{ secrets.STRYKER_API_KEY }}
+      env:
+        StrongNameKey: ${{ secrets.SIGNING_KEY }}
+        StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
