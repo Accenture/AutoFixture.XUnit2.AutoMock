@@ -15,10 +15,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  fossa-scan:
+  scan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: fossas/fossa-action@main
+      - name: 📥 checkout
+        uses: actions/checkout@v3
+      - name: 🔬 scan
+        uses: fossas/fossa-action@main
         with:
           api-key: ${{ secrets.FOSSA_API_KEY }}

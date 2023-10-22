@@ -28,7 +28,7 @@ defaults:
     shell: pwsh
 
 jobs:
-  init:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: 📥 checkout
