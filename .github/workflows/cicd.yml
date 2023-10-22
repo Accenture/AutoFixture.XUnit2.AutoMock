@@ -44,9 +44,9 @@ jobs:
   init:
     uses: ./.github/workflows/init.yml
     with:
-      buildAutoFakeItEasy: ${{inputs.buildAutoFakeItEasy}}
-      buildAutoMoq: ${{inputs.buildAutoMoq}}
-      buildAutoNSubstitute: ${{inputs.buildAutoNSubstitute}}
+      buildAutoFakeItEasy: ${{inputs.buildAutoFakeItEasy == '' && true || inputs.buildAutoFakeItEasy}}
+      buildAutoMoq: ${{inputs.buildAutoMoq == '' && true || inputs.buildAutoMoq}}
+      buildAutoNSubstitute: ${{inputs.buildAutoNSubstitute == '' && true || inputs.buildAutoNSubstitute}}
   build-test-pack:
     needs: init
     strategy:
