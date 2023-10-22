@@ -25,7 +25,6 @@ jobs:
   run:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    continue-on-error: true
     environment:
       name: ${{ inputs.environment }}
     steps:
