@@ -1,5 +1,5 @@
-name: Test module
-description: Run tests against specified module
+name: Test module & collect code coverage
+description: Run tests against specified module collecting code coverage
 inputs:
   codecov-token:
     description: Value of Codecov token used to upload code coverage results
