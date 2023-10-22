@@ -28,6 +28,9 @@ env:
   NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
   Version: ${{ inputs.version }}
   Configuration: ${{ inputs.configuration }}
+defaults:
+  run:
+    shell: pwsh
 jobs:
   run:
     runs-on: windows-latest # We are using windows instead of ubuntu becaus it provides support for net472 & net48.
@@ -59,7 +62,6 @@ jobs:
       run: |
         dotnet test ./src/${{ inputs.module-namespace }}.${{ inputs.module-name }}.Tests/ --no-build -f net472
         dotnet test ./src/${{ inputs.module-namespace }}.${{ inputs.module-name }}.Tests/ --no-build -f net48
-      shell: pwsh
     - name: 🧪 test ${{ inputs.module-name }} in net7.0 & collect coverage
       uses: ./.github/actions/test-and-collect-coverage
       with:
