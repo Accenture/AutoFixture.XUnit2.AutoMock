@@ -1,4 +1,5 @@
 name: Add tag to repository
+
 on:
   workflow_call:
     inputs:
@@ -6,6 +7,11 @@ on:
         description: Assembly and package version
         required: true
         type: string
+
+defaults:
+  run:
+    shell: pwsh
+
 jobs:
   run:
     runs-on: ubuntu-latest

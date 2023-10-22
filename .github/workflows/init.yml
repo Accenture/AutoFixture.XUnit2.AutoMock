@@ -1,4 +1,5 @@
 name: Prepare workflows configuration
+
 on:
   workflow_call:
     inputs:
@@ -30,9 +31,11 @@ on:
       configuration:
         description: Global build configuration
         value: Release
+
 defaults:
   run:
     shell: pwsh
+
 jobs:
   run:
     runs-on: ubuntu-latest

@@ -1,4 +1,5 @@
 ﻿name: CI/CD
+
 on:
   pull_request:
     paths:
@@ -37,9 +38,11 @@ on:
         type: environment
         required: true
         default: prod
+
 defaults:
   run:
     shell: pwsh
+
 jobs:
   init:
     uses: ./.github/workflows/init.yml
@@ -47,8 +50,9 @@ jobs:
       buildAutoFakeItEasy: ${{github.event_name != 'workflow_dispatch' || inputs.buildAutoFakeItEasy == true}}
       buildAutoMoq: ${{github.event_name != 'workflow_dispatch' || inputs.buildAutoMoq == true}}
       buildAutoNSubstitute: ${{github.event_name != 'workflow_dispatch' || inputs.buildAutoNSubstitute == true}}
+
   build-test-pack:
-    needs: init
+    needs: [init]
     strategy:
       matrix:
         module-name: ${{ fromJSON(needs.init.outputs.modules) }}
@@ -62,20 +66,16 @@ jobs:
     secrets:
       signing-key-value: ${{ secrets.SIGNING_KEY }}
       codecov-token: ${{ secrets.CODECOV_TOKEN }}
+
   publish:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    timeout-minutes: 15
-    needs: build-test-pack
-    environment: ${{ inputs.environment }}
+    needs: [build-test-pack]
     if: ${{ inputs.environment != null }}
-    steps:
-      - name: 🔽 download packages
-        uses: actions/download-artifact@v3
-        with:
-          name: packages
-      - name: 📤 push
-        run: dotnet nuget push **/*.nupkg  --api-key ${{ secrets.NUGET_API_KEY }} --source "nuget.org" --skip-duplicate
+    uses: ./.github/workflows/publish.yml
+    with:
+      environment: ${{ inputs.environment }}
+    secrets:
+      nuget-api-key: ${{ secrets.NUGET_API_KEY }}
+
   tag:
     needs: [publish, init]
     # Allow tagging only on the master branch when publish was successful

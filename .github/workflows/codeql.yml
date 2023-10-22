@@ -21,6 +21,10 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   Configuration: Release
 
+defaults:
+  run:
+    shell: pwsh
+
 jobs:
   analyze:
     name: Analyze
