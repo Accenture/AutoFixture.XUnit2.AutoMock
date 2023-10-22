@@ -1,0 +1,82 @@
+name: Build & test
+on:
+  workflow_call:
+    inputs:
+      configuration:
+        description: Name of the configuration
+        required: true
+        type: string
+      module-name:
+        description: Name of the module
+        required: true
+        type: string
+      module-namespace:
+        description: Name of the module namespace
+        required: true
+        type: string
+      version:
+        description: Assembly and package version
+        required: true
+        type: string
+    secrets:
+      signing-key-value:
+        description: Value of the signing key
+        required: true
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+  Version: ${{ inputs.version }}
+  Configuration: ${{ inputs.configuration }}
+jobs:
+  run:
+    runs-on: windows-latest # We are using windows instead of ubuntu becaus it provides support for net472 & net48.
+    timeout-minutes: 15
+    steps:
+    - name: 📥 checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: 🖊️ materialize signing key
+      id: signing-key
+      uses: ./.github/actions/materialize-signing-key
+      with:
+        signing-key-value: ${{ secrets.signing-key-value }}
+    - name: 💾 cache nuget packages
+      uses: actions/cache@v3
+      with:
+        path: ${{ env.NUGET_PACKAGES }}
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+    - name: 🏗️ build
+      run: dotnet build ./src/${{ inputs.module-namespace }}.${{ inputs.module-name }}.sln
+      env:
+        CI: true
+        StrongNameKey: ${{ secrets.SIGNING_KEY }}
+        StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
+    - name: 🧪 test ${{ inputs.module-name }} in [net472, net48]
+      run: |
+        dotnet test ./src/${{ inputs.module-namespace }}.${{ inputs.module-name }}.Tests/ --no-build -f net472
+        dotnet test ./src/${{ inputs.module-namespace }}.${{ inputs.module-name }}.Tests/ --no-build -f net48
+      shell: pwsh
+    - name: 🧪 test ${{ inputs.module-name }} in net7.0 & collect coverage
+      uses: ./.github/actions/test-and-collect-coverage
+      with:
+        codecov-token: ${{ secrets.CODECOV_TOKEN }}
+        module-name: ${{ inputs.module-name }}
+        module-namespace: ${{ inputs.module-namespace }}
+        target-framework: net7.0
+    - name: 📦 pack
+      run: dotnet pack ./src/${{ inputs.module-namespace }}.${{ inputs.module-name }}
+      env:
+          CI: true
+          StrongNameKey: ${{ secrets.signing-key-value }}
+          StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
+    - name: 🔼 upload packages
+      uses: actions/upload-artifact@v3
+      with:
+          name: packages
+          path: |
+            ./src/**/*.nupkg
+            ./src/**/*.snupkg

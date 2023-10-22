@@ -2,6 +2,11 @@ name: Prepare workflows configuration
 on:
   workflow_call:
     inputs:
+      buildAutoFakeItEasy:
+        description: 'Build AutoFakeItEasy'
+        required: true
+        type: boolean
+        default: true
       buildAutoMoq:
         description: 'Build AutoMoq'
         required: true
@@ -9,11 +14,6 @@ on:
         default: true
       buildAutoNSubstitute:
         description: 'Build AutoNSubstitute'
-        required: true
-        type: boolean
-        default: true
-      buildAutoFakeItEasy:
-        description: 'Build AutoFakeItEasy'
         required: true
         type: boolean
         default: true
@@ -28,7 +28,7 @@ on:
         description: Global namespace 
         value: Objectivity.AutoFixture.XUnit2
       configuration:
-        description: Glopal build configuration
+        description: Global build configuration
         value: Release
 jobs:
   run:

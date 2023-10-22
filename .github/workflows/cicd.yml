@@ -17,6 +17,11 @@ on:
       - '.github/actions/materialize-signing-key/**'
   workflow_dispatch:
     inputs:
+      buildAutoFakeItEasy:
+        description: 'Build AutoFakeItEasy'
+        required: true
+        type: boolean
+        default: true
       buildAutoMoq:
         description: 'Build AutoMoq'
         required: true
@@ -24,11 +29,6 @@ on:
         default: true
       buildAutoNSubstitute:
         description: 'Build AutoNSubstitute'
-        required: true
-        type: boolean
-        default: true
-      buildAutoFakeItEasy:
-        description: 'Build AutoFakeItEasy'
         required: true
         type: boolean
         default: true
@@ -44,52 +44,28 @@ jobs:
   init:
     uses: ./.github/workflows/init.yml
     with:
+      buildAutoFakeItEasy: ${{inputs.buildAutoFakeItEasy}}
       buildAutoMoq: ${{inputs.buildAutoMoq}}
       buildAutoNSubstitute: ${{inputs.buildAutoNSubstitute}}
-      buildAutoFakeItEasy: ${{inputs.buildAutoFakeItEasy}}
-  build-and-test:
+  build-test-pack:
     needs: init
     strategy:
       matrix:
         module-name: ${{ fromJSON(needs.init.outputs.modules) }}
-        target-framework: [net472, net48, net7.0]
-        include:
-          - target-framework: net7.0
-            collect-code-coverage: true
-            skip-target-framework-on-build: true
     if: ${{ needs.init.outputs.modules != '' }}
-    uses: ./.github/workflows/build-and-test.yml
+    uses: ./.github/workflows/build-test-pack.yml
     with:
-      version: ${{ needs.init.outputs.version }}
+      configuration: ${{ needs.init.outputs.configuration }}
       module-name: ${{ matrix.module-name }}
       module-namespace: ${{ needs.init.outputs.namespace }}
-      target-framework: ${{ matrix.target-framework }}
-      configuration: ${{ needs.init.outputs.configuration }}
-      skip-target-framework-on-build: ${{ matrix.skip-target-framework-on-build == true }}
-      collect-code-coverage: ${{ matrix.collect-code-coverage == true }}
-    secrets:
-      signing-key-value: ${{ secrets.SIGNING_KEY }}
-  pack:
-    needs: [init, build-and-test]
-    strategy:
-      matrix:
-        module-name: ${{ fromJSON(needs.init.outputs.modules) }}
-        exclude:
-          - module-name: Core
-    if: ${{ needs.init.outputs.modules != '' }}
-    uses: ./.github/workflows/pack.yml
-    with:
       version: ${{ needs.init.outputs.version }}
-      module-name: ${{ matrix.module-name }}
-      module-namespace: ${{ needs.init.outputs.namespace }}
-      configuration: ${{ needs.init.outputs.configuration }}
     secrets:
       signing-key-value: ${{ secrets.SIGNING_KEY }}
   publish:
     runs-on: ubuntu-latest
     continue-on-error: true
     timeout-minutes: 15
-    needs: [pack]
+    needs: build-test-pack
     environment: ${{ inputs.environment }}
     if: ${{ inputs.environment != null }}
     steps:
