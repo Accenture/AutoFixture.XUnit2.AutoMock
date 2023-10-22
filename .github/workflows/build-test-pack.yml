@@ -62,7 +62,6 @@ jobs:
     - name: 🏗️ build
       run: dotnet build ./src/${{ inputs.module-namespace }}.${{ inputs.module-name }}.sln
       env:
-        CI: true
         StrongNameKey: ${{ secrets.signing-key-value }}
         StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
     - name: 🧪 test ${{ inputs.module-name }} in [net472, net48]
@@ -80,7 +79,6 @@ jobs:
       if: ${{ startsWith(inputs.module-name, 'Auto' ) }}
       run: dotnet pack ./src/${{ inputs.module-namespace }}.${{ inputs.module-name }}
       env:
-          CI: true
           StrongNameKey: ${{ secrets.signing-key-value }}
           StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
     - name: 🔼 upload packages

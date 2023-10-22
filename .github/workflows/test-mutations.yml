@@ -49,6 +49,5 @@ jobs:
         run: |
           dotnet tool run dotnet-stryker -f ../stryker-config.yml -r dashboard -v ${{ github.ref_name }} --dashboard-api-key ${{ secrets.STRYKER_API_KEY }}
         env:
-          CI: true
           StrongNameKey: ${{ secrets.SIGNING_KEY }}
           StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}

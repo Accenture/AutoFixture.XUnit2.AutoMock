@@ -52,8 +52,6 @@ jobs:
 
     - name: build
       run: dotnet build ./src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
-      env:
-        CI: true
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
