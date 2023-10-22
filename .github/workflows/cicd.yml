@@ -87,7 +87,8 @@ jobs:
         package-module: ${{ fromJSON(needs.init.outputs.matrix) }}
         target-framework: [net472, net48, net7.0]
         include:
-          - package-module: "Core"
+          - package-module: 'Core'
+            target-framework: [net472, net48, net7.0]
           - target-framework: net7.0
             collect-code-coverage: true
             skip-target-framework-on-build: true
