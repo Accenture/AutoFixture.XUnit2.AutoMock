@@ -121,7 +121,7 @@ jobs:
         run: dotnet nuget push **/*.nupkg  --api-key ${{ secrets.NUGET_API_KEY }} --source "nuget.org" --skip-duplicate
   tag:
     needs: [publish, init]
-    # Allow tagging only on the master branch
+    # Allow tagging only on the master branch when publish was successful
     if: ${{ github.ref_name == 'master' && needs.publish.result == 'success' }}
     uses: ./.github/workflows/tag.yml
     with:

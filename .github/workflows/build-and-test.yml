@@ -40,7 +40,7 @@ env:
   Version: ${{ inputs.version }}
   Configuration: ${{ inputs.configuration }}
 jobs:
-  build-and-test:
+  run:
     runs-on: windows-latest # We are using windows instead of ubuntu becaus it provides support for net472 & net48.
     timeout-minutes: 15
     steps:
