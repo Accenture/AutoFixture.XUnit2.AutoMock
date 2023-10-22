@@ -68,6 +68,10 @@ jobs:
           $selectedModules = @(Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name})
           if ($selectedModules.count -gt 0) { $selectedModules = @("Core") + $selectedModules }
           "modules=$($selectedModules | ConvertTo-JSON -AsArray -Compress)" >> $env:GITHUB_OUTPUT
+      - name: 📥 checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: 🎱 determine next version
         id: determine-version
         uses: ./.github/actions/determine-next-version
