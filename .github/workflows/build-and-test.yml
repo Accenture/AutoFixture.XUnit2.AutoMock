@@ -18,6 +18,11 @@ on:
         description: Compiles for a specific framework
         required: true
         type: string
+      configuration:
+        description: Name of the configuration
+        required: false
+        type: string
+        default: Release
       skip-target-framework-on-build:
         required: false
         type: boolean
@@ -33,6 +38,7 @@ on:
 env:
   NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
   Version: ${{ inputs.version }}
+  Configuration: ${{ inputs.configuration }}
 jobs:
   build-and-test:
     runs-on: windows-latest # We are using windows instead of ubuntu becaus it provides support for net472 & net48.
@@ -55,7 +61,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-nuget-
     - name: 🏗️ build
-      if: ${{ inputs.skip-target-framework-on-build == true }}
       run: dotnet build ./src/${{ inputs.namespace }}.${{ inputs.package-module }}.sln${{ inputs.skip-target-framework-on-build == true && '' || format(' -f {0}', inputs.target-framework)}}
       env:
         CI: true

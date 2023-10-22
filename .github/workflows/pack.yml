@@ -14,6 +14,11 @@ on:
         description: Name of the module namespace
         required: true
         type: string
+      configuration:
+        description: Name of the configuration
+        required: false
+        type: string
+        default: Release
     secrets:
       signing-key-value:
         description: Value of the signing key
@@ -21,6 +26,7 @@ on:
 env:
   NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
   Version: ${{ inputs.version }}
+  Configuration: ${{ inputs.configuration }}
 jobs:
   pack:
     runs-on: windows-latest # We are using windows instead of ubuntu becaus it provides support for net472 & net48.
