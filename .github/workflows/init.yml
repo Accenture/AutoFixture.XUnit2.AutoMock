@@ -1,0 +1,64 @@
+name: Prepare workflows configuration
+
+on:
+  workflow_call:
+    inputs:
+      buildAutoFakeItEasy:
+        description: 'Build AutoFakeItEasy'
+        required: false
+        type: boolean
+        default: true
+      buildAutoMoq:
+        description: 'Build AutoMoq'
+        required: false
+        type: boolean
+        default: true
+      buildAutoNSubstitute:
+        description: 'Build AutoNSubstitute'
+        required: false
+        type: boolean
+        default: true
+    outputs:
+      modules:
+        description: Modules to build and pack
+        value: ${{ jobs.run.outputs.modules }}
+      version:
+        description: Version used for building, packing and tagging
+        value: ${{ jobs.run.outputs.version }}
+      namespace:
+        description: Global namespace 
+        value: Objectivity.AutoFixture.XUnit2
+      configuration:
+        description: Global build configuration
+        value: Release
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      modules: ${{ steps.determine-modules.outputs.modules }}
+      version: ${{ steps.determine-version.outputs.version }}
+    steps:
+    - name: 📥 checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: 🎰 determine modules
+      id: determine-modules
+      run: |
+        $allModules = @{
+          AutoMoq = if ('${{inputs.buildAutoMoq}}') { $${{inputs.buildAutoMoq}} } else { $true };
+          AutoNSubstitute = if ('${{inputs.buildAutoNSubstitute}}') { $${{inputs.buildAutoNSubstitute}} } else { $true };
+          AutoFakeItEasy = if ('${{inputs.buildAutoFakeItEasy}}') { $${{inputs.buildAutoFakeItEasy}} } else { $true }
+        }
+        $selectedModules = @(Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name})
+        if ($selectedModules.count -gt 0) { $selectedModules = @("Core") + $selectedModules }
+        "modules=$($selectedModules | ConvertTo-JSON -AsArray -Compress)" >> $env:GITHUB_OUTPUT
+    - name: 🎱 determine next version
+      id: determine-version
+      uses: ./.github/actions/determine-next-version

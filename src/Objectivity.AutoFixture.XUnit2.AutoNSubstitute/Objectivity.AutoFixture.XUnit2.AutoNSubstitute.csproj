@@ -93,11 +93,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="NSubstitute" Version="5.1.0" />
-    <PackageReference Include="Roslynator.Analyzers" Version="4.5.0">
+    <PackageReference Include="Roslynator.Analyzers" Version="4.6.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Roslynator.Formatting.Analyzers" Version="4.5.0">
+    <PackageReference Include="Roslynator.Formatting.Analyzers" Version="4.6.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -110,9 +110,9 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="xunit.abstractions" Version="2.0.3" />
-    <PackageReference Include="xunit.core" Version="2.5.2" />
-    <PackageReference Include="xunit.extensibility.core" Version="2.5.2" />
-    <PackageReference Include="xunit.extensibility.execution" Version="2.5.2" />
+    <PackageReference Include="xunit.core" Version="2.5.3" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.5.3" />
+    <PackageReference Include="xunit.extensibility.execution" Version="2.5.3" />
   </ItemGroup>
 
   <ItemGroup>
