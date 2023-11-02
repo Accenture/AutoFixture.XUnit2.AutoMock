@@ -5,8 +5,10 @@ on:
     paths:
     - 'src/**'
     - 'GitVersion.yml'
-    - '.github/workflows/cicd.yml'
-    - '.github/actions/materialize-signing-key/**'
+    - '.github/actions/**'
+    - '.github/workflows/**'
+    - '!.github/workflows/codeql.yml'
+    - '!.github/workflows/fossa-scan.yml'
     types: [opened, synchronize, reopened]
   push:
     branches:
@@ -14,8 +16,10 @@ on:
     paths:
     - 'src/**'
     - 'GitVersion.yml'
-    - '.github/workflows/cicd.yml'
-    - '.github/actions/materialize-signing-key/**'
+    - '.github/actions/**'
+    - '.github/workflows/**'
+    - '!.github/workflows/codeql.yml'
+    - '!.github/workflows/fossa-scan.yml'
   workflow_dispatch:
     inputs:
       buildAutoFakeItEasy:
