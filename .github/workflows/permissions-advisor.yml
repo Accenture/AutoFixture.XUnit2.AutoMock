@@ -31,5 +31,5 @@ jobs:
     steps:
     - uses: GitHubSecurityLab/actions-permissions/advisor@v1
       with:
-        name: ${{ inputs.name != '' && inputs.name || 'CI/CD' }}
+        name: ${{ inputs.name != '' && inputs.name || 'cicd' }}
         count: ${{ inputs.count != '' && inputs.count || 10 }}
