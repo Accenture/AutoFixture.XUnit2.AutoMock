@@ -1,4 +1,4 @@
-name: 'FOSSA: License & security scan'
+name: '🐯 FOSSA: License & security scan'
 
 on:
   pull_request:

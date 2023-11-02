@@ -1,4 +1,4 @@
-name: 'Add tag to repository'
+name: '🏷️ Add tag to repository'
 
 on:
   workflow_call:

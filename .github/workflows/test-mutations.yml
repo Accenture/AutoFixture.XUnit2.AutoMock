@@ -1,4 +1,4 @@
-name: 'Stryker.NET: Mutation testing'
+name: '👾 Stryker.NET: Mutation testing'
 
 on:
   pull_request:

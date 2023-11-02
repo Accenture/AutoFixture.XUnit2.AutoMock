@@ -1,4 +1,4 @@
-name: 'Build, test & pack'
+name: '🏗️ Build, test & pack'
 
 on:
   workflow_call:
