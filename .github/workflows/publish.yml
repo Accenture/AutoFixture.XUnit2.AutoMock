@@ -25,6 +25,7 @@ jobs:
   run:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions: {}
     environment:
       name: ${{ inputs.environment }}
     steps:

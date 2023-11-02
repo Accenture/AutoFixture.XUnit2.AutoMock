@@ -40,6 +40,8 @@ jobs:
   run:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: read
     outputs:
       modules: ${{ steps.determine-modules.outputs.modules }}
       version: ${{ steps.determine-version.outputs.version }}

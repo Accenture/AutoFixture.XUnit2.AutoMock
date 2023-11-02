@@ -16,6 +16,8 @@ jobs:
   run:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: write
     steps:
     - name: 📥 checkout
       uses: actions/checkout@v3
