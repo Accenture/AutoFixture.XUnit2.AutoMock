@@ -4,6 +4,15 @@ permissions:
   actions: read
 
 on:
+  pull_request:
+    paths:
+    - '.github/workflows/permissions-advisor.yml'
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+    - 'master'
+    paths:
+    - '.github/workflows/permissions-advisor.yml'  
   workflow_dispatch:
     inputs:
       name:
@@ -22,5 +31,5 @@ jobs:
     steps:
     - uses: GitHubSecurityLab/actions-permissions/advisor@v1
       with:
-        name: ${{ inputs.name }}
-        count: ${{ inputs.count }}
+        name: ${{ inputs.name != '' && inputs.name || 'cicd.yml' }}
+        count: ${{ inputs.count != '' && inputs.count || 2 }}
