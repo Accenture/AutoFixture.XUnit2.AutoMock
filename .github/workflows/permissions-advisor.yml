@@ -32,4 +32,4 @@ jobs:
     - uses: GitHubSecurityLab/actions-permissions/advisor@v1
       with:
         name: ${{ inputs.name != '' && inputs.name || 'cicd.yml' }}
-        count: ${{ inputs.count != '' && inputs.count || 2 }}
+        count: ${{ inputs.count != '' && inputs.count || 10 }}
