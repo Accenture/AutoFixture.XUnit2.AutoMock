@@ -1,5 +1,4 @@
-# Sample workflow to run the action
-name: Permissions Advisor
+name: 'Permissions Advisor'
 
 permissions:
   actions: read
