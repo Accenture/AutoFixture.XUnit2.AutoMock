@@ -1,4 +1,4 @@
-﻿name: CI/CD
+﻿name: 'CI/CD'
 
 on:
   pull_request:
@@ -49,6 +49,8 @@ defaults:
 
 jobs:
   init:
+    permissions:
+      contents: read
     uses: ./.github/workflows/init.yml
     with:
       buildAutoFakeItEasy: ${{github.event_name != 'workflow_dispatch' || inputs.buildAutoFakeItEasy == true}}
@@ -57,10 +59,12 @@ jobs:
 
   build-test-pack:
     needs: [init]
+    if: ${{ needs.init.outputs.modules != '' }}
+    permissions:
+      contents: read
     strategy:
       matrix:
         module-name: ${{ fromJSON(needs.init.outputs.modules) }}
-    if: ${{ needs.init.outputs.modules != '' }}
     uses: ./.github/workflows/build-test-pack.yml
     with:
       configuration: ${{ needs.init.outputs.configuration }}
@@ -74,6 +78,7 @@ jobs:
   publish:
     needs: [build-test-pack]
     if: ${{ inputs.environment != null }}
+    permissions: {}
     uses: ./.github/workflows/publish.yml
     with:
       environment: ${{ inputs.environment }}
@@ -84,6 +89,8 @@ jobs:
     needs: [publish, init]
     # Allow tagging only on the master branch when publish was successful
     if: ${{ github.ref_name == 'master' && needs.publish.result == 'success' }}
+    permissions:
+      contents: write
     uses: ./.github/workflows/tag.yml
     with:
       version: ${{ needs.init.outputs.version }}

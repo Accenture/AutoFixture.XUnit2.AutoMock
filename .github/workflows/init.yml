@@ -1,4 +1,4 @@
-name: Prepare workflows configuration
+name: 'Prepare workflows configuration'
 
 on:
   workflow_call:
