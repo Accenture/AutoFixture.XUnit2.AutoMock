@@ -1,4 +1,4 @@
-name: 'FOSSA: License & security scan'
+name: '🐯 FOSSA: License & security scan'
 
 on:
   pull_request:
@@ -17,6 +17,8 @@ on:
 jobs:
   scan:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
     - name: 📥 checkout
       uses: actions/checkout@v3

@@ -1,4 +1,4 @@
-name: Publish NuGet packages
+name: '📤 Publish NuGet packages'
 
 on:
   workflow_call:
@@ -25,6 +25,7 @@ jobs:
   run:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions: {}
     environment:
       name: ${{ inputs.environment }}
     steps:
