@@ -31,5 +31,5 @@ jobs:
     steps:
     - uses: GitHubSecurityLab/actions-permissions/advisor@v1
       with:
-        name: ${{ inputs.name != '' && inputs.name || 'cicd' }}
+        name: ${{ inputs.name != '' && inputs.name || 'tag.yml' }}
         count: ${{ inputs.count != '' && inputs.count || 10 }}
