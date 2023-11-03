@@ -7,6 +7,26 @@
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true)]
     public sealed class FromRangeAttribute : BuildWithAttribute<RandomRangedNumberBuilder>
     {
+        public FromRangeAttribute(sbyte minimum, sbyte maximum)
+            : this((object)minimum, maximum)
+        {
+        }
+
+        public FromRangeAttribute(byte minimum, byte maximum)
+            : this((object)minimum, maximum)
+        {
+        }
+
+        public FromRangeAttribute(short minimum, short maximum)
+            : this((object)minimum, maximum)
+        {
+        }
+
+        public FromRangeAttribute(ushort minimum, ushort maximum)
+            : this((object)minimum, maximum)
+        {
+        }
+
         public FromRangeAttribute(int minimum, int maximum)
             : this((object)minimum, maximum)
         {
@@ -33,6 +53,11 @@
         }
 
         public FromRangeAttribute(float minimum, float maximum)
+            : this((object)minimum, maximum)
+        {
+        }
+
+        public FromRangeAttribute(decimal minimum, decimal maximum)
             : this((object)minimum, maximum)
         {
         }
