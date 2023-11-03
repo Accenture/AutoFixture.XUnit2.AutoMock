@@ -1,5 +1,7 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Attributes
 {
+    using System.Collections.Generic;
+
     using FluentAssertions;
     using global::AutoFixture.Xunit2;
 
@@ -11,6 +13,12 @@
     [Trait("Category", "Attributes")]
     public class FromRangeAttributeTests
     {
+        public static IEnumerable<object[]> TestData { get; } = new[]
+        {
+            new object[] { 10, 10 },
+            new object[] { 0, 0 },
+        };
+
         [AutoData]
         [Theory(DisplayName = "GIVEN renge specified WHEN byte populated THEN the value from range is generated")]
         public void GivenRengeSpecified_WhenBytePopulated_ThenOnlyDecoratedParameterHasValueFromRange(
@@ -111,12 +119,21 @@
             unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
         }
 
-        [InlineAutoData(10)]
+        [InlineAutoData(10, 10)]
+        [InlineAutoData(0, 0)]
         [Theory(DisplayName = "GIVEN renge specified and inline value outside range WHEN data populated THEN values from range are ignored and inline one is used")]
-        public void GivenRengeSpecifiedAndInlineValueOutsideRange_WhenDataPopulated_ThenValuesFromRangeAreIgnoredAndSpecifiedOneIsUsed(
-            [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] int value)
+        public void GivenRengeSpecifiedAndInlineValueOutsideRange_WhenDataPopulated_ThenValuesFromRangeAreIgnoredAndInlineOneIsUsed(
+            [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] int value, int expectedResult)
         {
-            value.Should().Be(10);
+            value.Should().Be(expectedResult).And.NotBeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max);
+        }
+
+        [MemberAutoData(nameof(TestData))]
+        [Theory(DisplayName = "GIVEN renge specified and member data value outside range WHEN data populated THEN values from range are ignored and member data is used")]
+        public void GivenRengeSpecifiedAndMemberDataValueOutsideRange_WhenDataPopulated_ThenValuesFromRangeAreIgnoredAndMemberDataIsUsed(
+            [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] int value, int expectedResult)
+        {
+            value.Should().Be(expectedResult).And.NotBeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max);
         }
 
         private static class Ranges
