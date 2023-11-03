@@ -1,5 +1,6 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Attributes
 {
+    using System;
     using System.Collections.Generic;
 
     using FluentAssertions;
@@ -18,6 +19,33 @@
             new object[] { 10, 10 },
             new object[] { 0, 0 },
         };
+
+        [Fact(DisplayName = "GIVEN minimum greater than maximum WHEN constructor is invoked THEN exception is thrown")]
+        public void GivenMinimumGreaterThanMaximum_WhenConstructorIsInvoked_ThenExceptionIsThrown()
+        {
+            // Arrange
+            const int min = 100;
+            const int max = 1;
+
+            // Act
+            // Assert
+            Assert.Throws<ArgumentOutOfRangeException>(() => new FromRangeAttribute(min, max));
+        }
+
+        [Fact(DisplayName = "GIVEN minimum greater than maximum WHEN constructor is invoked THEN exception is thrown")]
+        public void GivenValidParameters_WhenConstructorIsInvoked_ThenParametersAreProperlyAssigned()
+        {
+            // Arrange
+            const int min = 1;
+            const int max = 100;
+
+            // Act
+            var range = new FromRangeAttribute(min, max);
+
+            // Assert
+            range.Args.Should().NotBeNull().And.ContainInOrder(range.Minimum, range.Maximum);
+            range.IncludeParameterType.Should().BeFalse();
+        }
 
         [AutoData]
         [Theory(DisplayName = "GIVEN renge specified WHEN byte populated THEN the value from range is generated")]
