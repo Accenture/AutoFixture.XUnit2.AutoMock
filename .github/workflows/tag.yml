@@ -1,4 +1,4 @@
-name: Add tag to repository
+name: '🏷️ Add tag to repository'
 
 on:
   workflow_call:
@@ -16,6 +16,8 @@ jobs:
   run:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: write
     steps:
     - name: 📥 checkout
       uses: actions/checkout@v3

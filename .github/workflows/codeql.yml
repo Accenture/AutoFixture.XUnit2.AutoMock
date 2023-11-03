@@ -1,4 +1,4 @@
-name: 'CodeQL: Semantic code analysis'
+name: '🔬 CodeQL: Semantic code analysis'
 
 on:
   pull_request:

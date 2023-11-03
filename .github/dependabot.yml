@@ -22,3 +22,10 @@ updates:
           - "xunit.analyzers"
     ignore:
       - dependency-name: "Moq"
+  - package-ecosystem: "github-actions"
+    directory: "/.github"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "02:00"
+      timezone: "CET"

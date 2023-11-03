@@ -1,4 +1,4 @@
-name: Build & test
+name: '🏗️ Build, test & pack'
 
 on:
   workflow_call:
@@ -42,6 +42,8 @@ jobs:
   run:
     runs-on: windows-latest # We are using windows instead of ubuntu becaus it provides support for net472 & net48.
     timeout-minutes: 15
+    permissions:
+      contents: read
     steps:
     - name: 📥 checkout
       uses: actions/checkout@v3
