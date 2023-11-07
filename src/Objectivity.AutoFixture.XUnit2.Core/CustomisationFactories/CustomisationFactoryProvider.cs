@@ -24,7 +24,7 @@
 
         public ReadOnlyCollection<Type> SupportedTypes => new(this.factories.Keys.ToList());
 
-        public ICustomisationFactory GetFactory(this Type type)
+        public ICustomisationFactory GetFactory(Type type)
         {
             return this.factories.First(x => x.Key.IsAssignableFrom(type)).Value.Value;
         }

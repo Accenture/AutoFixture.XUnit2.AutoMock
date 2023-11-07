@@ -7,6 +7,6 @@
     {
         ReadOnlyCollection<Type> SupportedTypes { get; }
 
-        ICustomisationFactory GetFactory(this Type type);
+        ICustomisationFactory GetFactory(Type type);
     }
 }
