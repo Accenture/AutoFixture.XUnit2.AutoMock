@@ -82,6 +82,7 @@
         {
             var type = typeof(RandomRangedNumberParameterBuilder);
             var factory = this.factoryProvider.GetFactory(type);
+
             return factory.Create(parameter, false, type, this.Minimum, this.Maximum);
         }
     }

@@ -8,7 +8,7 @@
 
     using Objectivity.AutoFixture.XUnit2.Core.Common;
 
-    public class CustomisationFactory : ICustomisationFactory
+    internal class CustomisationFactory : ICustomisationFactory
     {
         public ICustomization Create(ParameterInfo parameter, bool includeParameterType, Type type, params object[] args)
         {

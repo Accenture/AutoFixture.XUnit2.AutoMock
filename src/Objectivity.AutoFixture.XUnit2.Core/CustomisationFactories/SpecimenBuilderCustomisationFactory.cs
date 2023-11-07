@@ -9,7 +9,7 @@
 
     using Objectivity.AutoFixture.XUnit2.Core.Common;
 
-    public class SpecimenBuilderCustomisationFactory : ICustomisationFactory
+    internal class SpecimenBuilderCustomisationFactory : ICustomisationFactory
     {
         public ICustomization Create(ParameterInfo parameter, bool includeParameterType, Type type, params object[] args)
         {

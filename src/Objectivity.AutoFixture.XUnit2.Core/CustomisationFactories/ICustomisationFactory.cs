@@ -5,7 +5,7 @@
 
     using global::AutoFixture;
 
-    public interface ICustomisationFactory
+    internal interface ICustomisationFactory
     {
         ICustomization Create(ParameterInfo parameter, bool includeParameterType, Type type, params object[] args);
     }
