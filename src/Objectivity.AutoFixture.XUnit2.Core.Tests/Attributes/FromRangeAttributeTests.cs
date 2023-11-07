@@ -49,7 +49,7 @@
 
         [AutoData]
         [Theory(DisplayName = "GIVEN renge specified WHEN byte populated THEN the value from range is generated")]
-        public void GivenRengeSpecified_WhenBytePopulated_ThenOnlyDecoratedParameterHasValueFromRange(
+        public void GivenRengeSpecified_WhenBytePopulated_ThenTheValueFromRangeIsGenerated(
             [FromRange(Ranges.ByteRange.Min, Ranges.ByteRange.Max)] byte rangeValue)
         {
             rangeValue.Should().BeInRange(Ranges.ByteRange.Min, Ranges.ByteRange.Max);
@@ -57,7 +57,7 @@
 
         [AutoData]
         [Theory(DisplayName = "GIVEN renge specified WHEN unsigned short populated THEN the value from range is generated")]
-        public void GivenRengeSpecified_WhenUShortPopulated_ThenOnlyDecoratedParameterHasValueFromRange(
+        public void GivenRengeSpecified_WhenUShortPopulated_ThenTheValueFromRangeIsGenerated(
             [FromRange(Ranges.UShortRange.Min, Ranges.UShortRange.Max)] ushort rangeValue)
         {
             rangeValue.Should().BeInRange(Ranges.UShortRange.Min, Ranges.UShortRange.Max);
@@ -65,7 +65,7 @@
 
         [AutoData]
         [Theory(DisplayName = "GIVEN renge specified WHEN unsigned integer populated THEN the value from range is generated")]
-        public void GivenRengeSpecified_WhenUIntPopulated_ThenOnlyDecoratedParameterHasValueFromRange(
+        public void GivenRengeSpecified_WhenUIntPopulated_ThenTheValueFromRangeIsGenerated(
             [FromRange(Ranges.UIntRange.Min, Ranges.UIntRange.Max)] uint rangeValue)
         {
             rangeValue.Should().BeInRange(Ranges.UIntRange.Min, Ranges.UIntRange.Max);
@@ -73,7 +73,7 @@
 
         [AutoData]
         [Theory(DisplayName = "GIVEN renge specified WHEN unsigned long populated THEN the value from range is generated")]
-        public void GivenRengeSpecified_WhenULongPopulated_ThenOnlyDecoratedParameterHasValueFromRange(
+        public void GivenRengeSpecified_WhenULongPopulated_ThenTheValueFromRangeIsGenerated(
             [FromRange(Ranges.ULongRange.Min, Ranges.ULongRange.Max)] ulong rangeValue)
         {
             rangeValue.Should().BeInRange(Ranges.ULongRange.Min, Ranges.ULongRange.Max);
@@ -81,7 +81,7 @@
 
         [AutoData]
         [Theory(DisplayName = "GIVEN renge specified WHEN signed byte populated THEN the value from range is generated")]
-        public void GivenRengeSpecified_WhenSBytePopulated_ThenOnlyDecoratedParameterHasValueFromRange(
+        public void GivenRengeSpecified_WhenSBytePopulated_ThenTheValueFromRangeIsGenerated(
             [FromRange(Ranges.SByteRange.Min, Ranges.SByteRange.Max)] sbyte rangeValue)
         {
             rangeValue.Should().BeInRange(Ranges.SByteRange.Min, Ranges.SByteRange.Max);

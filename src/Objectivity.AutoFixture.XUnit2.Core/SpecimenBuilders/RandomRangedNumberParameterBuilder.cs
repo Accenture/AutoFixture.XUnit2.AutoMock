@@ -8,7 +8,7 @@
 
     using Objectivity.AutoFixture.XUnit2.Core.Common;
 
-    public class RandomRangedNumberParameterBuilder : ISpecimenBuilder
+    internal class RandomRangedNumberParameterBuilder : ISpecimenBuilder
     {
         private readonly RandomRangedNumberGenerator randomRangedNumberGenerator = new();
 
@@ -39,8 +39,7 @@
 
         public object Create(object request, ISpecimenContext context)
         {
-            var pi = request as ParameterInfo;
-            if (pi is not null) //// is a parameter
+            if (request is ParameterInfo pi) //// is a parameter
             {
                 var rangeRequest = new RangedNumberRequest(pi.ParameterType, this.Minimum, this.Maximum);
                 return this.randomRangedNumberGenerator.Create(rangeRequest, context);
