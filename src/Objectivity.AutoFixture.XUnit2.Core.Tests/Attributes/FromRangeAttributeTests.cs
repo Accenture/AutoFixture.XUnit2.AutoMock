@@ -32,7 +32,7 @@
             Assert.Throws<ArgumentOutOfRangeException>(() => new FromRangeAttribute(min, max));
         }
 
-        [Fact(DisplayName = "GIVEN minimum greater than maximum WHEN constructor is invoked THEN exception is thrown")]
+        [Fact(DisplayName = "GIVEN valid parameters WHEN constructor is invoked THEN parameters are propelry assigned")]
         public void GivenValidParameters_WhenConstructorIsInvoked_ThenParametersAreProperlyAssigned()
         {
             // Arrange
@@ -43,8 +43,8 @@
             var range = new FromRangeAttribute(min, max);
 
             // Assert
-            range.Args.Should().NotBeNull().And.ContainInOrder(range.Minimum, range.Maximum);
-            range.IncludeParameterType.Should().BeFalse();
+            range.Maximum.Should().NotBeNull().And.Be(max);
+            range.Minimum.Should().NotBeNull().And.Be(min);
         }
 
         [AutoData]

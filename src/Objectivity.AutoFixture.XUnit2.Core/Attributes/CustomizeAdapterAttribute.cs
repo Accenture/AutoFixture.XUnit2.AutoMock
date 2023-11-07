@@ -3,21 +3,26 @@
     using System;
     using System.Linq;
     using System.Reflection;
+
+    using global::AutoFixture;
     using global::AutoFixture.Xunit2;
 
     using Objectivity.AutoFixture.XUnit2.Core.Common;
+    using Objectivity.AutoFixture.XUnit2.Core.CustomisationFactories;
 
-    //// TODO: Consider composition over inheritance
-    public abstract class CustomizeAdapterAttribute<T> : CustomizeAttribute
+    public abstract class CustomizeAdapterAttribute : CustomizeAttribute
     {
+        private readonly ICustomisationFactoryProvider factoryProvider = new CustomisationFactoryProvider();
+
         protected CustomizeAdapterAttribute(Type type, params object[] args)
         {
             this.Type = type.NotNull(nameof(type));
 
-            var builderType = typeof(T);
-            if (!builderType.IsAssignableFrom(type))
+            if (!this.factoryProvider.SupportedTypes.Any(x => x.IsAssignableFrom(this.Type)))
             {
-                throw new ArgumentException($"Specified argument {nameof(type)} must implement {builderType.Name}");
+                var supportedTypes = string.Join(", ", this.factoryProvider.SupportedTypes.Select(x => x.Name));
+                var message = $"Specified argument {nameof(type)} must implement one of supported types: {supportedTypes}.";
+                throw new ArgumentException(message);
             }
 
             this.Args = args;
@@ -33,15 +38,11 @@
         /// <value>Indicates whether attribute target parameter type should included as a first argument when creating customization.</value>
         public bool IncludeParameterType { get; set; }
 
-        protected object CreateInstance(ParameterInfo parameter)
+        public override ICustomization GetCustomization(ParameterInfo parameter)
         {
-            var args = this.IncludeParameterType
-                ? new object[] { parameter.NotNull(nameof(parameter)).ParameterType }
-                    .Concat(this.Args ?? Array.Empty<object>())
-                    .ToArray()
-                : this.Args;
+            var factory = this.factoryProvider.GetFactory(this.Type);
 
-            return Activator.CreateInstance(this.Type, args);
+            return factory.Create(parameter, this.IncludeParameterType, this.Type, this.Args);
         }
     }
 }

@@ -1,12 +1,18 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Attributes
 {
     using System;
+    using System.Reflection;
 
+    using global::AutoFixture;
+    using global::AutoFixture.Xunit2;
+    using Objectivity.AutoFixture.XUnit2.Core.CustomisationFactories;
     using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
 
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true)]
-    public sealed class FromRangeAttribute : BuildWithAttribute<RandomRangedNumberParameterBuilder>
+    public sealed class FromRangeAttribute : CustomizeAttribute
     {
+        private readonly ICustomisationFactoryProvider factoryProvider = new CustomisationFactoryProvider();
+
         public FromRangeAttribute(sbyte minimum, sbyte maximum)
             : this((object)minimum, maximum)
         {
@@ -58,7 +64,6 @@
         }
 
         private FromRangeAttribute(object minimum, object maximum)
-            : base(minimum, maximum)
         {
             if (((IComparable)minimum).CompareTo((IComparable)maximum) > 0)
             {
@@ -72,5 +77,12 @@
         public object Minimum { get; }
 
         public object Maximum { get; }
+
+        public override ICustomization GetCustomization(ParameterInfo parameter)
+        {
+            var type = typeof(RandomRangedNumberParameterBuilder);
+            var factory = this.factoryProvider.GetFactory(type);
+            return factory.Create(parameter, false, type, this.Minimum, this.Maximum);
+        }
     }
 }
