@@ -2,8 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Diagnostics.CodeAnalysis;
 
     using FluentAssertions;
+
     using global::AutoFixture.Xunit2;
 
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
@@ -162,6 +165,70 @@
             [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] int value, int expectedResult)
         {
             value.Should().Be(expectedResult).And.NotBeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max);
+        }
+
+        [AutoData]
+        [Theory(DisplayName = "GIVEN renge specified WHEN arrays populated THEN only decorated parameter has value from range")]
+        public void GivenRengeSpecified_WhenArraysPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
+            [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] int[] rangeValues,
+            int[] unrestrictedValues)
+        {
+            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max));
+            unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
+        }
+
+        [AutoData]
+        [Theory(DisplayName = "GIVEN renge specified WHEN enumerables populated THEN only decorated parameter has value from range")]
+        public void GivenRengeSpecified_WhenEnumerablesPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
+            [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] IEnumerable<int> rangeValues,
+            IEnumerable<int> unrestrictedValues)
+        {
+            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max));
+            unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
+        }
+
+        [AutoData]
+        [Theory(DisplayName = "GIVEN renge specified WHEN lists populated THEN only decorated parameter has value from range")]
+        [SuppressMessage("Design", "CA1002:Do not expose generic lists", Justification = "We are testing generic lists")]
+        public void GivenRengeSpecified_WhenListPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
+            [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] List<int> rangeValues,
+            List<int> unrestrictedValues)
+        {
+            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max));
+            unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
+        }
+
+        [AutoData]
+        [Theory(DisplayName = "GIVEN renge specified WHEN sets populated THEN only decorated parameter has value from range")]
+        [SuppressMessage("Design", "CA1002:Do not expose generic lists", Justification = "We are testing generic lists")]
+        public void GivenRengeSpecified_WhenSetsPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
+            [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] HashSet<int> rangeValues,
+            HashSet<int> unrestrictedValues)
+        {
+            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max));
+            unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
+        }
+
+        [AutoData]
+        [Theory(DisplayName = "GIVEN renge specified WHEN collections populated THEN only decorated parameter has value from range")]
+        [SuppressMessage("Design", "CA1002:Do not expose generic lists", Justification = "We are testing generic lists")]
+        public void GivenRengeSpecified_WhenCollectionsPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
+            [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] Collection<int> rangeValues,
+            Collection<int> unrestrictedValues)
+        {
+            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max));
+            unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
+        }
+
+        [AutoData]
+        [Theory(DisplayName = "GIVEN renge specified WHEN read-only collections populated THEN only decorated parameter has value from range")]
+        [SuppressMessage("Design", "CA1002:Do not expose generic lists", Justification = "We are testing generic lists")]
+        public void GivenRengeSpecified_WhenReadOnlyCollectionsPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
+            [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] ReadOnlyCollection<int> rangeValues,
+            ReadOnlyCollection<int> unrestrictedValues)
+        {
+            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max));
+            unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
         }
 
         private static class Ranges

@@ -27,15 +27,34 @@
         public void GivenValuesSpecified_WhenUShortPopulated_ThenTheValueFromSetIsGenerated(
             [FromValues(1, 5, 4)] ushort targetValue)
         {
+            // Arrange
+            // Act
+            // Assert
             targetValue.Should().BeOneOf(1, 5, 4);
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN values specified WHEN unsigned short populated THEN the value from set is generated")]
-        public void GivenValuesSpecified_WhenEnumPopulated_ThenTheValueFromSetIsGenerated(
+        [Theory(DisplayName = "GIVEN values specified for argument WHEN unsigned short populated THEN the value from set is generated")]
+        public void GivenValuesSpecifiedForAgrument_WhenEnumPopulated_ThenTheValueFromSetIsGenerated(
             [FromValues(Test.One, Test.Five, 100)] Test targetValue)
         {
+            // Arrange
+            // Act
+            // Assert
             targetValue.Should().BeOneOf(Test.One, Test.Five);
         }
+
+        ////[AutoData]
+        ////[Theory(DisplayName = "GIVEN values specified for collection WHEN unsigned short populated THEN the value from set is generated")]
+        ////public void GivenValuesSpecifiedForCollection_WhenEnumPopulated_ThenTheValueFromSetIsGenerated(
+        ////    [FromValues(Test.One, Test.Five)] Test[] targetValues)
+        ////{
+        ////    // Arrange
+        ////    var supported = new[] { Test.One, Test.Five };
+
+        ////    // Act
+        ////    // Assert
+        ////    targetValues.Should().AllSatisfy(x => supported.Should().Contain(x));
+        ////}
     }
 }

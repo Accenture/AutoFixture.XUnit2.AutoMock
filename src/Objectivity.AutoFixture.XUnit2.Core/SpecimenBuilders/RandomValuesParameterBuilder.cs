@@ -5,7 +5,6 @@
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using System.Reflection;
 
     using global::AutoFixture;
     using global::AutoFixture.Kernel;
@@ -16,45 +15,66 @@
     {
         private readonly Dictionary<Type, IEnumerator> enumerators = new();
         private readonly object syncRoot = new();
+        private readonly object[] inputValues;
+        private readonly Lazy<IReadOnlyCollection<object>> readonlyValues;
+        private readonly IRequestMemberTypeResolver typeResolver = new RequestMemberTypeResolver();
 
-        public RandomValuesParameterBuilder(params object[] args)
+        public RandomValuesParameterBuilder(params object[] values)
         {
-            this.Args = args.NotNull(nameof(args));
-
-            if (this.Args.Length == 0)
+            this.inputValues = values.NotNull(nameof(values));
+            if (this.inputValues.Length == 0)
             {
-                throw new ArgumentException("At least one argument is expected to be specified.", nameof(args));
+                throw new ArgumentException("At least one value is expected to be specified.", nameof(values));
             }
+
+            this.readonlyValues = new Lazy<IReadOnlyCollection<object>>(() => Array.AsReadOnly(this.inputValues));
         }
 
-        public object[] Args { get; }
+        public IReadOnlyCollection<object> Values => this.readonlyValues.Value;
 
         public object Create(object request, ISpecimenContext context)
         {
-            if (request is ParameterInfo pi) //// is a parameter
+            if (context is null)
             {
-                lock (this.syncRoot)
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (!this.typeResolver.TryGetMemberType(request, out var type))
+            {
+                type = request as Type;
+            }
+
+            if (type is not null)
+            {
+                if (type.IsArray)
                 {
-                    return this.CreateValue(pi.ParameterType);
+                    context.Resolve(new MultipleRequest(type.GetElementType()));
+                }
+                else
+                {
+                    lock (this.syncRoot)
+                    {
+                        return this.CreateValue(type);
+                    }
                 }
             }
 
             return new NoSpecimen();
         }
 
-        private object CreateValue(Type t)
+        private object CreateValue(Type targetType)
         {
-            var generator = this.EnsureGenerator(t);
+            var generator = this.EnsureGenerator(targetType);
             generator.MoveNext();
             return generator.Current;
         }
 
-        private IEnumerator EnsureGenerator(Type t)
+        private IEnumerator EnsureGenerator(Type targetType)
         {
-            if (!this.enumerators.TryGetValue(t, out var enumerator))
+            if (!this.enumerators.TryGetValue(targetType, out var enumerator))
             {
-                enumerator = new RoundRobinCollection(t, this.Args).GetEnumerator();
-                this.enumerators.Add(t, enumerator);
+                enumerator = new RoundRobinCollection(targetType, this.inputValues).GetEnumerator();
+                this.enumerators.Add(targetType, enumerator);
             }
 
             return enumerator;

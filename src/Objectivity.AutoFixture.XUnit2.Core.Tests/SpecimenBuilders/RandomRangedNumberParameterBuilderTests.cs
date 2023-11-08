@@ -4,6 +4,8 @@
     using System.Linq;
 
     using FluentAssertions;
+
+    using global::AutoFixture;
     using global::AutoFixture.Kernel;
     using global::AutoFixture.Xunit2;
     using Moq;
@@ -70,18 +72,18 @@
         [InlineAutoData(10, 10)]
         [InlineAutoData(1, 100)]
         [Theory(DisplayName = "GIVEN valid request type WHEN create is invoked THEN value from range is returned")]
-        public void GivenValidRequestType_WhenCreateIsInvoked_ThenValueFromRangeIsReturned(int min, int max)
+        public void GivenValidRequestType_WhenCreateIsInvoked_ThenValueFromRangeIsReturned(int min, int max, IFixture fixture)
         {
             // Arrange
             var builder = new RandomRangedNumberParameterBuilder(min, max);
-            var context = new Mock<ISpecimenContext>();
+            var context = new SpecimenContext(fixture);
             var request = this.GetType()
                 .GetMethod(nameof(this.GivenValidRequestType_WhenCreateIsInvoked_ThenValueFromRangeIsReturned))
                 .GetParameters()
                 .First();
 
             // Act
-            var result = builder.Create(request, context.Object);
+            var result = builder.Create(request, context);
 
             // Assert
             result.Should().NotBeNull().And.Subject.As<int>().Should().BeInRange(min, max);
