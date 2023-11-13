@@ -79,7 +79,7 @@
     <PackageReference Include="AutoFixture.AutoFakeItEasy" Version="4.18.0" />
     <PackageReference Include="AutoFixture.Xunit2" Version="4.18.0" />
     <PackageReference Include="Castle.Core" Version="5.1.1" />
-    <PackageReference Include="JetBrains.Annotations" Version="2023.2.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
     <PackageReference Include="FakeItEasy" Version="7.4.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.4">
       <PrivateAssets>all</PrivateAssets>
