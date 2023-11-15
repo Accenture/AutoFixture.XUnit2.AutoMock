@@ -52,6 +52,17 @@
             Assert.Throws<ArgumentOutOfRangeException>(() => new RandomRangedNumberParameterBuilder(min, max));
         }
 
+        [Fact(DisplayName = "GIVEN empty argument WHEN Create is invoked THEN exception is thrown")]
+        public void GivenEmptyArgument_WhenCreateIsInvoked_ThenExceptionIsThrown()
+        {
+            // Arrange
+            var builder = new RandomRangedNumberParameterBuilder(int.MinValue, int.MaxValue);
+
+            // Act
+            // Assert
+            Assert.Throws<ArgumentNullException>(() => builder.Create(new object(), null));
+        }
+
         [Fact(DisplayName = "GIVEN unsupported request type WHEN create is invoked THEN NoSpecimen is returned")]
         public void GivenUnsupportedRequestType_WhenCreateIsInvoked_ThenNoSpecimenIsReturned()
         {

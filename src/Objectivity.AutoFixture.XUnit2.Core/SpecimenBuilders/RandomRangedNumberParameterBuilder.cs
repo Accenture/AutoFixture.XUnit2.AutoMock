@@ -48,7 +48,17 @@
 
         public object Create(object request, ISpecimenContext context)
         {
-            if (this.typeResolver.TryGetMemberType(request, out var type))
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (!this.typeResolver.TryGetMemberType(request, out var type))
+            {
+                type = request as Type;
+            }
+
+            if (type is not null)
             {
                 if (type.IsArray)
                 {
@@ -57,12 +67,9 @@
                 else if (TryGetSingleEnumerableTypeArgument(type, out var enumerableType))
                 {
                     var items = this.CreateMultiple(enumerableType, context, false);
-                    if (!type.IsInterface && !type.IsAbstract)
-                    {
-                        return Activator.CreateInstance(type, items);
-                    }
-
-                    return items;
+                    return type.IsInterface || type.IsAbstract
+                        ? items
+                        : Activator.CreateInstance(type, items);
                 }
                 else
                 {
