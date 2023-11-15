@@ -231,6 +231,14 @@
             unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
         }
 
+        [AutoData]
+        [Theory(DisplayName = "GIVEN renge with single value WHEN array populated THEN all values equal specified one")]
+        public void GivenRengeWithSingleValue_WhenArrayPopulated_ThenAllValuesEqualSpecifiedOne(
+            [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Min)] int[] rangeValues)
+        {
+            rangeValues.Should().HaveCountGreaterThan(1).And.AllSatisfy(x => x.Should().Be(Ranges.IntRange.Min));
+        }
+
         private static class Ranges
         {
             public static class SByteRange
