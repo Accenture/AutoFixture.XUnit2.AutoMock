@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
 
     using global::AutoFixture;
@@ -22,11 +21,11 @@
             },
         };
 
-        public ReadOnlyCollection<Type> SupportedTypes => new(this.factories.Keys.ToList());
-
         public ICustomisationFactory GetFactory(Type type)
         {
-            return this.factories.First(x => x.Key.IsAssignableFrom(type)).Value.Value;
+            var factoryPair = this.factories.First(x => x.Key.IsAssignableFrom(type));
+
+            return factoryPair.Value.Value;
         }
     }
 }
