@@ -55,6 +55,9 @@
         public void GivenRengeSpecified_WhenBytePopulated_ThenTheValueFromRangeIsGenerated(
             [FromRange(Ranges.ByteRange.Min, Ranges.ByteRange.Max)] byte rangeValue)
         {
+            // Arrange
+            // Act
+            // Assert
             rangeValue.Should().BeInRange(Ranges.ByteRange.Min, Ranges.ByteRange.Max);
         }
 
@@ -63,6 +66,9 @@
         public void GivenRengeSpecified_WhenUShortPopulated_ThenTheValueFromRangeIsGenerated(
             [FromRange(Ranges.UShortRange.Min, Ranges.UShortRange.Max)] ushort rangeValue)
         {
+            // Arrange
+            // Act
+            // Assert
             rangeValue.Should().BeInRange(Ranges.UShortRange.Min, Ranges.UShortRange.Max);
         }
 
@@ -71,6 +77,9 @@
         public void GivenRengeSpecified_WhenUIntPopulated_ThenTheValueFromRangeIsGenerated(
             [FromRange(Ranges.UIntRange.Min, Ranges.UIntRange.Max)] uint rangeValue)
         {
+            // Arrange
+            // Act
+            // Assert
             rangeValue.Should().BeInRange(Ranges.UIntRange.Min, Ranges.UIntRange.Max);
         }
 
@@ -79,6 +88,9 @@
         public void GivenRengeSpecified_WhenULongPopulated_ThenTheValueFromRangeIsGenerated(
             [FromRange(Ranges.ULongRange.Min, Ranges.ULongRange.Max)] ulong rangeValue)
         {
+            // Arrange
+            // Act
+            // Assert
             rangeValue.Should().BeInRange(Ranges.ULongRange.Min, Ranges.ULongRange.Max);
         }
 
@@ -87,6 +99,9 @@
         public void GivenRengeSpecified_WhenSBytePopulated_ThenTheValueFromRangeIsGenerated(
             [FromRange(Ranges.SByteRange.Min, Ranges.SByteRange.Max)] sbyte rangeValue)
         {
+            // Arrange
+            // Act
+            // Assert
             rangeValue.Should().BeInRange(Ranges.SByteRange.Min, Ranges.SByteRange.Max);
         }
 
@@ -96,6 +111,9 @@
             [FromRange(Ranges.ShortRange.Min, Ranges.ShortRange.Max)] short rangeValue,
             short unrestrictedValue)
         {
+            // Arrange
+            // Act
+            // Assert
             rangeValue.Should().BeInRange(Ranges.ShortRange.Min, Ranges.ShortRange.Max);
             unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
         }
@@ -106,6 +124,9 @@
             [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] int rangeValue,
             int unrestrictedValue)
         {
+            // Arrange
+            // Act
+            // Assert
             rangeValue.Should().BeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max);
             unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
         }
@@ -116,6 +137,9 @@
             [FromRange(Ranges.LongRange.Min, Ranges.LongRange.Max)] long rangeValue,
             long unrestrictedValue)
         {
+            // Arrange
+            // Act
+            // Assert
             rangeValue.Should().BeInRange(Ranges.LongRange.Min, Ranges.LongRange.Max);
             unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
         }
@@ -126,6 +150,9 @@
             [FromRange(Ranges.FloatRange.Min, Ranges.FloatRange.Max)] float rangeValue,
             float unrestrictedValue)
         {
+            // Arrange
+            // Act
+            // Assert
             rangeValue.Should().BeInRange(Ranges.FloatRange.Min, Ranges.FloatRange.Max);
             unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
         }
@@ -136,6 +163,9 @@
             [FromRange(Ranges.DoubleRange.Min, Ranges.DoubleRange.Max)] double rangeValue,
             double unrestrictedValue)
         {
+            // Arrange
+            // Act
+            // Assert
             rangeValue.Should().BeInRange(Ranges.DoubleRange.Min, Ranges.DoubleRange.Max);
             unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
         }
@@ -146,6 +176,9 @@
             [FromRange((double)Ranges.DecimalRange.Min, (double)Ranges.DecimalRange.Max)] decimal rangeValue,
             decimal unrestrictedValue)
         {
+            // Arrange
+            // Act
+            // Assert
             rangeValue.Should().BeInRange(Ranges.DecimalRange.Min, Ranges.DecimalRange.Max);
             unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
         }
@@ -156,6 +189,9 @@
         public void GivenRengeSpecifiedAndInlineValueOutsideRange_WhenDataPopulated_ThenValuesFromRangeAreIgnoredAndInlineOneIsUsed(
             [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] int value, int expectedResult)
         {
+            // Arrange
+            // Act
+            // Assert
             value.Should().Be(expectedResult).And.NotBeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max);
         }
 
@@ -164,6 +200,9 @@
         public void GivenRengeSpecifiedAndMemberDataValueOutsideRange_WhenDataPopulated_ThenValuesFromRangeAreIgnoredAndMemberDataIsUsed(
             [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] int value, int expectedResult)
         {
+            // Arrange
+            // Act
+            // Assert
             value.Should().Be(expectedResult).And.NotBeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max);
         }
 
@@ -173,6 +212,9 @@
             [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] int[] rangeValues,
             int[] unrestrictedValues)
         {
+            // Arrange
+            // Act
+            // Assert
             rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max));
             unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
         }
@@ -183,6 +225,9 @@
             [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] IEnumerable<int> rangeValues,
             IEnumerable<int> unrestrictedValues)
         {
+            // Arrange
+            // Act
+            // Assert
             rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max));
             unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
         }
@@ -194,6 +239,9 @@
             [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] List<int> rangeValues,
             List<int> unrestrictedValues)
         {
+            // Arrange
+            // Act
+            // Assert
             rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max));
             unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
         }
@@ -205,6 +253,9 @@
             [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] HashSet<int> rangeValues,
             HashSet<int> unrestrictedValues)
         {
+            // Arrange
+            // Act
+            // Assert
             rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max));
             unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
         }
@@ -216,6 +267,9 @@
             [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] Collection<int> rangeValues,
             Collection<int> unrestrictedValues)
         {
+            // Arrange
+            // Act
+            // Assert
             rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max));
             unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
         }
@@ -227,6 +281,9 @@
             [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] ReadOnlyCollection<int> rangeValues,
             ReadOnlyCollection<int> unrestrictedValues)
         {
+            // Arrange
+            // Act
+            // Assert
             rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max));
             unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
         }
@@ -236,6 +293,9 @@
         public void GivenRengeWithSingleValue_WhenArrayPopulated_ThenAllValuesEqualSpecifiedOne(
             [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Min)] int[] rangeValues)
         {
+            // Arrange
+            // Act
+            // Assert
             rangeValues.Should().HaveCountGreaterThan(1).And.AllSatisfy(x => x.Should().Be(Ranges.IntRange.Min));
         }
 

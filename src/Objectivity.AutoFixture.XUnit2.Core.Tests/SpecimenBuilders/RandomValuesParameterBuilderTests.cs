@@ -18,7 +18,7 @@
             // Arrange
             // Act
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new RandomValuesParameterBuilder(null));
+            Assert.Throws<ArgumentNullException>(() => new RandomFixedValuesParameterBuilder(null));
         }
 
         [Fact(DisplayName = "GIVEN empty argument WHEN constructor is invoked THEN exception is thrown")]
@@ -27,12 +27,12 @@
             // Arrange
             // Act
             // Assert
-            Assert.Throws<ArgumentException>(() => new RandomValuesParameterBuilder(Array.Empty<object>()));
+            Assert.Throws<ArgumentException>(() => new RandomFixedValuesParameterBuilder(Array.Empty<object>()));
         }
 
         [AutoData]
         [Theory(DisplayName = "GIVEN empty argument WHEN Create is invoked THEN exception is thrown")]
-        internal void GivenEmptyArgument_WhenCreateIsInvoked_ThenExceptionIsThrown(RandomValuesParameterBuilder builder)
+        internal void GivenEmptyArgument_WhenCreateIsInvoked_ThenExceptionIsThrown(RandomFixedValuesParameterBuilder builder)
         {
             // Arrange
             // Act

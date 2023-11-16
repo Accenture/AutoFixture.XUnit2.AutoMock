@@ -1,31 +1,43 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Attributes
 {
     using System;
+    using System.Collections.Generic;
     using System.Reflection;
 
     using global::AutoFixture;
+    using global::AutoFixture.Kernel;
     using global::AutoFixture.Xunit2;
-    using Objectivity.AutoFixture.XUnit2.Core.CustomisationFactories;
+
+    using Objectivity.AutoFixture.XUnit2.Core.Common;
     using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
 
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true)]
     public sealed class FromValuesAttribute : CustomizeAttribute
     {
-        private readonly ICustomisationFactoryProvider factoryProvider = new CustomisationFactoryProvider();
+        private readonly object[] inputValues;
+        private readonly Lazy<IReadOnlyCollection<object>> readonlyValues;
 
-        public FromValuesAttribute(params object[] args)
+        public FromValuesAttribute(params object[] values)
         {
-            this.Args = args ?? Array.Empty<object>();
+            this.inputValues = values.NotNull(nameof(values));
+            if (this.inputValues.Length == 0)
+            {
+                throw new ArgumentException("At least one value is expected to be specified.", nameof(values));
+            }
+
+            this.readonlyValues = new Lazy<IReadOnlyCollection<object>>(() => Array.AsReadOnly(this.inputValues));
         }
 
-        public object[] Args { get; }
+        public IReadOnlyCollection<object> Values => this.readonlyValues.Value;
 
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {
-            var type = typeof(RandomValuesParameterBuilder);
-            var factory = this.factoryProvider.GetFactory(type);
-
-            return factory.Create(parameter, false, type, this.Args);
+            return new CompositeSpecimenBuilder(
+                new FilteringSpecimenBuilder(
+                    new RandomFixedValuesParameterBuilder(this.inputValues),
+                    new EqualRequestSpecification(parameter)),
+                new RandomFixedValuesGenerator())
+                .ToCustomization();
         }
     }
 }

@@ -4,15 +4,14 @@
     using System.Reflection;
 
     using global::AutoFixture;
+    using global::AutoFixture.Kernel;
     using global::AutoFixture.Xunit2;
-    using Objectivity.AutoFixture.XUnit2.Core.CustomisationFactories;
+
     using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
 
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true)]
     public sealed class FromRangeAttribute : CustomizeAttribute
     {
-        private readonly ICustomisationFactoryProvider factoryProvider = new CustomisationFactoryProvider();
-
         public FromRangeAttribute(sbyte minimum, sbyte maximum)
             : this((object)minimum, maximum)
         {
@@ -80,10 +79,10 @@
 
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {
-            var type = typeof(RandomRangedNumberParameterBuilder);
-            var factory = this.factoryProvider.GetFactory(type);
-
-            return factory.Create(parameter, false, type, this.Minimum, this.Maximum);
+            return new FilteringSpecimenBuilder(
+                new RandomRangedNumberParameterBuilder(this.Minimum, this.Maximum),
+                new EqualRequestSpecification(parameter))
+                .ToCustomization();
         }
     }
 }

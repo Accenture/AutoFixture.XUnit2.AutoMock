@@ -10,27 +10,12 @@
     using global::AutoFixture.Kernel;
 
     using Objectivity.AutoFixture.XUnit2.Core.Common;
+    using Objectivity.AutoFixture.XUnit2.Core.Requests;
 
-    internal class RandomValuesParameterBuilder : ISpecimenBuilder
+    internal class RandomFixedValuesGenerator : ISpecimenBuilder
     {
         private readonly Dictionary<Type, IEnumerator> enumerators = new();
         private readonly object syncRoot = new();
-        private readonly object[] inputValues;
-        private readonly Lazy<IReadOnlyCollection<object>> readonlyValues;
-        private readonly IRequestMemberTypeResolver typeResolver = new RequestMemberTypeResolver();
-
-        public RandomValuesParameterBuilder(params object[] values)
-        {
-            this.inputValues = values.NotNull(nameof(values));
-            if (this.inputValues.Length == 0)
-            {
-                throw new ArgumentException("At least one value is expected to be specified.", nameof(values));
-            }
-
-            this.readonlyValues = new Lazy<IReadOnlyCollection<object>>(() => Array.AsReadOnly(this.inputValues));
-        }
-
-        public IReadOnlyCollection<object> Values => this.readonlyValues.Value;
 
         public object Create(object request, ISpecimenContext context)
         {
@@ -39,42 +24,30 @@
                 throw new ArgumentNullException(nameof(context));
             }
 
-            if (!this.typeResolver.TryGetMemberType(request, out var type))
+            if (request is FixedValuesRequest fixedValuesRequest)
             {
-                type = request as Type;
-            }
-
-            if (type is not null)
-            {
-                if (type.IsArray)
+                lock (this.syncRoot)
                 {
-                    context.Resolve(new MultipleRequest(type.GetElementType()));
-                }
-                else
-                {
-                    lock (this.syncRoot)
-                    {
-                        return this.CreateValue(type);
-                    }
+                    return this.CreateValue(fixedValuesRequest);
                 }
             }
 
             return new NoSpecimen();
         }
 
-        private object CreateValue(Type targetType)
+        private object CreateValue(FixedValuesRequest request)
         {
-            var generator = this.EnsureGenerator(targetType);
+            var generator = this.EnsureGenerator(request);
             generator.MoveNext();
             return generator.Current;
         }
 
-        private IEnumerator EnsureGenerator(Type targetType)
+        private IEnumerator EnsureGenerator(FixedValuesRequest request)
         {
-            if (!this.enumerators.TryGetValue(targetType, out var enumerator))
+            if (!this.enumerators.TryGetValue(request.OperandType, out var enumerator))
             {
-                enumerator = new RoundRobinCollection(targetType, this.inputValues).GetEnumerator();
-                this.enumerators.Add(targetType, enumerator);
+                enumerator = new RoundRobinCollection(request.OperandType, request.Values.ToArray()).GetEnumerator();
+                this.enumerators.Add(request.OperandType, enumerator);
             }
 
             return enumerator;

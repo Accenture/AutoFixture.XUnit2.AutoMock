@@ -2,23 +2,28 @@
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Reflection;
 
     using global::AutoFixture;
     using global::AutoFixture.Xunit2;
 
     using Objectivity.AutoFixture.XUnit2.Core.Common;
-    using Objectivity.AutoFixture.XUnit2.Core.CustomisationFactories;
 
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true)]
     [SuppressMessage("Performance", "CA1813:Avoid unsealed attributes", Justification = "This attribute should be extendable by inheritance.")]
     public class CustomizeWithAttribute : CustomizeAttribute
     {
-        private readonly ICustomisationFactoryProvider factoryProvider = new CustomisationFactoryProvider();
-
         public CustomizeWithAttribute(Type type, params object[] args)
         {
             this.Type = type.NotNull(nameof(type));
+
+            var customizationType = typeof(ICustomization);
+            if (!customizationType.IsAssignableFrom(type))
+            {
+                throw new ArgumentException($"Specified argument {nameof(type)} must implement {customizationType.Name}");
+            }
+
             this.Args = args;
         }
 
@@ -34,9 +39,13 @@
 
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {
-            var factory = this.factoryProvider.GetFactory(this.Type);
+            var args = this.IncludeParameterType
+                ? new object[] { parameter.NotNull(nameof(parameter)).ParameterType }
+                    .Concat(this.Args ?? Array.Empty<object>())
+                    .ToArray()
+                : this.Args;
 
-            return factory.Create(parameter, this.IncludeParameterType, this.Type, this.Args);
+            return Activator.CreateInstance(this.Type, args) as ICustomization;
         }
     }
 }

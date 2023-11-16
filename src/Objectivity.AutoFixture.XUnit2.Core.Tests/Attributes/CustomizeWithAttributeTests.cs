@@ -93,20 +93,16 @@
             Assert.Throws<ArgumentNullException>(() => new CustomizeWithAttribute(customizationType));
         }
 
-        [Fact(DisplayName = "GIVEN unsupported type WHEN GetCustomization is invoked THEN exception is thrown")]
-        public void GivenUnsupportedType_WhenGetCustomizationIsInvoked_ThenExceptionIsThrown()
+        [Fact(DisplayName = "GIVEN unsupported type WHEN constructor is invoked THEN exception is thrown")]
+        public void GivenUnsupportedType_WhenConstructorIsInvoked_ThenExceptionIsThrown()
         {
             // Arrange
             var customizationType = typeof(string);
-            var customizeAttribute = new CustomizeWithAttribute(customizationType);
-            var parameter = typeof(CustomizeWithAttributeTests)
-                .GetMethod(nameof(this.MethodUnderTest), BindingFlags.Instance | BindingFlags.NonPublic)
-                .GetParameters()
-                .First();
 
             // Act
             // Assert
-            Assert.Throws<InvalidOperationException>(() => customizeAttribute.GetCustomization(parameter));
+            var exception = Assert.Throws<ArgumentException>(() => new CustomizeWithAttribute(customizationType));
+            exception.Message.Should().NotBeNullOrEmpty().And.Contain(nameof(ICustomization));
         }
 
         [Fact(DisplayName = "GIVEN CustomizeWith attribute with IncludeParameterType set WHEN GetCustomization is invoked THEN customization with expected type is returned")]
