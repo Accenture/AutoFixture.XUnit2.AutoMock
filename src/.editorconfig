@@ -1368,7 +1368,7 @@ dotnet_diagnostic.RCS1235.severity = warning
 dotnet_diagnostic.RCS1236.severity = warning
 
 # RCS1237: Use bit shift operator.
-dotnet_diagnostic.RCS1237.severity = suggestion
+dotnet_diagnostic.RCS1237.severity = none
 
 # RCS1238: Avoid nested ?: operators.
 dotnet_diagnostic.RCS1238.severity = suggestion

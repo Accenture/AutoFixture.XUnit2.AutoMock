@@ -15,14 +15,15 @@
     [Trait("Category", "Attributes")]
     public class FromValuesAttributeTests
     {
-        public enum Test
+        [Flags]
+        public enum Numbers
         {
             None = 0,
             One = 1,
             Two = 2,
-            Three = 3,
-            Four = 4,
-            Five = 5,
+            Three = 4,
+            Four = 8,
+            Five = 16,
         }
 
         public static IEnumerable<object[]> TestData { get; } = new[]
@@ -185,14 +186,25 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN values specified for argument WHEN unsigned short populated THEN the value from set is generated")]
+        [Theory(DisplayName = "GIVEN values specified for argument WHEN enum populated THEN the value from set is generated")]
         public void GivenValuesSpecifiedForAgrument_WhenEnumPopulated_ThenTheValueFromSetIsGenerated(
-            [FromValues(Test.One, Test.Five, 100)] Test targetValue)
+            [FromValues(Numbers.One, Numbers.Five, 100)] Numbers targetValue)
         {
             // Arrange
             // Act
             // Assert
-            targetValue.Should().BeOneOf(Test.One, Test.Five);
+            targetValue.Should().BeOneOf(Numbers.One, Numbers.Five, (Numbers)100);
+        }
+
+        [AutoData]
+        [Theory(DisplayName = "GIVEN values specified for argument WHEN flag populated THEN the value from set is generated")]
+        public void GivenValuesSpecifiedForAgrument_WhenFlagPopulated_ThenTheValueFromSetIsGenerated(
+            [FromValues(Numbers.One | Numbers.Three, Numbers.Five)] Numbers targetValue)
+        {
+            // Arrange
+            // Act
+            // Assert
+            targetValue.Should().BeOneOf(Numbers.One | Numbers.Three, Numbers.Five);
         }
 
         [InlineAutoData(10, 10)]
@@ -210,13 +222,15 @@
         [MemberAutoData(nameof(TestData))]
         [Theory(DisplayName = "GIVEN values specified and member data value outside values WHEN data populated THEN values definition is ignored and member data is used")]
         public void GivenValuesSpecifiedAndMemberDataValueOutsideValues_WhenDataPopulated_ThenValuesDefinitionIsIgnoredAndMemberDataIsUsed(
-            [FromValues(int.MinValue)] int value, int expectedResult, [FromValues(int.MinValue)] int unrestrictedValues)
+            [FromValues(int.MinValue)] int value,
+            int expectedResult,
+            [FromValues(int.MinValue)] int unrestrictedValue)
         {
             // Arrange
             // Act
             // Assert
             value.Should().Be(expectedResult).And.NotBe(int.MinValue);
-            unrestrictedValues.Should().Be(int.MinValue);
+            unrestrictedValue.Should().Be(int.MinValue);
         }
 
         [AutoData]
