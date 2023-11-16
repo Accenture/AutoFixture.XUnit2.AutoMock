@@ -53,133 +53,133 @@
         [AutoData]
         [Theory(DisplayName = "GIVEN renge specified WHEN byte populated THEN the value from range is generated")]
         public void GivenRengeSpecified_WhenBytePopulated_ThenTheValueFromRangeIsGenerated(
-            [FromRange(Ranges.ByteRange.Min, Ranges.ByteRange.Max)] byte rangeValue)
+            [FromRange(byte.MaxValue - 10, byte.MaxValue)] byte rangeValue)
         {
             // Arrange
             // Act
             // Assert
-            rangeValue.Should().BeInRange(Ranges.ByteRange.Min, Ranges.ByteRange.Max);
+            rangeValue.Should().BeInRange(byte.MaxValue - 10, byte.MaxValue);
         }
 
         [AutoData]
         [Theory(DisplayName = "GIVEN renge specified WHEN unsigned short populated THEN the value from range is generated")]
         public void GivenRengeSpecified_WhenUShortPopulated_ThenTheValueFromRangeIsGenerated(
-            [FromRange(Ranges.UShortRange.Min, Ranges.UShortRange.Max)] ushort rangeValue)
+            [FromRange(ushort.MaxValue - 10, ushort.MaxValue)] ushort rangeValue)
         {
             // Arrange
             // Act
             // Assert
-            rangeValue.Should().BeInRange(Ranges.UShortRange.Min, Ranges.UShortRange.Max);
+            rangeValue.Should().BeInRange(ushort.MaxValue - 10, ushort.MaxValue);
         }
 
         [AutoData]
         [Theory(DisplayName = "GIVEN renge specified WHEN unsigned integer populated THEN the value from range is generated")]
         public void GivenRengeSpecified_WhenUIntPopulated_ThenTheValueFromRangeIsGenerated(
-            [FromRange(Ranges.UIntRange.Min, Ranges.UIntRange.Max)] uint rangeValue)
+            [FromRange(uint.MaxValue - 10, uint.MaxValue)] uint rangeValue)
         {
             // Arrange
             // Act
             // Assert
-            rangeValue.Should().BeInRange(Ranges.UIntRange.Min, Ranges.UIntRange.Max);
+            rangeValue.Should().BeInRange(uint.MaxValue - 10, uint.MaxValue);
         }
 
         [AutoData]
         [Theory(DisplayName = "GIVEN renge specified WHEN unsigned long populated THEN the value from range is generated")]
         public void GivenRengeSpecified_WhenULongPopulated_ThenTheValueFromRangeIsGenerated(
-            [FromRange(Ranges.ULongRange.Min, Ranges.ULongRange.Max)] ulong rangeValue)
+            [FromRange(ulong.MaxValue - 10, ulong.MaxValue)] ulong rangeValue)
         {
             // Arrange
             // Act
             // Assert
-            rangeValue.Should().BeInRange(Ranges.ULongRange.Min, Ranges.ULongRange.Max);
+            rangeValue.Should().BeInRange(ulong.MaxValue - 10, ulong.MaxValue);
         }
 
         [AutoData]
         [Theory(DisplayName = "GIVEN renge specified WHEN signed byte populated THEN the value from range is generated")]
         public void GivenRengeSpecified_WhenSBytePopulated_ThenTheValueFromRangeIsGenerated(
-            [FromRange(Ranges.SByteRange.Min, Ranges.SByteRange.Max)] sbyte rangeValue)
+            [FromRange(sbyte.MaxValue - 10, sbyte.MaxValue)] sbyte rangeValue)
         {
             // Arrange
             // Act
             // Assert
-            rangeValue.Should().BeInRange(Ranges.SByteRange.Min, Ranges.SByteRange.Max);
+            rangeValue.Should().BeInRange(sbyte.MaxValue - 10, sbyte.MaxValue);
         }
 
         [AutoData]
         [Theory(DisplayName = "GIVEN renge specified WHEN short populated THEN only decorated parameter has value from range")]
         public void GivenRengeSpecified_WhenShortPopulated_ThenOnlyDecoratedParameterHasValueFromRange(
-            [FromRange(Ranges.ShortRange.Min, Ranges.ShortRange.Max)] short rangeValue,
+            [FromRange(short.MinValue, short.MinValue + 10)] short rangeValue,
             short unrestrictedValue)
         {
             // Arrange
             // Act
             // Assert
-            rangeValue.Should().BeInRange(Ranges.ShortRange.Min, Ranges.ShortRange.Max);
+            rangeValue.Should().BeInRange(short.MinValue, short.MinValue + 10);
             unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
         }
 
         [AutoData]
         [Theory(DisplayName = "GIVEN renge specified WHEN integer populated THEN only decorated parameter has value from range")]
         public void GivenRengeSpecified_WhenIntPopulated_ThenOnlyDecoratedParameterHasValueFromRange(
-            [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] int rangeValue,
+            [FromRange(int.MinValue, sbyte.MinValue)] int rangeValue,
             int unrestrictedValue)
         {
             // Arrange
             // Act
             // Assert
-            rangeValue.Should().BeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max);
+            rangeValue.Should().BeInRange(int.MinValue, sbyte.MinValue);
             unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
         }
 
         [AutoData]
         [Theory(DisplayName = "GIVEN renge specified WHEN long populated THEN only decorated parameter has value from range")]
         public void GivenRengeSpecified_WhenLongPopulated_ThenOnlyDecoratedParameterHasValueFromRange(
-            [FromRange(Ranges.LongRange.Min, Ranges.LongRange.Max)] long rangeValue,
+            [FromRange(long.MinValue, long.MinValue + 10)] long rangeValue,
             long unrestrictedValue)
         {
             // Arrange
             // Act
             // Assert
-            rangeValue.Should().BeInRange(Ranges.LongRange.Min, Ranges.LongRange.Max);
+            rangeValue.Should().BeInRange(long.MinValue, long.MinValue + 10);
             unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
         }
 
         [AutoData]
         [Theory(DisplayName = "GIVEN renge specified WHEN float populated THEN only decorated parameter has value from range")]
         public void GivenRengeSpecified_WhenFloatPopulated_ThenOnlyDecoratedParameterHasValueFromRange(
-            [FromRange(Ranges.FloatRange.Min, Ranges.FloatRange.Max)] float rangeValue,
+            [FromRange(float.MinValue, float.MinValue + 10)] float rangeValue,
             float unrestrictedValue)
         {
             // Arrange
             // Act
             // Assert
-            rangeValue.Should().BeInRange(Ranges.FloatRange.Min, Ranges.FloatRange.Max);
+            rangeValue.Should().BeInRange(float.MinValue, float.MinValue + 10);
             unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
         }
 
         [AutoData]
         [Theory(DisplayName = "GIVEN renge specified WHEN double populated THEN only decorated parameter has value from range")]
         public void GivenRengeSpecified_WhenDoublePopulated_ThenOnlyDecoratedParameterHasValueFromRange(
-            [FromRange(Ranges.DoubleRange.Min, Ranges.DoubleRange.Max)] double rangeValue,
+            [FromRange(double.MinValue, double.MinValue + 10)] double rangeValue,
             double unrestrictedValue)
         {
             // Arrange
             // Act
             // Assert
-            rangeValue.Should().BeInRange(Ranges.DoubleRange.Min, Ranges.DoubleRange.Max);
+            rangeValue.Should().BeInRange(double.MinValue, double.MinValue + 10);
             unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
         }
 
         [AutoData]
         [Theory(DisplayName = "GIVEN renge specified WHEN decimal populated THEN only decorated parameter has value from range")]
         public void GivenRengeSpecified_WhenDecimalPopulated_ThenOnlyDecoratedParameterHasValueFromRange(
-            [FromRange((double)Ranges.DecimalRange.Min, (double)Ranges.DecimalRange.Max)] decimal rangeValue,
+            [FromRange(-12.3, -4.5)] decimal rangeValue,
             decimal unrestrictedValue)
         {
             // Arrange
             // Act
             // Assert
-            rangeValue.Should().BeInRange(Ranges.DecimalRange.Min, Ranges.DecimalRange.Max);
+            rangeValue.Should().BeInRange(-12.3m, -4.5m);
             unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
         }
 
@@ -187,48 +187,54 @@
         [InlineAutoData(0, 0)]
         [Theory(DisplayName = "GIVEN renge specified and inline value outside range WHEN data populated THEN values from range are ignored and inline one is used")]
         public void GivenRengeSpecifiedAndInlineValueOutsideRange_WhenDataPopulated_ThenValuesFromRangeAreIgnoredAndInlineOneIsUsed(
-            [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] int value, int expectedResult)
+            [FromRange(int.MinValue, short.MinValue)] int value,
+            int expectedResult,
+            [FromRange(short.MinValue, sbyte.MinValue)] int unrestrictedValue)
         {
             // Arrange
             // Act
             // Assert
-            value.Should().Be(expectedResult).And.NotBeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max);
+            value.Should().Be(expectedResult).And.NotBeInRange(int.MinValue, sbyte.MinValue);
+            unrestrictedValue.Should().BeInRange(short.MinValue, sbyte.MinValue);
         }
 
         [MemberAutoData(nameof(TestData))]
         [Theory(DisplayName = "GIVEN renge specified and member data value outside range WHEN data populated THEN values from range are ignored and member data is used")]
         public void GivenRengeSpecifiedAndMemberDataValueOutsideRange_WhenDataPopulated_ThenValuesFromRangeAreIgnoredAndMemberDataIsUsed(
-            [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] int value, int expectedResult)
+            [FromRange(int.MinValue, sbyte.MinValue)] int value,
+            int expectedResult,
+            [FromRange(int.MinValue, sbyte.MinValue)] int unrestrictedValue)
         {
             // Arrange
             // Act
             // Assert
-            value.Should().Be(expectedResult).And.NotBeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max);
+            value.Should().Be(expectedResult).And.NotBeInRange(int.MinValue, sbyte.MinValue);
+            unrestrictedValue.Should().BeInRange(int.MinValue, sbyte.MinValue);
         }
 
         [AutoData]
         [Theory(DisplayName = "GIVEN renge specified WHEN arrays populated THEN only decorated parameter has value from range")]
         public void GivenRengeSpecified_WhenArraysPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
-            [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] int[] rangeValues,
+            [FromRange(int.MinValue, sbyte.MinValue)] int[] rangeValues,
             int[] unrestrictedValues)
         {
             // Arrange
             // Act
             // Assert
-            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max));
+            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(int.MinValue, sbyte.MinValue));
             unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
         }
 
         [AutoData]
         [Theory(DisplayName = "GIVEN renge specified WHEN enumerables populated THEN only decorated parameter has value from range")]
         public void GivenRengeSpecified_WhenEnumerablesPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
-            [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] IEnumerable<int> rangeValues,
+            [FromRange(int.MinValue, sbyte.MinValue)] IEnumerable<int> rangeValues,
             IEnumerable<int> unrestrictedValues)
         {
             // Arrange
             // Act
             // Assert
-            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max));
+            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(int.MinValue, sbyte.MinValue));
             unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
         }
 
@@ -236,13 +242,13 @@
         [Theory(DisplayName = "GIVEN renge specified WHEN lists populated THEN only decorated parameter has value from range")]
         [SuppressMessage("Design", "CA1002:Do not expose generic lists", Justification = "We are testing generic lists")]
         public void GivenRengeSpecified_WhenListPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
-            [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] List<int> rangeValues,
+            [FromRange(int.MinValue, sbyte.MinValue)] List<int> rangeValues,
             List<int> unrestrictedValues)
         {
             // Arrange
             // Act
             // Assert
-            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max));
+            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(int.MinValue, sbyte.MinValue));
             unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
         }
 
@@ -250,13 +256,13 @@
         [Theory(DisplayName = "GIVEN renge specified WHEN sets populated THEN only decorated parameter has value from range")]
         [SuppressMessage("Design", "CA1002:Do not expose generic lists", Justification = "We are testing generic lists")]
         public void GivenRengeSpecified_WhenSetsPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
-            [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] HashSet<int> rangeValues,
+            [FromRange(int.MinValue, sbyte.MinValue)] HashSet<int> rangeValues,
             HashSet<int> unrestrictedValues)
         {
             // Arrange
             // Act
             // Assert
-            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max));
+            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(int.MinValue, sbyte.MinValue));
             unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
         }
 
@@ -264,13 +270,13 @@
         [Theory(DisplayName = "GIVEN renge specified WHEN collections populated THEN only decorated parameter has value from range")]
         [SuppressMessage("Design", "CA1002:Do not expose generic lists", Justification = "We are testing generic lists")]
         public void GivenRengeSpecified_WhenCollectionsPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
-            [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] Collection<int> rangeValues,
+            [FromRange(int.MinValue, sbyte.MinValue)] Collection<int> rangeValues,
             Collection<int> unrestrictedValues)
         {
             // Arrange
             // Act
             // Assert
-            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max));
+            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(int.MinValue, sbyte.MinValue));
             unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
         }
 
@@ -278,94 +284,25 @@
         [Theory(DisplayName = "GIVEN renge specified WHEN read-only collections populated THEN only decorated parameter has value from range")]
         [SuppressMessage("Design", "CA1002:Do not expose generic lists", Justification = "We are testing generic lists")]
         public void GivenRengeSpecified_WhenReadOnlyCollectionsPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
-            [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Max)] ReadOnlyCollection<int> rangeValues,
+            [FromRange(int.MinValue, sbyte.MinValue)] ReadOnlyCollection<int> rangeValues,
             ReadOnlyCollection<int> unrestrictedValues)
         {
             // Arrange
             // Act
             // Assert
-            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(Ranges.IntRange.Min, Ranges.IntRange.Max));
+            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(int.MinValue, sbyte.MinValue));
             unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
         }
 
         [AutoData]
         [Theory(DisplayName = "GIVEN renge with single value WHEN array populated THEN all values equal specified one")]
         public void GivenRengeWithSingleValue_WhenArrayPopulated_ThenAllValuesEqualSpecifiedOne(
-            [FromRange(Ranges.IntRange.Min, Ranges.IntRange.Min)] int[] rangeValues)
+            [FromRange(int.MinValue, int.MinValue)] int[] rangeValues)
         {
             // Arrange
             // Act
             // Assert
-            rangeValues.Should().HaveCountGreaterThan(1).And.AllSatisfy(x => x.Should().Be(Ranges.IntRange.Min));
-        }
-
-        private static class Ranges
-        {
-            public static class SByteRange
-            {
-                public const sbyte Min = -10;
-                public const sbyte Max = -1;
-            }
-
-            public static class ByteRange
-            {
-                public const byte Min = byte.MaxValue - 10;
-                public const byte Max = byte.MaxValue;
-            }
-
-            public static class ShortRange
-            {
-                public const short Min = -10;
-                public const short Max = -1;
-            }
-
-            public static class UShortRange
-            {
-                public const ushort Min = ushort.MaxValue - 10;
-                public const ushort Max = ushort.MaxValue;
-            }
-
-            public static class IntRange
-            {
-                public const int Min = -10;
-                public const int Max = -1;
-            }
-
-            public static class UIntRange
-            {
-                public const uint Min = uint.MaxValue - 10;
-                public const uint Max = uint.MaxValue;
-            }
-
-            public static class LongRange
-            {
-                public const long Min = -20;
-                public const long Max = -11;
-            }
-
-            public static class ULongRange
-            {
-                public const ulong Min = ulong.MaxValue - 10;
-                public const ulong Max = ulong.MaxValue;
-            }
-
-            public static class FloatRange
-            {
-                public const float Min = -29.9f;
-                public const float Max = -20.1f;
-            }
-
-            public static class DoubleRange
-            {
-                public const double Min = -39.9;
-                public const double Max = -30.1;
-            }
-
-            public static class DecimalRange
-            {
-                public const decimal Min = -2.9m;
-                public const decimal Max = -2.1m;
-            }
+            rangeValues.Should().HaveCountGreaterThan(1).And.AllSatisfy(x => x.Should().Be(int.MinValue));
         }
     }
 }
