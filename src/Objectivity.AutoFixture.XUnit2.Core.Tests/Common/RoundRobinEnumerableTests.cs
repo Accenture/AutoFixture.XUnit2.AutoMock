@@ -1,6 +1,7 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Common
 {
     using System;
+    using System.Collections;
     using System.Linq;
 
     using FluentAssertions;
@@ -37,14 +38,14 @@
             int[] values)
         {
             // Arrange
-            var enumerator = new RoundRobinEnumerable<int>(values).GetEnumerator();
+            var enumerator = ((IEnumerable)new RoundRobinEnumerable<int>(values)).GetEnumerator();
             var duplicatedValues = values.Concat(values.ToArray()).ToArray();
 
             // Act
             var items = duplicatedValues.Select(x =>
             {
                 enumerator.MoveNext();
-                return enumerator.Current == x;
+                return x.Equals(enumerator.Current);
             }).ToArray();
 
             // Assert

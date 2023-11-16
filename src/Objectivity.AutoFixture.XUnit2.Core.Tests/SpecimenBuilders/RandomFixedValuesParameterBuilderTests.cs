@@ -2,13 +2,17 @@
 {
     using System;
 
+    using global::AutoFixture.Kernel;
+
+    using Moq;
+
     using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
 
     using Xunit;
 
     [Collection("RandomValuesParameterBuilder")]
     [Trait("Category", "SpecimenBuilders")]
-    public class RandomValuesParameterBuilderTests
+    public class RandomFixedValuesParameterBuilderTests
     {
         [Fact(DisplayName = "GIVEN uninitialized argument WHEN constructor is invoked THEN exception is thrown")]
         public void GivenUninitializedArgument_WhenConstructorIsInvoked_ThenExceptionIsThrown()
@@ -39,8 +43,8 @@
             Assert.Throws<ArgumentException>(() => new RandomFixedValuesParameterBuilder(first, second));
         }
 
-        [Fact(DisplayName = "GIVEN empty argument WHEN Create is invoked THEN exception is thrown")]
-        public void GivenEmptyArgument_WhenCreateIsInvoked_ThenExceptionIsThrown()
+        [Fact(DisplayName = "GIVEN uninitialized context WHEN Create is invoked THEN exception is thrown")]
+        public void GivenUninitializedContext_WhenCreateIsInvoked_ThenExceptionIsThrown()
         {
             // Arrange
             var builder = new RandomFixedValuesParameterBuilder(int.MinValue, int.MaxValue);
@@ -48,6 +52,18 @@
             // Act
             // Assert
             Assert.Throws<ArgumentNullException>(() => builder.Create(new object(), null));
+        }
+
+        [Fact(DisplayName = "GIVEN uninitialized request WHEN Create is invoked THEN exception is thrown")]
+        public void GivenUninitializedRequest_WhenCreateIsInvoked_ThenExceptionIsThrown()
+        {
+            // Arrange
+            var builder = new RandomFixedValuesParameterBuilder(int.MinValue, int.MaxValue);
+            var context = new Mock<ISpecimenContext>();
+
+            // Act
+            // Assert
+            Assert.Throws<ArgumentNullException>(() => builder.Create(null, context.Object));
         }
     }
 }

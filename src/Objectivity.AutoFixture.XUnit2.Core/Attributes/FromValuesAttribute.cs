@@ -27,7 +27,7 @@
 
             if (Array.Exists(this.inputValues, x => x is not IComparable))
             {
-                throw new ArgumentException("All parameters are expected to be comparable.", nameof(values));
+                throw new ArgumentException("All values are expected to be comparable.", nameof(values));
             }
 
             this.readonlyValues = new Lazy<IReadOnlyCollection<object>>(() => Array.AsReadOnly(this.inputValues));

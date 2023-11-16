@@ -18,6 +18,11 @@
 
         public object Create(object request, ISpecimenContext context)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));

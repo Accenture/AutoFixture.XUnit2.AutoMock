@@ -14,12 +14,16 @@
 
         public FixedValuesRequest(Type operandType, params object[] values)
         {
-            // TODO: values should be IComparable?
             this.OperandType = operandType.NotNull(nameof(operandType));
             this.inputValues = values.NotNull(nameof(values));
             if (this.inputValues.Length == 0)
             {
                 throw new ArgumentException("At least one value is expected to be specified.", nameof(values));
+            }
+
+            if (Array.Exists(this.inputValues, x => x is not IComparable))
+            {
+                throw new ArgumentException("All values are expected to be comparable.", nameof(values));
             }
 
             this.readonlyValues = new Lazy<IReadOnlyCollection<object>>(() => Array.AsReadOnly(this.inputValues));
