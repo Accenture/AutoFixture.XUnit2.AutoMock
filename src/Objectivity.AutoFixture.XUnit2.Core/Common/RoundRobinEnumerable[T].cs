@@ -9,7 +9,7 @@
     {
         private readonly IEnumerable<T> values;
 
-        internal RoundRobinEnumerable(params T[] values)
+        public RoundRobinEnumerable(params T[] values)
         {
             this.values = values.NotNull(nameof(values));
             if (values.Length == 0)

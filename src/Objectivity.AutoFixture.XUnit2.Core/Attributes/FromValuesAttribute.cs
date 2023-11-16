@@ -25,6 +25,11 @@
                 throw new ArgumentException("At least one value is expected to be specified.", nameof(values));
             }
 
+            if (Array.Exists(this.inputValues, x => x is not IComparable))
+            {
+                throw new ArgumentException("All parameters are expected to be comparable.", nameof(values));
+            }
+
             this.readonlyValues = new Lazy<IReadOnlyCollection<object>>(() => Array.AsReadOnly(this.inputValues));
         }
 
