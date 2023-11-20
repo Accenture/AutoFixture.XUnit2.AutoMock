@@ -9,6 +9,7 @@
     using global::AutoFixture.Xunit2;
 
     using Objectivity.AutoFixture.XUnit2.Core.Common;
+    using Objectivity.AutoFixture.XUnit2.Core.Requests;
     using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
 
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true)]
@@ -39,7 +40,7 @@
         {
             return new CompositeSpecimenBuilder(
                 new FilteringSpecimenBuilder(
-                    new RandomFixedValuesParameterBuilder(this.inputValues),
+                    new RequestFactoryRelay((type) => new FixedValuesRequest(type, this.inputValues)),
                     new EqualRequestSpecification(parameter)),
                 new RandomFixedValuesGenerator())
                 .ToCustomization();

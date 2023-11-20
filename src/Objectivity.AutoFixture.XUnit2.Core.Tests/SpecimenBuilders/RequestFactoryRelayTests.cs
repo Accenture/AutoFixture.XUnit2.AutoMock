@@ -11,6 +11,7 @@
     using global::AutoFixture;
     using global::AutoFixture.Kernel;
     using global::AutoFixture.Xunit2;
+
     using Moq;
 
     using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
@@ -19,60 +20,36 @@
 
     [Collection("RandomRangedNumberBuilder")]
     [Trait("Category", "SpecimenBuilders")]
-    public class RandomRangedNumberParameterBuilderTests
+    public class RequestFactoryRelayTests
     {
-        [InlineData(null, 2)]
-        [InlineData(1, null)]
-        [Theory(DisplayName = "GIVEN uninitialized argument WHEN constructor is invoked THEN exception is thrown")]
-        public void GivenUninitializedArgument_WhenConstructorIsInvoked_ThenExceptionIsThrown(object minimum, object maximum)
+        [Fact(DisplayName = "GIVEN uninitialized argument WHEN constructor is invoked THEN exception is thrown")]
+        public void GivenUninitializedArgument_WhenConstructorIsInvoked_ThenExceptionIsThrown()
         {
             // Arrange
             // Act
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new RandomRangedNumberParameterBuilder(minimum, maximum));
-        }
-
-        [InlineData(typeof(int), 2)]
-        [InlineData(1, typeof(int))]
-        [Theory(DisplayName = "GIVEN uncomparable argument WHEN constructor is invoked THEN exception is thrown")]
-        public void GivenUncomparableArgument_WhenConstructorIsInvoked_ThenExceptionIsThrown(object minimum, object maximum)
-        {
-            // Arrange
-            // Act
-            // Assert
-            Assert.Throws<ArgumentException>(() => new RandomRangedNumberParameterBuilder(minimum, maximum));
-        }
-
-        [Fact(DisplayName = "GIVEN minimum greater than maximum WHEN constructor is invoked THEN exception is thrown")]
-        public void GivenMinimumGreaterThanMaximum_WhenConstructorIsInvoked_ThenExceptionIsThrown()
-        {
-            // Arrange
-            const int min = 100;
-            const int max = 1;
-
-            // Act
-            // Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => new RandomRangedNumberParameterBuilder(min, max));
+            Assert.Throws<ArgumentNullException>(() => new RequestFactoryRelay(null));
         }
 
         [Fact(DisplayName = "GIVEN empty argument WHEN Create is invoked THEN exception is thrown")]
         public void GivenEmptyArgument_WhenCreateIsInvoked_ThenExceptionIsThrown()
         {
             // Arrange
-            var builder = new RandomRangedNumberParameterBuilder(int.MinValue, int.MaxValue);
+            var factory = new Mock<Func<Type, object>>();
+            var builder = new RequestFactoryRelay(factory.Object);
 
             // Act
             // Assert
             Assert.Throws<ArgumentNullException>(() => builder.Create(new object(), null));
+            factory.VerifyNoOtherCalls();
         }
 
         [Fact(DisplayName = "GIVEN unsupported request type WHEN create is invoked THEN NoSpecimen is returned")]
         public void GivenUnsupportedRequestType_WhenCreateIsInvoked_ThenNoSpecimenIsReturned()
         {
             // Arrange
-            const int min = 1;
-            const int max = 100;
-            var builder = new RandomRangedNumberParameterBuilder(min, max);
+            var factory = new Mock<Func<Type, object>>();
+            var builder = new RequestFactoryRelay(factory.Object);
             var context = new Mock<ISpecimenContext>();
             var request = new object();
 
@@ -81,38 +58,43 @@
 
             // Assert
             result.Should().BeOfType<NoSpecimen>();
+            factory.VerifyNoOtherCalls();
         }
 
-        [InlineAutoData(10, 10)]
-        [InlineAutoData(1, 100)]
-        [Theory(DisplayName = "GIVEN valid ParameterInfo request WHEN create is invoked THEN value from range is returned")]
-        public void GivenValidParameterInfoRequest_WhenCreateIsInvoked_ThenValueFromRangeIsReturned(
-            int min,
-            int max,
-            IFixture fixture)
+        [AutoData]
+        [Theory(DisplayName = "GIVEN valid ParameterInfo request WHEN create is invoked THEN proper value is returned")]
+        public void GivenValidParameterInfoRequest_WhenCreateIsInvoked_ThenProperValueIsReturned(
+            int value)
         {
             // Arrange
-            var builder = new RandomRangedNumberParameterBuilder(min, max);
-            var context = new SpecimenContext(fixture);
+            var factory = new Mock<Func<Type, object>>();
+            var builder = new RequestFactoryRelay(factory.Object);
+            var context = new Mock<ISpecimenContext>();
+            context.Setup(x => x.Resolve(It.IsAny<object>())).Returns(value);
             var request = this.GetType()
-                .GetMethod(nameof(this.GivenValidParameterInfoRequest_WhenCreateIsInvoked_ThenValueFromRangeIsReturned))
+                .GetMethod(nameof(this.GivenValidParameterInfoRequest_WhenCreateIsInvoked_ThenProperValueIsReturned))
                 .GetParameters()
                 .First();
 
             // Act
-            var result = builder.Create(request, context);
+            var result = builder.Create(request, context.Object);
 
             // Assert
-            result.Should().NotBeNull().And.Subject.As<int>().Should().BeInRange(min, max);
+            result.Should().NotBeNull().And.Subject.As<int>().Should().Be(value);
+            factory.Verify(x => x(It.IsAny<Type>()), Times.Once);
+            factory.VerifyNoOtherCalls();
+            context.Verify(x => x.Resolve(It.IsAny<object>()), Times.Once);
+            context.VerifyNoOtherCalls();
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN valid type request WHEN create is invoked THEN defined value is returned")]
-        public void GivenValidTypeRequest_WhenCreateIsInvoked_ThenValueFromRangeIsReturned(
+        [Theory(DisplayName = "GIVEN valid type request WHEN create is invoked THEN proper value is returned")]
+        public void GivenValidTypeRequest_WhenCreateIsInvoked_ThenProperValueIsReturned(
             int value)
         {
             // Arrange
-            var builder = new RandomRangedNumberParameterBuilder(value, value);
+            var factory = new Mock<Func<Type, object>>();
+            var builder = new RequestFactoryRelay(factory.Object);
             var context = new Mock<ISpecimenContext>();
             context.Setup(x => x.Resolve(It.IsAny<object>())).Returns(value);
             var request = value.GetType();
@@ -122,6 +104,10 @@
 
             // Assert
             result.Should().NotBeNull().And.Subject.As<int>().Should().Be(value);
+            factory.Verify(x => x(It.IsAny<Type>()), Times.Once);
+            factory.VerifyNoOtherCalls();
+            context.Verify(x => x.Resolve(It.IsAny<object>()), Times.Once);
+            context.VerifyNoOtherCalls();
         }
 
         [AutoData]
@@ -132,16 +118,22 @@
             // Arrange
             var values = fixture.CreateMany<int>(1).ToArray();
             var value = values.First();
-            var builder = new RandomRangedNumberParameterBuilder(value, value);
+            var factory = new Mock<Func<Type, object>>();
+            factory.Setup(x => x(It.IsAny<Type>())).Returns(value);
+            var builder = new RequestFactoryRelay(factory.Object);
             var context = new Mock<ISpecimenContext>();
-            var request = values.GetType();
             context.Setup(x => x.Resolve(It.IsAny<object>())).Returns(value);
+            var request = values.GetType();
 
             // Act
             var result = builder.Create(request, context.Object);
 
             // Assert
             result.Should().BeOfType<NoSpecimen>();
+            factory.Verify(x => x(It.IsAny<Type>()), Times.Once);
+            factory.VerifyNoOtherCalls();
+            context.Verify(x => x.Resolve(It.IsAny<object>()), Times.Once);
+            context.VerifyNoOtherCalls();
         }
 
         [InlineAutoData(typeof(int[]), typeof(int[]))]
@@ -155,8 +147,9 @@
         {
             // Arrange
             var values = fixture.CreateMany<int>(1).ToArray();
-            var value = values.First();
-            var builder = new RandomRangedNumberParameterBuilder(value, value);
+            var factory = new Mock<Func<Type, object>>();
+            factory.Setup(x => x(It.IsAny<Type>())).Returns(values);
+            var builder = new RequestFactoryRelay(factory.Object);
             var context = new Mock<ISpecimenContext>();
             context.Setup(x => x.Resolve(It.IsAny<object>())).Returns(values);
 
@@ -167,6 +160,10 @@
             result.Should().NotBeNull()
                 .And.BeOfType(expectedType)
                 .And.Subject.As<IEnumerable>().Cast<int>().Should().HaveCount(values.Length);
+            factory.Verify(x => x(It.IsAny<Type>()), Times.Once);
+            factory.VerifyNoOtherCalls();
+            context.Verify(x => x.Resolve(It.IsAny<object>()), Times.Once);
+            context.VerifyNoOtherCalls();
         }
     }
 }

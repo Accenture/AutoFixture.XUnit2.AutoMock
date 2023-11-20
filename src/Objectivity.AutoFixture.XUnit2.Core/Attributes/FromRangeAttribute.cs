@@ -60,7 +60,7 @@
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {
             return new FilteringSpecimenBuilder(
-                new RandomRangedNumberParameterBuilder(this.Minimum, this.Maximum),
+                new RequestFactoryRelay((type) => new RangedNumberRequest(type, this.Minimum, this.Maximum)),
                 new EqualRequestSpecification(parameter))
                 .ToCustomization();
         }
