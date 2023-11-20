@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections;
-    using System.Collections.Generic;
+    using System.Collections.Concurrent;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
@@ -13,8 +13,7 @@
 
     internal class RandomFixedValuesGenerator : ISpecimenBuilder
     {
-        private readonly Dictionary<Type, IEnumerator> enumerators = new();
-        private readonly object syncRoot = new();
+        private readonly ConcurrentDictionary<FixedValuesRequest, IEnumerator> enumerators = new();
 
         public object Create(object request, ISpecimenContext context)
         {
@@ -30,34 +29,27 @@
 
             if (request is FixedValuesRequest fixedValuesRequest)
             {
-                lock (this.syncRoot)
-                {
-                    return this.CreateValue(fixedValuesRequest);
-                }
+                return this.CreateValue(fixedValuesRequest);
             }
 
             return new NoSpecimen();
         }
 
-        private object CreateValue(FixedValuesRequest request)
+        [SuppressMessage("Security", "CA5394:Do not use insecure randomness", Justification = "It is good enought for collection randomisation.")]
+        private static IEnumerator CreateEnumerable(FixedValuesRequest request)
         {
-            var generator = this.EnsureGenerator(request);
-            generator.MoveNext();
-            return generator.Current;
+            var random = new Random();
+            var values = request.Values.OrderBy((_) => random.Next()).ToArray();
+
+            return new RoundRobinEnumerable<object>(values).GetEnumerator();
         }
 
-        [SuppressMessage("Security", "CA5394:Do not use insecure randomness", Justification = "It is good enought for collection randomisation.")]
-        private IEnumerator EnsureGenerator(FixedValuesRequest request)
+        private object CreateValue(FixedValuesRequest request)
         {
-            if (!this.enumerators.TryGetValue(request.OperandType, out var enumerator))
-            {
-                var random = new Random();
-                var values = request.Values.OrderBy((_) => random.Next()).ToArray();
-                enumerator = new RoundRobinEnumerable<object>(values).GetEnumerator();
-                this.enumerators.Add(request.OperandType, enumerator);
-            }
+            var generator = this.enumerators.GetOrAdd(request, CreateEnumerable);
+            generator.MoveNext();
 
-            return enumerator;
+            return generator.Current;
         }
     }
 }

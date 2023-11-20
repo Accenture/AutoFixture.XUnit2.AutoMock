@@ -23,9 +23,9 @@
         {
             while (true)
             {
-                foreach (var obj in this.values)
+                foreach (var @value in this.values)
                 {
-                    yield return obj;
+                    yield return @value;
                 }
             }
         }
