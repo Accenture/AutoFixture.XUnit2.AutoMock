@@ -9,24 +9,24 @@
 
     internal class FixedValuesRequest : IEquatable<FixedValuesRequest>
     {
-        private readonly object[] inputValues;
+        private readonly HashSet<object> inputValues;
         private readonly Lazy<IReadOnlyCollection<object>> readonlyValues;
 
         public FixedValuesRequest(Type operandType, params object[] values)
         {
             this.OperandType = operandType.NotNull(nameof(operandType));
-            this.inputValues = values.NotNull(nameof(values));
-            if (this.inputValues.Length == 0)
+            this.inputValues = new HashSet<object>(values.NotNull(nameof(values)));
+            if (this.inputValues.Count == 0)
             {
                 throw new ArgumentException("At least one value is expected to be specified.", nameof(values));
             }
 
-            if (Array.Exists(this.inputValues, x => x is not IComparable))
+            if (this.inputValues.Any(x => x is not IComparable))
             {
                 throw new ArgumentException("All values are expected to be comparable.", nameof(values));
             }
 
-            this.readonlyValues = new Lazy<IReadOnlyCollection<object>>(() => Array.AsReadOnly(this.inputValues));
+            this.readonlyValues = new Lazy<IReadOnlyCollection<object>>(() => Array.AsReadOnly(this.inputValues.ToArray()));
         }
 
         public Type OperandType { get; }
@@ -51,15 +51,15 @@
             }
 
             return this.OperandType == other.OperandType
-                && this.inputValues.SequenceEqual(other.Values);
+                && this.inputValues.SetEquals(other.Values);
         }
 
         public override int GetHashCode()
         {
             var hc = this.OperandType.GetHashCode();
-            foreach (var value in this.inputValues)
+            foreach (var inputValue in this.inputValues)
             {
-                hc ^= value.GetHashCode();
+                hc ^= inputValue.GetHashCode();
             }
 
             return hc;
