@@ -60,7 +60,7 @@
                     if (specimen is IEnumerable elements)
                     {
                         var items = elements.ToTypedArray(itemType);
-                        return type.IsArray || type.IsInterface || type.IsAbstract
+                        return type.IsArray || type.IsAbstract
                             ? items
                             : Activator.CreateInstance(type, items);
                     }
