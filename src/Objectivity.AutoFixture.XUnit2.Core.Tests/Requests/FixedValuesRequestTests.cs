@@ -87,7 +87,7 @@
             var b = new FixedValuesRequest(typeB, valuesB.Cast<object>().ToArray());
 
             // Act
-            var result = a.Equals(b);
+            var result = Equals(a, b);
 
             // Assert
             result.Should().Be(expectedResult);
