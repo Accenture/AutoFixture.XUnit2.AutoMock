@@ -10,6 +10,8 @@ dotnet_diagnostic.CA1506.severity = none
 dotnet_diagnostic.CA1707.severity = none
 # CA1822: Mark members as static
 dotnet_diagnostic.CA1822.severity = none
+# CA1861: Avoid constant arrays as arguments
+dotnet_diagnostic.CA1861.severity = none
 # CA2000: Dispose objects before losing scope
 dotnet_diagnostic.CA2000.severity = none
 # CA2007: Consider calling ConfigureAwait on the awaited task
