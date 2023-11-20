@@ -9,7 +9,7 @@
     using Objectivity.AutoFixture.XUnit2.Core.Common;
     using Objectivity.AutoFixture.XUnit2.Core.Extensions;
 
-    internal class RandomRangedNumberParameterBuilder : ISpecimenBuilder
+    internal sealed class RandomRangedNumberParameterBuilder : ISpecimenBuilder
     {
         private readonly IRequestMemberTypeResolver typeResolver = new RequestMemberTypeResolver();
 

@@ -11,7 +11,7 @@
     using Objectivity.AutoFixture.XUnit2.Core.Extensions;
     using Objectivity.AutoFixture.XUnit2.Core.Requests;
 
-    internal class RandomFixedValuesParameterBuilder : ISpecimenBuilder
+    internal sealed class RandomFixedValuesParameterBuilder : ISpecimenBuilder
     {
         private readonly object[] inputValues;
         private readonly Lazy<IReadOnlyCollection<object>> readonlyValues;

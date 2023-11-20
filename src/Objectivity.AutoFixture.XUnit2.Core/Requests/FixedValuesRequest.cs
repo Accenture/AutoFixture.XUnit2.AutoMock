@@ -7,7 +7,7 @@
 
     using Objectivity.AutoFixture.XUnit2.Core.Common;
 
-    internal class FixedValuesRequest : IEquatable<FixedValuesRequest>
+    internal sealed class FixedValuesRequest : IEquatable<FixedValuesRequest>
     {
         private readonly HashSet<object> inputValues;
         private readonly Lazy<IReadOnlyCollection<object>> readonlyValues;

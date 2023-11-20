@@ -11,7 +11,7 @@
     using Objectivity.AutoFixture.XUnit2.Core.Common;
     using Objectivity.AutoFixture.XUnit2.Core.Requests;
 
-    internal class RandomFixedValuesGenerator : ISpecimenBuilder
+    internal sealed class RandomFixedValuesGenerator : ISpecimenBuilder
     {
         private readonly ConcurrentDictionary<FixedValuesRequest, IEnumerator> enumerators = new();
 
