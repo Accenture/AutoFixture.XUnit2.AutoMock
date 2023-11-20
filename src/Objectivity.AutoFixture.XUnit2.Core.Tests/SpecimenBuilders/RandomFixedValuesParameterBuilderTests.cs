@@ -51,11 +51,24 @@
             Assert.Throws<ArgumentException>(() => new RandomFixedValuesParameterBuilder(first, second));
         }
 
+        [AutoData]
+        [Theory(DisplayName = "GIVEN valid arguments WHEN constructor is invoked THEN builder is created")]
+        public void GivenValidArguments_WhenConstructorIsInvoked_ThenBuilderIsCreated(int[] values)
+        {
+            // Arrange
+            // Act
+            var builder = new RandomFixedValuesParameterBuilder(values.Cast<object>().ToArray());
+
+            // Assert
+            builder.Values.Should().HaveCount(values.Length)
+                .And.Subject.Cast<int>().Should().BeEquivalentTo(values);
+        }
+
         [Fact(DisplayName = "GIVEN uninitialized context WHEN Create is invoked THEN exception is thrown")]
         public void GivenUninitializedContext_WhenCreateIsInvoked_ThenExceptionIsThrown()
         {
             // Arrange
-            var builder = new RandomFixedValuesParameterBuilder(int.MinValue, int.MaxValue);
+            var builder = new RandomFixedValuesParameterBuilder(1);
 
             // Act
             // Assert
@@ -66,7 +79,7 @@
         public void GivenUninitializedRequest_WhenCreateIsInvoked_ThenExceptionIsThrown()
         {
             // Arrange
-            var builder = new RandomFixedValuesParameterBuilder(int.MinValue, int.MaxValue);
+            var builder = new RandomFixedValuesParameterBuilder(1);
             var context = new Mock<ISpecimenContext>();
 
             // Act
