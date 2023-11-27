@@ -45,8 +45,8 @@
 
         [InlineData(typeof(int), 2)]
         [InlineData(1, typeof(int))]
-        [Theory(DisplayName = "GIVEN uncomparable argument WHEN constructor is invoked THEN exception is thrown")]
-        public void GivenUncomparableArgument_WhenConstructorIsInvoked_ThenExceptionIsThrown(object first, object second)
+        [Theory(DisplayName = "GIVEN incomparable argument WHEN constructor is invoked THEN exception is thrown")]
+        public void GivenIncomparableArgument_WhenConstructorIsInvoked_ThenExceptionIsThrown(object first, object second)
         {
             // Arrange
             // Act
@@ -54,7 +54,7 @@
             Assert.Throws<ArgumentException>(() => new ExceptAttribute(first, second));
         }
 
-        [Fact(DisplayName = "GIVEN valid parameters WHEN constructor is invoked THEN parameters are propelry assigned")]
+        [Fact(DisplayName = "GIVEN valid parameters WHEN constructor is invoked THEN parameters are properly assigned")]
         public void GivenValidParameters_WhenConstructorIsInvoked_ThenParametersAreProperlyAssigned()
         {
             // Arrange

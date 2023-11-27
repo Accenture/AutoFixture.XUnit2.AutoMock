@@ -35,7 +35,7 @@
             Assert.Throws<ArgumentOutOfRangeException>(() => new FromRangeAttribute(min, max));
         }
 
-        [Fact(DisplayName = "GIVEN valid parameters WHEN constructor is invoked THEN parameters are propelry assigned")]
+        [Fact(DisplayName = "GIVEN valid parameters WHEN constructor is invoked THEN parameters are properly assigned")]
         public void GivenValidParameters_WhenConstructorIsInvoked_ThenParametersAreProperlyAssigned()
         {
             // Arrange
@@ -51,8 +51,8 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN renge specified WHEN byte populated THEN the value from range is generated")]
-        public void GivenRengeSpecified_WhenBytePopulated_ThenTheValueFromRangeIsGenerated(
+        [Theory(DisplayName = "GIVEN range specified WHEN byte populated THEN the value from range is generated")]
+        public void GivenRangeSpecified_WhenBytePopulated_ThenTheValueFromRangeIsGenerated(
             [FromRange(byte.MaxValue - 10, byte.MaxValue)] byte rangeValue)
         {
             // Arrange
@@ -62,8 +62,8 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN renge specified WHEN unsigned short populated THEN the value from range is generated")]
-        public void GivenRengeSpecified_WhenUShortPopulated_ThenTheValueFromRangeIsGenerated(
+        [Theory(DisplayName = "GIVEN range specified WHEN unsigned short populated THEN the value from range is generated")]
+        public void GivenRangeSpecified_WhenUShortPopulated_ThenTheValueFromRangeIsGenerated(
             [FromRange(ushort.MaxValue - 10, ushort.MaxValue)] ushort rangeValue)
         {
             // Arrange
@@ -73,8 +73,8 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN renge specified WHEN unsigned integer populated THEN the value from range is generated")]
-        public void GivenRengeSpecified_WhenUIntPopulated_ThenTheValueFromRangeIsGenerated(
+        [Theory(DisplayName = "GIVEN range specified WHEN unsigned integer populated THEN the value from range is generated")]
+        public void GivenRangeSpecified_WhenUIntPopulated_ThenTheValueFromRangeIsGenerated(
             [FromRange(uint.MaxValue - 10, uint.MaxValue)] uint rangeValue)
         {
             // Arrange
@@ -84,8 +84,8 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN renge specified WHEN unsigned long populated THEN the value from range is generated")]
-        public void GivenRengeSpecified_WhenULongPopulated_ThenTheValueFromRangeIsGenerated(
+        [Theory(DisplayName = "GIVEN range specified WHEN unsigned long populated THEN the value from range is generated")]
+        public void GivenRangeSpecified_WhenULongPopulated_ThenTheValueFromRangeIsGenerated(
             [FromRange(ulong.MaxValue - 10, ulong.MaxValue)] ulong rangeValue)
         {
             // Arrange
@@ -95,8 +95,8 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN renge specified WHEN signed byte populated THEN the value from range is generated")]
-        public void GivenRengeSpecified_WhenSBytePopulated_ThenTheValueFromRangeIsGenerated(
+        [Theory(DisplayName = "GIVEN range specified WHEN signed byte populated THEN the value from range is generated")]
+        public void GivenRangeSpecified_WhenSBytePopulated_ThenTheValueFromRangeIsGenerated(
             [FromRange(sbyte.MaxValue - 10, sbyte.MaxValue)] sbyte rangeValue)
         {
             // Arrange
@@ -106,8 +106,8 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN renge specified WHEN short populated THEN only decorated parameter has value from range")]
-        public void GivenRengeSpecified_WhenShortPopulated_ThenOnlyDecoratedParameterHasValueFromRange(
+        [Theory(DisplayName = "GIVEN range specified WHEN short populated THEN only decorated parameter has value from range")]
+        public void GivenRangeSpecified_WhenShortPopulated_ThenOnlyDecoratedParameterHasValueFromRange(
             [FromRange(short.MinValue, short.MinValue + 10)] short rangeValue,
             short unrestrictedValue)
         {
@@ -119,8 +119,8 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN renge specified WHEN integer populated THEN only decorated parameter has value from range")]
-        public void GivenRengeSpecified_WhenIntPopulated_ThenOnlyDecoratedParameterHasValueFromRange(
+        [Theory(DisplayName = "GIVEN range specified WHEN integer populated THEN only decorated parameter has value from range")]
+        public void GivenRangeSpecified_WhenIntPopulated_ThenOnlyDecoratedParameterHasValueFromRange(
             [FromRange(int.MinValue, sbyte.MinValue)] int rangeValue,
             int unrestrictedValue)
         {
@@ -132,8 +132,8 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN renge specified WHEN long populated THEN only decorated parameter has value from range")]
-        public void GivenRengeSpecified_WhenLongPopulated_ThenOnlyDecoratedParameterHasValueFromRange(
+        [Theory(DisplayName = "GIVEN range specified WHEN long populated THEN only decorated parameter has value from range")]
+        public void GivenRangeSpecified_WhenLongPopulated_ThenOnlyDecoratedParameterHasValueFromRange(
             [FromRange(long.MinValue, long.MinValue + 10)] long rangeValue,
             long unrestrictedValue)
         {
@@ -145,8 +145,8 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN renge specified WHEN float populated THEN only decorated parameter has value from range")]
-        public void GivenRengeSpecified_WhenFloatPopulated_ThenOnlyDecoratedParameterHasValueFromRange(
+        [Theory(DisplayName = "GIVEN range specified WHEN float populated THEN only decorated parameter has value from range")]
+        public void GivenRangeSpecified_WhenFloatPopulated_ThenOnlyDecoratedParameterHasValueFromRange(
             [FromRange(float.MinValue, float.MinValue + 10)] float rangeValue,
             float unrestrictedValue)
         {
@@ -158,8 +158,8 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN renge specified WHEN double populated THEN only decorated parameter has value from range")]
-        public void GivenRengeSpecified_WhenDoublePopulated_ThenOnlyDecoratedParameterHasValueFromRange(
+        [Theory(DisplayName = "GIVEN range specified WHEN double populated THEN only decorated parameter has value from range")]
+        public void GivenRangeSpecified_WhenDoublePopulated_ThenOnlyDecoratedParameterHasValueFromRange(
             [FromRange(double.MinValue, double.MinValue + 10)] double rangeValue,
             double unrestrictedValue)
         {
@@ -171,8 +171,8 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN renge specified WHEN decimal populated THEN only decorated parameter has value from range")]
-        public void GivenRengeSpecified_WhenDecimalPopulated_ThenOnlyDecoratedParameterHasValueFromRange(
+        [Theory(DisplayName = "GIVEN range specified WHEN decimal populated THEN only decorated parameter has value from range")]
+        public void GivenRangeSpecified_WhenDecimalPopulated_ThenOnlyDecoratedParameterHasValueFromRange(
             [FromRange(-12.3, -4.5)] decimal rangeValue,
             decimal unrestrictedValue)
         {
@@ -185,8 +185,8 @@
 
         [InlineAutoData(10, 10)]
         [InlineAutoData(0, 0)]
-        [Theory(DisplayName = "GIVEN renge specified and inline value outside range WHEN data populated THEN values from range are ignored and inline one is used")]
-        public void GivenRengeSpecifiedAndInlineValueOutsideRange_WhenDataPopulated_ThenValuesFromRangeAreIgnoredAndInlineOneIsUsed(
+        [Theory(DisplayName = "GIVEN range specified and inline value outside range WHEN data populated THEN values from range are ignored and inline one is used")]
+        public void GivenRangeSpecifiedAndInlineValueOutsideRange_WhenDataPopulated_ThenValuesFromRangeAreIgnoredAndInlineOneIsUsed(
             [FromRange(int.MinValue, short.MinValue)] int value,
             int expectedResult,
             [FromRange(short.MinValue, sbyte.MinValue)] int unrestrictedValue)
@@ -199,8 +199,8 @@
         }
 
         [MemberAutoData(nameof(TestData))]
-        [Theory(DisplayName = "GIVEN renge specified and member data value outside range WHEN data populated THEN values from range are ignored and member data is used")]
-        public void GivenRengeSpecifiedAndMemberDataValueOutsideRange_WhenDataPopulated_ThenValuesFromRangeAreIgnoredAndMemberDataIsUsed(
+        [Theory(DisplayName = "GIVEN range specified and member data value outside range WHEN data populated THEN values from range are ignored and member data is used")]
+        public void GivenRangeSpecifiedAndMemberDataValueOutsideRange_WhenDataPopulated_ThenValuesFromRangeAreIgnoredAndMemberDataIsUsed(
             [FromRange(int.MinValue, sbyte.MinValue)] int value,
             int expectedResult,
             [FromRange(int.MinValue, sbyte.MinValue)] int unrestrictedValue)
@@ -213,8 +213,8 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN renge specified WHEN arrays populated THEN only decorated parameter has value from range")]
-        public void GivenRengeSpecified_WhenArraysPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
+        [Theory(DisplayName = "GIVEN range specified WHEN arrays populated THEN only decorated parameter has value from range")]
+        public void GivenRangeSpecified_WhenArraysPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
             [FromRange(int.MinValue, sbyte.MinValue)] int[] rangeValues,
             int[] unrestrictedValues)
         {
@@ -226,8 +226,8 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN renge specified WHEN enumerables populated THEN only decorated parameter has value from range")]
-        public void GivenRengeSpecified_WhenEnumerablesPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
+        [Theory(DisplayName = "GIVEN range specified WHEN enumerable collections populated THEN only decorated parameter has value from range")]
+        public void GivenRangeSpecified_WhenEnumerableCollectionsPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
             [FromRange(int.MinValue, sbyte.MinValue)] IEnumerable<int> rangeValues,
             IEnumerable<int> unrestrictedValues)
         {
@@ -239,9 +239,9 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN renge specified WHEN lists populated THEN only decorated parameter has value from range")]
+        [Theory(DisplayName = "GIVEN range specified WHEN lists populated THEN only decorated parameter has value from range")]
         [SuppressMessage("Design", "CA1002:Do not expose generic lists", Justification = "We are testing generic lists")]
-        public void GivenRengeSpecified_WhenListPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
+        public void GivenRangeSpecified_WhenListPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
             [FromRange(int.MinValue, sbyte.MinValue)] List<int> rangeValues,
             List<int> unrestrictedValues)
         {
@@ -253,9 +253,8 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN renge specified WHEN sets populated THEN only decorated parameter has value from range")]
-        [SuppressMessage("Design", "CA1002:Do not expose generic lists", Justification = "We are testing generic lists")]
-        public void GivenRengeSpecified_WhenSetsPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
+        [Theory(DisplayName = "GIVEN range specified WHEN sets populated THEN only decorated parameter has value from range")]
+        public void GivenRangeSpecified_WhenSetsPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
             [FromRange(int.MinValue, sbyte.MinValue)] HashSet<int> rangeValues,
             HashSet<int> unrestrictedValues)
         {
@@ -267,9 +266,9 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN renge specified WHEN collections populated THEN only decorated parameter has value from range")]
+        [Theory(DisplayName = "GIVEN range specified WHEN collections populated THEN only decorated parameter has value from range")]
         [SuppressMessage("Design", "CA1002:Do not expose generic lists", Justification = "We are testing generic lists")]
-        public void GivenRengeSpecified_WhenCollectionsPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
+        public void GivenRangeSpecified_WhenCollectionsPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
             [FromRange(int.MinValue, sbyte.MinValue)] Collection<int> rangeValues,
             Collection<int> unrestrictedValues)
         {
@@ -281,9 +280,9 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN renge specified WHEN read-only collections populated THEN only decorated parameter has value from range")]
+        [Theory(DisplayName = "GIVEN range specified WHEN read-only collections populated THEN only decorated parameter has value from range")]
         [SuppressMessage("Design", "CA1002:Do not expose generic lists", Justification = "We are testing generic lists")]
-        public void GivenRengeSpecified_WhenReadOnlyCollectionsPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
+        public void GivenRangeSpecified_WhenReadOnlyCollectionsPopulated_ThenOnlyDecoratedParameterHasValuesFromRange(
             [FromRange(int.MinValue, sbyte.MinValue)] ReadOnlyCollection<int> rangeValues,
             ReadOnlyCollection<int> unrestrictedValues)
         {
@@ -295,8 +294,8 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN renge with single value WHEN array populated THEN all values equal specified one")]
-        public void GivenRengeWithSingleValue_WhenArrayPopulated_ThenAllValuesEqualSpecifiedOne(
+        [Theory(DisplayName = "GIVEN range with single value WHEN array populated THEN all values equal specified one")]
+        public void GivenRangeWithSingleValue_WhenArrayPopulated_ThenAllValuesEqualSpecifiedOne(
             [FromRange(int.MinValue, int.MinValue)] int[] rangeValues)
         {
             // Arrange

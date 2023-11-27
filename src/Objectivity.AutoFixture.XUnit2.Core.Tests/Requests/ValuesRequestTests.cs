@@ -36,7 +36,7 @@
             Assert.Throws<ArgumentNullException>(() => new FixedValuesRequest(type, values));
         }
 
-        [Fact(DisplayName = "GIVEN uninitialized vaues argument WHEN constructor is invoked THEN exception is thrown")]
+        [Fact(DisplayName = "GIVEN uninitialized values argument WHEN constructor is invoked THEN exception is thrown")]
         public void GivenUninitializedValuesArgument_WhenConstructorIsInvoked_ThenExceptionIsThrown()
         {
             // Arrange
@@ -62,8 +62,8 @@
 
         [InlineData(typeof(int), 2)]
         [InlineData(1, typeof(int))]
-        [Theory(DisplayName = "GIVEN uncomparable argument WHEN constructor is invoked THEN exception is thrown")]
-        public void GivenUncomparableArgument_WhenConstructorIsInvoked_ThenExceptionIsThrown(object first, object second)
+        [Theory(DisplayName = "GIVEN incomparable argument WHEN constructor is invoked THEN exception is thrown")]
+        public void GivenIncomparableArgument_WhenConstructorIsInvoked_ThenExceptionIsThrown(object first, object second)
         {
             // Arrange
             var type = typeof(int);

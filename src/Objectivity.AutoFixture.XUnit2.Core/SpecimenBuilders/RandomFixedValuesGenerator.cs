@@ -35,7 +35,7 @@
             return new NoSpecimen();
         }
 
-        [SuppressMessage("Security", "CA5394:Do not use insecure randomness", Justification = "It is good enought for collection randomisation.")]
+        [SuppressMessage("Security", "CA5394:Do not use insecure randomness", Justification = "It is good enough for collection randomization.")]
         private static IEnumerator CreateEnumerable(FixedValuesRequest request)
         {
             var random = new Random();

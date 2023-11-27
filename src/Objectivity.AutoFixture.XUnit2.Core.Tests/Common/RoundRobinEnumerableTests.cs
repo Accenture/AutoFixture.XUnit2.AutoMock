@@ -33,8 +33,8 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN round robin with values WHEN enumerating twice THEN oredered values enumerated twice")]
-        public void GivenRoundRobinWithValues_WhenEnumeratingTwice_ThenOrederedValuesEnumeratedTwice(
+        [Theory(DisplayName = "GIVEN round robin with values WHEN enumerating twice THEN ordered values enumerated twice")]
+        public void GivenRoundRobinWithValues_WhenEnumeratingTwice_ThenOrderedValuesEnumeratedTwice(
             int[] values)
         {
             // Arrange

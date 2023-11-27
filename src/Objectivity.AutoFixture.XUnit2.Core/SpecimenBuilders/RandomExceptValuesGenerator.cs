@@ -12,7 +12,7 @@
 
     internal class RandomExceptValuesGenerator : ISpecimenBuilder
     {
-        [SuppressMessage("Major Bug", "S2583:Conditionally executed code should be reachable", Justification = "Analyser issue as the code is reachable")]
+        [SuppressMessage("Major Bug", "S2583:Conditionally executed code should be reachable", Justification = "Analyzer issue as the code is reachable")]
         public object Create(object request, ISpecimenContext context)
         {
             if (request is null)
