@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
 
     using global::AutoFixture;
@@ -26,9 +27,14 @@
                 throw new ArgumentException("At least one value is expected to be specified.", nameof(values));
             }
 
-            if (Array.Exists(this.inputValues, x => x is not IComparable))
+            if (Array.Exists(this.inputValues, x => !IsSupportedType(x.GetType())))
             {
                 throw new ArgumentException("All values are expected to be comparable.", nameof(values));
+            }
+
+            if (this.inputValues.GroupBy(x => x).Any(g => g.Count() > 1))
+            {
+                throw new ArgumentException("All values are expected to be unique.", nameof(values));
             }
 
             this.readonlyValues = new Lazy<IReadOnlyCollection<object>>(() => Array.AsReadOnly(this.inputValues));
@@ -40,10 +46,18 @@
         {
             return new CompositeSpecimenBuilder(
                 new FilteringSpecimenBuilder(
-                    new RequestFactoryRelay((type) => new FixedValuesRequest(type, this.inputValues)),
+                    new RequestFactoryRelay((type) =>
+                        IsSupportedType(type)
+                        ? new FixedValuesRequest(type, this.inputValues)
+                        : null),
                     new EqualRequestSpecification(parameter)),
                 new RandomFixedValuesGenerator())
                 .ToCustomization();
+        }
+
+        private static bool IsSupportedType(Type type)
+        {
+            return typeof(IComparable).IsAssignableFrom(type);
         }
     }
 }

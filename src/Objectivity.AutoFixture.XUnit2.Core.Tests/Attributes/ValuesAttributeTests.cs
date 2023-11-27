@@ -2,10 +2,15 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Reflection;
 
     using FluentAssertions;
 
+    using global::AutoFixture;
+    using global::AutoFixture.Kernel;
     using global::AutoFixture.Xunit2;
+
+    using Moq;
 
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
 
@@ -63,6 +68,19 @@
             Assert.Throws<ArgumentException>(() => new ValuesAttribute(first, second));
         }
 
+        [InlineData(1, 1)]
+        [InlineData("a", "a")]
+        [Theory(DisplayName = "GIVEN identical arguments WHEN constructor is invoked THEN exception is thrown")]
+        public void GivenIdenticalArguments_WhenConstructorIsInvoked_ThenExceptionIsThrown(
+            object first,
+            object second)
+        {
+            // Arrange
+            // Act
+            // Assert
+            Assert.Throws<ArgumentException>(() => new ValuesAttribute(first, second));
+        }
+
         [Fact(DisplayName = "GIVEN valid parameters WHEN constructor is invoked THEN parameters are properly assigned")]
         public void GivenValidParameters_WhenConstructorIsInvoked_ThenParametersAreProperlyAssigned()
         {
@@ -74,6 +92,30 @@
 
             // Assert
             attribute.Values.Should().HaveCount(1).And.Contain(item);
+        }
+
+        [InlineAutoData(1)]
+        [InlineAutoData(1.5f)]
+        [InlineAutoData("test")]
+        [InlineAutoData(false)]
+        [InlineAutoData(Numbers.Five)]
+        [Theory(DisplayName = "GIVEN valid parameters WHEN customisation is used THEN expected values are generated")]
+        public void GivenValidParameters_WhenCustomizationIsUsed_ThenExpectedValuesAreGenerated(
+            object item,
+            IFixture fixture)
+        {
+            // Arrange
+            var attribute = new ValuesAttribute(item);
+            var request = new Mock<ParameterInfo>();
+            request.SetupGet(x => x.ParameterType)
+                .Returns(item.GetType());
+            fixture.Customize(attribute.GetCustomization(request.Object));
+
+            // Act
+            var result = fixture.Create(request.Object, new SpecimenContext(fixture));
+
+            // Assert
+            result.Should().NotBeNull().And.Be(item);
         }
 
         [AutoData]
