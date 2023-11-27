@@ -7,7 +7,7 @@
 
     using global::AutoFixture;
     using global::AutoFixture.Kernel;
-
+    using Objectivity.AutoFixture.XUnit2.Core.Common;
     using Objectivity.AutoFixture.XUnit2.Core.Requests;
 
     internal class RandomExceptValuesGenerator : ISpecimenBuilder
@@ -15,17 +15,12 @@
         [SuppressMessage("Major Bug", "S2583:Conditionally executed code should be reachable", Justification = "Analyzer issue as the code is reachable")]
         public object Create(object request, ISpecimenContext context)
         {
-            if (request is null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
-
             if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
             }
 
-            if (request is ExceptValuesRequest exceptValuesRequest)
+            if (request.NotNull(nameof(request)) is ExceptValuesRequest exceptValuesRequest)
             {
                 var duplicateLimiter = new ConcurrentDictionary<object, bool>();
                 object result;

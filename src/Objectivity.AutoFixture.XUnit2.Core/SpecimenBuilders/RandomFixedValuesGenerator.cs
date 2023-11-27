@@ -17,17 +17,12 @@
 
         public object Create(object request, ISpecimenContext context)
         {
-            if (request is null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
-
             if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
             }
 
-            if (request is FixedValuesRequest fixedValuesRequest)
+            if (request.NotNull(nameof(request)) is FixedValuesRequest fixedValuesRequest)
             {
                 return this.CreateValue(fixedValuesRequest);
             }

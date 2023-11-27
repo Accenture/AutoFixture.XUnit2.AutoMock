@@ -2,15 +2,15 @@
 {
     using System;
     using System.Collections;
+    using System.Reflection;
 
     using global::AutoFixture;
     using global::AutoFixture.Kernel;
+
     using Objectivity.AutoFixture.XUnit2.Core.Common;
 
     internal sealed class RequestFactoryRelay : ISpecimenBuilder
     {
-        private readonly IRequestMemberTypeResolver typeResolver = new RequestMemberTypeResolver();
-
         public RequestFactoryRelay(Func<Type, object> requestFactory)
         {
             this.RequestFactory = requestFactory.NotNull(nameof(requestFactory));
@@ -25,13 +25,11 @@
                 throw new ArgumentNullException(nameof(context));
             }
 
-            if (!this.typeResolver.TryGetMemberType(request, out var type))
+            if (request.NotNull(nameof(request)) is ParameterInfo parameterInfo)
             {
-                type = request as Type;
-            }
+                var type = Nullable.GetUnderlyingType(parameterInfo.ParameterType)
+                    ?? parameterInfo.ParameterType;
 
-            if (type is not null)
-            {
                 if (type.TryGetEnumerableSingleTypeArgument(out var itemType))
                 {
                     var transformedRequest = this.RequestFactory(itemType);

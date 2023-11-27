@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Reflection;
 
     using FluentAssertions;
 
@@ -44,6 +45,19 @@
             factory.VerifyNoOtherCalls();
         }
 
+        [Fact(DisplayName = "GIVEN uninitialized request WHEN Create is invoked THEN exception is thrown")]
+        public void GivenUninitializedRequest_WhenCreateIsInvoked_ThenExceptionIsThrown()
+        {
+            // Arrange
+            var factory = new Mock<Func<Type, object>>();
+            var builder = new RequestFactoryRelay(factory.Object);
+            var context = new Mock<ISpecimenContext>();
+
+            // Act
+            // Assert
+            Assert.Throws<ArgumentNullException>(() => builder.Create(null, context.Object));
+        }
+
         [Fact(DisplayName = "GIVEN unsupported request type WHEN create is invoked THEN NoSpecimen is returned")]
         public void GivenUnsupportedRequestType_WhenCreateIsInvoked_ThenNoSpecimenIsReturned()
         {
@@ -62,8 +76,8 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN valid ParameterInfo request WHEN create is invoked THEN proper value is returned")]
-        public void GivenValidParameterInfoRequest_WhenCreateIsInvoked_ThenProperValueIsReturned(
+        [Theory(DisplayName = "GIVEN valid value ParameterInfo request WHEN create is invoked THEN proper value is returned")]
+        public void GivenValidValueParameterInfoRequest_WhenCreateIsInvoked_ThenProperValueIsReturned(
             int value)
         {
             // Arrange
@@ -72,7 +86,7 @@
             var context = new Mock<ISpecimenContext>();
             context.Setup(x => x.Resolve(It.IsAny<object>())).Returns(value);
             var request = this.GetType()
-                .GetMethod(nameof(this.GivenValidParameterInfoRequest_WhenCreateIsInvoked_ThenProperValueIsReturned))
+                .GetMethod(nameof(this.GivenValidValueParameterInfoRequest_WhenCreateIsInvoked_ThenProperValueIsReturned))
                 .GetParameters()
                 .First();
 
@@ -88,16 +102,19 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN valid type request WHEN create is invoked THEN proper value is returned")]
-        public void GivenValidTypeRequest_WhenCreateIsInvoked_ThenProperValueIsReturned(
-            int value)
+        [Theory(DisplayName = "GIVEN valid nullable value ParameterInfo request WHEN create is invoked THEN proper value is returned")]
+        public void GivenValidNullableValueParameterInfoRequest_WhenCreateIsInvoked_ThenProperValueIsReturned(
+            int? value)
         {
             // Arrange
             var factory = new Mock<Func<Type, object>>();
             var builder = new RequestFactoryRelay(factory.Object);
             var context = new Mock<ISpecimenContext>();
             context.Setup(x => x.Resolve(It.IsAny<object>())).Returns(value);
-            var request = value.GetType();
+            var request = this.GetType()
+                .GetMethod(nameof(this.GivenValidNullableValueParameterInfoRequest_WhenCreateIsInvoked_ThenProperValueIsReturned))
+                .GetParameters()
+                .First();
 
             // Act
             var result = builder.Create(request, context.Object);
@@ -123,10 +140,11 @@
             var builder = new RequestFactoryRelay(factory.Object);
             var context = new Mock<ISpecimenContext>();
             context.Setup(x => x.Resolve(It.IsAny<object>())).Returns(value);
-            var request = values.GetType();
+            var request = new Mock<ParameterInfo>();
+            request.SetupGet(x => x.ParameterType).Returns(values.GetType());
 
             // Act
-            var result = builder.Create(request, context.Object);
+            var result = builder.Create(request.Object, context.Object);
 
             // Assert
             result.Should().BeOfType<NoSpecimen>();
@@ -152,9 +170,11 @@
             var builder = new RequestFactoryRelay(factory.Object);
             var context = new Mock<ISpecimenContext>();
             context.Setup(x => x.Resolve(It.IsAny<object>())).Returns(values);
+            var request = new Mock<ParameterInfo>();
+            request.SetupGet(x => x.ParameterType).Returns(requestType);
 
             // Act
-            var result = builder.Create(requestType, context.Object);
+            var result = builder.Create(request.Object, context.Object);
 
             // Assert
             result.Should().NotBeNull()

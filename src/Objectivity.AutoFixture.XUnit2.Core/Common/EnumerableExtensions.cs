@@ -15,12 +15,7 @@
 
         public static bool TryGetEnumerableSingleTypeArgument(this Type type, out Type argument)
         {
-            if (type is null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
-
-            if (type.IsArray)
+            if (type.NotNull(nameof(type)).IsArray)
             {
                 argument = type.GetElementType();
                 return true;
