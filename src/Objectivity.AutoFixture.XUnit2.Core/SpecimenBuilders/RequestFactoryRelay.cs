@@ -27,27 +27,35 @@
 
             if (request.NotNull(nameof(request)) is ParameterInfo parameterInfo)
             {
-                var type = Nullable.GetUnderlyingType(parameterInfo.ParameterType)
+                var parameterType = Nullable.GetUnderlyingType(parameterInfo.ParameterType)
                     ?? parameterInfo.ParameterType;
 
-                if (type.TryGetEnumerableSingleTypeArgument(out var itemType))
-                {
-                    var transformedRequest = this.RequestFactory(itemType);
-                    var specimen = context.Resolve(new MultipleRequest(transformedRequest));
+                return parameterType.TryGetEnumerableSingleTypeArgument(out var itemType)
+                    ? this.CreateMultiple(parameterType, itemType, context)
+                    : this.CreateSingle(parameterType, context);
+            }
 
-                    if (specimen is IEnumerable elements)
-                    {
-                        var items = elements.ToTypedArray(itemType);
-                        return type.IsArray || type.IsAbstract
-                            ? items
-                            : Activator.CreateInstance(type, items);
-                    }
-                }
-                else
-                {
-                    var transformedRequest = this.RequestFactory(type);
-                    return context.Resolve(transformedRequest);
-                }
+            return new NoSpecimen();
+        }
+
+        private object CreateSingle(Type type, ISpecimenContext context)
+        {
+            var transformedRequest = this.RequestFactory(type);
+            return transformedRequest is not null
+                ? context.Resolve(transformedRequest)
+                : new NoSpecimen();
+        }
+
+        private object CreateMultiple(Type collectionType, Type itemType, ISpecimenContext context)
+        {
+            var transformedRequest = this.RequestFactory(itemType);
+            if (transformedRequest is not null
+                && context.Resolve(new MultipleRequest(transformedRequest)) is IEnumerable elements)
+            {
+                var items = elements.ToTypedArray(itemType);
+                return collectionType.IsArray || collectionType.IsAbstract
+                    ? items
+                    : Activator.CreateInstance(collectionType, items);
             }
 
             return new NoSpecimen();
