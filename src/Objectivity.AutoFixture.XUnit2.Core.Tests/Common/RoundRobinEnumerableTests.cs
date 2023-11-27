@@ -12,6 +12,8 @@
 
     using Xunit;
 
+    [Collection("RoundRobinEnumerable")]
+    [Trait("Category", "Common")]
     public class RoundRobinEnumerableTests
     {
         [Fact(DisplayName = "GIVEN uninitialized argument WHEN constructor is invoked THEN exception is thrown")]

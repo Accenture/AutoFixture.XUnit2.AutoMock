@@ -13,6 +13,8 @@
 
     using Xunit;
 
+    [Collection("ValuesRequest")]
+    [Trait("Category", "Requests")]
     public class ValuesRequestTests
     {
         public static IEnumerable<object[]> ComparisonTestData { get; } = new[]

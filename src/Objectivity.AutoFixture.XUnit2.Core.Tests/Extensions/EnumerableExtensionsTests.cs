@@ -10,6 +10,8 @@
 
     using Xunit;
 
+    [Collection("EnumerableExtensions")]
+    [Trait("Category", "Extensions")]
     public class EnumerableExtensionsTests
     {
         [Fact(DisplayName = "GIVEN uninitialized argument WHEN TryGetEnumerableSingleTypeArgument is invoked THEN exception is thrown")]

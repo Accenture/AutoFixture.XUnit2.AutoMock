@@ -18,7 +18,7 @@
 
     using Xunit;
 
-    [Collection("RandomRangedNumberBuilder")]
+    [Collection("RequestFactoryRelay")]
     [Trait("Category", "SpecimenBuilders")]
     public class RequestFactoryRelayTests
     {

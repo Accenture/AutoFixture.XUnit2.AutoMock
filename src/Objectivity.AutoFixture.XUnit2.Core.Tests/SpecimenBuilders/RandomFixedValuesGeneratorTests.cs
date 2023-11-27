@@ -15,6 +15,8 @@
 
     using Xunit;
 
+    [Collection("RandomFixedValuesGenerator")]
+    [Trait("Category", "SpecimenBuilders")]
     public class RandomFixedValuesGeneratorTests
     {
         [Fact(DisplayName = "GIVEN uninitialized context WHEN Create is invoked THEN exception is thrown")]
