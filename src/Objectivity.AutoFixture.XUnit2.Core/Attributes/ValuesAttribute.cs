@@ -13,12 +13,12 @@
     using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
 
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public sealed class FromValuesAttribute : CustomizeAttribute
+    public sealed class ValuesAttribute : CustomizeAttribute
     {
         private readonly object[] inputValues;
         private readonly Lazy<IReadOnlyCollection<object>> readonlyValues;
 
-        public FromValuesAttribute(params object[] values)
+        public ValuesAttribute(params object[] values)
         {
             this.inputValues = values.NotNull(nameof(values));
             if (this.inputValues.Length == 0)

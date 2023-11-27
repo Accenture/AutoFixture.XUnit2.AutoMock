@@ -46,7 +46,9 @@
         [InlineData(typeof(int), 2)]
         [InlineData(1, typeof(int))]
         [Theory(DisplayName = "GIVEN incomparable argument WHEN constructor is invoked THEN exception is thrown")]
-        public void GivenIncomparableArgument_WhenConstructorIsInvoked_ThenExceptionIsThrown(object first, object second)
+        public void GivenIncomparableArgument_WhenConstructorIsInvoked_ThenExceptionIsThrown(
+            object first,
+            object second)
         {
             // Arrange
             // Act
@@ -70,7 +72,12 @@
         [AutoData]
         [Theory(DisplayName = "GIVEN multiple values specified but one WHEN values populated THEN the one value is used")]
         public void GivenMultipleValuesSpecifiedButOne_WhenValuesPopulated_ThenTheOneValueIsUsed(
-            [Except(Numbers.None, Numbers.One, Numbers.Two, Numbers.Three, Numbers.Four)] Numbers[] targetValues)
+            [Except(
+                Numbers.None,
+                Numbers.One,
+                Numbers.Two,
+                Numbers.Three,
+                Numbers.Four)] Numbers[] targetValues)
         {
             // Arrange
             // Act
@@ -81,7 +88,12 @@
         [AutoData]
         [Theory(DisplayName = "GIVEN values specified only for one set WHEN values populated THEN the other set is not impacted")]
         public void GivenValuesSpecifiedOnlyForOneSet_WhenValuesPopulated_ThenTheOtherSetIsNotImpacted(
-            [Except(Numbers.None, Numbers.One, Numbers.Two, Numbers.Three, Numbers.Four)] Numbers[] firstSet,
+            [Except(
+                Numbers.None,
+                Numbers.One,
+                Numbers.Two,
+                Numbers.Three,
+                Numbers.Four)] Numbers[] firstSet,
             Numbers[] secondSet)
         {
             // Arrange
@@ -94,8 +106,14 @@
         [AutoData]
         [Theory(DisplayName = "GIVEN multiple values specified but one WHEN values populated THEN generated sets have no common part")]
         public void GivenDifferentValuesSpecifiedForDifferentSets_WhenValuesPopulated_ThenGeneratedSetsHaveNoCommonPart(
-            [Except(Numbers.None, Numbers.One, Numbers.Two)] Numbers[] firstSet,
-            [Except(Numbers.Three, Numbers.Four, Numbers.Five)] Numbers[] secondSet)
+            [Except(
+                Numbers.None,
+                Numbers.One,
+                Numbers.Two)] Numbers[] firstSet,
+            [Except(
+                Numbers.Three,
+                Numbers.Four,
+                Numbers.Five)] Numbers[] secondSet)
         {
             // Arrange
             // Act
@@ -107,7 +125,12 @@
         [AutoData]
         [Theory(DisplayName = "GIVEN values specified only for one set WHEN values populated THEN the other set is not impacted")]
         public void GivenValuesSpecifiedForFirstValueAndFrozen_WhenValuesPopulated_ThenBothValuesAreImpacted(
-            [Except(Numbers.None, Numbers.One, Numbers.Two, Numbers.Three, Numbers.Four)][Frozen] Numbers firstValue,
+            [Frozen] [Except(
+                Numbers.None,
+                Numbers.One,
+                Numbers.Two,
+                Numbers.Three,
+                Numbers.Four)] Numbers firstValue,
             Numbers secondValue)
         {
             // Arrange

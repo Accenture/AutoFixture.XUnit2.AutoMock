@@ -10,39 +10,39 @@
     using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
 
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public sealed class FromRangeAttribute : CustomizeAttribute
+    public sealed class RangeAttribute : CustomizeAttribute
     {
-        public FromRangeAttribute(int minimum, int maximum)
+        public RangeAttribute(int minimum, int maximum)
             : this((object)minimum, maximum)
         {
         }
 
-        public FromRangeAttribute(uint minimum, uint maximum)
+        public RangeAttribute(uint minimum, uint maximum)
             : this((object)minimum, maximum)
         {
         }
 
-        public FromRangeAttribute(long minimum, long maximum)
+        public RangeAttribute(long minimum, long maximum)
             : this((object)minimum, maximum)
         {
         }
 
-        public FromRangeAttribute(ulong minimum, ulong maximum)
+        public RangeAttribute(ulong minimum, ulong maximum)
             : this((object)minimum, maximum)
         {
         }
 
-        public FromRangeAttribute(double minimum, double maximum)
+        public RangeAttribute(double minimum, double maximum)
             : this((object)minimum, maximum)
         {
         }
 
-        public FromRangeAttribute(float minimum, float maximum)
+        public RangeAttribute(float minimum, float maximum)
             : this((object)minimum, maximum)
         {
         }
 
-        private FromRangeAttribute(object minimum, object maximum)
+        private RangeAttribute(object minimum, object maximum)
         {
             if (((IComparable)minimum).CompareTo((IComparable)maximum) > 0)
             {
