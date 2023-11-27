@@ -7,7 +7,8 @@
 
     using Objectivity.AutoFixture.XUnit2.Core.Common;
 
-    internal abstract class ValuesRequest : IEquatable<ValuesRequest>
+    internal abstract class ValuesRequest<T> : IEquatable<T>
+        where T : ValuesRequest<T>
     {
         private readonly HashSet<object> inputValues;
         private readonly Lazy<IReadOnlyCollection<object>> readonlyValues;
@@ -35,7 +36,7 @@
 
         public override bool Equals(object obj)
         {
-            if (obj is ValuesRequest other)
+            if (obj is T other)
             {
                 return this.Equals(other);
             }
@@ -43,7 +44,7 @@
             return false;
         }
 
-        public bool Equals(ValuesRequest other)
+        public bool Equals(T other)
         {
             if (other is null)
             {
@@ -56,7 +57,7 @@
 
         public override int GetHashCode()
         {
-            var hc = this.OperandType.GetHashCode();
+            var hc = this.OperandType.GetHashCode() ^ typeof(T).GetHashCode();
             foreach (var inputValue in this.inputValues)
             {
                 hc ^= inputValue.GetHashCode();

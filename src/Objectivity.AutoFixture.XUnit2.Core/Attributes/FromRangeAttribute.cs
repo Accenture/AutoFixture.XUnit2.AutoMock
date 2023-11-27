@@ -9,7 +9,7 @@
 
     using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
 
-    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
     public sealed class FromRangeAttribute : CustomizeAttribute
     {
         public FromRangeAttribute(int minimum, int maximum)

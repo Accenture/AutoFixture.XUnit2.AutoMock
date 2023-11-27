@@ -13,12 +13,12 @@
     using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
 
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public sealed class FromValuesAttribute : CustomizeAttribute
+    public sealed class ExceptAttribute : CustomizeAttribute
     {
         private readonly object[] inputValues;
         private readonly Lazy<IReadOnlyCollection<object>> readonlyValues;
 
-        public FromValuesAttribute(params object[] values)
+        public ExceptAttribute(params object[] values)
         {
             this.inputValues = values.NotNull(nameof(values));
             if (this.inputValues.Length == 0)
@@ -40,9 +40,9 @@
         {
             return new CompositeSpecimenBuilder(
                 new FilteringSpecimenBuilder(
-                    new RequestFactoryRelay((type) => new FixedValuesRequest(type, this.inputValues)),
+                    new RequestFactoryRelay((type) => new ExceptValuesRequest(type, this.inputValues)),
                     new EqualRequestSpecification(parameter)),
-                new RandomFixedValuesGenerator())
+                new RandomExceptValuesGenerator())
                 .ToCustomization();
         }
     }

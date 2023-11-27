@@ -8,12 +8,12 @@
     using System.Linq;
 
     using FluentAssertions;
-
+    using global::AutoFixture.Xunit2;
     using Objectivity.AutoFixture.XUnit2.Core.Requests;
 
     using Xunit;
 
-    public class FixedValuesRequestTests
+    public class ValuesRequestTests
     {
         public static IEnumerable<object[]> ComparisonTestData { get; } = new[]
         {
@@ -139,6 +139,42 @@
 
             // Act
             var result = request.Equals(differentObject);
+
+            // Assert
+            result.Should().Be(false);
+        }
+
+        [AutoData]
+        [Theory(DisplayName = "GIVEN different type of ValuesRequest WHEN Equals is invoked THEN False is returned")]
+        public void GivenDifferentTypeOfValuesRequest_WhenEqualsIsInvoked_ThenFalseIsReturned(
+            int value)
+        {
+            // Arrange
+            var type = value.GetType();
+            var fixedRequest = new FixedValuesRequest(type, value);
+            var exceptRequest = new ExceptValuesRequest(type, value);
+
+            // Act
+            var result = fixedRequest.Equals(exceptRequest);
+
+            // Assert
+            result.Should().Be(false);
+        }
+
+        [AutoData]
+        [Theory(DisplayName = "GIVEN different type of ValuesRequest WHEN GetHashCode is invoked THEN False is returned")]
+        public void GivenDifferentTypeOfValuesRequest_WhenGetHashCodeIsInvoked_ThenFalseIsReturned(
+            int value)
+        {
+            // Arrange
+            var type = value.GetType();
+            var fixedRequest = new FixedValuesRequest(type, value);
+            var exceptRequest = new ExceptValuesRequest(type, value);
+
+            // Act
+            var hashA = fixedRequest.GetHashCode();
+            var hashB = exceptRequest.GetHashCode();
+            var result = hashA == hashB;
 
             // Assert
             result.Should().Be(false);
