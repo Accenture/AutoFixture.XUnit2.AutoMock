@@ -1,4 +1,4 @@
-﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Extensions
+﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Common
 {
     using System;
     using System.Collections;
@@ -6,12 +6,12 @@
 
     using FluentAssertions;
     using global::AutoFixture.Xunit2;
-    using Objectivity.AutoFixture.XUnit2.Core.Extensions;
+    using Objectivity.AutoFixture.XUnit2.Core.Common;
 
     using Xunit;
 
     [Collection("EnumerableExtensions")]
-    [Trait("Category", "Extensions")]
+    [Trait("Category", "Common")]
     public class EnumerableExtensionsTests
     {
         [Fact(DisplayName = "GIVEN uninitialized argument WHEN TryGetEnumerableSingleTypeArgument is invoked THEN exception is thrown")]

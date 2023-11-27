@@ -1,12 +1,10 @@
-﻿namespace Objectivity.AutoFixture.XUnit2.Core.Extensions
+﻿namespace Objectivity.AutoFixture.XUnit2.Core.Common
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-
-    using Objectivity.AutoFixture.XUnit2.Core.Common;
 
     internal static class EnumerableExtensions
     {

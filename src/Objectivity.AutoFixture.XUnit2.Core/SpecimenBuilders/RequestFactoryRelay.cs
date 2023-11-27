@@ -6,7 +6,6 @@
     using global::AutoFixture;
     using global::AutoFixture.Kernel;
     using Objectivity.AutoFixture.XUnit2.Core.Common;
-    using Objectivity.AutoFixture.XUnit2.Core.Extensions;
 
     internal sealed class RequestFactoryRelay : ISpecimenBuilder
     {
