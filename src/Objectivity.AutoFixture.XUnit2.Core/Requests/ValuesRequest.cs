@@ -22,11 +22,6 @@
                 throw new ArgumentException("At least one value is expected to be specified.", nameof(values));
             }
 
-            if (this.inputValues.GroupBy(x => x).Any(g => g.Count() > 1))
-            {
-                throw new ArgumentException("All values are expected to be unique.", nameof(values));
-            }
-
             this.readonlyValues = new Lazy<IReadOnlyCollection<object>>(() => Array.AsReadOnly(this.inputValues.ToArray()));
         }
 
@@ -58,7 +53,7 @@
         public override int GetHashCode()
         {
             var hc = this.OperandType.GetHashCode() ^ typeof(T).GetHashCode();
-            foreach (var inputValue in this.inputValues)
+            foreach (var inputValue in this.inputValues.Where(x => x is not null))
             {
                 hc ^= inputValue.GetHashCode();
             }
@@ -68,7 +63,8 @@
 
         public override string ToString()
         {
-            var values = string.Join(", ", this.inputValues.Select(x => $"[{x.GetType().Name}] {x}"));
+            var itemType = this.inputValues.GetType().GenericTypeArguments[0];
+            var values = string.Join(", ", this.inputValues.Select(x => $"[{(x?.GetType() ?? itemType).Name}] {x ?? "null"}"));
             return string.Format(
                 CultureInfo.CurrentCulture,
                 "{0} (OperandType: {1}, Values: {2}",

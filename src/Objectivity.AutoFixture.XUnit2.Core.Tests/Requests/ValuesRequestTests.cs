@@ -21,6 +21,7 @@
         {
             new object[] { typeof(int), new[] { 1 }, typeof(int), new[] { 1 }, true },
             new object[] { typeof(int), new[] { 1, 2, 3 }, typeof(int), new[] { 3, 2, 1 }, true },
+            new object[] { typeof(int?), new[] { 1, (int?)null }, typeof(int?), new[] { 1, null, (int?)null }, true },
             new object[] { typeof(int), new[] { 1 }, typeof(long), new[] { 1 }, false },
             new object[] { typeof(int), new[] { 1 }, typeof(int), new[] { 2 }, false },
             new object[] { typeof(int), new[] { 1, 2 }, typeof(int), new[] { 2 }, false },

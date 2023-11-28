@@ -16,23 +16,18 @@
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
     public sealed class ExceptAttribute : CustomizeAttribute
     {
-        private readonly object[] inputValues;
+        private readonly HashSet<object> inputValues;
         private readonly Lazy<IReadOnlyCollection<object>> readonlyValues;
 
         public ExceptAttribute(params object[] values)
         {
-            this.inputValues = values.NotNull(nameof(values));
-            if (this.inputValues.Length == 0)
+            this.inputValues = new HashSet<object>(values.NotNull(nameof(values)));
+            if (this.inputValues.Count == 0)
             {
                 throw new ArgumentException("At least one value is expected to be specified.", nameof(values));
             }
 
-            if (this.inputValues.GroupBy(x => x).Any(g => g.Count() > 1))
-            {
-                throw new ArgumentException("All values are expected to be unique.", nameof(values));
-            }
-
-            this.readonlyValues = new Lazy<IReadOnlyCollection<object>>(() => Array.AsReadOnly(this.inputValues));
+            this.readonlyValues = new Lazy<IReadOnlyCollection<object>>(() => Array.AsReadOnly(this.inputValues.ToArray()));
         }
 
         public IReadOnlyCollection<object> Values => this.readonlyValues.Value;
@@ -41,7 +36,7 @@
         {
             return new CompositeSpecimenBuilder(
                 new FilteringSpecimenBuilder(
-                    new RequestFactoryRelay((type) => new ExceptValuesRequest(type, this.inputValues)),
+                    new RequestFactoryRelay((type) => new ExceptValuesRequest(type, this.inputValues.ToArray())),
                     new EqualRequestSpecification(parameter)),
                 new RandomExceptValuesGenerator())
                 .ToCustomization();

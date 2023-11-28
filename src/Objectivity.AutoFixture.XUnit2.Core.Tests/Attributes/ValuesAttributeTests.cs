@@ -70,15 +70,16 @@
 
         [InlineData(1, 1)]
         [InlineData("a", "a")]
-        [Theory(DisplayName = "GIVEN identical arguments WHEN constructor is invoked THEN exception is thrown")]
-        public void GivenIdenticalArguments_WhenConstructorIsInvoked_ThenExceptionIsThrown(
+        [Theory(DisplayName = "GIVEN identical arguments WHEN constructor is invoked THEN unique parameters are properly assigned")]
+        public void GivenIdenticalArguments_WhenConstructorIsInvoked_ThenUniqueParametersAreProperlyAssigned(
             object first,
             object second)
         {
             // Arrange
-            // Act
+            var attribute = new ValuesAttribute(first, second);
+
             // Assert
-            Assert.Throws<ArgumentException>(() => new ValuesAttribute(first, second));
+            attribute.Values.Should().HaveCount(1).And.BeEquivalentTo(new[] { first });
         }
 
         [InlineData(typeof(int), 2)]
