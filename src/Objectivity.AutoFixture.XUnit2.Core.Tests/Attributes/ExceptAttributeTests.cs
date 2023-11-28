@@ -31,7 +31,7 @@
             Five = 16,
         }
 
-        public static IEnumerable<object[]> CustomisationUsageTestData { get; } = new[]
+        public static IEnumerable<object[]> CustomizationUsageTestData { get; } = new[]
         {
             new object[] { 1 },
             new object[] { 1.5f },
@@ -90,8 +90,8 @@
             attribute.Values.Should().HaveCount(2).And.BeEquivalentTo(new[] { first, second });
         }
 
-        [MemberData(nameof(CustomisationUsageTestData))]
-        [Theory(DisplayName = "GIVEN valid parameters WHEN customisation is used THEN expected values are generated")]
+        [MemberData(nameof(CustomizationUsageTestData))]
+        [Theory(DisplayName = "GIVEN valid parameters WHEN customization is used THEN expected values are generated")]
         public void GivenValidParameters_WhenCustomizationIsUsed_ThenExpectedValuesAreGenerated(
             object item)
         {

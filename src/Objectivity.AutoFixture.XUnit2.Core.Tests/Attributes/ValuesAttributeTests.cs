@@ -37,7 +37,7 @@
             new object[] { 10, 10 },
         };
 
-        public static IEnumerable<object[]> CustomisationUsageTestData { get; } = new[]
+        public static IEnumerable<object[]> CustomizationUsageTestData { get; } = new[]
         {
             new object[] { 1, 1, 2 },
             new object[] { 1.5f, 1.5f, -0.3f },
@@ -97,8 +97,8 @@
             attribute.Values.Should().HaveCount(2).And.BeEquivalentTo(new[] { first, second });
         }
 
-        [MemberData(nameof(CustomisationUsageTestData))]
-        [Theory(DisplayName = "GIVEN valid parameters WHEN customisation is used THEN expected values are generated")]
+        [MemberData(nameof(CustomizationUsageTestData))]
+        [Theory(DisplayName = "GIVEN valid parameters WHEN customization is used THEN expected values are generated")]
         public void GivenValidParameters_WhenCustomizationIsUsed_ThenExpectedValuesAreGenerated<T>(
             T item,
             params object[] values)
@@ -253,7 +253,7 @@
 
         [AutoData]
         [Theory(DisplayName = "GIVEN values outside enum specified for argument WHEN enum populated THEN the value from set is generated")]
-        public void GivenValuesOursideEnumSpecifiedForArgument_WhenEnumPopulated_ThenTheValueFromSetIsGenerated(
+        public void GivenValuesOutsideEnumSpecifiedForArgument_WhenEnumPopulated_ThenTheValueFromSetIsGenerated(
             [Values(100, 200)] Numbers targetValue)
         {
             // Arrange
