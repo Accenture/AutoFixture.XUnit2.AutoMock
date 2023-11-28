@@ -1,6 +1,7 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Attributes
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
 
@@ -30,6 +31,18 @@
             Five = 16,
         }
 
+        public static IEnumerable<object[]> CustomisationUsageTestData { get; } = new[]
+        {
+            new object[] { 1 },
+            new object[] { 1.5f },
+            new object[] { "test" },
+            new object[] { false },
+            new object[] { Numbers.Five },
+            new object[] { DateTime.Now },
+            new object[] { ValueTuple.Create(5) },
+            new object[] { Tuple.Create(1, 2) },
+        };
+
         [Fact(DisplayName = "GIVEN uninitialized argument WHEN constructor is invoked THEN exception is thrown")]
         public void GivenUninitializedArgument_WhenConstructorIsInvoked_ThenExceptionIsThrown()
         {
@@ -48,19 +61,6 @@
             Assert.Throws<ArgumentException>(() => new ExceptAttribute());
         }
 
-        [InlineData(typeof(int), 2)]
-        [InlineData(1, typeof(int))]
-        [Theory(DisplayName = "GIVEN incomparable argument WHEN constructor is invoked THEN exception is thrown")]
-        public void GivenIncomparableArgument_WhenConstructorIsInvoked_ThenExceptionIsThrown(
-            object first,
-            object second)
-        {
-            // Arrange
-            // Act
-            // Assert
-            Assert.Throws<ArgumentException>(() => new ExceptAttribute(first, second));
-        }
-
         [InlineData(1, 1)]
         [InlineData("a", "a")]
         [Theory(DisplayName = "GIVEN identical arguments WHEN constructor is invoked THEN exception is thrown")]
@@ -74,28 +74,25 @@
             Assert.Throws<ArgumentException>(() => new ExceptAttribute(first, second));
         }
 
-        [Fact(DisplayName = "GIVEN valid parameters WHEN constructor is invoked THEN parameters are properly assigned")]
-        public void GivenValidParameters_WhenConstructorIsInvoked_ThenParametersAreProperlyAssigned()
+        [InlineData(typeof(int), 2)]
+        [InlineData(1, typeof(int))]
+        [Theory(DisplayName = "GIVEN incomparable argument WHEN constructor is invoked THEN parameters are properly assigned")]
+        public void GivenIncomparableArgument_WhenConstructorIsInvoked_ThenParametersAreProperlyAssigned(
+            object first,
+            object second)
         {
             // Arrange
-            const int item = 1;
-
             // Act
-            var attribute = new ExceptAttribute(item);
+            var attribute = new ExceptAttribute(first, second);
 
             // Assert
-            attribute.Values.Should().HaveCount(1).And.Contain(item);
+            attribute.Values.Should().HaveCount(2).And.BeEquivalentTo(new[] { first, second });
         }
 
-        [InlineAutoData(1)]
-        [InlineAutoData(1.5f)]
-        [InlineAutoData("test")]
-        [InlineAutoData(false)]
-        [InlineAutoData(Numbers.Five)]
+        [MemberData(nameof(CustomisationUsageTestData))]
         [Theory(DisplayName = "GIVEN valid parameters WHEN customisation is used THEN expected values are generated")]
         public void GivenValidParameters_WhenCustomizationIsUsed_ThenExpectedValuesAreGenerated(
-            object item,
-            IFixture fixture)
+            object item)
         {
             // Arrange
             var attribute = new ExceptAttribute(item);
@@ -103,13 +100,16 @@
             var expectedType = item.GetType();
             request.SetupGet(x => x.ParameterType)
                 .Returns(expectedType);
+            IFixture fixture = new Fixture();
             fixture.Customize(attribute.GetCustomization(request.Object));
 
             // Act
             var result = fixture.Create(request.Object, new SpecimenContext(fixture));
 
             // Assert
-            result.Should().NotBeNull().And.BeOfType(expectedType);
+            result.Should().NotBeNull()
+                .And.BeOfType(expectedType)
+                .And.NotBe(item);
         }
 
         [AutoData]

@@ -60,10 +60,7 @@
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {
             return new FilteringSpecimenBuilder(
-                new RequestFactoryRelay((type) =>
-                    typeof(IComparable).IsAssignableFrom(type)
-                    ? new RangedNumberRequest(type, this.Minimum, this.Maximum)
-                    : null),
+                new RequestFactoryRelay((type) => new RangedNumberRequest(type, this.Minimum, this.Maximum)),
                 new EqualRequestSpecification(parameter))
                 .ToCustomization();
         }

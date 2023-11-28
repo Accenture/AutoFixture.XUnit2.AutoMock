@@ -64,15 +64,19 @@
 
         [InlineData(typeof(int), 2)]
         [InlineData(1, typeof(int))]
-        [Theory(DisplayName = "GIVEN incomparable argument WHEN constructor is invoked THEN exception is thrown")]
-        public void GivenIncomparableArgument_WhenConstructorIsInvoked_ThenExceptionIsThrown(object first, object second)
+        [Theory(DisplayName = "GIVEN incomparable argument WHEN constructor is invoked THEN parameters are properly assigned")]
+        public void GivenIncomparableArgument_WhenConstructorIsInvoked_ThenParametersAreProperlyAssigned(
+            object first,
+            object second)
         {
             // Arrange
             var type = typeof(int);
 
             // Act
+            var attribute = new FixedValuesRequest(type, first, second);
+
             // Assert
-            Assert.Throws<ArgumentException>(() => new FixedValuesRequest(type, first, second));
+            attribute.Values.Should().HaveCount(2).And.BeEquivalentTo(new[] { first, second });
         }
 
         [Theory(DisplayName = "GIVEN two requests WHEN Equals is invoked THEN expected value is returned")]

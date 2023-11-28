@@ -22,9 +22,9 @@
                 throw new ArgumentException("At least one value is expected to be specified.", nameof(values));
             }
 
-            if (this.inputValues.Any(x => x is not IComparable))
+            if (this.inputValues.GroupBy(x => x).Any(g => g.Count() > 1))
             {
-                throw new ArgumentException("All values are expected to be comparable.", nameof(values));
+                throw new ArgumentException("All values are expected to be unique.", nameof(values));
             }
 
             this.readonlyValues = new Lazy<IReadOnlyCollection<object>>(() => Array.AsReadOnly(this.inputValues.ToArray()));

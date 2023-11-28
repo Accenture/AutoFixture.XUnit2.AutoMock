@@ -17,10 +17,9 @@
     [Trait("Category", "Attributes")]
     public class RangeAttributeTests
     {
-        public static IEnumerable<object[]> TestData { get; } = new[]
+        public static IEnumerable<object[]> MemberAutoDataOverValuesTestData { get; } = new[]
         {
             new object[] { 10, 10 },
-            new object[] { 0, 0 },
         };
 
         [Fact(DisplayName = "GIVEN minimum greater than maximum WHEN constructor is invoked THEN exception is thrown")]
@@ -198,7 +197,7 @@
             unrestrictedValue.Should().BeInRange(short.MinValue, sbyte.MinValue);
         }
 
-        [MemberAutoData(nameof(TestData))]
+        [MemberAutoData(nameof(MemberAutoDataOverValuesTestData))]
         [Theory(DisplayName = "GIVEN range specified and member data value outside range WHEN data populated THEN values from range are ignored and member data is used")]
         public void GivenRangeSpecifiedAndMemberDataValueOutsideRange_WhenDataPopulated_ThenValuesFromRangeAreIgnoredAndMemberDataIsUsed(
             [Range(int.MinValue, sbyte.MinValue)] int value,

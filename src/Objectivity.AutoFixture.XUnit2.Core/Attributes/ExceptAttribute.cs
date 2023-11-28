@@ -27,11 +27,6 @@
                 throw new ArgumentException("At least one value is expected to be specified.", nameof(values));
             }
 
-            if (Array.Exists(this.inputValues, x => !IsSupportedType(x.GetType())))
-            {
-                throw new ArgumentException("All values are expected to be comparable.", nameof(values));
-            }
-
             if (this.inputValues.GroupBy(x => x).Any(g => g.Count() > 1))
             {
                 throw new ArgumentException("All values are expected to be unique.", nameof(values));
@@ -46,18 +41,10 @@
         {
             return new CompositeSpecimenBuilder(
                 new FilteringSpecimenBuilder(
-                    new RequestFactoryRelay((type) =>
-                        IsSupportedType(type)
-                        ? new ExceptValuesRequest(type, this.inputValues)
-                        : null),
+                    new RequestFactoryRelay((type) => new ExceptValuesRequest(type, this.inputValues)),
                     new EqualRequestSpecification(parameter)),
                 new RandomExceptValuesGenerator())
                 .ToCustomization();
-        }
-
-        private static bool IsSupportedType(Type type)
-        {
-            return typeof(IComparable).IsAssignableFrom(type);
         }
     }
 }

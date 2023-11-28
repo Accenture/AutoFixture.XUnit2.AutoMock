@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
 
     using FluentAssertions;
@@ -31,10 +32,22 @@
             Five = 16,
         }
 
-        public static IEnumerable<object[]> TestData { get; } = new[]
+        public static IEnumerable<object[]> MemberAutoDataOverValuesTestData { get; } = new[]
         {
             new object[] { 10, 10 },
-            new object[] { 0, 0 },
+        };
+
+        public static IEnumerable<object[]> CustomisationUsageTestData { get; } = new[]
+        {
+            new object[] { 1, 1, 2 },
+            new object[] { 1.5f, 1.5f, -0.3f },
+            new object[] { string.Empty, "a", "b" },
+            new object[] { false, false },
+            new object[] { DateTime.Now, DateTime.Now, DateTime.MinValue },
+            new object[] { Numbers.Five, Numbers.Five, Numbers.One },
+            new object[] { ValueTuple.Create(5), ValueTuple.Create(5), ValueTuple.Create(-3) },
+            new object[] { Tuple.Create(1, 2), Tuple.Create(1, 2), Tuple.Create(-1, 0) },
+            new object[] { new(), 1, 1.5f },
         };
 
         [Fact(DisplayName = "GIVEN uninitialized argument WHEN constructor is invoked THEN exception is thrown")]
@@ -55,19 +68,6 @@
             Assert.Throws<ArgumentException>(() => new ValuesAttribute());
         }
 
-        [InlineData(typeof(int), 2)]
-        [InlineData(1, typeof(int))]
-        [Theory(DisplayName = "GIVEN incomparable argument WHEN constructor is invoked THEN exception is thrown")]
-        public void GivenIncomparableArgument_WhenConstructorIsInvoked_ThenExceptionIsThrown(
-            object first,
-            object second)
-        {
-            // Arrange
-            // Act
-            // Assert
-            Assert.Throws<ArgumentException>(() => new ValuesAttribute(first, second));
-        }
-
         [InlineData(1, 1)]
         [InlineData("a", "a")]
         [Theory(DisplayName = "GIVEN identical arguments WHEN constructor is invoked THEN exception is thrown")]
@@ -81,41 +81,40 @@
             Assert.Throws<ArgumentException>(() => new ValuesAttribute(first, second));
         }
 
-        [Fact(DisplayName = "GIVEN valid parameters WHEN constructor is invoked THEN parameters are properly assigned")]
-        public void GivenValidParameters_WhenConstructorIsInvoked_ThenParametersAreProperlyAssigned()
+        [InlineData(typeof(int), 2)]
+        [InlineData(1, typeof(int))]
+        [Theory(DisplayName = "GIVEN incomparable argument WHEN constructor is invoked THEN parameters are properly assigned")]
+        public void GivenIncomparableArgument_WhenConstructorIsInvoked_ThenParametersAreProperlyAssigned(
+            object first,
+            object second)
         {
             // Arrange
-            const int item = 1;
-
             // Act
-            var attribute = new ValuesAttribute(item);
+            var attribute = new ValuesAttribute(first, second);
 
             // Assert
-            attribute.Values.Should().HaveCount(1).And.Contain(item);
+            attribute.Values.Should().HaveCount(2).And.BeEquivalentTo(new[] { first, second });
         }
 
-        [InlineAutoData(1)]
-        [InlineAutoData(1.5f)]
-        [InlineAutoData("test")]
-        [InlineAutoData(false)]
-        [InlineAutoData(Numbers.Five)]
+        [MemberData(nameof(CustomisationUsageTestData))]
         [Theory(DisplayName = "GIVEN valid parameters WHEN customisation is used THEN expected values are generated")]
-        public void GivenValidParameters_WhenCustomizationIsUsed_ThenExpectedValuesAreGenerated(
-            object item,
-            IFixture fixture)
+        public void GivenValidParameters_WhenCustomizationIsUsed_ThenExpectedValuesAreGenerated<T>(
+            T item,
+            params object[] values)
         {
             // Arrange
-            var attribute = new ValuesAttribute(item);
+            var attribute = new ValuesAttribute(values);
             var request = new Mock<ParameterInfo>();
             request.SetupGet(x => x.ParameterType)
                 .Returns(item.GetType());
+            IFixture fixture = new Fixture();
             fixture.Customize(attribute.GetCustomization(request.Object));
 
             // Act
-            var result = fixture.Create(request.Object, new SpecimenContext(fixture));
+            item = (T)fixture.Create(request.Object, new SpecimenContext(fixture));
 
             // Assert
-            result.Should().NotBeNull().And.Be(item);
+            item.Should().NotBeNull().And.Match(x => values.Contains(x));
         }
 
         [AutoData]
@@ -243,12 +242,23 @@
         [AutoData]
         [Theory(DisplayName = "GIVEN values specified for argument WHEN enum populated THEN the value from set is generated")]
         public void GivenValuesSpecifiedForArgument_WhenEnumPopulated_ThenTheValueFromSetIsGenerated(
-            [Values(Numbers.One, Numbers.Five, 100)] Numbers targetValue)
+            [Values(Numbers.One, Numbers.Five)] Numbers targetValue)
         {
             // Arrange
             // Act
             // Assert
-            targetValue.Should().BeOneOf(Numbers.One, Numbers.Five, (Numbers)100);
+            targetValue.Should().BeOneOf(Numbers.One, Numbers.Five);
+        }
+
+        [AutoData]
+        [Theory(DisplayName = "GIVEN values outside enum specified for argument WHEN enum populated THEN the value from set is generated")]
+        public void GivenValuesOursideEnumSpecifiedForArgument_WhenEnumPopulated_ThenTheValueFromSetIsGenerated(
+            [Values(100, 200)] Numbers targetValue)
+        {
+            // Arrange
+            // Act
+            // Assert
+            targetValue.Should().BeOneOf((Numbers)100, (Numbers)200);
         }
 
         [AutoData]
@@ -274,7 +284,7 @@
             value.Should().Be(expectedResult).And.NotBe(int.MinValue);
         }
 
-        [MemberAutoData(nameof(TestData))]
+        [MemberAutoData(nameof(MemberAutoDataOverValuesTestData))]
         [Theory(DisplayName = "GIVEN values specified and member data value outside values WHEN data populated THEN values definition is ignored and member data is used")]
         public void GivenValuesSpecifiedAndMemberDataValueOutsideValues_WhenDataPopulated_ThenValuesDefinitionIsIgnoredAndMemberDataIsUsed(
             [Values(int.MinValue)] int value,
