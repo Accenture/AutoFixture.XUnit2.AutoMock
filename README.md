@@ -153,7 +153,7 @@ An attribute that can be applied to parameters in an `AutoDataAttribute`-driven 
 
 This attribute allows to disable the generation of members marked as `virtual` on a decorated type wheres `IgnoreVirtualMembers` arguments of mocking attributes mentioned above disable such a generation for all types created by `IFixture`.
 
-**Caution:** Order is important! Applying `IgnoreVirtualMembers` attribute to the subsequent paramater makes precedig parameters of the same type to have `virtual` properties populated and the particular parameter with the following ones of the same type to have `virtual` properties unpopulated.
+**Caution:** Order is important! Applying `IgnoreVirtualMembers` attribute to the subsequent parameter makes preceding parameters of the same type to have `virtual` properties populated and the particular parameter with the following ones of the same type to have `virtual` properties unpopulated.
 
 #### Example
 
@@ -192,7 +192,7 @@ An attribute that can be applied to parameters in an `AutoDataAttribute`-driven 
 
 - IncludeParameterType - indicates whether attribute target parameter `Type` should included as a first argument when creating customization; by default set to `false`
 
-**Caution:** Order is important! Applying `CustomizeWith` attribute to the subsequent paramater makes precedig parameters of the same type to be created without specified customization and the particular parameter with the specified customization.
+**Caution:** Order is important! Applying `CustomizeWith` attribute to the subsequent parameter makes preceding parameters of the same type to be created without specified customization and the particular parameter with the specified customization.
 
 #### Example
 
