@@ -285,6 +285,66 @@ public void CustomizeWithAttributeUsage(
 
 ***
 
+## Data filtering attributes
+
+The following attributes helps narrowing down data generation to specific values or omitting certain values.
+
+For these attributes to work, they must be used in conjunction with other data generation attributes.
+
+They can be applied to simple types and collections.
+
+### Except
+
+An attribute ensuring that values from outside the specified list will be generated.
+
+#### Example
+
+```csharp
+[Theory]
+[AutoData]
+public void ExceptAttributeUsage(
+    [Except(DayOfWeek.Saturday, DayOfWeek.Sunday)] DayOfWeek workday)
+{
+    Assert.True(workday is >= DayOfWeek.Monday and <= DayOfWeek.Friday);
+}
+```
+
+### Range
+
+An attribute ensuring that only values from specified range will be generated.
+
+#### Example
+
+```csharp
+[Theory]
+[AutoData]
+public void RangeAttributeUsage(
+    [Range(11, 19)] int teenagerAge)
+{
+    Assert.True(teenagerAge is > 11 and < 19);
+}
+```
+
+### Values
+
+An attribute ensuring that only values from the specified list will be generated.
+
+#### Example
+
+```csharp
+[Theory]
+[AutoData]
+public void ValuesAttributeUsage(
+    [Values(DayOfWeek.Saturday, DayOfWeek.Sunday)] HashSet<DayOfWeek> weekend)
+{
+    var weekendDays = new[] { DayOfWeek.Saturday, DayOfWeek.Sunday };
+    Assert.Equal(weekendDays.Length, weekend.Count);
+    Assert.All(weekendDays, (day) => Assert.Contains(day, weekend));
+}
+```
+
+***
+
 ## Tips and tricks
 
 ### Fixture injection
