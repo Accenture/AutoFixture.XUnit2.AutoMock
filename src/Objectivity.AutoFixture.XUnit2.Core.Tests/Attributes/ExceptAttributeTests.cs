@@ -71,7 +71,7 @@
             // Arrange
             // Act
             // Assert
-            Assert.Throws<ArgumentException>(() => new ValuesAttribute(first, second));
+            Assert.Throws<ArgumentException>(() => new ExceptAttribute(first, second));
         }
 
         [Fact(DisplayName = "GIVEN valid parameters WHEN constructor is invoked THEN parameters are properly assigned")]
