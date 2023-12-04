@@ -1,7 +1,7 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders
 {
     using System;
-    using System.Collections.Concurrent;
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
@@ -22,20 +22,19 @@
 
             if (request.NotNull(nameof(request)) is ExceptValuesRequest exceptValuesRequest)
             {
-                var duplicateLimiter = new ConcurrentDictionary<object, bool>();
+                var duplicateLimiter = new HashSet<object>();
                 object result;
 
                 do
                 {
                     result = context.Resolve(exceptValuesRequest.OperandType);
-                    var hasDuplicate = duplicateLimiter.AddOrUpdate(
-                        result,
-                        (_) => false,
-                        (_, __) => true);
+                    var hasDuplicate = duplicateLimiter.Contains(result);
                     if (hasDuplicate)
                     {
                         throw new ObjectCreationException("The value could not be created. Probably all possible values were excluded.");
                     }
+
+                    duplicateLimiter.Add(result);
                 }
                 while (exceptValuesRequest.Values.Contains(result));
 
