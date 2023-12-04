@@ -80,6 +80,30 @@
             attribute.Values.Should().HaveCount(2).And.BeEquivalentTo(new[] { first, second });
         }
 
+        [Fact(DisplayName = "GIVEN valid arguments WHEN ToString is invoked THEN text conteins necessary information")]
+        public void GivenValidArguments_WhenToStringIsInvoked_ThenTextConteinsNecessaryInformation()
+        {
+            // Arrange
+            var type = typeof(float);
+            const int first = int.MaxValue;
+            long? second = long.MinValue;
+            byte? third = null;
+            var attribute = new FixedValuesRequest(type, first, second, third);
+
+            // Act
+            var text = attribute.ToString();
+
+            // Assert
+            text.Should().Contain(nameof(FixedValuesRequest))
+                .And.Contain(type.Name)
+                .And.Contain("[Int32]")
+                .And.Contain(first.ToString(CultureInfo.InvariantCulture))
+                .And.Contain("[Int64]")
+                .And.Contain(second.Value.ToString(CultureInfo.InvariantCulture))
+                .And.Contain("[Object]")
+                .And.Contain("null");
+        }
+
         [Theory(DisplayName = "GIVEN two requests WHEN Equals is invoked THEN expected value is returned")]
         [MemberData(nameof(ComparisonTestData))]
         public void GivenTwoRequests_WhenEqualsIsInvoked_ThenExpectedValueIsReturned(
@@ -163,9 +187,11 @@
 
             // Act
             var result = fixedRequest.Equals(exceptRequest);
+            var text = fixedRequest.ToString();
 
             // Assert
             result.Should().Be(false);
+            text.Should().NotBeNull();
         }
 
         [AutoData]

@@ -63,8 +63,7 @@
 
         public override string ToString()
         {
-            var itemType = this.inputValues.GetType().GenericTypeArguments[0];
-            var values = string.Join(", ", this.inputValues.Select(x => $"[{(x?.GetType() ?? itemType).Name}] {x ?? "null"}"));
+            var values = string.Join(", ", this.inputValues.Select(x => $"[{(x?.GetType() ?? typeof(object)).Name}] {x ?? "null"}"));
             return string.Format(
                 CultureInfo.CurrentCulture,
                 "{0} (OperandType: {1}, Values: {2}",
