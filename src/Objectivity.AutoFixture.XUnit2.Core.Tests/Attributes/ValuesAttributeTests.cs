@@ -50,6 +50,15 @@
             new object[] { new(), 1, 1.5f },
         };
 
+        [Theory]
+        [AutoData]
+        public void ValuesAttributeUsage(
+            [Values(DayOfWeek.Saturday, DayOfWeek.Sunday)] HashSet<DayOfWeek> weekend)
+        {
+            var weekendDays = new[] { DayOfWeek.Sunday, DayOfWeek.Saturday };
+            Assert.Equivalent(weekendDays, weekend);
+        }
+
         [Fact(DisplayName = "GIVEN uninitialized argument WHEN constructor is invoked THEN exception is thrown")]
         public void GivenUninitializedArgument_WhenConstructorIsInvoked_ThenExceptionIsThrown()
         {
