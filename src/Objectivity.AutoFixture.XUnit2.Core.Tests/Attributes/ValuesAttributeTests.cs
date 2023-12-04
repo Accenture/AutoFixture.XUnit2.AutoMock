@@ -55,7 +55,7 @@
         public void ValuesAttributeUsage(
             [Values(DayOfWeek.Saturday, DayOfWeek.Sunday)] HashSet<DayOfWeek> weekend)
         {
-            var weekendDays = new[] { DayOfWeek.Sunday, DayOfWeek.Saturday };
+            var weekendDays = new[] { DayOfWeek.Saturday, DayOfWeek.Sunday };
             Assert.Equivalent(weekendDays, weekend);
         }
 
