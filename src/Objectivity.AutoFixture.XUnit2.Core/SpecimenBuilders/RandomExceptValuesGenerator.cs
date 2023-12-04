@@ -34,7 +34,7 @@
                         (_, __) => true);
                     if (hasDuplicate)
                     {
-                        throw new ObjectCreationException("The other value could not be created.");
+                        throw new ObjectCreationException("The value could not be created. Probably all possible values were excluded.");
                     }
                 }
                 while (exceptValuesRequest.Values.Contains(result));
