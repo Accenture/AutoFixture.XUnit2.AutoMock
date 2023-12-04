@@ -14,12 +14,12 @@
     using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
 
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public sealed class ValuesAttribute : CustomizeAttribute
+    public sealed class PickFromValuesAttribute : CustomizeAttribute
     {
         private readonly HashSet<object> inputValues;
         private readonly Lazy<IReadOnlyCollection<object>> readonlyValues;
 
-        public ValuesAttribute(params object[] values)
+        public PickFromValuesAttribute(params object[] values)
         {
             this.inputValues = new HashSet<object>(values.NotNull(nameof(values)));
             if (this.inputValues.Count == 0)

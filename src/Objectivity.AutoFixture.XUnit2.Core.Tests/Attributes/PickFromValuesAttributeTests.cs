@@ -17,9 +17,9 @@
 
     using Xunit;
 
-    [Collection("ValuesAttribute")]
+    [Collection("PickFromValuesAttribute")]
     [Trait("Category", "Attributes")]
-    public class ValuesAttributeTests
+    public class PickFromValuesAttributeTests
     {
         [Flags]
         public enum Numbers
@@ -56,7 +56,7 @@
             // Arrange
             // Act
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new ValuesAttribute(null));
+            Assert.Throws<ArgumentNullException>(() => new PickFromValuesAttribute(null));
         }
 
         [Fact(DisplayName = "GIVEN no arguments WHEN constructor is invoked THEN exception is thrown")]
@@ -65,7 +65,7 @@
             // Arrange
             // Act
             // Assert
-            Assert.Throws<ArgumentException>(() => new ValuesAttribute());
+            Assert.Throws<ArgumentException>(() => new PickFromValuesAttribute());
         }
 
         [InlineData(1, 1)]
@@ -76,7 +76,7 @@
             object second)
         {
             // Arrange
-            var attribute = new ValuesAttribute(first, second);
+            var attribute = new PickFromValuesAttribute(first, second);
 
             // Assert
             attribute.Values.Should().HaveCount(1).And.BeEquivalentTo(new[] { first });
@@ -91,7 +91,7 @@
         {
             // Arrange
             // Act
-            var attribute = new ValuesAttribute(first, second);
+            var attribute = new PickFromValuesAttribute(first, second);
 
             // Assert
             attribute.Values.Should().HaveCount(2).And.BeEquivalentTo(new[] { first, second });
@@ -104,7 +104,7 @@
             params object[] values)
         {
             // Arrange
-            var attribute = new ValuesAttribute(values);
+            var attribute = new PickFromValuesAttribute(values);
             var request = new Mock<ParameterInfo>();
             request.SetupGet(x => x.ParameterType)
                 .Returns(item.GetType());
@@ -121,7 +121,7 @@
         [AutoData]
         [Theory(DisplayName = "GIVEN values specified WHEN byte populated THEN the value from set is generated")]
         public void GivenValuesSpecified_WhenBytePopulated_ThenTheValueFromSetIsGenerated(
-            [Values(1, 5, 20)] byte targetValue)
+            [PickFromValues(1, 5, 20)] byte targetValue)
         {
             // Arrange
             // Act
@@ -132,7 +132,7 @@
         [AutoData]
         [Theory(DisplayName = "GIVEN values specified WHEN short populated THEN the value from set is generated")]
         public void GivenValuesSpecified_WhenUShortPopulated_ThenTheValueFromSetIsGenerated(
-            [Values(1, 5, 4)] ushort targetValue)
+            [PickFromValues(1, 5, 4)] ushort targetValue)
         {
             // Arrange
             // Act
@@ -143,7 +143,7 @@
         [AutoData]
         [Theory(DisplayName = "GIVEN values specified WHEN unsigned long populated THEN the value from set is generated")]
         public void GivenValuesSpecified_WhenULongPopulated_ThenTheValueFromSetIsGenerated(
-            [Values(1, long.MaxValue, ulong.MaxValue)] ulong targetValue)
+            [PickFromValues(1, long.MaxValue, ulong.MaxValue)] ulong targetValue)
         {
             // Arrange
             // Act
@@ -154,7 +154,7 @@
         [AutoData]
         [Theory(DisplayName = "GIVEN values specified WHEN signed byte populated THEN the value from set is generated")]
         public void GivenValuesSpecified_WhenSBytePopulated_ThenTheValueFromSetIsGenerated(
-            [Values(sbyte.MinValue, -50, -1)] sbyte targetValue)
+            [PickFromValues(sbyte.MinValue, -50, -1)] sbyte targetValue)
         {
             // Arrange
             // Act
@@ -165,7 +165,7 @@
         [AutoData]
         [Theory(DisplayName = "GIVEN values specified WHEN short populated THEN only decorated parameter has value from specification")]
         public void GivenValuesSpecified_WhenShortPopulated_ThenOnlyDecoratedParameterHasValueFromSpecification(
-            [Values(short.MinValue, sbyte.MinValue, -1)] short targetValue,
+            [PickFromValues(short.MinValue, sbyte.MinValue, -1)] short targetValue,
             short unrestrictedValue)
         {
             // Arrange
@@ -178,7 +178,7 @@
         [AutoData]
         [Theory(DisplayName = "GIVEN values specified WHEN integer populated THEN only decorated parameter has value from specification")]
         public void GivenValuesSpecified_WhenIntPopulated_ThenOnlyDecoratedParameterHasValueFromSpecification(
-            [Values(int.MinValue, short.MinValue, sbyte.MinValue)] int targetValue,
+            [PickFromValues(int.MinValue, short.MinValue, sbyte.MinValue)] int targetValue,
             int unrestrictedValue)
         {
             // Arrange
@@ -191,7 +191,7 @@
         [AutoData]
         [Theory(DisplayName = "GIVEN values specified WHEN long populated THEN only decorated parameter has value from specification")]
         public void GivenValuesSpecified_WhenLongPopulated_ThenOnlyDecoratedParameterHasValueFromSpecification(
-            [Values(long.MinValue, int.MinValue, short.MinValue)] long targetValue,
+            [PickFromValues(long.MinValue, int.MinValue, short.MinValue)] long targetValue,
             long unrestrictedValue)
         {
             // Arrange
@@ -204,7 +204,7 @@
         [AutoData]
         [Theory(DisplayName = "GIVEN values specified WHEN float populated THEN only decorated parameter has value from specification")]
         public void GivenValuesSpecified_WhenFloatPopulated_ThenOnlyDecoratedParameterHasValueFromSpecification(
-            [Values(float.MinValue, int.MinValue, short.MinValue)] float targetValue,
+            [PickFromValues(float.MinValue, int.MinValue, short.MinValue)] float targetValue,
             float unrestrictedValue)
         {
             // Arrange
@@ -217,7 +217,7 @@
         [AutoData]
         [Theory(DisplayName = "GIVEN values specified WHEN double populated THEN only decorated parameter has value from specification")]
         public void GivenValuesSpecified_WhenDoublePopulated_ThenOnlyDecoratedParameterHasValueFromSpecification(
-            [Values(double.MinValue, float.MinValue, int.MinValue, short.MinValue)] double targetValue,
+            [PickFromValues(double.MinValue, float.MinValue, int.MinValue, short.MinValue)] double targetValue,
             double unrestrictedValue)
         {
             // Arrange
@@ -230,7 +230,7 @@
         [AutoData]
         [Theory(DisplayName = "GIVEN values specified WHEN decimal populated THEN only decorated parameter has value from specification")]
         public void GivenValuesSpecified_WhenDecimalPopulated_ThenOnlyDecoratedParameterHasValueFromSpecification(
-            [Values(long.MinValue, int.MinValue, short.MinValue)] decimal targetValue,
+            [PickFromValues(long.MinValue, int.MinValue, short.MinValue)] decimal targetValue,
             decimal unrestrictedValue)
         {
             // Arrange
@@ -243,7 +243,7 @@
         [AutoData]
         [Theory(DisplayName = "GIVEN values specified for argument WHEN enum populated THEN the value from set is generated")]
         public void GivenValuesSpecifiedForArgument_WhenEnumPopulated_ThenTheValueFromSetIsGenerated(
-            [Values(Numbers.One, Numbers.Five)] Numbers targetValue)
+            [PickFromValues(Numbers.One, Numbers.Five)] Numbers targetValue)
         {
             // Arrange
             // Act
@@ -254,7 +254,7 @@
         [AutoData]
         [Theory(DisplayName = "GIVEN values outside enum specified for argument WHEN enum populated THEN the value from set is generated")]
         public void GivenValuesOutsideEnumSpecifiedForArgument_WhenEnumPopulated_ThenTheValueFromSetIsGenerated(
-            [Values(100, 200)] Numbers targetValue)
+            [PickFromValues(100, 200)] Numbers targetValue)
         {
             // Arrange
             // Act
@@ -265,7 +265,7 @@
         [AutoData]
         [Theory(DisplayName = "GIVEN values specified for argument WHEN flag populated THEN the value from set is generated")]
         public void GivenValuesSpecifiedForArgument_WhenFlagPopulated_ThenTheValueFromSetIsGenerated(
-            [Values(Numbers.One | Numbers.Three, Numbers.Five)] Numbers targetValue)
+            [PickFromValues(Numbers.One | Numbers.Three, Numbers.Five)] Numbers targetValue)
         {
             // Arrange
             // Act
@@ -277,7 +277,7 @@
         [InlineAutoData(0, 0)]
         [Theory(DisplayName = "GIVEN values specified and inline value outside values WHEN data populated THEN values definition is ignored and inline one is used")]
         public void GivenValuesSpecifiedAndInlineValueOutsideValues_WhenDataPopulated_ThenValuesDefinitionIsIgnoredAndInlineOneIsUsed(
-            [Values(int.MinValue)] int value, int expectedResult)
+            [PickFromValues(int.MinValue)] int value, int expectedResult)
         {
             // Arrange
             // Act
@@ -288,9 +288,9 @@
         [MemberAutoData(nameof(MemberAutoDataOverValuesTestData))]
         [Theory(DisplayName = "GIVEN values specified and member data value outside values WHEN data populated THEN values definition is ignored and member data is used")]
         public void GivenValuesSpecifiedAndMemberDataValueOutsideValues_WhenDataPopulated_ThenValuesDefinitionIsIgnoredAndMemberDataIsUsed(
-            [Values(int.MinValue)] int value,
+            [PickFromValues(int.MinValue)] int value,
             int expectedResult,
-            [Values(int.MinValue)] int unrestrictedValue)
+            [PickFromValues(int.MinValue)] int unrestrictedValue)
         {
             // Arrange
             // Act
@@ -302,7 +302,7 @@
         [AutoData]
         [Theory(DisplayName = "GIVEN values specified for collection WHEN unsigned short populated THEN the value from set is generated")]
         public void GivenValuesSpecifiedForCollection_WhenEnumPopulated_ThenTheValueFromSetIsGenerated(
-            [Values(int.MinValue, (int)short.MinValue, -1)] int[] targetValues,
+            [PickFromValues(int.MinValue, (int)short.MinValue, -1)] int[] targetValues,
             int[] unrestrictedValues)
         {
             // Arrange

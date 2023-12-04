@@ -309,7 +309,7 @@ public void ExceptAttributeUsage(
 }
 ```
 
-### Range
+### PickFromRange
 
 An attribute ensuring that only values from specified range will be generated.
 
@@ -319,13 +319,13 @@ An attribute ensuring that only values from specified range will be generated.
 [Theory]
 [AutoData]
 public void RangeAttributeUsage(
-    [Range(11, 19)] int teenagerAge)
+    [PickFromRange(11, 19)] int teenagerAge)
 {
     Assert.True(teenagerAge is > 11 and < 19);
 }
 ```
 
-### Values
+### PickFromValues
 
 An attribute ensuring that only values from the specified list will be generated.
 
@@ -335,7 +335,7 @@ An attribute ensuring that only values from the specified list will be generated
 [Theory]
 [AutoData]
 public void ValuesAttributeUsage(
-    [Values(DayOfWeek.Saturday, DayOfWeek.Sunday)] HashSet<DayOfWeek> weekend)
+    [PickFromValues(DayOfWeek.Saturday, DayOfWeek.Sunday)] HashSet<DayOfWeek> weekend)
 {
     var weekendDays = new[] { DayOfWeek.Saturday, DayOfWeek.Sunday };
     Assert.Equivalent(weekendDays, weekend);
