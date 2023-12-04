@@ -338,8 +338,7 @@ public void ValuesAttributeUsage(
     [Values(DayOfWeek.Saturday, DayOfWeek.Sunday)] HashSet<DayOfWeek> weekend)
 {
     var weekendDays = new[] { DayOfWeek.Saturday, DayOfWeek.Sunday };
-    Assert.Equal(weekendDays.Length, weekend.Count);
-    Assert.All(weekendDays, (day) => Assert.Contains(day, weekend));
+    Assert.Equivalent(weekendDays, weekend);
 }
 ```
 
