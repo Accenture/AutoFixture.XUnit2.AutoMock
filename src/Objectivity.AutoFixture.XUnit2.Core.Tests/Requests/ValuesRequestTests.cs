@@ -61,7 +61,7 @@
             // Act
             // Assert
             var exception = Assert.Throws<ArgumentException>(() => new FixedValuesRequest(type, values));
-            exception.Message.Should().NotBeNullOrEmpty();
+            exception.Message.Should().NotBeNullOrEmpty().And.Contain("is expected");
         }
 
         [InlineData(typeof(int), 2)]

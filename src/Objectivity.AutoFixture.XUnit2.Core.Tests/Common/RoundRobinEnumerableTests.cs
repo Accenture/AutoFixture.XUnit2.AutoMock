@@ -32,7 +32,7 @@
             // Act
             // Assert
             var exception = Assert.Throws<ArgumentException>(() => new RoundRobinEnumerable<object>());
-            exception.Message.Should().NotBeNullOrEmpty();
+            exception.Message.Should().NotBeNullOrEmpty().And.Contain("is expected");
         }
 
         [AutoData]
