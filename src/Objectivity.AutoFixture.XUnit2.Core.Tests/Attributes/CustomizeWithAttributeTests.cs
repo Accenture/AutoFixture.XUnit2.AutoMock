@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
 
@@ -10,13 +11,14 @@
     using global::AutoFixture;
     using global::AutoFixture.Kernel;
     using global::AutoFixture.Xunit2;
+
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
 
     using Xunit;
 
     [Collection("CustomizeWithAttribute")]
-    [Trait("Category", "Attributes")]
+    [Trait("Category", "CustomizeAttribute")]
     public class CustomizeWithAttributeTests
     {
         public static IEnumerable<object[]> ArgumentsDiscoveryCustomizationTestData { get; } = new[]
@@ -123,9 +125,9 @@
             customization.Args.Should().HaveCount(1).And.Subject.First().Should().Be(parameter.ParameterType);
         }
 
-        [Theory(DisplayName = "GIVEN CustomizeWith attribute with arguments WHEN GetCustomization is invoked THEN expected customization is returned with expected numner of arguments")]
         [MemberData(nameof(ArgumentsDiscoveryCustomizationTestData))]
-        public void GivenCustomizeWithAttributeWithArguments_WhenGetCustomizationIsInvoked_ThenExpectedCustomizationIsReturnedWithExpectedNumnerOfArguments(bool includeParameterType, object[] args, int expectedNumberOfArguments)
+        [Theory(DisplayName = "GIVEN CustomizeWith attribute with arguments WHEN GetCustomization is invoked THEN expected customization is returned with expected number of arguments")]
+        public void GivenCustomizeWithAttributeWithArguments_WhenGetCustomizationIsInvoked_ThenExpectedCustomizationIsReturnedWithExpectedNumberOfArguments(bool includeParameterType, object[] args, int expectedNumberOfArguments)
         {
             // Arrange
             var customizationType = typeof(ArgumentsDiscoveryCustomization);
@@ -143,8 +145,8 @@
             customization.Args.Should().HaveCount(expectedNumberOfArguments);
         }
 
-        [Theory(DisplayName = "GIVEN CustomizeWith applied to the second argument WHEN data populated THEN only second one has customization")]
         [AutoData]
+        [Theory(DisplayName = "GIVEN CustomizeWith applied to the second argument WHEN data populated THEN only second one has customization")]
         public void GivenCustomizeWithAppliedToTheSecondArgument_WhenDataPopulated_ThenOnlySecondOneHasCustomization(
             IList<string> instanceWithoutCustomization,
             [EmptyCollection] IList<string> instanceWithCustomization)
@@ -156,8 +158,8 @@
             instanceWithCustomization.Should().BeEmpty();
         }
 
-        [Theory(DisplayName = "GIVEN CustomizeWith applied to the first argument WHEN data populated THEN all arguments has customization")]
         [AutoData]
+        [Theory(DisplayName = "GIVEN CustomizeWith applied to the first argument WHEN data populated THEN all arguments has customization")]
         public void GivenCustomizeWithAppliedToTheFirstArgument_WhenDataPopulated_ThenAllArgumentsHasCustomization(
             [CustomizeWith(typeof(EmptyCollectionCustomization), typeof(IList<string>))] IList<string> instanceWithCustomization,
             IList<string> instanceWithoutCustomization)
@@ -169,9 +171,9 @@
             instanceWithCustomization.Should().BeEmpty();
         }
 
-        [Theory(DisplayName = "GIVEN CustomizeWith applied to the first argument of a cecrtain type WHEN data populated THEN only the first one has customization")]
         [AutoData]
-        public void GivenCustomizeWithAppliedToTheFirstArgumentOfACecrtainType_WhenDataPopulated_ThenOnlyTheFirstOneHasCustomization(
+        [Theory(DisplayName = "GIVEN CustomizeWith applied to the first argument of a certain type WHEN data populated THEN only the first one has customization")]
+        public void GivenCustomizeWithAppliedToTheFirstArgumentOfACertainType_WhenDataPopulated_ThenOnlyTheFirstOneHasCustomization(
             [EmptyCollection] IList<string> instanceWithCustomization,
             IList<int?> instanceOfDifferentTypeWithoutCustomization)
         {
@@ -182,8 +184,8 @@
             instanceOfDifferentTypeWithoutCustomization.Should().NotBeEmpty();
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Roslynator", "RCS1163:Unused parameter.", Justification = "Required for test")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Required for test")]
+        [SuppressMessage("Roslynator", "RCS1163:Unused parameter.", Justification = "Required for test")]
+        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Required for test")]
         protected void MethodUnderTest(bool parameter)
         {
             // Empty method under test

@@ -15,12 +15,12 @@
     using Xunit;
 
     [Collection("AutoDataAdapterAttribute")]
-    [Trait("Category", "Attributes")]
+    [Trait("Category", "DataAttribute")]
     [SuppressMessage("Design", "CA1034:Nested types should not be visible", Justification = "Test objects")]
     public class AutoDataAdapterAttributeTests
     {
-        [Theory(DisplayName = "GIVEN fixture WHEN constructor is invoked THEN passed fixture is being adapted and inline values collection is empty")]
         [AutoData]
+        [Theory(DisplayName = "GIVEN fixture WHEN constructor is invoked THEN passed fixture is being adapted and inline values collection is empty")]
         public void GivenFixture_WhenConstructorIsInvoked_ThenPassedFixtureIsBeingAdaptedAndInlineValuesCollectionIsEmpty(Fixture fixture)
         {
             // Arrange
@@ -41,8 +41,8 @@
             Assert.Throws<ArgumentNullException>(() => new AutoDataAdapterAttribute(null));
         }
 
-        [Theory(DisplayName = "GIVEN uninitialized method info WHEN GetData is invoked THEN exception is thrown")]
         [AutoData]
+        [Theory(DisplayName = "GIVEN uninitialized method info WHEN GetData is invoked THEN exception is thrown")]
         public void GivenUninitializedMethodInfo_WhenConstructorIsInvoked_ThenExceptionIsThrown(Fixture fixture)
         {
             // Arrange

@@ -183,7 +183,7 @@ roslynator_equals_token_new_line = after
 roslynator_infinite_loop_style = while
 roslynator_max_line_length = 500
 roslynator_new_line_at_end_of_file = true
-roslynator_new_line_before_while_in_do_statement = false
+roslynator_new_line_before_while_in_do_statement = true
 roslynator_null_conditional_operator_new_line = after
 roslynator_null_check_style = pattern_matching
 roslynator_object_creation_parentheses_style = include
@@ -1368,7 +1368,7 @@ dotnet_diagnostic.RCS1235.severity = warning
 dotnet_diagnostic.RCS1236.severity = warning
 
 # RCS1237: Use bit shift operator.
-dotnet_diagnostic.RCS1237.severity = suggestion
+dotnet_diagnostic.RCS1237.severity = none
 
 # RCS1238: Avoid nested ?: operators.
 dotnet_diagnostic.RCS1238.severity = suggestion
@@ -2175,6 +2175,9 @@ dotnet_diagnostic.CA1849.severity = warning
 
 # CA1850: Prefer static 'HashData' method over 'ComputeHash'
 dotnet_diagnostic.CA1850.severity = warning
+
+# CA1859: Use concrete types when possible for improved performance
+dotnet_diagnostic.CA1859.severity = suggestion
 
 # CA2000: Dispose objects before losing scope
 dotnet_diagnostic.CA2000.severity = warning
@@ -3284,7 +3287,7 @@ dotnet_diagnostic.SA1519.severity = error
 dotnet_diagnostic.SA1520.severity = error
 dotnet_diagnostic.SA1600.severity = none
 dotnet_diagnostic.SA1601.severity = none
-dotnet_diagnostic.SA1602.severity = error
+dotnet_diagnostic.SA1602.severity = none
 dotnet_diagnostic.SA1603.severity = error
 dotnet_diagnostic.SA1604.severity = error
 dotnet_diagnostic.SA1605.severity = error

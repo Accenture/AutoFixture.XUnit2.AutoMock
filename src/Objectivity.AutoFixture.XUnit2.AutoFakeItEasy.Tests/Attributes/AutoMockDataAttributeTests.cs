@@ -18,7 +18,7 @@
     using Xunit.Sdk;
 
     [Collection("AutoMockDataAttribute")]
-    [Trait("Category", "Attributes")]
+    [Trait("Category", "DataAttribute")]
     public class AutoMockDataAttributeTests
     {
         [Fact(DisplayName = "WHEN parameterless constructor is invoked THEN fixture and attribute provider are created")]
@@ -34,9 +34,9 @@
             attribute.IgnoreVirtualMembers.Should().BeFalse();
         }
 
-        [Theory(DisplayName = "WHEN GetData is invoked THEN fixture is configured and data returned")]
         [InlineAutoData(true)]
         [InlineAutoData(false)]
+        [Theory(DisplayName = "WHEN GetData is invoked THEN fixture is configured and data returned")]
         public void WhenGetDataIsInvoked_ThenFixtureIsConfiguredAndDataReturned(bool ignoreVirtualMembers)
         {
             // Arrange

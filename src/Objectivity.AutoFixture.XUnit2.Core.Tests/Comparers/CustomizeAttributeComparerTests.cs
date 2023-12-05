@@ -28,8 +28,8 @@
             new object[] { CustomizeAttribute, FrozenAttribute, -1 },
         };
 
-        [Theory(DisplayName = "GIVEN both attributes WHEN Compare is invoked THEN expected result returned")]
         [MemberData(nameof(TestData))]
+        [Theory(DisplayName = "GIVEN both attributes WHEN Compare is invoked THEN expected result returned")]
         public void GivenBothNonFrozenAttributes_WhenCompareIsInvoked_ThenBothEquals(
             IParameterCustomizationSource x,
             IParameterCustomizationSource y,

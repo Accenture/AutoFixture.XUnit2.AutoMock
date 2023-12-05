@@ -94,8 +94,8 @@
             data.Should().BeNull();
         }
 
-        [Theory(DisplayName = "GIVEN item of unexpected type WHEN Convert is invoked THEN exception is thrown")]
         [MemberData(nameof(MemberTypeTestData))]
+        [Theory(DisplayName = "GIVEN item of unexpected type WHEN Convert is invoked THEN exception is thrown")]
         public void GivenItemOfUnexpectedType_WhenConvertIsInvoked_ThenExceptionIsThrown(
             Type memberType,
             string expectedTypeName)

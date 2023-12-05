@@ -11,7 +11,7 @@
     using Xunit;
 
     [Collection("IgnoreVirtualMembersAttribute")]
-    [Trait("Category", "Attributes")]
+    [Trait("Category", "CustomizeAttribute")]
     [SuppressMessage("Design", "CA1034:Nested types should not be visible", Justification = "Test objects")]
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global", Justification = "Test classes instantiated by AutoFixture.")]
     [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Test members instantiated by AutoFixture and used in tests.")]

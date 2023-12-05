@@ -34,8 +34,8 @@
             builder.ReflectedType.Should().BeNull();
         }
 
-        [Theory(DisplayName = "GIVEN existing type WHEN constructor with parameter is invoked THEN that type should be reflected")]
         [AutoData]
+        [Theory(DisplayName = "GIVEN existing type WHEN constructor with parameter is invoked THEN that type should be reflected")]
         public void GivenExistingType_WhenConstructorWithParameterIsInvoked_ThenThatTypeShouldBeReflected(Type reflectedType)
         {
             // Arrange
@@ -46,8 +46,8 @@
             builder.ReflectedType.Should().BeSameAs(reflectedType);
         }
 
-        [Theory(DisplayName = "GIVEN uninitialized request WHEN Create is invoked THEN NoSpecimen is returned")]
         [AutoData]
+        [Theory(DisplayName = "GIVEN uninitialized request WHEN Create is invoked THEN NoSpecimen is returned")]
         public void GivenUninitializedRequest_WhenCreateInvoked_ThenNoSpecimenInstance(
             [Modest] IgnoreVirtualMembersSpecimenBuilder builder)
         {
@@ -59,8 +59,8 @@
             specimen.Should().BeOfType<NoSpecimen>();
         }
 
-        [Theory(DisplayName = "GIVEN not PropertyInfo request WHEN Create is invoked THEN NoSpecimen is returned")]
         [AutoData]
+        [Theory(DisplayName = "GIVEN not PropertyInfo request WHEN Create is invoked THEN NoSpecimen is returned")]
         public void GivenNotPropertyInfoRequest_WhenCreateInvoked_ThenNoSpecimenInstance(
             [Modest] IgnoreVirtualMembersSpecimenBuilder builder)
         {
@@ -72,8 +72,8 @@
             specimen.Should().BeOfType<NoSpecimen>();
         }
 
-        [Theory(DisplayName = "GIVEN not virtual PropertyInfo request WHEN Create is invoked THEN NoSpecimen is returned")]
         [AutoData]
+        [Theory(DisplayName = "GIVEN not virtual PropertyInfo request WHEN Create is invoked THEN NoSpecimen is returned")]
         public void GivenNotVirtualPropertyInfoRequest_WhenCreateInvoked_ThenNoSpecimenInstance(
             [Modest] IgnoreVirtualMembersSpecimenBuilder builder)
         {
@@ -87,8 +87,8 @@
             specimen.Should().BeOfType<NoSpecimen>();
         }
 
-        [Theory(DisplayName = "GIVEN virtual PropertyInfo request but hosted in different type WHEN Create is invoked THEN NoSpecimen is returned")]
         [AutoData]
+        [Theory(DisplayName = "GIVEN virtual PropertyInfo request but hosted in different type WHEN Create is invoked THEN NoSpecimen is returned")]
         public void GivenVirtualPropertyInfoRequestHostedInDifferentType_WhenCreateInvoked_ThenNoSpecimenInstance(
             [Frozen] Type reflectedType,
             [Greedy] IgnoreVirtualMembersSpecimenBuilder builder)
@@ -104,8 +104,8 @@
             specimen.Should().BeOfType<NoSpecimen>();
         }
 
-        [Theory(DisplayName = "GIVEN virtual PropertyInfo request WHEN Create is invoked THEN OmitSpecimen is returned")]
         [AutoData]
+        [Theory(DisplayName = "GIVEN virtual PropertyInfo request WHEN Create is invoked THEN OmitSpecimen is returned")]
         public void GivenVirtualPropertyInfoRequest_WhenCreateInvoked_ThenOmitSpecimenInstance(
             [Modest] IgnoreVirtualMembersSpecimenBuilder builder)
         {

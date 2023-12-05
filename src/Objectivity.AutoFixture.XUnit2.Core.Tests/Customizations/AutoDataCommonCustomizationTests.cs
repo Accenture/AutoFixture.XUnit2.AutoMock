@@ -10,8 +10,8 @@
     [Trait("Category", "Customizations")]
     public class AutoDataCommonCustomizationTests
     {
-        [Theory(DisplayName = "GIVEN existing customization with ignoring virtual members WHEN Customize is invoked THEN fixture is appropriately customized")]
         [AutoData]
+        [Theory(DisplayName = "GIVEN existing customization with ignoring virtual members WHEN Customize is invoked THEN fixture is appropriately customized")]
         public void GivenExistingCustomizationForFixture_WhenCustomizeIsInvoked_ThenFixtureIsAppropriatelyCustomized(Fixture fixture)
         {
             // Arrange
@@ -27,8 +27,8 @@
             fixture.ShouldIgnoreVirtualMembers();
         }
 
-        [Theory(DisplayName = "GIVEN existing customization without ignoring virtual members WHEN Customize is invoked THEN fixture is appropriately customized")]
         [AutoData]
+        [Theory(DisplayName = "GIVEN existing customization without ignoring virtual members WHEN Customize is invoked THEN fixture is appropriately customized")]
         public void GivenExistingCustomizationWithoutIgnoringVirtualMembers_WhenCustomizeIsInvoked_ThenFixtureIsAppropriatelyCustomized(Fixture fixture)
         {
             // Arrange

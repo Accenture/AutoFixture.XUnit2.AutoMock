@@ -7,9 +7,10 @@
 
     using global::AutoFixture;
     using global::AutoFixture.Xunit2;
+
     using Objectivity.AutoFixture.XUnit2.Core.Common;
 
-    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
     [SuppressMessage("Performance", "CA1813:Avoid unsealed attributes", Justification = "This attribute should be extendable by inheritance.")]
     public class CustomizeWithAttribute : CustomizeAttribute
     {
