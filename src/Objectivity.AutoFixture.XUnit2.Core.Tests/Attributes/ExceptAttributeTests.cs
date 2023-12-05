@@ -18,7 +18,7 @@
     using Xunit;
 
     [Collection("ExceptAttribute")]
-    [Trait("Category", "Attributes")]
+    [Trait("Category", "CustomizeAttribute")]
     public class ExceptAttributeTests
     {
         public enum Numbers

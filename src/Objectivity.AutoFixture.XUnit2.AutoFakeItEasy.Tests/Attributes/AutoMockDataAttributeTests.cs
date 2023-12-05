@@ -18,7 +18,7 @@
     using Xunit.Sdk;
 
     [Collection("AutoMockDataAttribute")]
-    [Trait("Category", "Attributes")]
+    [Trait("Category", "DataAttribute")]
     public class AutoMockDataAttributeTests
     {
         [Fact(DisplayName = "WHEN parameterless constructor is invoked THEN fixture and attribute provider are created")]

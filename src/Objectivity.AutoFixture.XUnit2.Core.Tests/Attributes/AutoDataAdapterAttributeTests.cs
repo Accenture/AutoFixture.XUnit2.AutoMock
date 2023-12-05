@@ -15,7 +15,7 @@
     using Xunit;
 
     [Collection("AutoDataAdapterAttribute")]
-    [Trait("Category", "Attributes")]
+    [Trait("Category", "DataAttribute")]
     [SuppressMessage("Design", "CA1034:Nested types should not be visible", Justification = "Test objects")]
     public class AutoDataAdapterAttributeTests
     {

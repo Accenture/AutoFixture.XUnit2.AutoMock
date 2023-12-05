@@ -18,7 +18,7 @@
     using Xunit;
 
     [Collection("CustomizeWithAttribute")]
-    [Trait("Category", "Attributes")]
+    [Trait("Category", "CustomizeAttribute")]
     public class CustomizeWithAttributeTests
     {
         public static IEnumerable<object[]> ArgumentsDiscoveryCustomizationTestData { get; } = new[]

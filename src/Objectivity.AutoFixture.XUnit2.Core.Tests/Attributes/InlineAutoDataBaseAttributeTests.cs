@@ -14,7 +14,7 @@
     using Xunit;
 
     [Collection("InlineAutoDataBaseAttribute")]
-    [Trait("Category", "Attributes")]
+    [Trait("Category", "DataAttribute")]
     public class InlineMockDataBaseAttributeTests
     {
         [Theory(DisplayName = "GIVEN existing fixture and attribute provider WHEN constructor is invoked THEN has fixture attribute provider and no values")]

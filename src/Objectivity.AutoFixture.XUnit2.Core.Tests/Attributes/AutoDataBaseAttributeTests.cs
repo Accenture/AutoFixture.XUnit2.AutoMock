@@ -14,7 +14,7 @@
     using Xunit;
 
     [Collection("AutoDataBaseAttribute")]
-    [Trait("Category", "Attributes")]
+    [Trait("Category", "DataAttribute")]
     public class AutoDataBaseAttributeTests
     {
         [Theory(DisplayName = "GIVEN existing fixture and attribute provider WHEN constructor is invoked THEN has specified fixture and attribute provider")]

@@ -18,7 +18,7 @@
     using Xunit;
 
     [Collection("PickFromValuesAttribute")]
-    [Trait("Category", "Attributes")]
+    [Trait("Category", "CustomizeAttribute")]
     public class PickFromValuesAttributeTests
     {
         [Flags]

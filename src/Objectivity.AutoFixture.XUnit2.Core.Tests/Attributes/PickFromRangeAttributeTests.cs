@@ -14,7 +14,7 @@
     using Xunit;
 
     [Collection("PickFromRangeAttribute")]
-    [Trait("Category", "Attributes")]
+    [Trait("Category", "CustomizeAttribute")]
     public class PickFromRangeAttributeTests
     {
         public static IEnumerable<object[]> MemberAutoDataOverValuesTestData { get; } = new[]

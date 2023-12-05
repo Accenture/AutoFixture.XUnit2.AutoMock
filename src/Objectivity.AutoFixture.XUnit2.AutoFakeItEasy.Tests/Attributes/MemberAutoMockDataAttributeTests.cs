@@ -18,7 +18,7 @@
     using Xunit;
 
     [Collection("MemberAutoMockDataAttribute")]
-    [Trait("Category", "Attributes")]
+    [Trait("Category", "DataAttribute")]
     public class MemberAutoMockDataAttributeTests
     {
         public static IEnumerable<object[]> TestData { get; } = new[]
