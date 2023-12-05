@@ -110,7 +110,7 @@
         {
             // Arrange
             var factory = new Mock<Func<Type, object>>();
-            factory.Setup(x => x(It.IsAny<Type>()))
+            factory.Setup(x => x(It.IsIn(expectedType)))
                 .Returns<Type>(x => x);
             var builder = new RequestFactoryRelay(factory.Object);
             var context = new Mock<ISpecimenContext>();
@@ -126,7 +126,7 @@
             // Assert
             result.Should().NotBeNull()
                 .And.BeOfType(expectedType);
-            factory.Verify(x => x(It.IsAny<Type>()), Times.Once);
+            factory.Verify(x => x(It.IsIn(expectedType)), Times.Once);
             factory.VerifyNoOtherCalls();
             context.Verify(x => x.Resolve(It.IsAny<object>()), Times.Once);
             context.VerifyNoOtherCalls();

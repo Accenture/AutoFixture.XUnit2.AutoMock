@@ -65,7 +65,8 @@
             // Arrange
             // Act
             // Assert
-            Assert.Throws<ArgumentException>(() => new PickFromValuesAttribute());
+            var exception = Assert.Throws<ArgumentException>(() => new PickFromValuesAttribute());
+            exception.Message.Should().NotBeNullOrEmpty().And.Contain("is expected");
         }
 
         [InlineData(1, 1)]

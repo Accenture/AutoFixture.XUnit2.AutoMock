@@ -58,7 +58,8 @@
             // Arrange
             // Act
             // Assert
-            Assert.Throws<ArgumentException>(() => new ExceptAttribute());
+            var exception = Assert.Throws<ArgumentException>(() => new ExceptAttribute());
+            exception.Message.Should().NotBeNullOrEmpty().And.Contain("is expected");
         }
 
         [InlineData(1, 1)]

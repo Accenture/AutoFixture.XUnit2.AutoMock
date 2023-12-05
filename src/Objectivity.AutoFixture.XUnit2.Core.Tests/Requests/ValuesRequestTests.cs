@@ -60,7 +60,8 @@
 
             // Act
             // Assert
-            Assert.Throws<ArgumentException>(() => new FixedValuesRequest(type, values));
+            var exception = Assert.Throws<ArgumentException>(() => new FixedValuesRequest(type, values));
+            exception.Message.Should().NotBeNullOrEmpty().And.Contain("is expected");
         }
 
         [InlineData(typeof(int), 2)]
@@ -97,9 +98,9 @@
             text.Should().Contain(nameof(FixedValuesRequest))
                 .And.Contain(type.Name)
                 .And.Contain("[Int32]")
-                .And.Contain(first.ToString(CultureInfo.InvariantCulture))
+                .And.Contain($"{first.ToString(CultureInfo.InvariantCulture)},")
                 .And.Contain("[Int64]")
-                .And.Contain(second.Value.ToString(CultureInfo.InvariantCulture))
+                .And.Contain($"{second.Value.ToString(CultureInfo.InvariantCulture)},")
                 .And.Contain("[Object]")
                 .And.Contain("null");
         }
@@ -195,8 +196,8 @@
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN different type of ValuesRequest WHEN GetHashCode is invoked THEN False is returned")]
-        public void GivenDifferentTypeOfValuesRequest_WhenGetHashCodeIsInvoked_ThenFalseIsReturned(
+        [Theory(DisplayName = "GIVEN different type of ValuesRequest WHEN hashcodes are compared THEN hashcodes are not equal")]
+        public void GivenDifferentTypeOfValuesRequest_WhenHashCodesAreCompared_ThenHashCodesAreNotEqual(
             int value)
         {
             // Arrange
@@ -211,6 +212,25 @@
 
             // Assert
             result.Should().Be(false);
+        }
+
+        [InlineAutoData(typeof(ExceptValuesRequest))]
+        [InlineAutoData(typeof(FixedValuesRequest))]
+        [Theory(DisplayName = "GIVEN ValuesRequest with single value WHEN GetHashCode is invoked THEN expected value is returned")]
+        public void GivenValuesRequestWithSingleValue_WhenGetHashCodeIsInvoked_ThenExpectedValueIsReturned(
+            Type requestType,
+            int value)
+        {
+            // Arrange
+            var valueType = value.GetType();
+            var request = Activator.CreateInstance(requestType, valueType, value);
+            var expectedHashCode = valueType.GetHashCode() ^ requestType.GetHashCode() ^ value.GetHashCode();
+
+            // Act
+            var actualHashCode = request.GetHashCode();
+
+            // Assert
+            actualHashCode.Should().Be(expectedHashCode);
         }
     }
 }

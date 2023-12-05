@@ -53,7 +53,8 @@
 
             // Act
             // Assert
-            Assert.Throws<ObjectCreationException>(() => builder.Create(request, context.Object));
+            var exception = Assert.Throws<ObjectCreationException>(() => builder.Create(request, context.Object));
+            exception.Message.Should().NotBeNullOrEmpty();
         }
 
         [Fact(DisplayName = "GIVEN unsupported request WHEN Create is invoked THEN NoSpecimen is returned")]
