@@ -31,7 +31,8 @@
             // Arrange
             // Act
             // Assert
-            Assert.Throws<ArgumentException>(() => new RoundRobinEnumerable<object>());
+            var exception = Assert.Throws<ArgumentException>(() => new RoundRobinEnumerable<object>());
+            exception.Message.Should().NotBeNullOrEmpty();
         }
 
         [AutoData]
