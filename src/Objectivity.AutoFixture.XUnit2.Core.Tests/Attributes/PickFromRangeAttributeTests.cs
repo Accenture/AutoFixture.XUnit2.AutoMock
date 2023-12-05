@@ -31,7 +31,8 @@
 
             // Act
             // Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() => new PickFromRangeAttribute(min, max));
+            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => new PickFromRangeAttribute(min, max));
+            exception.Message.Should().NotBeNullOrEmpty().And.Contain("must be lower or equal");
         }
 
         [Fact(DisplayName = "GIVEN valid parameters WHEN constructor is invoked THEN parameters are properly assigned")]
