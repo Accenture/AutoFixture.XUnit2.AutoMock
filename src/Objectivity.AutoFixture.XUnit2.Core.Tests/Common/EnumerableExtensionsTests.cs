@@ -25,11 +25,11 @@
             Assert.Throws<ArgumentNullException>(() => enumerableType.TryGetEnumerableSingleTypeArgument(out var itemType));
         }
 
-        [Theory(DisplayName = "GIVEN valid collection WHEN TryGetEnumerableSingleTypeArgument is invoked THEN collection single type argument returned")]
         [InlineData(typeof(int[]), typeof(int))]
         [InlineData(typeof(List<int>), typeof(int))]
         [InlineData(typeof(Dictionary<int, int>), typeof(KeyValuePair<int, int>))]
         [InlineData(typeof(IEnumerable<int>), typeof(int))]
+        [Theory(DisplayName = "GIVEN valid collection WHEN TryGetEnumerableSingleTypeArgument is invoked THEN collection single type argument returned")]
         public void GivenValidCollection_WhenTryGetEnumerableSingleTypeArgumentIsInvoked_ThenCollectionSingleTypeArgumentReturned(Type enumerableType, Type expectedType)
         {
             // Arrange
@@ -41,9 +41,9 @@
             itemType.Should().Be(expectedType);
         }
 
-        [Theory(DisplayName = "GIVEN invalid collection WHEN TryGetEnumerableSingleTypeArgument is invoked THEN no argument returned")]
         [InlineData(typeof(Tuple<int, int>))]
         [InlineData(typeof(IEnumerable))]
+        [Theory(DisplayName = "GIVEN invalid collection WHEN TryGetEnumerableSingleTypeArgument is invoked THEN no argument returned")]
         public void GivenInvalidCollection_WhenTryGetEnumerableSingleTypeArgumentIsInvoked_ThenNoArgumentReturned(Type enumerableType)
         {
             // Arrange
@@ -67,9 +67,9 @@
             isSuccessful.Should().BeFalse();
         }
 
-        [Theory(DisplayName = "GIVEN uninitialized argument WHEN ToTypedArray is invoked THEN exception is thrown")]
         [InlineData(null, typeof(int))]
         [InlineData(new[] { 1 }, null)]
+        [Theory(DisplayName = "GIVEN uninitialized argument WHEN ToTypedArray is invoked THEN exception is thrown")]
         public void GivenUninitializedArgument_WhenToTypedArrayIsInvoked_ThenExceptionIsThrown(IEnumerable items, Type itemType)
         {
             // Arrange
@@ -78,8 +78,8 @@
             Assert.Throws<ArgumentNullException>(() => items.ToTypedArray(itemType));
         }
 
-        [Theory(DisplayName = "GIVEN typed enumerable WHEN ToTypedArray is invoked THEN array is returned")]
         [AutoData]
+        [Theory(DisplayName = "GIVEN typed enumerable WHEN ToTypedArray is invoked THEN array is returned")]
         public void GivenTypedEnumerable_WhenToTypedArrayIsInvoked_ThenArrayIsReturned(int[] items)
         {
             // Arrange
@@ -92,8 +92,8 @@
             array.Should().BeEquivalentTo(items).And.Subject.GetType().IsArray.Should().BeTrue();
         }
 
-        [Theory(DisplayName = "GIVEN enumerable WHEN ToTypedArray is invoked THEN array is returned")]
         [AutoData]
+        [Theory(DisplayName = "GIVEN enumerable WHEN ToTypedArray is invoked THEN array is returned")]
         public void GivenEnumerable_WhenToTypedArrayIsInvoked_ThenArrayIsReturned(BitArray items)
         {
             // Arrange

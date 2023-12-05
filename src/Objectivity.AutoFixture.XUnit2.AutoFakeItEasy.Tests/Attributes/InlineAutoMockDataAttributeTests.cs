@@ -67,9 +67,9 @@
             attribute.Values.Should().HaveCount(0);
         }
 
-        [Theory(DisplayName = "WHEN GetData is invoked THEN fixture is configured and data returned")]
         [InlineAutoData(true)]
         [InlineAutoData(false)]
+        [Theory(DisplayName = "WHEN GetData is invoked THEN fixture is configured and data returned")]
         public void WhenGetDataIsInvoked_ThenFixtureIsConfiguredAndDataReturned(bool ignoreVirtualMembers)
         {
             // Arrange

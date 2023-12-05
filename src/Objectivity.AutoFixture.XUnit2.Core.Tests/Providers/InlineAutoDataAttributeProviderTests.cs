@@ -15,9 +15,9 @@
     [Trait("Category", "Providers")]
     public class InlineAutoDataAttributeProviderTests
     {
-        [Theory(DisplayName = "GIVEN initialized fixture WHEN GetAttribute is invoked THEN attribute with specified fixture is returned")]
-        [AutoData]
         [SuppressMessage("ReSharper", "PossibleNullReferenceException", Justification = "Assertion checks it earlier and throws exception.")]
+        [AutoData]
+        [Theory(DisplayName = "GIVEN initialized fixture WHEN GetAttribute is invoked THEN attribute with specified fixture is returned")]
         public void GivenInitializedFixture_WhenGetAttributeIsInvoked_ThenAttributeWithSpecifiedFixtureIsReturned(
             Fixture fixture,
             object[] inlineValues)

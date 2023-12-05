@@ -42,8 +42,8 @@
             return first + second + third + fourth;
         }
 
-        [Theory(DisplayName = "WHEN constructor is invoked THEN has shared fixture")]
         [AutoData]
+        [Theory(DisplayName = "WHEN constructor is invoked THEN has shared fixture")]
         public void WhenConstructorIsInvoked_ThenHasSharedFixture(Fixture fixture)
         {
             // Arrange
@@ -80,9 +80,9 @@
             }
         }
 
-        [Theory(DisplayName = "GIVEN IgnoreVirtualMembers WHEN GetData is invoked THEN fixture is customized correctly")]
         [InlineAutoData(true)]
         [InlineAutoData(false)]
+        [Theory(DisplayName = "GIVEN IgnoreVirtualMembers WHEN GetData is invoked THEN fixture is customized correctly")]
         public void GivenIgnoreVirtualMembers_WhenGetDataIsInvoked_ThenFixtureIsCustomizedCorrectly(bool ignoreVirtualMembers)
         {
             // Arrange
@@ -110,8 +110,8 @@
             customizations[1].Should().BeOfType<AutoNSubstituteCustomization>();
         }
 
-        [Theory(DisplayName = "GIVEN MemberAutoMockData WHEN ShareFixture is set to true THEN same fixture per data row is used.")]
         [MemberAutoMockData(nameof(TestDataShareFixture), ShareFixture = true)]
+        [Theory(DisplayName = "GIVEN MemberAutoMockData WHEN ShareFixture is set to true THEN same fixture per data row is used.")]
         public void GivenMemberAutoMockData_WhenShareFixtureIsSetToTrue_ThenSameFixturePerDataRowIsUsed(int index, ICustomization customization, IFixture fixture)
         {
             // Arrange
@@ -124,8 +124,8 @@
             fixture.Customizations.Should().HaveCount(expectedCustomizationsCount + index);
         }
 
-        [Theory(DisplayName = "GIVEN MemberAutoMockData WHEN ShareFixture is set to false THEN unique fixture per data row is created.")]
         [MemberAutoMockData(nameof(TestDataDoNotShareFixture), ShareFixture = false)]
+        [Theory(DisplayName = "GIVEN MemberAutoMockData WHEN ShareFixture is set to false THEN unique fixture per data row is created.")]
         public void GivenMemberAutoMockData_WhenShareFixtureIsSetToFalse_ThenUniqueFixturePerDataRowIsCreated(ICustomization customization, IFixture fixture)
         {
             // Arrange
@@ -161,8 +161,8 @@
             Assert.Throws<ArgumentNullException>(() => new MemberAutoMockDataAttribute(memberName));
         }
 
-        [Theory(DisplayName = "GIVEN test method has some member generated parameters WHEN test run THEN parameters are provided")]
         [MemberAutoMockData(nameof(TestData))]
+        [Theory(DisplayName = "GIVEN test method has some member generated parameters WHEN test run THEN parameters are provided")]
         public void GivenTestMethodHasSomeMemberGeneratedParameters_WhenTestRun_ThenParametersAreProvided(
             int first,
             int second,

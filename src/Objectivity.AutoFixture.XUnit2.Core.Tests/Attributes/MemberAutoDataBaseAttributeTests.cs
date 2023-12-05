@@ -15,8 +15,8 @@
     [Trait("Category", "DataAttribute")]
     public class MemberAutoDataBaseAttributeTests
     {
-        [Theory(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]
         [AutoData]
+        [Theory(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]
         public void GivenUninitializedFixture_WhenConstructorIsInvoked_ThenExceptionIsThrown(string memberName)
         {
             // Arrange

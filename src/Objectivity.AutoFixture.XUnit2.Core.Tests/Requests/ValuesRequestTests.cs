@@ -104,8 +104,8 @@
                 .And.Contain("null");
         }
 
-        [Theory(DisplayName = "GIVEN two requests WHEN Equals is invoked THEN expected value is returned")]
         [MemberData(nameof(ComparisonTestData))]
+        [Theory(DisplayName = "GIVEN two requests WHEN Equals is invoked THEN expected value is returned")]
         public void GivenTwoRequests_WhenEqualsIsInvoked_ThenExpectedValueIsReturned(
             Type typeA,
             IEnumerable valuesA,
@@ -124,8 +124,8 @@
             result.Should().Be(expectedResult);
         }
 
-        [Theory(DisplayName = "GIVEN two requests WHEN GetHashCode is invoked THEN expected value is returned")]
         [MemberData(nameof(ComparisonTestData))]
+        [Theory(DisplayName = "GIVEN two requests WHEN GetHashCode is invoked THEN expected value is returned")]
         public void GivenTwoRequests_WhenGetHashCodeIsInvoked_ThenExpectedValueIsReturned(
             Type typeA,
             IEnumerable valuesA,

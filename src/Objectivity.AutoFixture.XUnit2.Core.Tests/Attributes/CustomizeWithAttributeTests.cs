@@ -125,8 +125,8 @@
             customization.Args.Should().HaveCount(1).And.Subject.First().Should().Be(parameter.ParameterType);
         }
 
-        [Theory(DisplayName = "GIVEN CustomizeWith attribute with arguments WHEN GetCustomization is invoked THEN expected customization is returned with expected number of arguments")]
         [MemberData(nameof(ArgumentsDiscoveryCustomizationTestData))]
+        [Theory(DisplayName = "GIVEN CustomizeWith attribute with arguments WHEN GetCustomization is invoked THEN expected customization is returned with expected number of arguments")]
         public void GivenCustomizeWithAttributeWithArguments_WhenGetCustomizationIsInvoked_ThenExpectedCustomizationIsReturnedWithExpectedNumberOfArguments(bool includeParameterType, object[] args, int expectedNumberOfArguments)
         {
             // Arrange
@@ -145,8 +145,8 @@
             customization.Args.Should().HaveCount(expectedNumberOfArguments);
         }
 
-        [Theory(DisplayName = "GIVEN CustomizeWith applied to the second argument WHEN data populated THEN only second one has customization")]
         [AutoData]
+        [Theory(DisplayName = "GIVEN CustomizeWith applied to the second argument WHEN data populated THEN only second one has customization")]
         public void GivenCustomizeWithAppliedToTheSecondArgument_WhenDataPopulated_ThenOnlySecondOneHasCustomization(
             IList<string> instanceWithoutCustomization,
             [EmptyCollection] IList<string> instanceWithCustomization)
@@ -158,8 +158,8 @@
             instanceWithCustomization.Should().BeEmpty();
         }
 
-        [Theory(DisplayName = "GIVEN CustomizeWith applied to the first argument WHEN data populated THEN all arguments has customization")]
         [AutoData]
+        [Theory(DisplayName = "GIVEN CustomizeWith applied to the first argument WHEN data populated THEN all arguments has customization")]
         public void GivenCustomizeWithAppliedToTheFirstArgument_WhenDataPopulated_ThenAllArgumentsHasCustomization(
             [CustomizeWith(typeof(EmptyCollectionCustomization), typeof(IList<string>))] IList<string> instanceWithCustomization,
             IList<string> instanceWithoutCustomization)
@@ -171,8 +171,8 @@
             instanceWithCustomization.Should().BeEmpty();
         }
 
-        [Theory(DisplayName = "GIVEN CustomizeWith applied to the first argument of a certain type WHEN data populated THEN only the first one has customization")]
         [AutoData]
+        [Theory(DisplayName = "GIVEN CustomizeWith applied to the first argument of a certain type WHEN data populated THEN only the first one has customization")]
         public void GivenCustomizeWithAppliedToTheFirstArgumentOfACertainType_WhenDataPopulated_ThenOnlyTheFirstOneHasCustomization(
             [EmptyCollection] IList<string> instanceWithCustomization,
             IList<int?> instanceOfDifferentTypeWithoutCustomization)

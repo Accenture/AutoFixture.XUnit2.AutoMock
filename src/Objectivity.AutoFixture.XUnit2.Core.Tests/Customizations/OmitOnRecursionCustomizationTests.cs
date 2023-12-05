@@ -10,8 +10,8 @@
     [Trait("Category", "Customizations")]
     public class OmitOnRecursionCustomizationTests
     {
-        [Theory(DisplayName = "GIVEN existing customization for fixture WHEN Customize is invoked THEN fixture should omit recursion")]
         [AutoData]
+        [Theory(DisplayName = "GIVEN existing customization for fixture WHEN Customize is invoked THEN fixture should omit recursion")]
         public void GivenExistingCustomizationForFixture_WhenCustomizeIsInvoked_ThenFixtureShouldOmitRecursion(Fixture fixture, OmitOnRecursionCustomization customization)
         {
             // Arrange
