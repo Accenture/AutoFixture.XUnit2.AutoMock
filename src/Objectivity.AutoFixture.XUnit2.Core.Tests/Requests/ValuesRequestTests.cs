@@ -51,8 +51,8 @@
             Assert.Throws<ArgumentNullException>(() => new FixedValuesRequest(type, values));
         }
 
-        [Fact(DisplayName = "GIVEN empty argument WHEN constructor is invoked THEN exception is thrown")]
-        public void GivenEmptyArgument_WhenConstructorIsInvoked_ThenExceptionIsThrown()
+        [Fact(DisplayName = "GIVEN empty values argument WHEN constructor is invoked THEN exception is thrown")]
+        public void GivenEmptyValuesArgument_WhenConstructorIsInvoked_ThenExceptionIsThrown()
         {
             // Arrange
             var type = typeof(int);
@@ -66,19 +66,18 @@
 
         [InlineData(typeof(int), 2)]
         [InlineData(1, typeof(int))]
-        [Theory(DisplayName = "GIVEN incomparable argument WHEN constructor is invoked THEN parameters are properly assigned")]
-        public void GivenIncomparableArgument_WhenConstructorIsInvoked_ThenParametersAreProperlyAssigned(
-            object first,
-            object second)
+        [Theory(DisplayName = "GIVEN different type arguments WHEN constructor is invoked THEN parameters are properly assigned")]
+        public void GivenDifferentTypeArguments_WhenConstructorIsInvoked_ThenParametersAreProperlyAssigned(
+            params object[] values)
         {
             // Arrange
             var type = typeof(int);
 
             // Act
-            var attribute = new FixedValuesRequest(type, first, second);
+            var attribute = new FixedValuesRequest(type, values);
 
             // Assert
-            attribute.Values.Should().HaveCount(2).And.BeEquivalentTo(new[] { first, second });
+            attribute.Values.Should().HaveCount(2).And.BeEquivalentTo(values);
         }
 
         [Fact(DisplayName = "GIVEN valid arguments WHEN ToString is invoked THEN text conteins necessary information")]
@@ -126,8 +125,8 @@
         }
 
         [MemberData(nameof(ComparisonTestData))]
-        [Theory(DisplayName = "GIVEN two requests WHEN GetHashCode is invoked THEN expected value is returned")]
-        public void GivenTwoRequests_WhenGetHashCodeIsInvoked_ThenExpectedValueIsReturned(
+        [Theory(DisplayName = "GIVEN two requests WHEN hashcodes are compared THEN expected value is returned")]
+        public void GivenTwoRequests_WhenHashCodesAreCompared_ThenExpectedValueIsReturned(
             Type typeA,
             IEnumerable valuesA,
             Type typeB,
@@ -148,7 +147,7 @@
         }
 
         [Fact(DisplayName = "GIVEN uninitialized request WHEN Equals is invoked THEN False is returned")]
-        [SuppressMessage("Maintainability", "CA1508:Avoid dead conditional code", Justification = "Test the logic")]
+        [SuppressMessage("Maintainability", "CA1508:Avoid dead conditional code", Justification = "Required to test the logic")]
         public void GivenUninitializedRequest_WhenEqualsIsInvoked_ThenFalseIsReturned()
         {
             // Arrange
@@ -159,7 +158,7 @@
             var result = initialized.Equals(uninitialized);
 
             // Assert
-            result.Should().Be(false);
+            result.Should().BeFalse();
         }
 
         [Fact(DisplayName = "GIVEN different type of object WHEN Equals is invoked THEN False is returned")]
@@ -173,7 +172,7 @@
             var result = request.Equals(differentObject);
 
             // Assert
-            result.Should().Be(false);
+            result.Should().BeFalse();
         }
 
         [AutoData]
@@ -191,13 +190,13 @@
             var text = fixedRequest.ToString();
 
             // Assert
-            result.Should().Be(false);
+            result.Should().BeFalse();
             text.Should().NotBeNull();
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN different type of ValuesRequest WHEN hashcodes are compared THEN hashcodes are not equal")]
-        public void GivenDifferentTypeOfValuesRequest_WhenHashCodesAreCompared_ThenHashCodesAreNotEqual(
+        [Theory(DisplayName = "GIVEN ValuesRequests of different type WHEN hashcodes are compared THEN hashcodes are not equal")]
+        public void GivenValuesRequestsOfDifferentType_WhenHashCodesAreCompared_ThenHashCodesAreNotEqual(
             int value)
         {
             // Arrange
@@ -211,7 +210,7 @@
             var result = hashA == hashB;
 
             // Assert
-            result.Should().Be(false);
+            result.Should().BeFalse();
         }
 
         [InlineAutoData(typeof(ExceptValuesRequest))]
