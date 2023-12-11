@@ -104,9 +104,12 @@
             var item = this.fixture.Create<object>();
 
             // Act
+            Func<object> act = () => this.converter.Convert(TestMethod, item, this.memberName, memberType);
+
             // Assert
-            var exception = Assert.Throws<ArgumentException>(() => this.converter.Convert(TestMethod, item, this.memberName, memberType));
-            exception.Message.Should().NotBeNullOrEmpty().And.Contain(this.memberName).And.Contain(expectedTypeName);
+            act.Should().Throw<ArgumentException>()
+                .And.Message.Should().NotBeNullOrEmpty()
+                .And.Contain(this.memberName).And.Contain(expectedTypeName);
         }
 
         [Fact(DisplayName = "GIVEN uninitialized test method WHEN Convert is invoked THEN exception is thrown")]
@@ -117,8 +120,11 @@
             var item = this.fixture.Create<object[]>();
 
             // Act
+            Func<object> act = () => this.converter.Convert(method, item, this.memberName, MemberType);
+
             // Assert
-            Assert.Throws<ArgumentNullException>(() => this.converter.Convert(method, item, this.memberName, MemberType));
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("testMethod");
         }
 
         protected void MethodUnderTest()

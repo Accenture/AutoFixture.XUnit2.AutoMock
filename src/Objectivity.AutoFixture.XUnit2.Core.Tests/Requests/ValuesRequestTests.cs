@@ -35,8 +35,11 @@
             object[] values = null;
 
             // Act
+            Func<object> act = () => new FixedValuesRequest(type, values);
+
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new FixedValuesRequest(type, values));
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("operandType");
         }
 
         [Fact(DisplayName = "GIVEN uninitialized values argument WHEN constructor is invoked THEN exception is thrown")]
@@ -47,8 +50,11 @@
             object[] values = null;
 
             // Act
+            Func<object> act = () => new FixedValuesRequest(type, values);
+
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new FixedValuesRequest(type, values));
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("values");
         }
 
         [Fact(DisplayName = "GIVEN empty values argument WHEN constructor is invoked THEN exception is thrown")]
@@ -59,9 +65,12 @@
             var values = Array.Empty<object>();
 
             // Act
+            Func<object> act = () => new FixedValuesRequest(type, values);
+
             // Assert
-            var exception = Assert.Throws<ArgumentException>(() => new FixedValuesRequest(type, values));
-            exception.Message.Should().NotBeNullOrEmpty().And.Contain("is expected");
+            act.Should().Throw<ArgumentException>()
+                .And.Message.Should().NotBeNullOrEmpty()
+                .And.Contain("At least one value");
         }
 
         [InlineData(typeof(int), 2)]

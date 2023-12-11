@@ -55,8 +55,27 @@
         {
             // Arrange
             // Act
+            Func<object> act = () => new PickFromValuesAttribute(null);
+
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new PickFromValuesAttribute(null));
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("values");
+        }
+
+        [AutoData]
+        [Theory(DisplayName = "GIVEN uninitialized argument WHEN GetCustomization is invoked THEN exception is thrown")]
+        public void GivenUninitializedArgument_WhenGetCustomizationIsInvoked_ThenExceptionIsThrown(
+            int[] values)
+        {
+            // Arrange
+            var attribute = new PickFromValuesAttribute(values);
+
+            // Act
+            Action act = () => attribute.GetCustomization(null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("parameter");
         }
 
         [Fact(DisplayName = "GIVEN no arguments WHEN constructor is invoked THEN exception is thrown")]
@@ -64,9 +83,12 @@
         {
             // Arrange
             // Act
+            Func<object> act = () => new PickFromValuesAttribute();
+
             // Assert
-            var exception = Assert.Throws<ArgumentException>(() => new PickFromValuesAttribute());
-            exception.Message.Should().NotBeNullOrEmpty().And.Contain("is expected");
+            act.Should().Throw<ArgumentException>()
+                .And.Message.Should().NotBeNullOrEmpty()
+                .And.Contain("At least one value");
         }
 
         [InlineData(1, 1)]

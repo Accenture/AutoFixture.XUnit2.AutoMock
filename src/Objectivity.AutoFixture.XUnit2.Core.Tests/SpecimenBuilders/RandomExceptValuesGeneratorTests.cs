@@ -25,8 +25,11 @@
             var builder = new RandomExceptValuesGenerator();
 
             // Act
+            Func<object> act = () => builder.Create(new object(), null);
+
             // Assert
-            Assert.Throws<ArgumentNullException>(() => builder.Create(new object(), null));
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("context");
         }
 
         [Fact(DisplayName = "GIVEN uninitialized request WHEN Create is invoked THEN exception is thrown")]
@@ -37,8 +40,11 @@
             var context = new Mock<ISpecimenContext>();
 
             // Act
+            Func<object> act = () => builder.Create(null, context.Object);
+
             // Assert
-            Assert.Throws<ArgumentNullException>(() => builder.Create(null, context.Object));
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("request");
         }
 
         [Fact(DisplayName = "GIVEN excluded value and context which resolves to the same value WHEN Create is invoked THEN exception is thrown")]
@@ -52,9 +58,11 @@
             var request = new ExceptValuesRequest(duplicateValue.GetType(), duplicateValue);
 
             // Act
+            Func<object> act = () => builder.Create(request, context.Object);
+
             // Assert
-            var exception = Assert.Throws<ObjectCreationException>(() => builder.Create(request, context.Object));
-            exception.Message.Should().NotBeNullOrEmpty();
+            act.Should().Throw<ObjectCreationException>()
+                .And.Message.Should().NotBeNullOrEmpty();
         }
 
         [Fact(DisplayName = "GIVEN unsupported request WHEN Create is invoked THEN NoSpecimen is returned")]

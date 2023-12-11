@@ -21,8 +21,11 @@
             Type enumerableType = null;
 
             // Act
+            Func<object> act = () => enumerableType.TryGetEnumerableSingleTypeArgument(out var itemType);
+
             // Assert
-            Assert.Throws<ArgumentNullException>(() => enumerableType.TryGetEnumerableSingleTypeArgument(out var itemType));
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("type");
         }
 
         [InlineData(typeof(int[]), typeof(int))]
@@ -67,15 +70,21 @@
             isSuccessful.Should().BeFalse();
         }
 
-        [InlineData(null, typeof(int))]
-        [InlineData(new[] { 1 }, null)]
+        [InlineData(null, typeof(int), "items")]
+        [InlineData(new[] { 1 }, null, "itemType")]
         [Theory(DisplayName = "GIVEN uninitialized argument WHEN ToTypedArray is invoked THEN exception is thrown")]
-        public void GivenUninitializedArgument_WhenToTypedArrayIsInvoked_ThenExceptionIsThrown(IEnumerable items, Type itemType)
+        public void GivenUninitializedArgument_WhenToTypedArrayIsInvoked_ThenExceptionIsThrown(
+            IEnumerable items,
+            Type itemType,
+            string exceptionParamName)
         {
             // Arrange
             // Act
+            Func<object> act = () => items.ToTypedArray(itemType);
+
             // Assert
-            Assert.Throws<ArgumentNullException>(() => items.ToTypedArray(itemType));
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be(exceptionParamName);
         }
 
         [AutoData]

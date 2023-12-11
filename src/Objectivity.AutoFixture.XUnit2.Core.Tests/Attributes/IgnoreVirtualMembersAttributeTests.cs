@@ -97,8 +97,11 @@
             var attribute = new IgnoreVirtualMembersAttribute();
 
             // Act
+            Func<object> act = () => attribute.GetCustomization(parameterInfo);
+
             // Assert
-            Assert.Throws<ArgumentNullException>(() => attribute.GetCustomization(parameterInfo));
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("parameter");
         }
 
         public class Address

@@ -67,8 +67,10 @@
             var customizeAttribute = new CustomizeWithAttribute(customizationType);
 
             // Act
+            Func<object> act = () => customizeAttribute.GetCustomization(null);
+
             // Assert
-            Assert.Throws<MissingMethodException>(() => customizeAttribute.GetCustomization(null));
+            act.Should().Throw<MissingMethodException>();
         }
 
         [Fact(DisplayName = "GIVEN CustomizeWithAttribute with IncludeParameterType set WHEN GetCustomization without ParameterInfo is invoked THEN exception is thrown")]
@@ -79,8 +81,11 @@
             var customizeAttribute = new CustomizeWithAttribute(customizationType) { IncludeParameterType = true };
 
             // Act
+            Func<object> act = () => customizeAttribute.GetCustomization(null);
+
             // Assert
-            Assert.Throws<ArgumentNullException>(() => customizeAttribute.GetCustomization(null));
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("parameter");
         }
 
         [Fact(DisplayName = "GIVEN uninitialized type WHEN constructor is invoked THEN exception is thrown")]
@@ -90,8 +95,11 @@
             const Type customizationType = null;
 
             // Act
+            Func<object> act = () => new CustomizeWithAttribute(customizationType);
+
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new CustomizeWithAttribute(customizationType));
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("type");
         }
 
         [Fact(DisplayName = "GIVEN unsupported type WHEN constructor is invoked THEN exception is thrown")]
@@ -101,9 +109,12 @@
             var customizationType = typeof(string);
 
             // Act
+            Func<object> act = () => new CustomizeWithAttribute(customizationType);
+
             // Assert
-            var exception = Assert.Throws<ArgumentException>(() => new CustomizeWithAttribute(customizationType));
-            exception.Message.Should().NotBeNullOrEmpty().And.Contain(nameof(ICustomization));
+            act.Should().Throw<ArgumentException>()
+                .And.Message.Should().NotBeNullOrEmpty()
+                .And.Contain(nameof(ICustomization));
         }
 
         [Fact(DisplayName = "GIVEN CustomizeWith attribute with IncludeParameterType set WHEN GetCustomization is invoked THEN customization with expected type is returned")]

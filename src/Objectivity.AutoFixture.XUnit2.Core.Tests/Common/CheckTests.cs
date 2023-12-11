@@ -19,10 +19,14 @@
         {
             // Arrange
             const object value = null;
+            const string expectedParameterName = "value";
 
             // Act
+            Func<object> act = () => value.NotNull(expectedParameterName);
+
             // Assert
-            Assert.Throws<ArgumentNullException>(() => value.NotNull("value"));
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be(expectedParameterName);
         }
 
         [Fact(DisplayName = "GIVEN initialized object WHEN NotNull is invoked THEN the same object is returned")]
