@@ -325,6 +325,24 @@ public void RangeAttributeUsage(
 }
 ```
 
+### PickNegative
+
+An attribute ensuring that only negative values will be generated.
+
+**Caution:** It will throw exception when being used on unsupported type or on the one which does not accept negative values.
+
+#### Example
+
+```csharp
+[Theory]
+[AutoData]
+public void NegativeAttributeUsage(
+    [PickNegative] int negativeNumber)
+{
+    Assert.True(negativeNumber < 0);
+}
+```
+
 ### PickFromValues
 
 An attribute ensuring that only values from the specified list will be generated.
