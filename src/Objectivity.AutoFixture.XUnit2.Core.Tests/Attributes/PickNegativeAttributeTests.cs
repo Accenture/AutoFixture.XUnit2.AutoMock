@@ -51,7 +51,7 @@
             Action act = () => attribute.GetCustomization(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>();
+            act.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("parameter");
         }
 
         [MemberData(nameof(CustomizationUsageTestData))]

@@ -18,6 +18,11 @@
 
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {
+            if (parameter is null)
+            {
+                throw new ArgumentNullException(nameof(parameter));
+            }
+
             return new CompositeSpecimenBuilder(
                 new FilteringSpecimenBuilder(
                     new RequestFactoryRelay((type) =>
