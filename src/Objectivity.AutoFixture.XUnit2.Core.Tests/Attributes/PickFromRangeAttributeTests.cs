@@ -30,9 +30,28 @@
             const int max = 1;
 
             // Act
+            Func<object> act = () => new PickFromRangeAttribute(min, max);
+
             // Assert
-            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => new PickFromRangeAttribute(min, max));
-            exception.Message.Should().NotBeNullOrEmpty().And.Contain("must be lower or equal");
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .And.Message.Should().NotBeNullOrEmpty()
+                .And.Contain("must be lower or equal");
+        }
+
+        [Fact(DisplayName = "GIVEN uninitialized argument WHEN GetCustomization is invoked THEN exception is thrown")]
+        public void GivenUninitializedArgument_WhenGetCustomizationIsInvoked_ThenExceptionIsThrown()
+        {
+            // Arrange
+            const int min = 1;
+            const int max = 100;
+            var attribute = new PickFromRangeAttribute(min, max);
+
+            // Act
+            Action act = () => attribute.GetCustomization(null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("parameter");
         }
 
         [Fact(DisplayName = "GIVEN valid parameters WHEN constructor is invoked THEN parameters are properly assigned")]

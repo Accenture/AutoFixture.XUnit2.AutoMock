@@ -48,8 +48,11 @@
         {
             // Arrange
             // Act
+            Func<object> act = () => new ExceptAttribute(null);
+
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new ExceptAttribute(null));
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("values");
         }
 
         [Fact(DisplayName = "GIVEN no arguments WHEN constructor is invoked THEN exception is thrown")]
@@ -57,9 +60,28 @@
         {
             // Arrange
             // Act
+            Func<object> act = () => new ExceptAttribute();
+
             // Assert
-            var exception = Assert.Throws<ArgumentException>(() => new ExceptAttribute());
-            exception.Message.Should().NotBeNullOrEmpty().And.Contain("is expected");
+            act.Should().Throw<ArgumentException>()
+                .And.Message.Should().NotBeNullOrEmpty()
+                .And.Contain("At least one value");
+        }
+
+        [AutoData]
+        [Theory(DisplayName = "GIVEN uninitialized argument WHEN GetCustomization is invoked THEN exception is thrown")]
+        public void GivenUninitializedArgument_WhenGetCustomizationIsInvoked_ThenExceptionIsThrown(
+            int[] values)
+        {
+            // Arrange
+            var attribute = new ExceptAttribute(values);
+
+            // Act
+            Action act = () => attribute.GetCustomization(null);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("parameter");
         }
 
         [InlineData(1, 1)]

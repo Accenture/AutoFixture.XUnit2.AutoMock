@@ -78,8 +78,11 @@
             var provider = new Mock<IAutoFixtureInlineAttributeProvider>();
 
             // Act
+            Func<object> act = () => new InlineAutoDataBaseAttributeUnderTest(fixture, provider.Object);
+
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new InlineAutoDataBaseAttributeUnderTest(fixture, provider.Object));
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("fixture");
         }
 
         [AutoData]
@@ -90,8 +93,11 @@
             const IAutoFixtureInlineAttributeProvider provider = null;
 
             // Act
+            Func<object> act = () => new InlineAutoDataBaseAttributeUnderTest(fixture, provider);
+
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new InlineAutoDataBaseAttributeUnderTest(fixture, provider));
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("provider");
         }
 
         [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]

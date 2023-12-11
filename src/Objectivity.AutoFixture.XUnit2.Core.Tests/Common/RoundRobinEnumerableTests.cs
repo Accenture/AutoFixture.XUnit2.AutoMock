@@ -21,8 +21,11 @@
         {
             // Arrange
             // Act
+            Func<object> act = () => new RoundRobinEnumerable<object>(null);
+
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new RoundRobinEnumerable<object>(null));
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("values");
         }
 
         [Fact(DisplayName = "GIVEN no arguments WHEN constructor is invoked THEN exception is thrown")]
@@ -30,9 +33,12 @@
         {
             // Arrange
             // Act
+            Func<object> act = () => new RoundRobinEnumerable<object>();
+
             // Assert
-            var exception = Assert.Throws<ArgumentException>(() => new RoundRobinEnumerable<object>());
-            exception.Message.Should().NotBeNullOrEmpty().And.Contain("is expected");
+            act.Should().Throw<ArgumentException>()
+                .And.Message.Should().NotBeNullOrEmpty()
+                .And.Contain("At least one value");
         }
 
         [AutoData]

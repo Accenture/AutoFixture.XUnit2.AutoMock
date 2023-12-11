@@ -147,8 +147,11 @@
             const Fixture uninitializedFixture = null;
 
             // Act
+            Func<object> act = () => new MemberAutoMockDataAttribute(uninitializedFixture, fixture.Create<string>());
+
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new MemberAutoMockDataAttribute(uninitializedFixture, fixture.Create<string>()));
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("fixture");
         }
 
         [Fact(DisplayName = "GIVEN uninitialized member name WHEN constructor is invoked THEN exception is thrown")]
@@ -158,8 +161,11 @@
             const string memberName = null;
 
             // Act
+            Func<object> act = () => new MemberAutoMockDataAttribute(memberName);
+
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new MemberAutoMockDataAttribute(memberName));
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("memberName");
         }
 
         [MemberAutoMockData(nameof(TestData))]

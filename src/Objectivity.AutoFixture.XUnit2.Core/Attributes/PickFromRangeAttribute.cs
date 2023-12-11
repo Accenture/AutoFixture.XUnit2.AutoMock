@@ -59,6 +59,11 @@
 
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {
+            if (parameter is null)
+            {
+                throw new ArgumentNullException(nameof(parameter));
+            }
+
             return new FilteringSpecimenBuilder(
                 new RequestFactoryRelay((type) => new RangedNumberRequest(type, this.Minimum, this.Maximum)),
                 new EqualRequestSpecification(parameter))

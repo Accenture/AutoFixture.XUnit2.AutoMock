@@ -2,6 +2,8 @@
 {
     using System;
 
+    using FluentAssertions;
+
     using global::AutoFixture;
     using global::AutoFixture.Xunit2;
     using Moq;
@@ -24,8 +26,11 @@
             var provider = new Mock<IAutoFixtureAttributeProvider>();
 
             // Act
+            Func<object> act = () => new MemberAutoDataBaseAttributeUnderTest(fixture, memberName, provider.Object);
+
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new MemberAutoDataBaseAttributeUnderTest(fixture, memberName, provider.Object));
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("fixture");
         }
 
         [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]

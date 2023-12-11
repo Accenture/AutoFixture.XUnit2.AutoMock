@@ -37,8 +37,11 @@
         {
             // Arrange
             // Act
+            Func<object> act = () => new AutoDataAdapterAttribute(null);
+
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new AutoDataAdapterAttribute(null));
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("fixture");
         }
 
         [AutoData]
@@ -49,8 +52,11 @@
             var attribute = new AutoDataAdapterAttribute(fixture);
 
             // Act
+            Func<object> act = () => attribute.GetData(null);
+
             // Assert
-            Assert.Throws<ArgumentNullException>(() => attribute.GetData(null));
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("testMethod");
         }
 
         [Fact(DisplayName = "GIVEN test data with instance WHEN GetData called THEN auto data generation skipped")]

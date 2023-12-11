@@ -26,8 +26,11 @@
             var builder = new RandomFixedValuesGenerator();
 
             // Act
+            Func<object> act = () => builder.Create(new object(), null);
+
             // Assert
-            Assert.Throws<ArgumentNullException>(() => builder.Create(new object(), null));
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("context");
         }
 
         [Fact(DisplayName = "GIVEN uninitialized request WHEN Create is invoked THEN exception is thrown")]
@@ -38,8 +41,11 @@
             var context = new Mock<ISpecimenContext>();
 
             // Act
+            Func<object> act = () => builder.Create(null, context.Object);
+
             // Assert
-            Assert.Throws<ArgumentNullException>(() => builder.Create(null, context.Object));
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("request");
         }
 
         [Fact(DisplayName = "GIVEN unsupported request WHEN Create is invoked THEN NoSpecimen is returned")]
