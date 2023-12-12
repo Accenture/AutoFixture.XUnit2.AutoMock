@@ -82,8 +82,7 @@ jobs:
     uses: ./.github/workflows/publish.yml
     with:
       environment: ${{ inputs.environment }}
-    secrets:
-      nuget-api-key: ${{ secrets.NUGET_API_KEY }}
+    secrets: inherit
 
   tag:
     needs: [publish, init]
