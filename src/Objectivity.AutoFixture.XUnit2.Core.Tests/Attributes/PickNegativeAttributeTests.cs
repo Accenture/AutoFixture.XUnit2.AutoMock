@@ -91,7 +91,8 @@
             Action act = () => attribute.GetCustomization(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("parameter");
+            act.Should().Throw<ArgumentNullException>()
+                .And.ParamName.Should().Be("parameter");
         }
 
         [MemberData(nameof(CustomizationUsageTestData))]
@@ -114,11 +115,12 @@
             item = (T)fixture.Create(request.Object, new SpecimenContext(fixture));
 
             // Assert
-            item.Should().BeOfType(type).And.Match(x => x.CompareTo(zero) < 0);
+            item.Should().BeOfType(type)
+                .And.Match(x => x.CompareTo(zero) < 0);
         }
 
         [MemberData(nameof(CustomizationUsageTestData))]
-        [Theory(DisplayName = "GIVEN supported numeric array type WHEN GetCustomization is invoked THEN returns negative value")]
+        [Theory(DisplayName = "GIVEN supported numeric array type WHEN GetCustomization is invoked THEN returns negative values")]
         public void GivenSupportedNumericArrayType_WhenGetCustomizationIsInvoked_ThenReturnsNegativeValues<T>(
             T item)
             where T : IComparable<T>
@@ -160,15 +162,16 @@
             var result = (Enum)fixture.Create(request.Object, new SpecimenContext(fixture));
 
             // Assert
-            result.Should().BeOfType(type).And.BeOneOf(expectedValues);
+            result.Should().BeOfType(type)
+                .And.BeOneOf(expectedValues);
         }
 
         [InlineData(SignedByteNumbers.MinusTwo, SignedByteNumbers.MinusOne)]
         [InlineData(ShortNumbers.MinusTwo, ShortNumbers.MinusOne)]
         [InlineData(IntNumbers.MinusTwo, IntNumbers.MinusOne)]
         [InlineData(LongNumbers.MinusTwo, LongNumbers.MinusOne)]
-        [Theory(DisplayName = "GIVEN supported enum array type WHEN GetCustomization is invoked THEN returns negative value")]
-        public void GivenSupportedEnumArrayType_WhenGetCustomizationIsInvoked_ThenReturnsNegativeValue(
+        [Theory(DisplayName = "GIVEN supported enum array type WHEN GetCustomization is invoked THEN returns negative values")]
+        public void GivenSupportedEnumArrayType_WhenGetCustomizationIsInvoked_ThenReturnsNegativeValues(
             params Enum[] expectedValues)
         {
             // Arrange
