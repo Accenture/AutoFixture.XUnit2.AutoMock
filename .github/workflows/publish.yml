@@ -8,10 +8,6 @@ on:
         type: string
         required: true
         default: prod
-    secrets:
-      nuget-api-key:
-        description: Value of NuGet API key used to upload packages
-        required: true
 
 env:
   DOTNET_NOLOGO: true
@@ -25,13 +21,19 @@ jobs:
   run:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    permissions: {}
+    permissions:
+      packages: write
     environment:
       name: ${{ inputs.environment }}
+    strategy:
+      matrix:
+        packageSource:
+          - { url: 'https://api.nuget.org/v3/index.json', apiKeySecretName: 'NUGET_API_KEY' }
+          - { url: 'https://nuget.pkg.github.com/ObjectivityLtd/index.json', apiKeySecretName: 'GITHUB_TOKEN' }
     steps:
     - name: 🔽 download packages
       uses: actions/download-artifact@v3
       with:
         name: packages
     - name: 📤 push
-      run: dotnet nuget push **/*.nupkg  --api-key ${{ secrets.nuget-api-key }} --source "nuget.org" --skip-duplicate
+      run: dotnet nuget push **/*.nupkg --api-key ${{ secrets[matrix.packageSource.apiKeySecretName] }} --source "${{ matrix.packageSource.url }}" --skip-duplicate
