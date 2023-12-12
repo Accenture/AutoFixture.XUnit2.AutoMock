@@ -21,7 +21,8 @@ jobs:
   run:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    permissions: {}
+    permissions:
+      packages: write
     environment:
       name: ${{ inputs.environment }}
     strategy:
