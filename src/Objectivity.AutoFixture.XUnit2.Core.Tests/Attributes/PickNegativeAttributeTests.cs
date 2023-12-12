@@ -2,7 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
+    using System.Linq;
     using System.Reflection;
 
     using FluentAssertions;
@@ -17,17 +19,47 @@
 
     using Xunit;
 
+    [Collection("PickNegativeAttribute")]
+    [Trait("Category", "CustomizeAttribute")]
     public class PickNegativeAttributeTests
     {
-        public enum Numbers
+        [SuppressMessage("Design", "CA1028:Enum Storage should be Int32", Justification = "Required for test")]
+        public enum SignedByteNumbers : sbyte
         {
-            MinusFour = -4,
             MinusTwo = -2,
             MinusOne = -1,
             Zero = 0,
             One = 1,
             Two = 2,
-            Four = 4,
+        }
+
+        [SuppressMessage("Design", "CA1028:Enum Storage should be Int32", Justification = "Required for test")]
+        public enum ShortNumbers : short
+        {
+            MinusTwo = -2,
+            MinusOne = -1,
+            Zero = 0,
+            One = 1,
+            Two = 2,
+        }
+
+        public enum IntNumbers
+        {
+            MinusTwo = -2,
+            MinusOne = -1,
+            Zero = 0,
+            One = 1,
+            Two = 2,
+        }
+
+        [SuppressMessage("Design", "CA1028:Enum Storage should be Int32", Justification = "Required for test")]
+        public enum LongNumbers : long
+        {
+            MinusTwo = -2,
+            MinusOne = -1,
+            Zero = 0,
+            One = 1,
+            Two = 2,
         }
 
         public static IEnumerable<object[]> CustomizationUsageTestData { get; } = new[]
@@ -56,7 +88,8 @@
 
         [MemberData(nameof(CustomizationUsageTestData))]
         [Theory(DisplayName = "GIVEN supported numeric type WHEN GetCustomization is invoked THEN returns negative value")]
-        public void GivenSupportedNumericType_WhenGetCustomizationIsInvoked_ThenReturnsNegativeValue<T>(T item)
+        public void GivenSupportedNumericType_WhenGetCustomizationIsInvoked_ThenReturnsNegativeValue<T>(
+            T item)
             where T : IComparable<T>
         {
             // Arrange
@@ -98,24 +131,52 @@
             result.Should().AllSatisfy(x => x.Should().BeLessThan(zero));
         }
 
-        [Fact(DisplayName = "GIVEN supported enum type WHEN GetCustomization is invoked THEN returns negative value")]
-        public void GivenSupportedEnumType_WhenGetCustomizationIsInvoked_ThenReturnsNegativeValue()
+        [InlineData(SignedByteNumbers.MinusTwo, SignedByteNumbers.MinusOne)]
+        [InlineData(ShortNumbers.MinusTwo, ShortNumbers.MinusOne)]
+        [InlineData(IntNumbers.MinusTwo, IntNumbers.MinusOne)]
+        [InlineData(LongNumbers.MinusTwo, LongNumbers.MinusOne)]
+        [Theory(DisplayName = "GIVEN supported enum type WHEN GetCustomization is invoked THEN returns negative value")]
+        public void GivenSupportedEnumType_WhenGetCustomizationIsInvoked_ThenReturnsNegativeValue(
+            params Enum[] expectedValues)
         {
             // Arrange
-            var type = typeof(Numbers);
             var attribute = new PickNegativeAttribute();
             var request = new Mock<ParameterInfo>();
+            var type = expectedValues[0].GetType();
             request.SetupGet(x => x.ParameterType)
                 .Returns(type);
             IFixture fixture = new Fixture();
             fixture.Customize(attribute.GetCustomization(request.Object));
 
             // Act
-            var result = fixture.Create(request.Object, new SpecimenContext(fixture));
+            var result = (Enum)fixture.Create(request.Object, new SpecimenContext(fixture));
 
             // Assert
-            result.Should().BeOfType(type)
-                .And.Subject.As<Numbers>().Should().BeOneOf(Numbers.MinusFour, Numbers.MinusTwo, Numbers.MinusOne);
+            result.Should().BeOfType(type).And.BeOneOf(expectedValues);
+        }
+
+        [InlineData(SignedByteNumbers.MinusTwo, SignedByteNumbers.MinusOne)]
+        [InlineData(ShortNumbers.MinusTwo, ShortNumbers.MinusOne)]
+        [InlineData(IntNumbers.MinusTwo, IntNumbers.MinusOne)]
+        [InlineData(LongNumbers.MinusTwo, LongNumbers.MinusOne)]
+        [Theory(DisplayName = "GIVEN supported enum array type WHEN GetCustomization is invoked THEN returns negative value")]
+        public void GivenSupportedEnumArrayType_WhenGetCustomizationIsInvoked_ThenReturnsNegativeValue(
+            params Enum[] expectedValues)
+        {
+            // Arrange
+            var attribute = new PickNegativeAttribute();
+            var request = new Mock<ParameterInfo>();
+            var type = Array.CreateInstance(expectedValues[0].GetType(), 0).GetType();
+            request.SetupGet(x => x.ParameterType)
+                .Returns(type);
+            IFixture fixture = new Fixture();
+            fixture.Customize(attribute.GetCustomization(request.Object));
+
+            // Act
+            var result = ((Array)fixture.Create(request.Object, new SpecimenContext(fixture))).Cast<Enum>();
+
+            // Assert
+            result.Should().AllSatisfy(x => x.Should().BeOneOf(expectedValues));
         }
 
         [AutoData]
@@ -193,6 +254,17 @@
             // Act
             // Assert
             targetValue.Should().BeLessThan(0);
+        }
+
+        [AutoData]
+        [Theory(DisplayName = "GIVEN PickNegative attribute specified WHEN integer enum populated THEN the negative value is generated")]
+        public void GivenPickNegativeAttributeSpecified_WhenIntegerEnumPopulated_ThenTheNegativeValueIsGenerated(
+            [PickNegative] IntNumbers targetValue)
+        {
+            // Arrange
+            // Act
+            // Assert
+            targetValue.Should().BeOneOf(IntNumbers.MinusOne, IntNumbers.MinusTwo);
         }
 
         [InlineData(null)]

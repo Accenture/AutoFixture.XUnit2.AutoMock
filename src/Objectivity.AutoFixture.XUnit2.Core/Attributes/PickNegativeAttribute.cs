@@ -27,14 +27,9 @@
                 new FilteringSpecimenBuilder(
                     new RequestFactoryRelay((type) =>
                     {
-                        if (type is not null)
-                        {
-                            return type.IsEnum
-                                ? GetRequestForEnum(type)
-                                : GetRequestForNumericType(type);
-                        }
-
-                        return null;
+                        return type.IsEnum
+                            ? GetRequestForEnum(type)
+                            : GetRequestForNumericType(type);
                     }),
                     new EqualRequestSpecification(parameter)),
                 new RandomFixedValuesGenerator())
