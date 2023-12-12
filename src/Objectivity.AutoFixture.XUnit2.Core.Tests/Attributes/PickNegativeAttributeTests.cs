@@ -24,6 +24,14 @@
     public class PickNegativeAttributeTests
     {
         [SuppressMessage("Design", "CA1028:Enum Storage should be Int32", Justification = "Required for test")]
+        public enum ByteNumbers : byte
+        {
+            Zero = 0,
+            One = 1,
+            Two = 2,
+        }
+
+        [SuppressMessage("Design", "CA1028:Enum Storage should be Int32", Justification = "Required for test")]
         public enum SignedByteNumbers : sbyte
         {
             MinusTwo = -2,
@@ -279,6 +287,7 @@
         [InlineData(typeof(string))]
         [InlineData(typeof(DateTime))]
         [InlineData(typeof(DayOfWeek))]
+        [InlineData(typeof(ByteNumbers))]
         [InlineData(typeof(ValueTuple))]
         [Theory(DisplayName = "GIVEN unsupported type WHEN GetCustomization is invoked THEN exception is thrown")]
         public void GivenUnsupportedType_WhenGetCustomizationIsInvoked_ThrowsExceptionIsThrown(
