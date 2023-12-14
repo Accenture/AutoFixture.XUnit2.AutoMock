@@ -14,6 +14,10 @@ on:
     - '.github/workflows/fossa-scan.yml'  
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   scan:
     runs-on: ubuntu-latest
