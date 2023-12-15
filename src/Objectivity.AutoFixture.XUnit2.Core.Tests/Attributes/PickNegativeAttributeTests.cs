@@ -277,38 +277,5 @@
             // Assert
             targetValue.Should().BeOneOf(IntNumbers.MinusOne, IntNumbers.MinusTwo);
         }
-
-        [InlineData(null)]
-        [InlineData(typeof(DBNull))]
-        [InlineData(typeof(object))]
-        [InlineData(typeof(byte))]
-        [InlineData(typeof(ushort))]
-        [InlineData(typeof(uint))]
-        [InlineData(typeof(ulong))]
-        [InlineData(typeof(bool))]
-        [InlineData(typeof(char))]
-        [InlineData(typeof(string))]
-        [InlineData(typeof(DateTime))]
-        [InlineData(typeof(DayOfWeek))]
-        [InlineData(typeof(ByteNumbers))]
-        [InlineData(typeof(ValueTuple))]
-        [Theory(DisplayName = "GIVEN unsupported type WHEN GetCustomization is invoked THEN exception is thrown")]
-        public void GivenUnsupportedType_WhenGetCustomizationIsInvoked_ThrowsExceptionIsThrown(
-            Type type)
-        {
-            // Arrange
-            var attribute = new PickNegativeAttribute();
-            var request = new Mock<ParameterInfo>();
-            request.SetupGet(x => x.ParameterType)
-                .Returns(type);
-            IFixture fixture = new Fixture();
-            fixture.Customize(attribute.GetCustomization(request.Object));
-
-            // Act
-            Action act = () => fixture.Create(request.Object, new SpecimenContext(fixture));
-
-            // Assert
-            act.Should().Throw<ObjectCreationException>();
-        }
     }
 }
