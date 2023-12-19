@@ -1,6 +1,6 @@
 # Objectivity.AutoFixture.XUnit2.AutoMock
 
-[![CI/CD](https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock/actions/workflows/cicd.yml/badge.svg?branch=master)](https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock/actions/workflows/cicd.yml) [![codecov](https://codecov.io/gh/ObjectivityLtd/AutoFixture.XUnit2.AutoMock/branch/master/graph/badge.svg)](https://codecov.io/gh/ObjectivityLtd/AutoFixture.XUnit2.AutoMock) [![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2FObjectivityLtd%2FAutoFixture.XUnit2.AutoMock%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock/master) [![License: MIT](https://img.shields.io/github/license/ObjectivityLtd/AutoFixture.XUnit2.AutoMock?label=License&color=brightgreen)](https://opensource.org/licenses/MIT) [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FObjectivityLtd%2FAutoFixture.XUnit2.AutoMock.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FObjectivityLtd%2FAutoFixture.XUnit2.AutoMock?ref=badge_shield)
+[![CI/CD](https://img.shields.io/github/actions/workflow/status/ObjectivityLtd/AutoFixture.XUnit2.AutoMock/cicd.yml?logo=githubactions&logoColor=white&label=CI%2FCD)](https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock/actions/workflows/cicd.yml) [![codecov](https://codecov.io/gh/ObjectivityLtd/AutoFixture.XUnit2.AutoMock/branch/master/graph/badge.svg)](https://codecov.io/gh/ObjectivityLtd/AutoFixture.XUnit2.AutoMock) [![Mutation testing](https://img.shields.io/endpoint?style=flat&label=stryker&logo=stryker&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2FObjectivityLtd%2FAutoFixture.XUnit2.AutoMock%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock/master) [![License: MIT](https://img.shields.io/github/license/ObjectivityLtd/AutoFixture.XUnit2.AutoMock?label=License&color=brightgreen)](https://opensource.org/licenses/MIT) [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FObjectivityLtd%2FAutoFixture.XUnit2.AutoMock.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FObjectivityLtd%2FAutoFixture.XUnit2.AutoMock?ref=badge_shield)
 
 Accelerates preparation of mocked structures for unit tests under  [XUnit2](http://xunit.github.io/) by configuring [AutoFixture](https://github.com/AutoFixture/AutoFixture) data generation to use a mocking library of your choice. Gracefully handles recursive structures by omitting recursions.
 
@@ -16,9 +16,9 @@ It provides the following mocking attributes:
 
 | Mocking library                                           | Corresponding NuGet package |
 | ---------------------------------------------------------:|:--------------------------- |
-| [Moq](https://github.com/moq/moq4)                        | [![AutoMoq](https://img.shields.io/nuget/v/Objectivity.AutoFixture.XUnit2.AutoMoq.svg?label=AutoMoq) ![Downloads](https://img.shields.io/nuget/dt/Objectivity.AutoFixture.XUnit2.AutoMoq.svg)](https://www.nuget.org/packages/Objectivity.AutoFixture.XUnit2.AutoMoq/) |
-| [NSubstitute](https://github.com/nsubstitute/NSubstitute) | [![AutoNSubstitute](https://img.shields.io/nuget/v/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.svg?label=AutoNSubstitute) ![Downloads](https://img.shields.io/nuget/dt/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.svg)](https://www.nuget.org/packages/Objectivity.AutoFixture.XUnit2.AutoNSubstitute/) |
-| [FakeItEasy](https://github.com/FakeItEasy/FakeItEasy)    | [![AutoFakeItEasy](https://img.shields.io/nuget/v/Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.svg?label=AutoFakeItEasy) ![Downloads](https://img.shields.io/nuget/dt/Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.svg)](https://www.nuget.org/packages/Objectivity.AutoFixture.XUnit2.AutoFakeItEasy) |
+| [Moq](https://github.com/moq/moq4)                        | [![AutoMoq](https://img.shields.io/nuget/v/Objectivity.AutoFixture.XUnit2.AutoMoq.svg?logo=nuget&style=flat-square&label=AutoMoq)![Downloads](https://img.shields.io/nuget/dt/Objectivity.AutoFixture.XUnit2.AutoMoq.svg?style=flat-square&label)](https://www.nuget.org/packages/Objectivity.AutoFixture.XUnit2.AutoMoq/) |
+| [NSubstitute](https://github.com/nsubstitute/NSubstitute) | [![AutoNSubstitute](https://img.shields.io/nuget/v/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.svg?logo=nuget&style=flat-square&label=AutoNSubstitute)![Downloads](https://img.shields.io/nuget/dt/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.svg?style=flat-square&label)](https://www.nuget.org/packages/Objectivity.AutoFixture.XUnit2.AutoNSubstitute/) |
+| [FakeItEasy](https://github.com/FakeItEasy/FakeItEasy)    | [![AutoFakeItEasy](https://img.shields.io/nuget/v/Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.svg?logo=nuget&style=flat-square&label=AutoFakeItEasy)![Downloads](https://img.shields.io/nuget/dt/Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.svg?style=flat-square&label)](https://www.nuget.org/packages/Objectivity.AutoFixture.XUnit2.AutoFakeItEasy) |
 
 ## Attributes
 
@@ -407,6 +407,8 @@ public void IssueWithClassThatImplementsInterface(User user)
 }
 ```
 
+## Badges
 
-## License
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FObjectivityLtd%2FAutoFixture.XUnit2.AutoMock.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FObjectivityLtd%2FAutoFixture.XUnit2.AutoMock?ref=badge_large)
+| License                                           | Code Coverage Map |
+| :---------------------------------------------------------|:--------------------------- |
+| [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FObjectivityLtd%2FAutoFixture.XUnit2.AutoMock.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FObjectivityLtd%2FAutoFixture.XUnit2.AutoMock?ref=badge_large) | [![Code Coverage Map](https://codecov.io/gh/ObjectivityLtd/AutoFixture.XUnit2.AutoMock/graphs/sunburst.svg?token=OuraRI8NpJ)](https://codecov.io/gh/ObjectivityLtd/AutoFixture.XUnit2.AutoMock) |
