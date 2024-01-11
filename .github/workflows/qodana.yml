@@ -16,6 +16,10 @@ on:
     - cron: '17 5 * * 0' # Random time
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   qodana:
     runs-on: ubuntu-latest
