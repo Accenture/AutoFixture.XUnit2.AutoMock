@@ -34,7 +34,7 @@ jobs:
           pr-mode: false
           args: |
             --save-report=false
-          results-dir: ${{ runner.temp }}/qodana/results/qodana.sarif.json
+          results-dir: ${{ runner.temp }}/qodana/results
           upload-result: true
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
