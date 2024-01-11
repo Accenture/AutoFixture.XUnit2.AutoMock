@@ -32,7 +32,9 @@ jobs:
         uses: JetBrains/qodana-action@v2023.2
         with:
           pr-mode: false
-          args: --save-report=false
+          args: |
+            --save-report=false
+            --source-directory,src
           results-dir: ${{ runner.temp }}/qodana/results/qodana.sarif.json
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
