@@ -33,6 +33,9 @@ jobs:
         with:
           pr-mode: false
           args: |
+            --linter,jetbrains/qodana-cdnet:2023.3-eap,
+            --solution,src/Objectivity.AutoFixture.XUnit2.AutoMock.sln,
+            --configuration,Release,
             --save-report=false
           results-dir: ${{ runner.temp }}/qodana/results/qodana.sarif.json
         env:
