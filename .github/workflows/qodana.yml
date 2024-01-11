@@ -33,7 +33,7 @@ jobs:
         with:
           pr-mode: false
           args: |
-            --save-report=false
+            --save-report=false,
             --source-directory,src
           results-dir: ${{ runner.temp }}/qodana/results/qodana.sarif.json
         env:
