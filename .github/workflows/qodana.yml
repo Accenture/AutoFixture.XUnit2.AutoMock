@@ -30,6 +30,9 @@ jobs:
           fetch-depth: 0  # a full history is required for pull request analysis
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2023.2
+        with:
+          pr-mode: false
+          args: --save-report=false
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
       # - name: Upload SARIF file for GitHub Advanced Security Dashboard
