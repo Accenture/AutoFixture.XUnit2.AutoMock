@@ -35,6 +35,7 @@ jobs:
           args: |
             --save-report=false
           results-dir: ${{ runner.temp }}/qodana/results/qodana.sarif.json
+          upload-result: true
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
       # - name: Upload SARIF file for GitHub Advanced Security Dashboard
