@@ -1,7 +1,5 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Providers
 {
-    using System.Diagnostics.CodeAnalysis;
-
     using FluentAssertions;
 
     using global::AutoFixture;
