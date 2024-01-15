@@ -46,6 +46,9 @@ jobs:
           pr-mode: false
           args: |
             --project-dir,src,
+            --solution,Objectivity.AutoFixture.XUnit2.AutoMock.sln,
+            --configuration,Release,
+            --linter,jetbrains/qodana-cdnet:2023.3-eap,
             --save-report=false
           results-dir: ${{ runner.temp }}/qodana/results
           cache-dir: ${{ runner.temp }}/qodana/caches
