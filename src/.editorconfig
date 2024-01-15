@@ -163,6 +163,7 @@ csharp_using_directive_placement = outside_namespace:silent
 csharp_prefer_simple_using_statement = true:suggestion
 csharp_style_namespace_declarations = file_scoped:silent
 csharp_style_prefer_method_group_conversion = true:silent
+csharp_style_prefer_top_level_statements = true:silent
 csharp_style_expression_bodied_lambdas = true:silent
 csharp_style_expression_bodied_local_functions = false:silent
 
@@ -3506,4 +3507,8 @@ dotnet_diagnostic.xUnit3000.severity = warning
 
 # xUnit3001: Classes that implement Xunit.Abstractions.IXunitSerializable must have a public parameterless constructor
 dotnet_diagnostic.xUnit3001.severity = warning
-csharp_style_prefer_top_level_statements = true:silent
+
+## ReSharper
+
+# Convert constructor into primary constructor
+resharper_convert_to_primary_constructor_highlighting = none

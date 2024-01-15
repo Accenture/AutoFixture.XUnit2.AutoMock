@@ -3,7 +3,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
-
+    using System.Diagnostics.CodeAnalysis;
     using FluentAssertions;
     using global::AutoFixture.Xunit2;
     using Objectivity.AutoFixture.XUnit2.Core.Common;
@@ -15,6 +15,7 @@
     public class EnumerableExtensionsTests
     {
         [Fact(DisplayName = "GIVEN uninitialized argument WHEN TryGetEnumerableSingleTypeArgument is invoked THEN exception is thrown")]
+        [SuppressMessage("ReSharper", "UnusedVariable", Justification = "This is good enougth to test the logic.")]
         public void GivenUninitializedArgument_WhenTryGetEnumerableSingleTypeArgumentIsInvoked_ThenExceptionIsThrown()
         {
             // Arrange

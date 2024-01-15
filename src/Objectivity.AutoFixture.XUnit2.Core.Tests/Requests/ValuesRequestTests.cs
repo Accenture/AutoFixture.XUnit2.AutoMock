@@ -171,6 +171,7 @@
         }
 
         [Fact(DisplayName = "GIVEN different type of object WHEN Equals is invoked THEN False is returned")]
+        [SuppressMessage("ReSharper", "SuspiciousTypeConversion.Global", Justification = "This is expected comparioson to test logic.")]
         public void GivenDifferentTypeOfObject_WhenEqualsIsInvoked_ThenFalseIsReturned()
         {
             // Arrange
@@ -186,6 +187,7 @@
 
         [AutoData]
         [Theory(DisplayName = "GIVEN different type of ValuesRequest WHEN Equals is invoked THEN False is returned")]
+        [SuppressMessage("ReSharper", "SuspiciousTypeConversion.Global", Justification = "This is expected comparioson to test logic.")]
         public void GivenDifferentTypeOfValuesRequest_WhenEqualsIsInvoked_ThenFalseIsReturned(
             int value)
         {

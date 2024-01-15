@@ -146,7 +146,7 @@
         [InlineData(IntNumbers.MinusTwo, IntNumbers.MinusOne)]
         [InlineData(LongNumbers.MinusTwo, LongNumbers.MinusOne)]
         [Theory(DisplayName = "GIVEN supported enum type WHEN GetCustomization is invoked THEN returns negative value")]
-        [SuppressMessage("ReSharper", "CoVariantArrayConversion", Justification = "This is good enougth for object comparison")]
+        [SuppressMessage("ReSharper", "CoVariantArrayConversion", Justification = "This is good enougth for object comparison.")]
         public void GivenSupportedEnumType_WhenGetCustomizationIsInvoked_ThenReturnsNegativeValue(
             params Enum[] expectedValues)
         {
@@ -172,7 +172,7 @@
         [InlineData(IntNumbers.MinusTwo, IntNumbers.MinusOne)]
         [InlineData(LongNumbers.MinusTwo, LongNumbers.MinusOne)]
         [Theory(DisplayName = "GIVEN supported enum array type WHEN GetCustomization is invoked THEN returns negative values")]
-        [SuppressMessage("ReSharper", "CoVariantArrayConversion", Justification = "This is good enougth for object comparison")]
+        [SuppressMessage("ReSharper", "CoVariantArrayConversion", Justification = "This is good enougth for object comparison.")]
         public void GivenSupportedEnumArrayType_WhenGetCustomizationIsInvoked_ThenReturnsNegativeValues(
             params Enum[] expectedValues)
         {
