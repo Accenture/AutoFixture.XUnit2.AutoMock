@@ -39,3 +39,5 @@ resharper_use_collection_expression_highlighting = none
 resharper_unused_member_global_highlighting = none
 # Member can be made private (non-private accessibility)
 resharper_member_can_be_private_global_highlighting = none
+# Redundant type declaration body
+resharper_redundant_type_declaration_body_highlighting = none
