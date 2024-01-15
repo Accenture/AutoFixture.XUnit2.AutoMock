@@ -19,6 +19,7 @@
         }
 
         [SuppressMessage("Blocker Bug", "S2190:Loops and recursions should not be infinite", Justification = "This is a round robin implementation.")]
+        [SuppressMessage("ReSharper", "IteratorNeverReturns", Justification = "This is a round robin implementation.")]
         public IEnumerator<T> GetEnumerator()
         {
             while (true)
