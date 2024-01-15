@@ -135,7 +135,7 @@
         }
 
         [SuppressMessage("Minor Code Smell", "S2094:Classes should not be empty", Justification = "Test class")]
-        public abstract class AbstractTestClass
+        protected abstract class AbstractTestClass
         {
         }
 
@@ -155,6 +155,7 @@
         {
         }
 
+        [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global", Justification = "This class is instantiated indirectly.")]
         protected class StopStringCustomization : ICustomization
         {
             public const string Value = "STOP";
