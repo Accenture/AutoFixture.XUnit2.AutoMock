@@ -26,3 +26,8 @@ dotnet_diagnostic.S3376.severity = none
 dotnet_diagnostic.S4158.severity = none
 # S6608: Prefer indexing instead of "Enumerable" methods on types implementing "IList"
 dotnet_diagnostic.S6608.severity = none
+
+## ReSharper
+
+# Possible 'System.NullReferenceException'
+resharper_possible_null_reference_exception_highlighting = none
