@@ -31,3 +31,11 @@ dotnet_diagnostic.S6608.severity = none
 
 # Possible 'System.NullReferenceException'
 resharper_possible_null_reference_exception_highlighting = none
+# Expression is always null
+resharper_expression_is_always_null_highlighting = none
+# Use collection expression syntax
+resharper_use_collection_expression_highlighting = none
+# Type member is never used (non-private accessibility)
+resharper_unused_member_global_highlighting = none
+# Member can be made private (non-private accessibility)
+resharper_member_can_be_private_global_highlighting = none
