@@ -4,7 +4,6 @@
     using System.Collections;
     using System.Reflection;
 
-    using global::AutoFixture;
     using global::AutoFixture.Kernel;
 
     using Objectivity.AutoFixture.XUnit2.Core.Common;

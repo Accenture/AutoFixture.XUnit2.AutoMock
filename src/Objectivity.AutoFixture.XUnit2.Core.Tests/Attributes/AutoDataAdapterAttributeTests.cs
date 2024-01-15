@@ -139,7 +139,7 @@
         {
         }
 
-        public sealed class SpecificTestClass : AbstractTestClass
+        protected sealed class SpecificTestClass : AbstractTestClass
         {
             private SpecificTestClass()
             {
