@@ -20,8 +20,7 @@
 
         public object Create(object request, ISpecimenContext context)
         {
-            var pi = request as PropertyInfo;
-            if (pi is not null) //// is a property
+            if (request is PropertyInfo pi) //// is a property
             {
                 if (this.ReflectedType is null || //// is hosted anywhere
                     this.ReflectedType == pi.ReflectedType) //// is hosted in defined type

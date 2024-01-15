@@ -3512,3 +3512,5 @@ dotnet_diagnostic.xUnit3001.severity = warning
 
 # Convert constructor into primary constructor
 resharper_convert_to_primary_constructor_highlighting = none
+# Use collection expression syntax
+resharper_use_collection_expression_highlighting = none
