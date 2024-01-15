@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
     - 'src/**'
+    - '!src/qodana.yml'
     - '.github/workflows/codeql.yml'
     types: [opened, synchronize, reopened]
   push:
@@ -11,6 +12,7 @@ on:
     - 'master'
     paths:
     - 'src/**'
+    - '!src/qodana.yml'
     - '.github/workflows/codeql.yml'
   schedule:
   - cron: '20 23 * * 0'

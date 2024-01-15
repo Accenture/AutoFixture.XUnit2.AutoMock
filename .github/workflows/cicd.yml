@@ -3,23 +3,29 @@
 on:
   pull_request:
     paths:
-    - 'src/**'
     - 'GitVersion.yml'
+    - 'src/**'
+    - '!src/qodana.yml'
     - '.github/actions/**'
     - '.github/workflows/**'
     - '!.github/workflows/codeql.yml'
     - '!.github/workflows/fossa-scan.yml'
+    - '!.github/workflows/qodana.yml'
+    - '!.github/workflows/semgrep.yml'
     types: [opened, synchronize, reopened]
   push:
     branches:
     - 'master'
     paths:
-    - 'src/**'
     - 'GitVersion.yml'
+    - 'src/**'
+    - '!src/qodana.yml'
     - '.github/actions/**'
     - '.github/workflows/**'
     - '!.github/workflows/codeql.yml'
     - '!.github/workflows/fossa-scan.yml'
+    - '!.github/workflows/qodana.yml'
+    - '!.github/workflows/semgrep.yml'
   workflow_dispatch:
     inputs:
       buildAutoFakeItEasy:
