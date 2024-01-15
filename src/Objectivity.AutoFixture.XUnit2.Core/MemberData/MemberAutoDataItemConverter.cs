@@ -1,6 +1,7 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.MemberData
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
@@ -18,8 +19,10 @@
             this.DataAttributeProvider = dataAttributeProvider.NotNull(nameof(dataAttributeProvider));
         }
 
+        [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Testable design.")]
         public IFixture Fixture { get; }
 
+        [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Testable design.")]
         public IAutoFixtureInlineAttributeProvider DataAttributeProvider { get; }
 
         public object[] Convert(MethodInfo testMethod, object item, string memberName, Type memberType)
