@@ -52,7 +52,6 @@ jobs:
           cache-dir: ${{ runner.temp }}/qodana/caches
           primary-cache-key: ${{ runner.os }}-qodana-${{ github.ref }}-${{ hashFiles('**/*.csproj') }}
           additional-cache-key: ${{ runner.os }}-qodana-${{ github.ref }}
-          upload-result: true
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
       - name: 📊 Upload SARIF file for GitHub Advanced Security Dashboard
