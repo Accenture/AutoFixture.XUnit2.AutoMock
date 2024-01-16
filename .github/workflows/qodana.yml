@@ -27,8 +27,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      pull-requests: write
       checks: write
+      security-events: write
     steps:
       - name: 📥 checkout
         uses: actions/checkout@v4
