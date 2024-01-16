@@ -48,7 +48,9 @@
 
         protected override object[] ConvertDataItem(MethodInfo testMethod, object item)
         {
-            var fixture = this.ShareFixture ? this.Fixture : this.CustomizeFixture(new Fixture());
+            var fixture = this.ShareFixture
+                ? this.Fixture
+                : this.CustomizeFixture(new Fixture());
 
             var converter = new MemberAutoDataItemConverter(fixture, this.CreateProvider());
 
@@ -62,9 +64,7 @@
         private IFixture CustomizeFixture(IFixture fixture)
         {
             fixture.Customize(new AutoDataCommonCustomization(this.IgnoreVirtualMembers));
-            this.Customize(fixture);
-
-            return fixture;
+            return this.Customize(fixture);
         }
     }
 }
