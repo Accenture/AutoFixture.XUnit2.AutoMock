@@ -85,7 +85,7 @@ jobs:
           StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
     - name: 🔼 upload packages
       if: ${{ startsWith(inputs.module-name, 'Auto' ) }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
           name: packages
           path: |
