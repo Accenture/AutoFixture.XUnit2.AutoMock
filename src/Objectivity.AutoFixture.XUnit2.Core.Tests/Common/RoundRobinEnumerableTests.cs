@@ -89,8 +89,8 @@
             // Act
             var items = duplicatedValues.Select(x =>
             {
-                enumerator.MoveNext();
-                return enumerator.Current == x;
+                var canMove = enumerator.MoveNext();
+                return canMove && enumerator.Current == x;
             }).ToArray();
 
             // Assert
