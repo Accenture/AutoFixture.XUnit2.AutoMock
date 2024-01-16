@@ -52,10 +52,8 @@
 
         private static IEnumerable<TElementType> BuildTypedArray<TElementType>(IEnumerable items)
         {
-            var casted = items as IEnumerable<TElementType>
-                ?? items.Cast<TElementType>();
-
-            return casted.ToArray();
+            return items.Cast<TElementType>()
+                .ToArray();
         }
     }
 }
