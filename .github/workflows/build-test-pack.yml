@@ -87,7 +87,7 @@ jobs:
       if: ${{ startsWith(inputs.module-name, 'Auto' ) }}
       uses: actions/upload-artifact@v4
       with:
-          name: packages
+          name: packages-${{ inputs.module-name }}
           path: |
             ./src/**/*.nupkg
             ./src/**/*.snupkg

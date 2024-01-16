@@ -34,6 +34,7 @@ jobs:
     - name: 🔽 download packages
       uses: actions/download-artifact@v4
       with:
-        name: packages
+        pattern: packages-*
+        merge-multiple: true
     - name: 📤 push
       run: dotnet nuget push **/*.nupkg --api-key ${{ secrets[matrix.packageSource.apiKeySecretName] }} --source "${{ matrix.packageSource.url }}" --skip-duplicate
