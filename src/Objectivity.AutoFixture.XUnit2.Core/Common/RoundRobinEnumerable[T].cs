@@ -4,9 +4,8 @@
     using System.Collections;
     using System.Diagnostics.CodeAnalysis;
 
-    [SuppressMessage("Naming", "CA1710:Identifiers should have correct suffix", Justification = "The name Enumerable is correct.")]
     [SuppressMessage("Design", "CA1010:Generic interface should also be implemented", Justification = "It is not necessary for internal design.")]
-    internal sealed class RoundRobinEnumerable<T> : IEnumerable, IEnumerator
+    internal sealed class RoundRobinEnumerable<T> : IEnumerator
     {
         private const int InitialPosition = -1;
         private const int FirstElementPosition = 0;
@@ -42,11 +41,6 @@
         }
 
         object IEnumerator.Current => this.Current;
-
-        public IEnumerator GetEnumerator()
-        {
-            return this;
-        }
 
         public bool MoveNext()
         {

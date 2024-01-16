@@ -1,6 +1,7 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Common
 {
     using System;
+    using System.Collections;
     using System.Linq;
 
     using FluentAssertions;
@@ -46,7 +47,7 @@
             int[] values)
         {
             // Arrange
-            var enumerator = new RoundRobinEnumerable<int>(values).GetEnumerator();
+            IEnumerator enumerator = new RoundRobinEnumerable<int>(values);
 
             // Act
             Func<object> act = () => enumerator.Current;
@@ -63,7 +64,7 @@
             int[] values)
         {
             // Arrange
-            var enumerator = new RoundRobinEnumerable<int>(values).GetEnumerator();
+            IEnumerator enumerator = new RoundRobinEnumerable<int>(values);
 
             // Act
             enumerator.MoveNext();
@@ -82,7 +83,7 @@
             int[] values)
         {
             // Arrange
-            var enumerator = new RoundRobinEnumerable<int>(values).GetEnumerator() as RoundRobinEnumerable<int>;
+            var enumerator = new RoundRobinEnumerable<int>(values);
             var duplicatedValues = values.Concat(values.ToArray()).ToArray();
 
             // Act

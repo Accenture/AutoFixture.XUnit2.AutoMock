@@ -38,7 +38,7 @@
             // Stryker disable once all : mutating ordering by random still brings random results
             var values = request.Values.OrderBy((_) => random.Next()).ToArray();
 
-            return new RoundRobinEnumerable<object>(values).GetEnumerator();
+            return new RoundRobinEnumerable<object>(values);
         }
 
         private object CreateValue(FixedValuesRequest request)
