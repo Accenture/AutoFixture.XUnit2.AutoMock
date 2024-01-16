@@ -1,7 +1,6 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Common
 {
     using System;
-    using System.Collections;
     using System.Linq;
 
     using FluentAssertions;
@@ -42,19 +41,55 @@
         }
 
         [AutoData]
+        [Theory(DisplayName = "GIVEN round robin with values WHEN Current is invoked after construction THEN exception is thrown")]
+        public void GivenRoundRobinWithValues_WhenCurrentIsInvokedAfterConstruction_ThenExceptionIsThrown(
+            int[] values)
+        {
+            // Arrange
+            var enumerator = new RoundRobinEnumerable<int>(values).GetEnumerator();
+
+            // Act
+            Func<object> act = () => enumerator.Current;
+
+            // Assert
+            act.Should().Throw<InvalidOperationException>()
+                .And.Message.Should().NotBeNullOrEmpty()
+                .And.Contain("initial position");
+        }
+
+        [AutoData]
+        [Theory(DisplayName = "GIVEN round robin with values WHEN Current is invoked after reset THEN exception is thrown")]
+        public void GivenRoundRobinWithValues_WhenCurrentIsInvokedAfterReset_ThenExceptionIsThrown(
+            int[] values)
+        {
+            // Arrange
+            var enumerator = new RoundRobinEnumerable<int>(values).GetEnumerator();
+
+            // Act
+            enumerator.MoveNext();
+            enumerator.Reset();
+            Func<object> act = () => enumerator.Current;
+
+            // Assert
+            act.Should().Throw<InvalidOperationException>()
+                .And.Message.Should().NotBeNullOrEmpty()
+                .And.Contain("initial position");
+        }
+
+        [AutoData]
         [Theory(DisplayName = "GIVEN round robin with values WHEN enumerating twice THEN ordered values enumerated twice")]
         public void GivenRoundRobinWithValues_WhenEnumeratingTwice_ThenOrderedValuesEnumeratedTwice(
             int[] values)
         {
             // Arrange
-            var enumerator = ((IEnumerable)new RoundRobinEnumerable<int>(values)).GetEnumerator();
+            var enumerator = new RoundRobinEnumerable<int>(values).GetEnumerator() as RoundRobinEnumerable<int>;
             var duplicatedValues = values.Concat(values.ToArray()).ToArray();
 
             // Act
             var items = duplicatedValues.Select(x =>
             {
                 enumerator.MoveNext();
-                return x.Equals(enumerator.Current);
+                return enumerator.Current == x;
             }).ToArray();
 
             // Assert
