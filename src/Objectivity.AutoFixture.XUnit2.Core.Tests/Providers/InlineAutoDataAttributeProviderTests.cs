@@ -1,7 +1,5 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Providers
 {
-    using System.Diagnostics.CodeAnalysis;
-
     using FluentAssertions;
 
     using global::AutoFixture;
@@ -15,7 +13,6 @@
     [Trait("Category", "Providers")]
     public class InlineAutoDataAttributeProviderTests
     {
-        [SuppressMessage("ReSharper", "PossibleNullReferenceException", Justification = "Assertion checks it earlier and throws exception.")]
         [AutoData]
         [Theory(DisplayName = "GIVEN initialized fixture WHEN GetAttribute is invoked THEN attribute with specified fixture is returned")]
         public void GivenInitializedFixture_WhenGetAttributeIsInvoked_ThenAttributeWithSpecifiedFixtureIsReturned(

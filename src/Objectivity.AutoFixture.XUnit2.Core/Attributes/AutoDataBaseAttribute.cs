@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
 
     using global::AutoFixture;
@@ -39,6 +40,7 @@
             return this.Provider.GetAttribute(this.Fixture).GetData(testMethod);
         }
 
+        [SuppressMessage("ReSharper", "UnusedMethodReturnValue.Global", Justification = "Align design with AutoFixture.")]
         protected abstract IFixture Customize(IFixture fixture);
     }
 }

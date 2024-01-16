@@ -23,7 +23,7 @@ updates:
     ignore:
       - dependency-name: "Moq"
   - package-ecosystem: "github-actions"
-    directory: "/.github"
+    directory: "/"
     schedule:
       interval: "weekly"
       day: "sunday"

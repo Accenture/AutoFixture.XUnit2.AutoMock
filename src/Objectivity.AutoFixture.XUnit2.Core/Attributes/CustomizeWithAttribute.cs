@@ -27,8 +27,10 @@
             this.Args = args;
         }
 
+        [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Testable design.")]
         public Type Type { get; }
 
+        [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Testable design.")]
         public object[] Args { get; }
 
         /// <summary>

@@ -1,0 +1,60 @@
+name: '🧠 Qodana: Static Code Analysis'
+
+on:
+  pull_request:
+    paths:
+    - 'src/**'
+    - '.github/workflows/qodana.yml'
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+    - 'master'
+    paths:
+    - 'src/**'
+    - '.github/workflows/qodana.yml'
+  schedule:
+    - cron: '17 5 * * 0' # Random time
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  qodana:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: write
+    steps:
+      - name: 📥 checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 
+      - name: 💾 cache nuget packages
+        uses: actions/cache@v3
+        with:
+          path: ${{ runner.temp }}/qodana/caches
+          key: ${{ runner.os }}-qodana-${{ github.ref }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-qodana-${{ github.ref }}
+      - name: 🔬 Qodana Scan
+        uses: JetBrains/qodana-action@v2023.2
+        with:
+          pr-mode: false
+          args: |
+            --project-dir,src,
+            --save-report=false
+          results-dir: ${{ runner.temp }}/qodana/results
+          cache-dir: ${{ runner.temp }}/qodana/caches
+          primary-cache-key: ${{ runner.os }}-qodana-${{ github.ref }}-${{ hashFiles('**/*.csproj') }}
+          additional-cache-key: ${{ runner.os }}-qodana-${{ github.ref }}
+          upload-result: true
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+      - name: 📊 Upload SARIF file for GitHub Advanced Security Dashboard
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: ${{ runner.temp }}/qodana/results/qodana.sarif.json
+        if: always()

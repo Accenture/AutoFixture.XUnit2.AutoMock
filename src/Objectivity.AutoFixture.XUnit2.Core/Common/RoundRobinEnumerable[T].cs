@@ -2,12 +2,17 @@
 {
     using System;
     using System.Collections;
-    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
 
-    internal sealed class RoundRobinEnumerable<T> : IEnumerable<T>
+    [SuppressMessage("Design", "CA1010:Generic interface should also be implemented", Justification = "It is not necessary for internal design.")]
+    internal sealed class RoundRobinEnumerable<T> : IEnumerator
     {
-        private readonly IEnumerable<T> values;
+        private const int InitialPosition = -1;
+        private const int FirstElementPosition = 0;
+
+        private readonly T[] values;
+        private readonly int maxPosition;
+        private int position = InitialPosition;
 
         public RoundRobinEnumerable(params T[] values)
         {
@@ -16,23 +21,39 @@
             {
                 throw new ArgumentException("At least one value is expected to be specified.", nameof(values));
             }
+
+            this.maxPosition = values.Length - 1;
         }
 
-        [SuppressMessage("Blocker Bug", "S2190:Loops and recursions should not be infinite", Justification = "This is a round robin implementation.")]
-        public IEnumerator<T> GetEnumerator()
+        public T Current
         {
-            while (true)
+            get
             {
-                foreach (var @value in this.values)
+                try
                 {
-                    yield return @value;
+                    return this.values[this.position];
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    throw new InvalidOperationException("Enumerator is at its initial position thus cannot return any value.");
                 }
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        object IEnumerator.Current => this.Current;
+
+        public bool MoveNext()
         {
-            return this.GetEnumerator();
+            this.position = this.position >= this.maxPosition
+                ? FirstElementPosition
+                : this.position + 1;
+
+            return true;
+        }
+
+        public void Reset()
+        {
+            this.position = InitialPosition;
         }
     }
 }

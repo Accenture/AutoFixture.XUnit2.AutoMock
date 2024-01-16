@@ -24,14 +24,6 @@
     public class PickNegativeAttributeTests
     {
         [SuppressMessage("Design", "CA1028:Enum Storage should be Int32", Justification = "Required for test")]
-        public enum ByteNumbers : byte
-        {
-            Zero = 0,
-            One = 1,
-            Two = 2,
-        }
-
-        [SuppressMessage("Design", "CA1028:Enum Storage should be Int32", Justification = "Required for test")]
         public enum SignedByteNumbers : sbyte
         {
             MinusTwo = -2,
@@ -146,6 +138,7 @@
         [InlineData(IntNumbers.MinusTwo, IntNumbers.MinusOne)]
         [InlineData(LongNumbers.MinusTwo, LongNumbers.MinusOne)]
         [Theory(DisplayName = "GIVEN supported enum type WHEN GetCustomization is invoked THEN returns negative value")]
+        [SuppressMessage("ReSharper", "CoVariantArrayConversion", Justification = "This is good enougth for object comparison.")]
         public void GivenSupportedEnumType_WhenGetCustomizationIsInvoked_ThenReturnsNegativeValue(
             params Enum[] expectedValues)
         {
@@ -171,6 +164,7 @@
         [InlineData(IntNumbers.MinusTwo, IntNumbers.MinusOne)]
         [InlineData(LongNumbers.MinusTwo, LongNumbers.MinusOne)]
         [Theory(DisplayName = "GIVEN supported enum array type WHEN GetCustomization is invoked THEN returns negative values")]
+        [SuppressMessage("ReSharper", "CoVariantArrayConversion", Justification = "This is good enougth for object comparison.")]
         public void GivenSupportedEnumArrayType_WhenGetCustomizationIsInvoked_ThenReturnsNegativeValues(
             params Enum[] expectedValues)
         {

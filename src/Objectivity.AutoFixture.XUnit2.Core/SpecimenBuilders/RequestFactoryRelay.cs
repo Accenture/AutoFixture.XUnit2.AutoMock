@@ -4,19 +4,18 @@
     using System.Collections;
     using System.Reflection;
 
-    using global::AutoFixture;
     using global::AutoFixture.Kernel;
 
     using Objectivity.AutoFixture.XUnit2.Core.Common;
 
     internal sealed class RequestFactoryRelay : ISpecimenBuilder
     {
+        private readonly Func<Type, object> requestFactory;
+
         public RequestFactoryRelay(Func<Type, object> requestFactory)
         {
-            this.RequestFactory = requestFactory.NotNull(nameof(requestFactory));
+            this.requestFactory = requestFactory.NotNull(nameof(requestFactory));
         }
-
-        public Func<Type, object> RequestFactory { get; }
 
         public object Create(object request, ISpecimenContext context)
         {
@@ -41,7 +40,7 @@
 
         private object CreateSingle(Type type, ISpecimenContext context)
         {
-            var transformedRequest = this.RequestFactory(type);
+            var transformedRequest = this.requestFactory(type);
             return transformedRequest is not null
                 ? context.Resolve(transformedRequest)
                 : new NoSpecimen();
@@ -49,7 +48,7 @@
 
         private object CreateMultiple(Type collectionType, Type itemType, ISpecimenContext context)
         {
-            var transformedRequest = this.RequestFactory(itemType);
+            var transformedRequest = this.requestFactory(itemType);
             if (transformedRequest is not null
                 && context.Resolve(new MultipleRequest(transformedRequest)) is IEnumerable elements)
             {

@@ -16,12 +16,7 @@
     [Trait("Category", "SpecimenBuilders")]
     public class IgnoreVirtualMembersSpecimenBuilderTests
     {
-        private readonly ISpecimenContext context;
-
-        public IgnoreVirtualMembersSpecimenBuilderTests()
-        {
-            this.context = new Mock<ISpecimenContext>().Object;
-        }
+        private readonly ISpecimenContext context = new Mock<ISpecimenContext>().Object;
 
         [Fact(DisplayName = "GIVEN default constructor WHEN invoked THEN reflected type should be null")]
         public void GivenDefaultConstructor_WhenInvoked_ThenReflectedTypeShouldBeNull()

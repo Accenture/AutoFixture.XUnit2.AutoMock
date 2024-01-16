@@ -195,8 +195,9 @@
             instanceOfDifferentTypeWithoutCustomization.Should().NotBeEmpty();
         }
 
-        [SuppressMessage("Roslynator", "RCS1163:Unused parameter.", Justification = "Required for test")]
-        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Required for test")]
+        [SuppressMessage("Roslynator", "RCS1163:Unused parameter.", Justification = "Required for test.")]
+        [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "Required for test.")]
+        [SuppressMessage("ReSharper", "UnusedParameter.Global", Justification = "Required for test.")]
         protected void MethodUnderTest(bool parameter)
         {
             // Empty method under test

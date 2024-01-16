@@ -3,8 +3,9 @@ name: '👾 Stryker.NET: Mutation testing'
 on:
   pull_request:
     paths:
-    - 'src/**'
     - 'stryker-config.yml'
+    - 'src/**'
+    - '!src/qodana.yml'
     - '.github/workflows/test-mutations.yml'
     - '.github/actions/materialize-signing-key/**'
     types: [opened, synchronize, reopened]
@@ -12,8 +13,9 @@ on:
     branches:
     - 'master'
     paths:
-    - 'src/**'
     - 'stryker-config.yml'
+    - 'src/**'
+    - '!src/qodana.yml'
     - '.github/workflows/test-mutations.yml'
     - '.github/actions/materialize-signing-key/**'
   workflow_dispatch:

@@ -59,22 +59,32 @@ dotnet_style_prefer_conditional_expression_over_return = true:silent
 # Naming Conventions          #
 ###############################
 # Style Definitions
-dotnet_naming_style.pascal_case_style.capitalization             = pascal_case
-# Use PascalCase for constant fields  
+dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+dotnet_naming_style.camel_case_style.capitalization = camel_case
+
+# Use PascalCase for constant fields
 dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols  = constant_fields
-dotnet_naming_rule.constant_fields_should_be_pascal_case.style = pascal_case_style
+dotnet_naming_rule.constant_fields_should_be_pascal_case.style    = pascal_case_style
 dotnet_naming_symbols.constant_fields.applicable_kinds            = field
 dotnet_naming_symbols.constant_fields.applicable_accessibilities  = *
 dotnet_naming_symbols.constant_fields.required_modifiers          = const
 
-dotnet_naming_rule.private_members_with_underscore.symbols  = private_fields
-dotnet_naming_rule.private_members_with_underscore.style = prefix_underscore
-dotnet_naming_rule.private_members_with_underscore.severity = warning
+# Use PascalCase for static fields
+dotnet_naming_rule.static_fields_should_be_pascal_case.severity = suggestion
+dotnet_naming_rule.static_fields_should_be_pascal_case.symbols  = static_fields
+dotnet_naming_rule.static_fields_should_be_pascal_case.style    = pascal_case_style
+dotnet_naming_symbols.static_fields.applicable_kinds            = field
+dotnet_naming_symbols.static_fields.applicable_accessibilities  = *
+dotnet_naming_symbols.static_fields.required_modifiers          = static
+
+# Use camelCase for private fields
+dotnet_naming_rule.private_members_with_underscore.severity     = suggestion
+dotnet_naming_rule.private_members_with_underscore.symbols      = private_fields
+dotnet_naming_rule.private_members_with_underscore.style        = camel_case_style
 dotnet_naming_symbols.private_fields.applicable_kinds           = field
 dotnet_naming_symbols.private_fields.applicable_accessibilities = private
-dotnet_naming_style.prefix_underscore.capitalization = camel_case
-dotnet_naming_style.prefix_underscore.required_prefix = _
+
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
 tab_width = 4
 end_of_line = crlf
@@ -153,6 +163,7 @@ csharp_using_directive_placement = outside_namespace:silent
 csharp_prefer_simple_using_statement = true:suggestion
 csharp_style_namespace_declarations = file_scoped:silent
 csharp_style_prefer_method_group_conversion = true:silent
+csharp_style_prefer_top_level_statements = true:silent
 csharp_style_expression_bodied_lambdas = true:silent
 csharp_style_expression_bodied_local_functions = false:silent
 
@@ -3496,4 +3507,10 @@ dotnet_diagnostic.xUnit3000.severity = warning
 
 # xUnit3001: Classes that implement Xunit.Abstractions.IXunitSerializable must have a public parameterless constructor
 dotnet_diagnostic.xUnit3001.severity = warning
-csharp_style_prefer_top_level_statements = true:silent
+
+## ReSharper
+
+# Convert constructor into primary constructor
+resharper_convert_to_primary_constructor_highlighting = none
+# Use collection expression syntax
+resharper_use_collection_expression_highlighting = none

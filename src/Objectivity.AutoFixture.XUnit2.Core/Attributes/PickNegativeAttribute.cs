@@ -12,7 +12,7 @@
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
     public sealed class PickNegativeAttribute : CustomizeAttribute
     {
-        private readonly NegativeValuesRequestFactory negativeValuesRequestFactory = new();
+        private readonly IFactory<Type, object> negativeValuesRequestFactory = new NegativeValuesRequestFactory();
 
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {

@@ -26,3 +26,18 @@ dotnet_diagnostic.S3376.severity = none
 dotnet_diagnostic.S4158.severity = none
 # S6608: Prefer indexing instead of "Enumerable" methods on types implementing "IList"
 dotnet_diagnostic.S6608.severity = none
+
+## ReSharper
+
+# Possible 'System.NullReferenceException'
+resharper_possible_null_reference_exception_highlighting = none
+# Expression is always null
+resharper_expression_is_always_null_highlighting = none
+# Use collection expression syntax
+resharper_use_collection_expression_highlighting = none
+# Type member is never used (non-private accessibility)
+resharper_unused_member_global_highlighting = none
+# Member can be made private (non-private accessibility)
+resharper_member_can_be_private_global_highlighting = none
+# Redundant type declaration body
+resharper_redundant_type_declaration_body_highlighting = none

@@ -1,9 +1,10 @@
-name: 🔎 Semgrep
+name: '🔎 Semgrep: Static Code Analysis'
 
 on:
   pull_request:
     paths:
     - 'src/**'
+    - '!src/qodana.yml'
     - '.github/workflows/semgrep.yml'
     types: [opened, synchronize, reopened]
   push:
@@ -11,10 +12,15 @@ on:
     - 'master'
     paths:
     - 'src/**'
+    - '!src/qodana.yml'
     - '.github/workflows/semgrep.yml'
   schedule:
     - cron: '38 7 * * 0' # Random time
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   semgrep:
@@ -29,17 +35,15 @@ jobs:
     if: (github.actor != 'dependabot[bot]')
 
     steps:
-      # Fetch project source with GitHub Actions Checkout.
-      - uses: actions/checkout@v3
-      # Run the "semgrep ci" command on the command line of the docker image.
-      - run: semgrep ci --sarif > semgrep.sarif
+      - name: 📥 checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 
+      - name: 🔬 Semgrep Scan
+        run: semgrep ci --sarif > semgrep.sarif
         env:
-          # Connect to Semgrep Cloud Platform through your SEMGREP_APP_TOKEN.
-          # Generate a token from Semgrep Cloud Platform > Settings
-          # and add it to your GitHub secrets.
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
-
-      - name: Upload SARIF file for GitHub Advanced Security Dashboard
+      - name: 📊 Upload SARIF file for GitHub Advanced Security Dashboard
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: semgrep.sarif

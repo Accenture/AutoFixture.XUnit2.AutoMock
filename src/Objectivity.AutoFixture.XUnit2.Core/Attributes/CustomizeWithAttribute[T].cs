@@ -10,6 +10,7 @@
     public class CustomizeWithAttribute<T> : CustomizeWithAttribute
         where T : ICustomization
     {
+        [SuppressMessage("ReSharper", "MemberCanBeProtected.Global", Justification = "This attribute should be used directly.")]
         public CustomizeWithAttribute(params object[] args)
             : base(typeof(T), args)
         {
