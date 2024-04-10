@@ -22,7 +22,8 @@
         {
             if (request is PropertyInfo pi) //// is a property
             {
-                if (this.ReflectedType is null || //// is hosted anywhere
+                if (this.ReflectedType is null //// is hosted anywhere
+                    ||
                     this.ReflectedType == pi.ReflectedType) //// is hosted in defined type
                 {
                     if (pi.GetGetMethod().IsVirtual)

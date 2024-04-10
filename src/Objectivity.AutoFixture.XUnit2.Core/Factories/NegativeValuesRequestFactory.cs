@@ -70,7 +70,7 @@
 
         private static ObjectCreationException GetObjectCreationException()
         {
-            return new ObjectCreationException("The value could not be created. Probably attribute is specified for a type that does not accept negative values.");
+            return new("The value could not be created. Probably attribute is specified for a type that does not accept negative values.");
         }
     }
 }
