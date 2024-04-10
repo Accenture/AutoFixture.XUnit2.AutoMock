@@ -23,13 +23,13 @@
   <PropertyGroup>
     <IsPackable>true</IsPackable>
     <EnablePackageValidation>true</EnablePackageValidation>
-    <PackageProjectUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Accenture/AutoFixture.XUnit2.AutoMock</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
     <PackageTags>AutoFixture NSubstitute xUnit xUnit2 AutoNSubstitute AutoMock</PackageTags>
-    <PackageReleaseNotes>See https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock/releases</PackageReleaseNotes>
+    <PackageReleaseNotes>See https://github.com/Accenture/AutoFixture.XUnit2.AutoMock/releases</PackageReleaseNotes>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/Accenture/AutoFixture.XUnit2.AutoMock.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageVersion>$(Version)</PackageVersion>
     <Description Condition="'$(Description)'==''">Accelerates preparation of mocked structures for unit tests under xUnit2 by configuring AutoFixture data generation to use NSubstitute. Gracefully handles recursive structures by omitting recursions.</Description>

@@ -1,4 +1,4 @@
 stryker-config:
   solution: 'Objectivity.AutoFixture.XUnit2.AutoMock.sln'
   project-info:
-    name: 'github.com/ObjectivityLtd/AutoFixture.XUnit2.AutoMock'
+    name: 'github.com/Accenture/AutoFixture.XUnit2.AutoMock'

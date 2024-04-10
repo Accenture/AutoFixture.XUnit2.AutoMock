@@ -2,7 +2,7 @@
  <PropertyGroup>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <Version Condition="'$(Version)'==''">1.0.0.0</Version>
-    <Company Condition="'$(Company)'==''">Objectivity Ltd</Company>
+    <Company Condition="'$(Company)'==''">Accenture</Company>
     <Authors Condition="'$(Authors)'==''">$(Company)</Authors>
     <Copyright Condition="'$(Copyright)'==''">Copyright (c) $(Company)</Copyright>
     <AssemblyTitle Condition="'$(AssemblyTitle)'==''">$(AssemblyName)</AssemblyTitle>
