@@ -1418,7 +1418,7 @@ dotnet_diagnostic.RCS1249.severity = warning
 dotnet_diagnostic.RCS1250.severity = warning
 
 # RCS1251: Remove unnecessary braces from record declaration.
-dotnet_diagnostic.RCS1251.severity = warning
+dotnet_diagnostic.RCS1251.severity = none
 
 # RCS1252: Normalize usage of infinite loop.
 dotnet_diagnostic.RCS1252.severity = warning
@@ -2650,7 +2650,7 @@ dotnet_diagnostic.CA5384.severity = warning
 dotnet_code_quality.CA5384.excluded_symbol_names = 
 dotnet_code_quality.CA5384.excluded_type_names_with_derived_types = 
 
-# CA5385: Use Rivest�Shamir�Adleman (RSA) Algorithm With Sufficient Key Size
+# CA5385: Use Rivest Shamir Adleman (RSA) Algorithm With Sufficient Key Size
 dotnet_diagnostic.CA5385.severity = warning
 
 # CA5386: Avoid hardcoding SecurityProtocolType value
