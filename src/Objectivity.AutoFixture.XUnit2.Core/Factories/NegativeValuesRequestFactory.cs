@@ -14,6 +14,8 @@
     {
         private static readonly decimal DecimalEpsilon = new(1, 0, 0, true, 28);
 
+        private static ObjectCreationException ObjectCreationException => new("The value could not be created. Probably attribute is specified for a type that does not accept negative values.");
+
         public object Create(Type input)
         {
             return input.NotNull(nameof(input)).IsEnum
@@ -34,7 +36,7 @@
 
             if (values.Length == 0)
             {
-                throw GetObjectCreationException();
+                throw ObjectCreationException;
             }
 
             return new FixedValuesRequest(type, values);
@@ -62,15 +64,10 @@
                 TypeCode.Int64 => (long.MinValue, -1L),
                 TypeCode.SByte => (sbyte.MinValue, (sbyte)-1),
                 TypeCode.Single => (float.MinValue, -float.Epsilon),
-                _ => throw GetObjectCreationException(),
+                _ => throw ObjectCreationException,
             };
 
             return new RangedNumberRequest(type, minimum, maximum);
-        }
-
-        private static ObjectCreationException GetObjectCreationException()
-        {
-            return new("The value could not be created. Probably attribute is specified for a type that does not accept negative values.");
         }
     }
 }

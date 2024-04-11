@@ -1,7 +1,6 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Factories
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
 
     using FluentAssertions;
@@ -67,15 +66,15 @@
             Two = 2,
         }
 
-        public static IEnumerable<object[]> NumericTypeUsageTestData { get; } = new[]
+        public static TheoryData<Type, object, object> NumericTypeUsageTestData { get; } = new()
         {
-            new object[] { typeof(decimal), decimal.MinValue, new decimal(1, 0, 0, true, 28) },
-            [typeof(double), double.MinValue, -double.Epsilon],
-            [typeof(short), short.MinValue, (short)-1],
-            [typeof(int), int.MinValue, -1],
-            [typeof(long), long.MinValue, -1L],
-            [typeof(sbyte), sbyte.MinValue, (sbyte)-1],
-            [typeof(float), float.MinValue, -float.Epsilon],
+            { typeof(decimal), decimal.MinValue, new decimal(1, 0, 0, true, 28) },
+            { typeof(double), double.MinValue, -double.Epsilon },
+            { typeof(short), short.MinValue, (short)-1 },
+            { typeof(int), int.MinValue, -1 },
+            { typeof(long), long.MinValue, -1L },
+            { typeof(sbyte), sbyte.MinValue, (sbyte)-1 },
+            { typeof(float), float.MinValue, -float.Epsilon },
         };
 
         [Fact(DisplayName = "GIVEN uninitialized argument WHEN Create is invoked THEN exception is thrown")]
