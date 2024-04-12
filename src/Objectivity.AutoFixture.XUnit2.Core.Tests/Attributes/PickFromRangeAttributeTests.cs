@@ -17,9 +17,9 @@
     [Trait("Category", "CustomizeAttribute")]
     public class PickFromRangeAttributeTests
     {
-        public static IEnumerable<object[]> MemberAutoDataOverValuesTestData { get; } = new[]
+        public static TheoryData<int, int> MemberAutoDataOverValuesTestData { get; } = new()
         {
-            new object[] { 10, 10 },
+            { 10, 10 },
         };
 
         [Fact(DisplayName = "GIVEN minimum greater than maximum WHEN constructor is invoked THEN exception is thrown")]

@@ -1,7 +1,6 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Attributes
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
@@ -62,15 +61,15 @@
             Two = 2,
         }
 
-        public static IEnumerable<object[]> CustomizationUsageTestData { get; } = new[]
+        public static TheoryData<object> CustomizationUsageTestData { get; } = new()
         {
-            new object[] { 1 },
-            [1L],
-            [(short)1],
-            [(sbyte)1],
-            [1F],
-            [1D],
-            [1M],
+            { 1 },
+            { 1L },
+            { (short)1 },
+            { (sbyte)1 },
+            { 1F },
+            { 1D },
+            { 1M },
         };
 
         [Fact(DisplayName = "GIVEN uninitialized argument WHEN GetCustomization is invoked THEN exception is thrown")]

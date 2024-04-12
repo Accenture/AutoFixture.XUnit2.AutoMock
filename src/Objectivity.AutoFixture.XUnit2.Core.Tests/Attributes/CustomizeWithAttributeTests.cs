@@ -21,14 +21,14 @@
     [Trait("Category", "CustomizeAttribute")]
     public class CustomizeWithAttributeTests
     {
-        public static IEnumerable<object[]> ArgumentsDiscoveryCustomizationTestData { get; } = new[]
+        public static TheoryData<bool, object[], int> ArgumentsDiscoveryCustomizationTestData { get; } = new()
         {
-            new object[] { false, null, 0 },
-            new object[] { false, Array.Empty<object>(), 0 },
-            new object[] { false, new object[] { bool.TrueString }, 1 },
-            new object[] { true, null, 1 },
-            new object[] { true, Array.Empty<object>(), 1 },
-            new object[] { true, new object[] { bool.TrueString }, 2 },
+            { false, null, 0 },
+            { false, Array.Empty<object>(), 0 },
+            { false, new object[] { bool.TrueString }, 1 },
+            { true, null, 1 },
+            { true, Array.Empty<object>(), 1 },
+            { true, new object[] { bool.TrueString }, 2 },
         };
 
         [Fact(DisplayName = "GIVEN customization type with no arguments WHEN GetCustomization is invoked THEN customization instance is returned")]

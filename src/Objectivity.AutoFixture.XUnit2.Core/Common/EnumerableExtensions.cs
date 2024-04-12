@@ -50,7 +50,7 @@
             return method.Invoke(null, new object[] { items.NotNull(nameof(items)) });
         }
 
-        private static IEnumerable<TElementType> BuildTypedArray<TElementType>(IEnumerable items)
+        private static TElementType[] BuildTypedArray<TElementType>(IEnumerable items)
         {
             return items.Cast<TElementType>()
                 .ToArray();

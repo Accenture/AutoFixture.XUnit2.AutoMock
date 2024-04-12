@@ -38,11 +38,11 @@
             this.memberName = this.fixture.Create<string>();
         }
 
-        public static IEnumerable<object[]> MemberTypeTestData { get; } = new[]
+        public static TheoryData<Type, string> MemberTypeTestData { get; } = new()
         {
-            new object[] { MemberType, MemberType.Name },
-            new object[] { typeof(string), nameof(String) },
-            new object[] { null, MemberType.Name },
+            { MemberType, MemberType.Name },
+            { typeof(string), nameof(String) },
+            { null, MemberType.Name },
         };
 
         [Fact(DisplayName = "GIVEN provider with no data attribute WHEN Convert is invoked THEN Null is returned")]

@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections;
-    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
@@ -17,14 +16,14 @@
     [Trait("Category", "Requests")]
     public class ValuesRequestTests
     {
-        public static IEnumerable<object[]> ComparisonTestData { get; } = new[]
+        public static TheoryData<Type, IEnumerable, Type, IEnumerable, bool> ComparisonTestData { get; } = new()
         {
-            new object[] { typeof(int), new[] { 1 }, typeof(int), new[] { 1 }, true },
-            new object[] { typeof(int), new[] { 1, 2, 3 }, typeof(int), new[] { 3, 2, 1 }, true },
-            new object[] { typeof(int?), new[] { 1, (int?)null }, typeof(int?), new[] { 1, null, (int?)null }, true },
-            new object[] { typeof(int), new[] { 1 }, typeof(long), new[] { 1 }, false },
-            new object[] { typeof(int), new[] { 1 }, typeof(int), new[] { 2 }, false },
-            new object[] { typeof(int), new[] { 1, 2 }, typeof(int), new[] { 2 }, false },
+            { typeof(int), new[] { 1 }, typeof(int), new[] { 1 }, true },
+            { typeof(int), new[] { 1, 2, 3 }, typeof(int), new[] { 3, 2, 1 }, true },
+            { typeof(int?), new[] { 1, (int?)null }, typeof(int?), new[] { 1, null, (int?)null }, true },
+            { typeof(int), new[] { 1 }, typeof(long), new[] { 1 }, false },
+            { typeof(int), new[] { 1 }, typeof(int), new[] { 2 }, false },
+            { typeof(int), new[] { 1, 2 }, typeof(int), new[] { 2 }, false },
         };
 
         [Fact(DisplayName = "GIVEN uninitialized type argument WHEN constructor is invoked THEN exception is thrown")]
