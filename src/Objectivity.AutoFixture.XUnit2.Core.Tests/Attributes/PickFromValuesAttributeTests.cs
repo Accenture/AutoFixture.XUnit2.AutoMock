@@ -1,7 +1,6 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Attributes
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
 
@@ -32,22 +31,22 @@
             Five = 16,
         }
 
-        public static IEnumerable<object[]> MemberAutoDataOverValuesTestData { get; } = new[]
+        public static TheoryData<int, int> MemberAutoDataOverValuesTestData { get; } = new()
         {
-            new object[] { 10, 10 },
+            { 10, 10 },
         };
 
-        public static IEnumerable<object[]> CustomizationUsageTestData { get; } = new[]
+        public static TheoryData<object, object, object> CustomizationUsageTestData { get; } = new()
         {
-            new object[] { 1, 1, 2 },
-            new object[] { 1.5f, 1.5f, -0.3f },
-            new object[] { string.Empty, "a", "b" },
-            new object[] { false, false },
-            new object[] { DateTime.Now, DateTime.Now, DateTime.MinValue },
-            new object[] { Numbers.Five, Numbers.Five, Numbers.One },
-            new object[] { ValueTuple.Create(5), ValueTuple.Create(5), ValueTuple.Create(-3) },
-            new object[] { Tuple.Create(1, 2), Tuple.Create(1, 2), Tuple.Create(-1, 0) },
-            new object[] { new(), 1, 1.5f },
+            { 1, 1, 2 },
+            { 1.5f, 1.5f, -0.3f },
+            { string.Empty, "a", "b" },
+            { false, false, false },
+            { DateTime.UtcNow, DateTime.UtcNow, DateTime.MinValue },
+            { Numbers.Five, Numbers.Five, Numbers.One },
+            { ValueTuple.Create(5), ValueTuple.Create(5), ValueTuple.Create(-3) },
+            { Tuple.Create(1, 2), Tuple.Create(1, 2), Tuple.Create(-1, 0) },
+            { new(), 1, 1.5f },
         };
 
         [Fact(DisplayName = "GIVEN uninitialized argument WHEN constructor is invoked THEN exception is thrown")]

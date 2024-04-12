@@ -37,7 +37,7 @@
             { "test" },
             { false },
             { Numbers.Five },
-            { DateTime.Now },
+            { DateTime.UtcNow },
             { ValueTuple.Create(5) },
             { Tuple.Create(1, 2) },
         };
