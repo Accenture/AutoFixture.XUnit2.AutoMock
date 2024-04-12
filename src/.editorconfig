@@ -1468,6 +1468,12 @@ dotnet_diagnostic.IDE2003.severity = warning
 # IDE2004: Blank line not allowed after constructor initializer colon
 dotnet_diagnostic.IDE2004.severity = warning
 
+# IDE2005: Allow blank line after token in conditional expression
+dotnet_diagnostic.IDE2005.severity = warning
+
+# IDE2006: Allow blank line after token in arrow expression
+dotnet_diagnostic.IDE2006.severity = warning
+
 ## Microsoft.CodeAnalysis.CSharp.NetAnalyzers
 
 # CA1000: Do not declare static members on generic types
@@ -1528,7 +1534,7 @@ dotnet_diagnostic.CA1024.severity = suggestion
 dotnet_code_quality.CA1024.api_surface = all
 
 # CA1027: Mark enums with FlagsAttribute
-dotnet_diagnostic.CA1027.severity = suggestion
+dotnet_diagnostic.CA1027.severity = none
 dotnet_code_quality.CA1027.api_surface = all
 
 # CA1028: Enum Storage should be Int32
@@ -2220,6 +2226,24 @@ dotnet_diagnostic.CA2257.severity = warning
 # CA2258: Providing a 'DynamicInterfaceCastableImplementation' interface in Visual Basic is unsupported
 dotnet_diagnostic.CA2258.severity = warning
 
+# CA2259: Ensure ThreadStatic is only used with static fields
+dotnet_diagnostic.CA2259.severity = warning
+
+# CA2260: Implement generic math interfaces correctly
+dotnet_diagnostic.CA2260.severity = warning
+
+# CA2261: Do not use ConfigureAwaitOptions.SuppressThrowing with Task<TResult>
+dotnet_diagnostic.CA2261.severity = warning
+
+# CA2262: Set 'MaxResponseHeadersLength' properly
+dotnet_diagnostic.CA2262.severity = warning
+
+# CA2263: Prefer generic overload when type is known
+dotnet_diagnostic.CA2263.severity = warning
+
+# CA2264: Do not pass a non-nullable value to 'ArgumentNullException.ThrowIfNull'
+dotnet_diagnostic.CA2264.severity = warning
+
 # CA2300: Do not use insecure deserializer BinaryFormatter
 dotnet_diagnostic.CA2300.severity = warning
 
@@ -2612,6 +2636,9 @@ dotnet_diagnostic.S3998.severity = warning
 
 # S3877: Exceptions should not be thrown from unexpected methods
 dotnet_diagnostic.S3877.severity = warning
+
+# S3878: Arrays should not be created for params parameters
+dotnet_diagnostic.S3878.severity = warning
 dotnet_diagnostic.S2306.severity = warning
 dotnet_diagnostic.S1450.severity = warning
 dotnet_diagnostic.S1210.severity = warning
@@ -2628,6 +2655,9 @@ dotnet_diagnostic.S3265.severity = warning
 dotnet_diagnostic.S101.severity = warning
 dotnet_diagnostic.S3264.severity = warning
 dotnet_diagnostic.S2178.severity = warning
+
+# S2970: Assertions should be complete
+dotnet_diagnostic.S2970.severity = warning
 dotnet_diagnostic.S2971.severity = warning
 dotnet_diagnostic.S1764.severity = warning
 dotnet_diagnostic.S1643.severity = warning
@@ -2664,6 +2694,9 @@ dotnet_diagnostic.S2184.severity = warning
 dotnet_diagnostic.S907.severity = warning
 dotnet_diagnostic.S1656.severity = warning
 dotnet_diagnostic.S3397.severity = warning
+
+# S3398: "private" methods called only by inner classes should be moved to those classes
+dotnet_diagnostic.S3398.severity = warning
 dotnet_diagnostic.S2187.severity = warning
 dotnet_diagnostic.S112.severity = warning
 dotnet_diagnostic.S2068.severity = warning
@@ -2759,6 +2792,9 @@ dotnet_diagnostic.S1905.severity = warning
 dotnet_diagnostic.S1116.severity = warning
 dotnet_diagnostic.S1479.severity = warning
 dotnet_diagnostic.S3415.severity = warning
+
+# S3416: Loggers should be named for their enclosing types
+dotnet_diagnostic.S3416.severity = warning
 dotnet_diagnostic.S2326.severity = warning
 dotnet_diagnostic.S4507.severity = warning
 dotnet_diagnostic.S1117.severity = warning
@@ -2789,6 +2825,9 @@ dotnet_diagnostic.S2583.severity = warning
 dotnet_diagnostic.S2342.severity = warning
 dotnet_diagnostic.S1134.severity = warning
 dotnet_diagnostic.S4524.severity = warning
+
+# S4545: "DebuggerDisplayAttribute" strings should reference existing members
+dotnet_diagnostic.S4545.severity = warning
 dotnet_diagnostic.S2345.severity = warning
 
 # S1135: Track uses of "TODO" tags
@@ -2812,8 +2851,14 @@ dotnet_diagnostic.S2251.severity = warning
 dotnet_diagnostic.S5542.severity = warning
 dotnet_diagnostic.S5547.severity = warning
 dotnet_diagnostic.S4635.severity = warning
+
+# S4663: Comments should not be empty
+dotnet_diagnostic.S4663.severity = warning
 dotnet_diagnostic.S2479.severity = warning
 dotnet_diagnostic.S2092.severity = warning
+
+# S2094: Classes should not be empty
+dotnet_diagnostic.S2094.severity = warning
 dotnet_diagnostic.S3060.severity = warning
 dotnet_diagnostic.S4275.severity = warning
 dotnet_diagnostic.S3869.severity = warning
@@ -2836,6 +2881,9 @@ dotnet_diagnostic.S2755.severity = warning
 dotnet_diagnostic.S5659.severity = warning
 dotnet_diagnostic.S3610.severity = warning
 dotnet_diagnostic.S3972.severity = warning
+
+# S1312: Logger fields should be "private static readonly"
+dotnet_diagnostic.S1312.severity = warning
 dotnet_diagnostic.S1313.severity = warning
 dotnet_diagnostic.S2437.severity = warning
 dotnet_diagnostic.S3889.severity = warning
@@ -2900,17 +2948,38 @@ dotnet_diagnostic.S3063.severity = warning
 # S4462: Calls to "async" methods should not be blocking
 dotnet_diagnostic.S4462.severity = warning
 
+# S6354: Use a testable date/time provider
+dotnet_diagnostic.S6354.severity = warning
+
+# S6419: Azure Functions should be stateless
+dotnet_diagnostic.S6419.severity = warning
+
+# S6420: Client instances should not be recreated on each Azure Function invocation
+dotnet_diagnostic.S6420.severity = warning
+
+# S6421: Azure Functions should use Structured Error Handling
+dotnet_diagnostic.S6421.severity = warning
+
 # S6422: Calls to "async" methods should not be blocking in Azure Functions
 dotnet_diagnostic.S6422.severity = warning
 
+# S6423: Azure Functions should log all failures
+dotnet_diagnostic.S6423.severity = warning
+
 # S6424: Interfaces for durable entities should satisfy the restrictions
 dotnet_diagnostic.S6424.severity = warning
+
+# S6444: Not specifying a timeout for regular expressions is security-sensitive
+dotnet_diagnostic.S6444.severity = warning
 
 # S2222: Locks should be released on all paths
 dotnet_diagnostic.S2222.severity = warning
 
 # S5856: Regular expressions should be syntactically valid
 dotnet_diagnostic.S5856.severity = warning
+
+# S6640: Using unsafe code blocks is security-sensitive
+dotnet_diagnostic.S6640.severity = warning
 
 # S6674: Log message template should be syntactically correct
 dotnet_diagnostic.S6674.severity = warning
@@ -2924,6 +2993,96 @@ dotnet_diagnostic.S1133.severity = warning
 # S2445: Blocks should be synchronized on read-only fields
 dotnet_diagnostic.S2445.severity = warning
 
+# S6507: Blocks should not be synchronized on local variables
+dotnet_diagnostic.S6507.severity = warning
+
+# S6513: "ExcludeFromCodeCoverage" attributes should include a justification
+dotnet_diagnostic.S6513.severity = warning
+
+# S6561: Avoid using "DateTime.Now" for benchmarking or timing operations
+dotnet_diagnostic.S6561.severity = warning
+
+# S6562: Always set the "DateTimeKind" when creating new "DateTime" instances
+dotnet_diagnostic.S6562.severity = warning
+
+# S6563: Use UTC when recording DateTime instants
+dotnet_diagnostic.S6563.severity = warning
+
+# S6566: Use "DateTimeOffset" instead of "DateTime"
+dotnet_diagnostic.S6566.severity = none
+
+# S6575: Use "TimeZoneInfo.FindSystemTimeZoneById" without converting the timezones with "TimezoneConverter"
+dotnet_diagnostic.S6575.severity = warning
+
+# S6580: Use a format provider when parsing date and time
+dotnet_diagnostic.S6580.severity = warning
+
+# S6585: Don't hardcode the format when turning dates and times to strings
+dotnet_diagnostic.S6585.severity = warning
+
+# S6588: Use the "UnixEpoch" field instead of creating "DateTime" instances that point to the beginning of the Unix epoch
+dotnet_diagnostic.S6588.severity = warning
+
+# S6602: "Find" method should be used instead of the "FirstOrDefault" extension
+dotnet_diagnostic.S6602.severity = warning
+
+# S6603: The collection-specific "TrueForAll" method should be used instead of the "All" extension
+dotnet_diagnostic.S6603.severity = warning
+
+# S6605: Collection-specific "Exists" method should be used instead of the "Any" extension
+dotnet_diagnostic.S6605.severity = warning
+
+# S6607: The collection should be filtered before sorting by using "Where" before "OrderBy"
+dotnet_diagnostic.S6607.severity = warning
+
+# S6608: Prefer indexing instead of "Enumerable" methods on types implementing "IList"
+dotnet_diagnostic.S6608.severity = warning
+
+# S6609: "Min/Max" properties of "Set" types should be used instead of the "Enumerable" extension methods
+dotnet_diagnostic.S6609.severity = warning
+
+# S6610: "StartsWith" and "EndsWith" overloads that take a "char" should be used instead of the ones that take a "string"
+dotnet_diagnostic.S6610.severity = warning
+
+# S6612: The lambda parameter should be used instead of capturing arguments in "ConcurrentDictionary" methods
+dotnet_diagnostic.S6612.severity = warning
+
+# S6613: "First" and "Last" properties of "LinkedList" should be used instead of the "First()" and "Last()" extension methods
+dotnet_diagnostic.S6613.severity = warning
+
+# S6617: "Contains" should be used instead of "Any" for simple equality checks
+dotnet_diagnostic.S6617.severity = warning
+
+# S6618: "string.Create" should be used instead of "FormattableString"
+dotnet_diagnostic.S6618.severity = warning
+
+# S6664: The code block contains too many logging calls
+dotnet_diagnostic.S6664.severity = warning
+
+# S6667: Logging in a catch clause should pass the caught exception as a parameter.
+dotnet_diagnostic.S6667.severity = warning
+
+# S6668: Logging arguments should be passed to the correct parameter
+dotnet_diagnostic.S6668.severity = warning
+
+# S6669: Logger field or property name should comply with a naming convention
+dotnet_diagnostic.S6669.severity = warning
+
+# S6670: "Trace.Write" and "Trace.WriteLine" should not be used
+dotnet_diagnostic.S6670.severity = warning
+
+# S6672: Generic logger injection should match enclosing type
+dotnet_diagnostic.S6672.severity = warning
+
+# S6673: Log message template placeholders should be in the right order
+dotnet_diagnostic.S6673.severity = warning
+
+# S6675: "Trace.WriteLineIf" should not be used with "TraceSwitch" levels
+dotnet_diagnostic.S6675.severity = warning
+
+# S6678: Use PascalCase for named placeholders
+dotnet_diagnostic.S6678.severity = warning
+
 # S6677: Message template placeholders should be unique
 dotnet_diagnostic.S6677.severity = warning
 
@@ -2936,8 +3095,20 @@ dotnet_diagnostic.S6798.severity = none
 # S6800: Component parameter type should match the route parameter type constraint
 dotnet_diagnostic.S6800.severity = none
 
+# S6802: Using lambda expressions in loops should be avoided in Blazor markup section
+dotnet_diagnostic.S6802.severity = none
+
+# S6803: Parameters with SupplyParameterFromQuery attribute should be used only in routable components
+dotnet_diagnostic.S6803.severity = none
+
 # S6930: Backslash should be avoided in route templates
 dotnet_diagnostic.S6930.severity = none
+
+# S6931: ASP.NET controller actions should not have a route template starting with "/"
+dotnet_diagnostic.S6931.severity = none
+
+# S6934: A Route attribute should be added to the controller when a route template is specified at the action level
+dotnet_diagnostic.S6934.severity = none
 
 dotnet_diagnostic.S3254.severity = none
 dotnet_diagnostic.S3253.severity = none
@@ -3027,6 +3198,9 @@ dotnet_diagnostic.S3240.severity = none
 dotnet_diagnostic.S4212.severity = none
 dotnet_diagnostic.S3242.severity = none
 dotnet_diagnostic.S2156.severity = none
+
+# S3363: Date and time should not be used as a type for primary keys
+dotnet_diagnostic.S3363.severity = warning
 dotnet_diagnostic.S3366.severity = none
 dotnet_diagnostic.S1067.severity = none
 dotnet_diagnostic.S4564.severity = none
