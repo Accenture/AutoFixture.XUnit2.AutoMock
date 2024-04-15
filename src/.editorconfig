@@ -3560,6 +3560,18 @@ dotnet_diagnostic.xUnit1042.severity = suggestion
 # xUnit1043: Constructors on classes derived from FactAttribute must be public when used on test methods
 dotnet_diagnostic.xUnit1043.severity = error
 
+# xUnit1044: Avoid using TheoryData type arguments that are not serializable
+dotnet_diagnostic.xUnit1044.severity = none
+
+# xUnit1045: Avoid using TheoryData type arguments that might not be serializable
+dotnet_diagnostic.xUnit1045.severity = none
+
+# xUnit1046: Avoid using TheoryDataRow arguments that are not serializable
+dotnet_diagnostic.xUnit1046.severity = none
+
+# xUnit1047: Avoid using TheoryDataRow arguments that might not be serializable
+dotnet_diagnostic.xUnit1047.severity = none
+
 # xUnit2000: Constants and literals should be the expected argument
 dotnet_diagnostic.xUnit2000.severity = warning
 

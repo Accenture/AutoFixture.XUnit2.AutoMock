@@ -93,9 +93,9 @@
         [InlineData(1, 1)]
         [InlineData("a", "a")]
         [Theory(DisplayName = "GIVEN identical arguments WHEN constructor is invoked THEN unique parameters are properly assigned")]
-        public void GivenIdenticalArguments_WhenConstructorIsInvoked_ThenUniqueParametersAreProperlyAssigned(
-            object first,
-            object second)
+        public void GivenIdenticalArguments_WhenConstructorIsInvoked_ThenUniqueParametersAreProperlyAssigned<T>(
+            T first,
+            T second)
         {
             // Arrange
             var attribute = new PickFromValuesAttribute(first, second);

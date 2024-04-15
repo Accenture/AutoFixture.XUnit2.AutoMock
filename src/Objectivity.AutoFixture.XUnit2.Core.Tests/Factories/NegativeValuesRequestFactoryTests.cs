@@ -111,10 +111,10 @@
 
         [MemberData(nameof(NumericTypeUsageTestData))]
         [Theory(DisplayName = "GIVEN supported numeric type WHEN Create is invoked THEN returns request with expected range")]
-        public void GivenSupportedNumericType_WhenCreateIsInvoked_ThenReturnsRequestWithExpectedRange(
+        public void GivenSupportedNumericType_WhenCreateIsInvoked_ThenReturnsRequestWithExpectedRange<T>(
             Type type,
-            object min,
-            object max)
+            T min,
+            T max)
         {
             // Arrange
             // Act
