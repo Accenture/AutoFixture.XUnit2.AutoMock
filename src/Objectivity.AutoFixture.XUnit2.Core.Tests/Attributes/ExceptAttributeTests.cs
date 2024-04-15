@@ -86,9 +86,9 @@
         [InlineData(1, 1)]
         [InlineData("a", "a")]
         [Theory(DisplayName = "GIVEN identical arguments WHEN constructor is invoked THEN unique parameters are properly assigned")]
-        public void GivenIdenticalArguments_WhenConstructorIsInvoked_ThenUniqueParametersAreProperlyAssigned(
-            object first,
-            object second)
+        public void GivenIdenticalArguments_WhenConstructorIsInvoked_ThenUniqueParametersAreProperlyAssigned<T>(
+            T first,
+            T second)
         {
             // Arrange
             var attribute = new ExceptAttribute(first, second);
@@ -114,8 +114,8 @@
 
         [MemberData(nameof(CustomizationUsageTestData))]
         [Theory(DisplayName = "GIVEN valid parameters WHEN customization is used THEN expected values are generated")]
-        public void GivenValidParameters_WhenCustomizationIsUsed_ThenExpectedValuesAreGenerated(
-            object item)
+        public void GivenValidParameters_WhenCustomizationIsUsed_ThenExpectedValuesAreGenerated<T>(
+            T item)
         {
             // Arrange
             var attribute = new ExceptAttribute(item);
