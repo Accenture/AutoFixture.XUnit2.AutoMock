@@ -30,13 +30,15 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0 
-      - name: 🔬 Snyk Scan
+      - name: 🏗️ restore dependencies
+        run: dotnet restore ./src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
+      - name: 🔬 snyk scan
         uses: snyk/actions/dotnet@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --sarif-file-output=snyk.sarif --all-projects
-      - name: 📊 Upload SARIF file for GitHub Advanced Security Dashboard
+      - name: 📊 upload SARIF file for GitHub Advanced Security Dashboard
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: snyk.sarif
