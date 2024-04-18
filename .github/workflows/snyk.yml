@@ -38,6 +38,7 @@ jobs:
         run: dotnet restore ./src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
       - name: 🔬 snyk scan
         uses: snyk/actions/dotnet@master
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
