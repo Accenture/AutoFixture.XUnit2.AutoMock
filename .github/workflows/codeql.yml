@@ -32,7 +32,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  analyze:
+  scan:
     runs-on: ubuntu-latest
     timeout-minutes: 360
     permissions:

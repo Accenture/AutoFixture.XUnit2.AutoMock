@@ -23,10 +23,14 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  semgrep:
-    # Skip push event by dependabot to avoid permission issues.
-    if: ${{ github.actor != 'dependabot[bot]' || github.event_name != 'push' }}
+  scan:
+    # Skip any PR created by dependabot to avoid permission issues:
+    if: ${{ github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      checks: write
+      security-events: write
     container:
       # A Docker image with Semgrep installed. Do not change this.
       image: semgrep/semgrep
@@ -35,11 +39,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0 
-      - name: 🔬 Semgrep Scan
+      - name: 🔬 semgrep scan
         run: semgrep ci --sarif > semgrep.sarif
         env:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
-      - name: 📊 Upload SARIF file for GitHub Advanced Security Dashboard
+      - name: 📊 upload sarif file for GitHub Advanced Security Dashboard
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: semgrep.sarif
