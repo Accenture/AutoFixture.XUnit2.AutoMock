@@ -1,4 +1,4 @@
-name: '🐕‍🦺 Snyk: Vournelability Analysis'
+name: '🐕‍🦺 Snyk: Vulnerability Analysis'
 
 on:
   pull_request:
