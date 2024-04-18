@@ -43,6 +43,13 @@ jobs:
         with:
           args: --sarif-file-output=snyk.sarif --file=src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
           command: code test
+      - name: 🔬 snyk monitor
+        uses: snyk/actions/dotnet@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --file=src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
+          command: monitor
       - name: 📊 upload SARIF file for GitHub Advanced Security Dashboard
         uses: github/codeql-action/upload-sarif@v3
         with:
