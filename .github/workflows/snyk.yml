@@ -42,8 +42,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --sarif-file-output=snyk.sarif --file=src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
-          command: code test
-      - name: 🔬 snyk monitor
+      - name: 📈 snyk monitor
         uses: snyk/actions/dotnet@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
