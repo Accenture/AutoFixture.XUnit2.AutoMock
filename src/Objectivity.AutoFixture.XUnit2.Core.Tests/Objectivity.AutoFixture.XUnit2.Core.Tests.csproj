@@ -33,7 +33,7 @@
       AD0001: Analyzer unknown issue
     -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>$(NoWarn),1573,1591,1712,AD0001/NoWarn>
+    <NoWarn>$(NoWarn),1573,1591,1712,AD0001</NoWarn>
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.Contains('net4'))">
