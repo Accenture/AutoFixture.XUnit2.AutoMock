@@ -34,8 +34,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0 
-      - name: 🏗️ restore dependencies
-        run: dotnet restore ./src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
+      - name: 🏗️ build
+        run: dotnet build ./src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
       - name: 🔬 snyk scan
         uses: snyk/actions/dotnet@master
         continue-on-error: true
