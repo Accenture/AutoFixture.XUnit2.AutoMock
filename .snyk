@@ -1,3 +1,6 @@
 exclude:
   global:
-  - "src/*.Tests/**"
+    - src/Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.Tests/**
+    - src/Objectivity.AutoFixture.XUnit2.AutoMoq.Tests/**
+    - src/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests/**
+    - src/Objectivity.AutoFixture.XUnit2.Core.Tests/**
