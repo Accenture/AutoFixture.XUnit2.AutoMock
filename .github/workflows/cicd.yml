@@ -12,6 +12,7 @@ on:
     - '!.github/workflows/fossa-scan.yml'
     - '!.github/workflows/qodana.yml'
     - '!.github/workflows/semgrep.yml'
+    - '!.github/workflows/snyk.yml'
     types: [opened, synchronize, reopened]
   push:
     branches:
@@ -26,6 +27,7 @@ on:
     - '!.github/workflows/fossa-scan.yml'
     - '!.github/workflows/qodana.yml'
     - '!.github/workflows/semgrep.yml'
+    - '!.github/workflows/snyk.yml'
   workflow_dispatch:
     inputs:
       buildAutoFakeItEasy:
