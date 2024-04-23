@@ -42,13 +42,13 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --sarif-file-output=snyk.sarif --all-projects --exclude=Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.Tests,Objectivity.AutoFixture.XUnit2.AutoMoq.Tests,Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests,Objectivity.AutoFixture.XUnit2.Core.Tests
+          args: --sarif-file-output=snyk.sarif --file=src/Objectivity.AutoFixture.XUnit2.AutoMock.sln --exclude=Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.Tests,Objectivity.AutoFixture.XUnit2.AutoMoq.Tests,Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests,Objectivity.AutoFixture.XUnit2.Core.Tests
       - name: 📈 snyk monitor
         uses: snyk/actions/dotnet@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --all-projects --exclude=Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.Tests,Objectivity.AutoFixture.XUnit2.AutoMoq.Tests,Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests,Objectivity.AutoFixture.XUnit2.Core.Tests
+          args: --file=src/Objectivity.AutoFixture.XUnit2.AutoMock.sln --exclude=Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.Tests,Objectivity.AutoFixture.XUnit2.AutoMoq.Tests,Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests,Objectivity.AutoFixture.XUnit2.Core.Tests
           command: monitor
       - name: 📊 upload sarif file for GitHub Advanced Security Dashboard
         uses: github/codeql-action/upload-sarif@v3
