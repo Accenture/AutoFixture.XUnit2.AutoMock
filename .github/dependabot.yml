@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: "nuget"
-    directory: "/src"
+    directory: "/"
     schedule:
       interval: "weekly"
       day: "sunday"
@@ -12,6 +12,7 @@ updates:
         patterns:
           - "xunit"
           - "xunit.*"
+          - "xunit.runner.*"
       AutoFixture:
         patterns:
           - "AutoFixture*"
