@@ -85,18 +85,21 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="xunit" Version="2.8.0" />
+    <PackageReference Include="xunit" Version="2.8.1" />
     <PackageReference Include="xunit.abstractions" Version="2.0.3" />
-    <PackageReference Include="xunit.analyzers" Version="1.13.0" />
-    <PackageReference Include="xunit.assert" Version="2.8.0" />
-    <PackageReference Include="xunit.core" Version="2.8.0" />
-    <PackageReference Include="xunit.extensibility.core" Version="2.8.0" />
-    <PackageReference Include="xunit.extensibility.execution" Version="2.8.0" />
-    <PackageReference Include="xunit.runner.console" Version="2.8.0">
+    <PackageReference Include="xunit.analyzers" Version="1.14.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.0">
+    <PackageReference Include="xunit.assert" Version="2.8.1" />
+    <PackageReference Include="xunit.core" Version="2.8.1" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.8.1" />
+    <PackageReference Include="xunit.extensibility.execution" Version="2.8.1" />
+    <PackageReference Include="xunit.runner.console" Version="2.8.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
