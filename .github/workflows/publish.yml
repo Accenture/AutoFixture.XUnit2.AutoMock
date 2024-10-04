@@ -29,7 +29,7 @@ jobs:
       matrix:
         packageSource:
           - { url: 'https://api.nuget.org/v3/index.json', apiKeySecretName: 'NUGET_API_KEY' }
-          - { url: 'https://nuget.pkg.github.com/ObjectivityLtd/index.json', apiKeySecretName: 'GITHUB_TOKEN' }
+          - { url: 'https://nuget.pkg.github.com/Accenture/index.json', apiKeySecretName: 'GITHUB_TOKEN' }
     steps:
     - name: 🔽 download packages
       uses: actions/download-artifact@v4
