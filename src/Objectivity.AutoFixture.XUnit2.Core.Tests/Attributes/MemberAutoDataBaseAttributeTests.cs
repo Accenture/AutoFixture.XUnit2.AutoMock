@@ -47,8 +47,8 @@
         }
 
         [MemberData(nameof(MemberTypeTestData))]
-        [Theory(DisplayName = "GIVEN item of unexpected type WHEN Convert is invoked THEN exception is thrown")]
-        public void GivenItemOfUnexpectedType_WhenConvertIsInvoked_ThenExceptionIsThrown(
+        [Theory(DisplayName = "GIVEN item of unexpected type WHEN ConvertDataItem is invoked THEN exception is thrown")]
+        public void GivenItemOfUnexpectedType_WhenConvertDataItemIsInvoked_ThenExceptionIsThrown(
             Type memberType,
             string expectedTypeName)
         {
@@ -65,6 +65,21 @@
             act.Should().Throw<ArgumentException>()
                 .And.Message.Should().NotBeNullOrEmpty()
                 .And.Contain(memberName).And.Contain(expectedTypeName);
+        }
+
+        [Fact(DisplayName = "GIVEN array WHEN ConvertDataItem is invoked THEN the same array is returned")]
+        public void GivenArray_WhenConvertDataItemIsInvoked_ThenTheSameArrayIsReturned()
+        {
+            // Arrange
+            var fixture = new Fixture();
+            var array = fixture.Create<object[]>();
+            var attribute = new MemberAutoDataBaseAttributeUnderTest(fixture, nameof(NullTheoryData));
+
+            // Act
+            var data = attribute.CallConvertDataItem(TestMethod, array);
+
+            // Assert
+            data.Should().BeEquivalentTo(array);
         }
 
         [Fact(DisplayName = "GIVEN null theory data WHEN GetData is invoked THEN null is returned")]
