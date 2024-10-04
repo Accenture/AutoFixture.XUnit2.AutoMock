@@ -2,6 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
     using System.Reflection;
 
     using global::AutoFixture;
@@ -43,18 +45,23 @@
             // Customize shared fixture
             this.CustomizeFixture(this.Fixture);
 
-            return base.GetData(testMethod);
+            return base.GetData(testMethod)?.Select(values => this.ExtendDataItem(testMethod, values));
         }
 
         protected override object[] ConvertDataItem(MethodInfo testMethod, object item)
         {
-            var fixture = this.ShareFixture
-                ? this.Fixture
-                : this.CustomizeFixture(new Fixture());
+            if (item is object[] objArray)
+            {
+                return objArray;
+            }
 
-            var converter = new MemberAutoDataItemConverter(fixture, this.CreateProvider());
+            var message = string.Format(
+                CultureInfo.InvariantCulture,
+                "Property {0} on {1} yielded an item that is not an object[]",
+                this.MemberName,
+                this.RetrieveMemberType(testMethod));
 
-            return converter.Convert(testMethod, item, this.MemberName, this.MemberType);
+            throw new ArgumentException(message);
         }
 
         protected abstract IFixture Customize(IFixture fixture);
@@ -65,6 +72,23 @@
         {
             fixture.Customize(new AutoDataCommonCustomization(this.IgnoreVirtualMembers));
             return this.Customize(fixture);
+        }
+
+        private object[] ExtendDataItem(MethodInfo testMethod, object[] values)
+        {
+            var fixture = this.ShareFixture
+                ? this.Fixture
+                : this.CustomizeFixture(new Fixture());
+
+            var converter = new MemberAutoDataItemExtender(fixture, this.CreateProvider());
+
+            return converter.Extend(testMethod, values, this.MemberName, this.RetrieveMemberType(testMethod));
+        }
+
+        private Type RetrieveMemberType(MethodInfo testMethod)
+        {
+            return this.MemberType
+                ?? testMethod.NotNull(nameof(testMethod)).DeclaringType;
         }
     }
 }

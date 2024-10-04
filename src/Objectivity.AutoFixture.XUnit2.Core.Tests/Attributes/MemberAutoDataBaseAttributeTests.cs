@@ -1,6 +1,7 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Attributes
 {
     using System;
+    using System.Reflection;
 
     using FluentAssertions;
 
@@ -17,6 +18,18 @@
     [Trait("Category", "DataAttribute")]
     public class MemberAutoDataBaseAttributeTests
     {
+        private static readonly Type MemberType = typeof(MemberAutoDataBaseAttributeTests);
+        private static readonly MethodInfo TestMethod = MemberType.GetMethod(nameof(MethodUnderTest), BindingFlags.Instance | BindingFlags.NonPublic);
+
+        public static TheoryData<Type, string> MemberTypeTestData { get; } = new()
+        {
+            { MemberType, MemberType.Name },
+            { typeof(string), nameof(String) },
+            { null, MemberType.Name },
+        };
+
+        public static TheoryData<string> NullTheoryData { get; }
+
         [AutoData]
         [Theory(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]
         public void GivenUninitializedFixture_WhenConstructorIsInvoked_ThenExceptionIsThrown(string memberName)
@@ -33,6 +46,46 @@
                 .And.ParamName.Should().Be("fixture");
         }
 
+        [MemberData(nameof(MemberTypeTestData))]
+        [Theory(DisplayName = "GIVEN item of unexpected type WHEN Convert is invoked THEN exception is thrown")]
+        public void GivenItemOfUnexpectedType_WhenConvertIsInvoked_ThenExceptionIsThrown(
+            Type memberType,
+            string expectedTypeName)
+        {
+            // Arrange
+            var fixture = new Fixture();
+            var memberName = fixture.Create<string>();
+            var item = fixture.Create<object>();
+            var attribute = new MemberAutoDataBaseAttributeUnderTest(fixture, memberName) { MemberType = memberType };
+
+            // Act
+            Func<object[]> act = () => attribute.CallConvertDataItem(TestMethod, item);
+
+            // Assert
+            act.Should().Throw<ArgumentException>()
+                .And.Message.Should().NotBeNullOrEmpty()
+                .And.Contain(memberName).And.Contain(expectedTypeName);
+        }
+
+        [Fact(DisplayName = "GIVEN null theory data WHEN GetData is invoked THEN null is returned")]
+        public void GivenNullItem_WhenGetDataIsInvoked_ThenNullIsReturned()
+        {
+            // Arrange
+            var fixture = new Fixture();
+            var attribute = new MemberAutoDataBaseAttributeUnderTest(fixture, nameof(NullTheoryData));
+
+            // Act
+            var data = attribute.GetData(TestMethod);
+
+            // Assert
+            data.Should().BeNull();
+        }
+
+        protected void MethodUnderTest()
+        {
+            // Empty method under test
+        }
+
         [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
         private sealed class MemberAutoDataBaseAttributeUnderTest : MemberAutoDataBaseAttribute
         {
@@ -41,6 +94,8 @@
             {
             }
 
+            public object[] CallConvertDataItem(MethodInfo testMethod, object item) => this.ConvertDataItem(testMethod, item);
+
             protected override IAutoFixtureInlineAttributeProvider CreateProvider()
             {
                 throw new NotImplementedException();
@@ -48,7 +103,7 @@
 
             protected override IFixture Customize(IFixture fixture)
             {
-                throw new NotImplementedException();
+                return fixture;
             }
         }
     }
