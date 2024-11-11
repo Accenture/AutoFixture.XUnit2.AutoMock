@@ -4,6 +4,6 @@
 
     public interface IDataItemExtender
     {
-        object[] Extend(MethodInfo testMethod, object[] values, string memberName);
+        object[] Extend(MethodInfo testMethod, object[] values);
     }
 }

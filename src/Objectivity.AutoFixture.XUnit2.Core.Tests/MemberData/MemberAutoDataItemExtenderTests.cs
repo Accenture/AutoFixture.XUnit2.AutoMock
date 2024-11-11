@@ -26,7 +26,6 @@
         private readonly Mock<IAutoFixtureInlineAttributeProvider> dataAttributeProvider = new();
         private readonly Mock<DataAttribute> dataAttribute = new();
         private readonly IDataItemExtender converter;
-        private readonly string memberName;
 
         public MemberAutoDataItemExtenderTests()
         {
@@ -34,7 +33,6 @@
             this.dataAttributeProvider.Setup(p => p.GetAttribute(this.fixture, It.IsAny<object[]>())).Returns(this.dataAttribute.Object);
             this.dataAttribute.Setup(a => a.GetData(It.IsAny<MethodInfo>())).Returns(data);
             this.converter = new MemberAutoDataItemExtender(this.fixture, this.dataAttributeProvider.Object);
-            this.memberName = this.fixture.Create<string>();
         }
 
         [Fact(DisplayName = "GIVEN provider with no data attribute WHEN Convert is invoked THEN Null is returned")]
@@ -50,7 +48,7 @@
             var item = this.fixture.Create<object[]>();
 
             // Act
-            var data = noDataConverter.Extend(TestMethod, item, this.memberName);
+            var data = noDataConverter.Extend(TestMethod, item);
 
             // Assert
             data.Should().BeNull();
@@ -65,7 +63,7 @@
             var item = this.fixture.Create<object[]>();
 
             // Act
-            var data = this.converter.Extend(TestMethod, item, this.memberName);
+            var data = this.converter.Extend(TestMethod, item);
 
             // Assert
             data.Should().NotBeNull();
@@ -80,7 +78,7 @@
             const object[] item = null;
 
             // Act
-            var data = this.converter.Extend(TestMethod, item, this.memberName);
+            var data = this.converter.Extend(TestMethod, item);
 
             // Assert
             data.Should().BeNull();
@@ -94,7 +92,7 @@
             var item = this.fixture.Create<object[]>();
 
             // Act
-            Func<object> act = () => this.converter.Extend(method, item, this.memberName);
+            Func<object> act = () => this.converter.Extend(method, item);
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
