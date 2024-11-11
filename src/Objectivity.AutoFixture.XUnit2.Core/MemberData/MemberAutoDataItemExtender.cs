@@ -23,7 +23,7 @@
         [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Testable design.")]
         public IAutoFixtureInlineAttributeProvider DataAttributeProvider { get; }
 
-        public object[] Extend(MethodInfo testMethod, object[] values, string memberName)
+        public object[] Extend(MethodInfo testMethod, object[] values)
         {
             if (values is null)
             {

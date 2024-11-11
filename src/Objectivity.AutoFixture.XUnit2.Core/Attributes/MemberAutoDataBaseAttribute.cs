@@ -82,7 +82,7 @@
 
             var converter = new MemberAutoDataItemExtender(fixture, this.CreateProvider());
 
-            return converter.Extend(testMethod, values, this.MemberName);
+            return converter.Extend(testMethod, values);
         }
 
         private Type RetrieveMemberType(MethodInfo testMethod)
