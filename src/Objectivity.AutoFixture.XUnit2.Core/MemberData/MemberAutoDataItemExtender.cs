@@ -1,6 +1,5 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.MemberData
 {
-    using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
@@ -24,7 +23,7 @@
         [SuppressMessage("ReSharper", "MemberCanBePrivate.Global", Justification = "Testable design.")]
         public IAutoFixtureInlineAttributeProvider DataAttributeProvider { get; }
 
-        public object[] Extend(MethodInfo testMethod, object[] values, string memberName, Type memberType)
+        public object[] Extend(MethodInfo testMethod, object[] values, string memberName)
         {
             if (values is null)
             {

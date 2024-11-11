@@ -21,8 +21,7 @@
     [Trait("Category", "MemberData")]
     public class MemberAutoDataItemExtenderTests
     {
-        private static readonly Type MemberType = typeof(MemberAutoDataItemExtenderTests);
-        private static readonly MethodInfo TestMethod = MemberType.GetMethod(nameof(MethodUnderTest), BindingFlags.Instance | BindingFlags.NonPublic);
+        private static readonly MethodInfo TestMethod = typeof(MemberAutoDataItemExtenderTests).GetMethod(nameof(MethodUnderTest), BindingFlags.Instance | BindingFlags.NonPublic);
         private readonly Fixture fixture = new();
         private readonly Mock<IAutoFixtureInlineAttributeProvider> dataAttributeProvider = new();
         private readonly Mock<DataAttribute> dataAttribute = new();
@@ -51,7 +50,7 @@
             var item = this.fixture.Create<object[]>();
 
             // Act
-            var data = noDataConverter.Extend(TestMethod, item, this.memberName, MemberType);
+            var data = noDataConverter.Extend(TestMethod, item, this.memberName);
 
             // Assert
             data.Should().BeNull();
@@ -66,7 +65,7 @@
             var item = this.fixture.Create<object[]>();
 
             // Act
-            var data = this.converter.Extend(TestMethod, item, this.memberName, MemberType);
+            var data = this.converter.Extend(TestMethod, item, this.memberName);
 
             // Assert
             data.Should().NotBeNull();
@@ -81,7 +80,7 @@
             const object[] item = null;
 
             // Act
-            var data = this.converter.Extend(TestMethod, item, this.memberName, MemberType);
+            var data = this.converter.Extend(TestMethod, item, this.memberName);
 
             // Assert
             data.Should().BeNull();
@@ -95,7 +94,7 @@
             var item = this.fixture.Create<object[]>();
 
             // Act
-            Func<object> act = () => this.converter.Extend(method, item, this.memberName, MemberType);
+            Func<object> act = () => this.converter.Extend(method, item, this.memberName);
 
             // Assert
             act.Should().Throw<ArgumentNullException>()

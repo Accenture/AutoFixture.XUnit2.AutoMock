@@ -28,7 +28,7 @@
             { null, MemberType.Name },
         };
 
-        public static TheoryData<string> NullTheoryData { get; }
+        public static TheoryData<string> NullTheoryData => null;
 
         [AutoData]
         [Theory(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]
