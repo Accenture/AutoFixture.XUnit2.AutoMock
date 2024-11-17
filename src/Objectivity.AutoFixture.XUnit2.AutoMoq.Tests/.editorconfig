@@ -6,6 +6,8 @@ root = false
 dotnet_diagnostic.CA1062.severity = none
 # CA1506: Avoid excessive class coupling
 dotnet_diagnostic.CA1506.severity = none
+# CA1515: Consider making public types internal
+dotnet_diagnostic.CA1515.severity = none
 # CA1707: Identifiers should not contain underscores
 dotnet_diagnostic.CA1707.severity = none
 # CA1822: Mark members as static
