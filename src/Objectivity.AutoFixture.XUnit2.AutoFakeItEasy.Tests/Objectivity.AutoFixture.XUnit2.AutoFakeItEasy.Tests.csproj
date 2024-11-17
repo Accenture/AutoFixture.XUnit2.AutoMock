@@ -6,6 +6,8 @@
     <IsPackable>false</IsPackable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+    <!-- Ignore NuGet Audit specific errors. Issue: https://learn.microsoft.com/en-us/nuget/reference/errors-and-warnings/nu1901-nu1904 -->
+    <WarningsNotAsErrors>NU1901;NU1902;NU1903;NU1904</WarningsNotAsErrors>
     <AnalysisLevel>latest</AnalysisLevel>
     <AnalysisMode>All</AnalysisMode>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
