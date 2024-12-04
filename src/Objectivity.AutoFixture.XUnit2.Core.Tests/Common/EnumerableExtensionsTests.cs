@@ -25,7 +25,7 @@
             Type enumerableType = null;
 
             // Act
-            Func<object> act = () => enumerableType.TryGetEnumerableSingleTypeArgument(out var itemType);
+            Func<object> act = () => enumerableType.TryGetEnumerableSingleTypeArgument(out _);
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
