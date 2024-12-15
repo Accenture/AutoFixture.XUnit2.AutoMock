@@ -84,7 +84,7 @@
             // Arrange
             // Act
             // Assert
-            value.Should().NotBe(default);
+            value.Should().NotBe(0);
         }
 
         [AutoMockData]

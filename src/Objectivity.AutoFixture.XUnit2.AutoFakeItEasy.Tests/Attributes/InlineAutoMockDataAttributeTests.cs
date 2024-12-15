@@ -122,7 +122,7 @@
             // Act
             // Assert
             firstValueInstance.Should().Be(100);
-            secondValueInstance.Should().NotBe(default);
+            secondValueInstance.Should().NotBe(0);
 
             objectInstance.Should().NotBeNull();
             objectInstance.StringProperty.Should().NotBeNullOrEmpty();
