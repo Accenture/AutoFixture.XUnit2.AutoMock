@@ -185,7 +185,7 @@
             first.Should().BeOneOf((int)testData[0][0], (int)testData[1][0], (int)testData[2][0]);
             second.Should().BeOneOf((int)testData[0][1], (int)testData[1][1], (int)testData[2][1]);
             third.Should().BeOneOf((int)testData[0][2], (int)testData[1][2], (int)testData[2][2]);
-            fourth.Should().NotBe(default);
+            fourth.Should().NotBe(0);
 
             objectInstance.Should().NotBeNull();
             objectInstance.StringProperty.Should().NotBeNullOrEmpty();
