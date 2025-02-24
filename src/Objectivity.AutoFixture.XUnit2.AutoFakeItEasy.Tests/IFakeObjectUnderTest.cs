@@ -5,6 +5,6 @@
     public interface IFakeObjectUnderTest
     {
         [SuppressMessage("ReSharper", "UnusedMember.Global", Justification = "Required for test.")]
-        public string StringProperty { get; set; }
+        string StringProperty { get; set; }
     }
 }

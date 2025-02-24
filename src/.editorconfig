@@ -45,7 +45,8 @@ dotnet_style_require_accessibility_modifiers = for_non_interface_members:silent
 dotnet_style_readonly_field = true:suggestion
 # Expression-level preferences
 dotnet_style_object_initializer = true:suggestion
-dotnet_style_collection_initializer = true:suggestion
+dotnet_style_collection_initializer = false
+dotnet_style_prefer_collection_expression = false
 dotnet_style_explicit_tuple_names = true:suggestion
 dotnet_style_null_propagation = true:suggestion
 dotnet_style_coalesce_expression = true:suggestion
