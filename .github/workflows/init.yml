@@ -68,7 +68,9 @@ jobs:
         $selectedModules = @()
         foreach ($module in $inputModules.GetEnumerator()) {
           [bool]$shouldBuildModule = $true
-          [bool]::TryParse($module.Value, [ref]$shouldBuildModule)
+          if ([bool]::TryParse($module.Value, [ref]$shouldBuildModule) -eq $false) {
+            Write-Host "::debug::Unable to parse input value for module $($module.Name)."
+          }
           if ($shouldBuildModule) {
             $selectedModules += $module.Name
           }
