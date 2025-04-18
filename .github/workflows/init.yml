@@ -54,16 +54,17 @@ jobs:
       id: determine-modules
       run: |
         $ErrorActionPreference = 'stop'
-        Write-Output "::group::Inputs"
-        Write-Output "Build AutoFakeItEasy: ${env:BUILD_AUTO_FAKEITEASY}"
-        Write-Output "Build AutoMoq: ${env:BUILD_AUTO_MOQ}"
-        Write-Output "Build AutoNSubstitute: ${env:BUILD_AUTO_NSUBSTITUTE}"
-        Write-Output "::endgroup::"
         $inputModules = @{
           AutoMoq = "${env:BUILD_AUTO_MOQ}";
           AutoNSubstitute = "${env:BUILD_AUTO_NSUBSTITUTE}";
           AutoFakeItEasy = "${env:BUILD_AUTO_FAKEITEASY}"
         }
+
+        Write-Output "::group::Input parameters"
+        foreach ($module in $inputModules.GetEnumerator()) {
+          Write-Output "Build $($module.Name): $($module.Value)"
+        }
+        Write-Output "::endgroup::"
 
         $selectedModules = @()
         foreach ($module in $inputModules.GetEnumerator()) {
@@ -78,7 +79,9 @@ jobs:
 
         if ($selectedModules.count -gt 0) { $selectedModules = @("Core") + $selectedModules }
         Write-Output "::group::Selected modules"
-        Write-Output "Modules: $($selectedModules -join ', ')"
+        foreach ($selectedModule in $selectedModules) {
+          Write-Output "$($selectedModule)"
+        }
         Write-Output "::endgroup::"
 
         "modules=$($selectedModules | ConvertTo-JSON -AsArray -Compress)" >> $env:GITHUB_OUTPUT
