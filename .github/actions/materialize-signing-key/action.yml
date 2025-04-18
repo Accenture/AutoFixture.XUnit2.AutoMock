@@ -19,6 +19,7 @@ runs:
       id: signing-key
       shell: pwsh
       run: |
+        $ErrorActionPreference = 'stop'
         $path = [IO.Path]::Combine("$env:WORKING_DIRECTORY","src","$env:SIGNING_KEY_FILE_NAME")
         [IO.File]::WriteAllBytes($path, [Convert]::FromBase64String("$env:STRONG_NAME_KEY"))
         "PATH=$path" >> $env:GITHUB_OUTPUT
