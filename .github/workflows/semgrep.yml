@@ -20,7 +20,7 @@ on:
 
 defaults:
   run:
-    shell: pwsh
+    shell: bash
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -44,9 +44,7 @@ jobs:
         with:
           fetch-depth: 0 
       - name: 🔬 semgrep scan
-        run: |
-          $ErrorActionPreference = 'stop'
-          semgrep ci --sarif > semgrep.sarif
+        run: semgrep ci --sarif > semgrep.sarif
         env:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
       - name: 📊 upload sarif file for GitHub Advanced Security Dashboard
