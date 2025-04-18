@@ -30,7 +30,15 @@ jobs:
         if ($env:PACKAGE_VERSION -notmatch $semanticVersionFormat) {
           throw "Invalid version format: $($env:PACKAGE_VERSION). Expected format should follow Semantic Versioning 2.0.0 (https://semver.org/)."
         }
+
         git tag "${env:PACKAGE_VERSION}"
+        if ($LastExitCode -ne 0) {
+          throw "git tag failed with exit code $LastExitCode"
+        }
+
         git push origin "${env:PACKAGE_VERSION}"
+        if ($LastExitCode -ne 0) {
+          throw "git push failed with exit code $LastExitCode"
+        }
       env:
         PACKAGE_VERSION: ${{ inputs.version }}
