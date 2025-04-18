@@ -53,14 +53,19 @@ jobs:
     - name: 🎰 determine modules
       id: determine-modules
       run: |
+        $ErrorActionPreference = 'stop'
         $allModules = @{
-          AutoMoq = if ('${{inputs.buildAutoMoq}}') { $${{inputs.buildAutoMoq}} } else { $true };
-          AutoNSubstitute = if ('${{inputs.buildAutoNSubstitute}}') { $${{inputs.buildAutoNSubstitute}} } else { $true };
-          AutoFakeItEasy = if ('${{inputs.buildAutoFakeItEasy}}') { $${{inputs.buildAutoFakeItEasy}} } else { $true }
+          AutoMoq = if ('$env:BUILD_AUTO_MOQ') { $$env:BUILD_AUTO_MOQ } else { $true };
+          AutoNSubstitute = if ('$env:BUILD_AUTO_NSUBSTITUTE') { $$env:BUILD_AUTO_NSUBSTITUTE } else { $true };
+          AutoFakeItEasy = if ('$env:BUILD_AUTO_FAKEITEASY') { $$env:BUILD_AUTO_FAKEITEASY } else { $true }
         }
         $selectedModules = @(Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name})
         if ($selectedModules.count -gt 0) { $selectedModules = @("Core") + $selectedModules }
         "modules=$($selectedModules | ConvertTo-JSON -AsArray -Compress)" >> $env:GITHUB_OUTPUT
+      env:
+        BUILD_AUTO_FAKEITEASY: ${{ inputs.buildAutoFakeItEasy }}
+        BUILD_AUTO_MOQ: ${{ inputs.buildAutoMoq }}
+        BUILD_AUTO_NSUBSTITUTE: ${{ inputs.buildAutoNSubstitute }}
     - name: 🎱 determine next version
       id: determine-version
       uses: ./.github/actions/determine-next-version

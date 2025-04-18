@@ -18,10 +18,14 @@ on:
     - cron: '14 6 * * 0' # Random time
   workflow_dispatch:
   
+defaults:
+  run:
+    shell: pwsh
+  
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-  
+
 jobs:
   scan:
     runs-on: ubuntu-latest
@@ -35,7 +39,9 @@ jobs:
         with:
           fetch-depth: 0 
       - name: 🏗️ restore dependencies
-        run: dotnet restore ./src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
+        run: |
+          $ErrorActionPreference = 'stop'
+          dotnet restore ./src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
       - name: 🔬 snyk opensource scan
         uses: snyk/actions/dotnet@master
         continue-on-error: true

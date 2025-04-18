@@ -18,6 +18,10 @@ on:
     - cron: '38 7 * * 0' # Random time
   workflow_dispatch:
 
+defaults:
+  run:
+    shell: pwsh
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -40,7 +44,9 @@ jobs:
         with:
           fetch-depth: 0 
       - name: 🔬 semgrep scan
-        run: semgrep ci --sarif > semgrep.sarif
+        run: |
+          $ErrorActionPreference = 'stop'
+          semgrep ci --sarif > semgrep.sarif
         env:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
       - name: 📊 upload sarif file for GitHub Advanced Security Dashboard

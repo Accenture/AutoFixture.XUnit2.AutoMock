@@ -37,4 +37,9 @@ jobs:
         pattern: packages-*
         merge-multiple: true
     - name: 📤 push
-      run: dotnet nuget push **/*.nupkg --api-key ${{ secrets[matrix.packageSource.apiKeySecretName] }} --source "${{ matrix.packageSource.url }}" --skip-duplicate
+      run: |
+        $ErrorActionPreference = 'stop'
+        dotnet nuget push **/*.nupkg --api-key $env:API_KEY --source "$env:PACKAGE_SOURCE_URL" --skip-duplicate
+      env:
+        API_KEY: ${{ secrets[matrix.packageSource.apiKeySecretName] }}
+        PACKAGE_SOURCE_URL: ${{ matrix.packageSource.url }}

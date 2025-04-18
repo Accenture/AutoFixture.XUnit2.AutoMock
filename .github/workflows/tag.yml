@@ -25,5 +25,8 @@ jobs:
         fetch-depth: 0
     - name: 🏷️ tag version
       run: |
-        git tag "${{ inputs.version }}"
-        git push origin "${{ inputs.version }}"        
+        $ErrorActionPreference = 'stop'
+        git tag "$env:PACKAGE_VERSION"
+        git push origin "$env:PACKAGE_VERSION"
+      env:
+        PACKAGE_VERSION: ${{ inputs.version }}
