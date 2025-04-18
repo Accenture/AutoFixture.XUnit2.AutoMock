@@ -58,6 +58,9 @@ jobs:
       run: |
         $ErrorActionPreference = 'stop'
         dotnet build ./src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
+        if ($LastExitCode -ne 0) {
+          throw "dotnet build failed with exit code $LastExitCode"
+        }
     - name: 🔬 analyze with CodeQL
       uses: github/codeql-action/analyze@v3
       with:

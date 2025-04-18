@@ -42,6 +42,9 @@ jobs:
         run: |
           $ErrorActionPreference = 'stop'
           dotnet restore ./src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
+          if ($LastExitCode -ne 0) {
+            throw "dotnet restore failed with exit code $LastExitCode"
+          }
       - name: 🔬 snyk opensource scan
         uses: snyk/actions/dotnet@master
         continue-on-error: true

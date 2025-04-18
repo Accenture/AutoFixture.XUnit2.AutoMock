@@ -65,6 +65,9 @@ jobs:
       run: |
         $ErrorActionPreference = 'stop'
         dotnet build ./src/${env:MODULE_NAMESPACE}.${env:MODULE_NAME}.sln
+        if ($LastExitCode -ne 0) {
+          throw "dotnet build failed with exit code $LastExitCode"
+        }
       env:
         MODULE_NAMESPACE: ${{ inputs.module-namespace }}
         MODULE_NAME: ${{ inputs.module-name }}
@@ -74,7 +77,14 @@ jobs:
       run: |
         $ErrorActionPreference = 'stop'
         dotnet test ./src/${env:MODULE_NAMESPACE}.${env:MODULE_NAME}.Tests/ --no-build -f net472
+        if ($LastExitCode -ne 0) {
+          throw "dotnet test failed with exit code $LastExitCode"
+        }
+
         dotnet test ./src/${env:MODULE_NAMESPACE}.${env:MODULE_NAME}.Tests/ --no-build -f net48
+        if ($LastExitCode -ne 0) {
+          throw "dotnet test failed with exit code $LastExitCode"
+        }
       env:
           MODULE_NAMESPACE: ${{ inputs.module-namespace }}
           MODULE_NAME: ${{ inputs.module-name }}
@@ -90,6 +100,9 @@ jobs:
       run: |
         $ErrorActionPreference = 'stop'
         dotnet pack ./src/${env:MODULE_NAMESPACE}.${env:MODULE_NAME}
+        if ($LastExitCode -ne 0) {
+          throw "dotnet pack failed with exit code $LastExitCode"
+        }
       env:
         MODULE_NAMESPACE: ${{ inputs.module-namespace }}
         MODULE_NAME: ${{ inputs.module-name }}
