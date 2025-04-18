@@ -55,9 +55,9 @@ jobs:
       run: |
         $ErrorActionPreference = 'stop'
         $allModules = @{
-          AutoMoq = if ('$env:BUILD_AUTO_MOQ') { $$env:BUILD_AUTO_MOQ } else { $true };
-          AutoNSubstitute = if ('$env:BUILD_AUTO_NSUBSTITUTE') { $$env:BUILD_AUTO_NSUBSTITUTE } else { $true };
-          AutoFakeItEasy = if ('$env:BUILD_AUTO_FAKEITEASY') { $$env:BUILD_AUTO_FAKEITEASY } else { $true }
+          AutoMoq = if ('$env:BUILD_AUTO_MOQ') { [bool]::Parse('$env:BUILD_AUTO_MOQ') } else { $true };
+          AutoNSubstitute = if ('$env:BUILD_AUTO_NSUBSTITUTE') { [bool]::Parse('$env:BUILD_AUTO_NSUBSTITUTE') } else { $true };
+          AutoFakeItEasy = if ('$env:BUILD_AUTO_FAKEITEASY') { [bool]::Parse('$env:BUILD_AUTO_FAKEITEASY') } else { $true }
         }
         $selectedModules = @(Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name})
         if ($selectedModules.count -gt 0) { $selectedModules = @("Core") + $selectedModules }
