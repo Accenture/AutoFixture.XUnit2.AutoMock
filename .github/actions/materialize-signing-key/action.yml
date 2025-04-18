@@ -17,10 +17,12 @@ runs:
   steps:
     - name: 🖊️ materialize signing key
       id: signing-key
-      run: |
-        $path = [IO.Path]::Combine("${{ github.workspace }}","src","${{ inputs.signing-key-file-name }}")
-        [IO.File]::WriteAllBytes($path, [Convert]::FromBase64String("$env:StrongNameKey"))
-        "PATH=$path" >> $env:GITHUB_OUTPUT
       shell: pwsh
+      run: |
+        $path = [IO.Path]::Combine("$env:WORKING_DIRECTORY","src","$env:SIGNING_KEY_FILE_NAME")
+        [IO.File]::WriteAllBytes($path, [Convert]::FromBase64String("$env:STRONG_NAME_KEY"))
+        "PATH=$path" >> $env:GITHUB_OUTPUT
       env:
-        StrongNameKey: ${{ inputs.signing-key-value }}
+        STRONG_NAME_KEY: ${{ inputs.signing-key-value }}
+        SIGNING_KEY_FILE_NAME: ${{ inputs.signing-key-file-name }}
+        WORKING_DIRECTORY: ${{ github.workspace }}
