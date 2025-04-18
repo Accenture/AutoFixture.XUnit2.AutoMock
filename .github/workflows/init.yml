@@ -59,17 +59,27 @@ jobs:
         Write-Output "Build AutoMoq: ${env:BUILD_AUTO_MOQ}"
         Write-Output "Build AutoNSubstitute: ${env:BUILD_AUTO_NSUBSTITUTE}"
         Write-Output "::endgroup::"
-        $allModules = @{
-          AutoMoq = if ('${env:BUILD_AUTO_MOQ}') { [bool]::Parse('${env:BUILD_AUTO_MOQ}') } else { $true };
-          AutoNSubstitute = if ('${env:BUILD_AUTO_NSUBSTITUTE}') { [bool]::Parse('${env:BUILD_AUTO_NSUBSTITUTE}') } else { $true };
-          AutoFakeItEasy = if ('${env:BUILD_AUTO_FAKEITEASY}') { [bool]::Parse('${env:BUILD_AUTO_FAKEITEASY}') } else { $true }
+        $inputModules = @{
+          AutoMoq = "${env:BUILD_AUTO_MOQ}";
+          AutoNSubstitute = "${env:BUILD_AUTO_NSUBSTITUTE}";
+          AutoFakeItEasy = "${env:BUILD_AUTO_FAKEITEASY}"
         }
-        $selectedModules = @(Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name})
+
+        $selectedModules = @()
+        foreach ($module in $inputModules.GetEnumerator()) {
+          [bool]$shouldBuildModule = $true
+          [bool]::TryParse($module.Value, [ref]$shouldBuildModule)
+          if ($shouldBuildModule) {
+            $selectedModules += $module.Name
+          }
+        }
+
         if ($selectedModules.count -gt 0) { $selectedModules = @("Core") + $selectedModules }
-        "modules=$($selectedModules | ConvertTo-JSON -AsArray -Compress)" >> $env:GITHUB_OUTPUT
         Write-Output "::group::Selected modules"
         Write-Output "Modules: $($selectedModules -join ', ')"
         Write-Output "::endgroup::"
+
+        "modules=$($selectedModules | ConvertTo-JSON -AsArray -Compress)" >> $env:GITHUB_OUTPUT
       env:
         BUILD_AUTO_FAKEITEASY: ${{ inputs.buildAutoFakeItEasy }}
         BUILD_AUTO_MOQ: ${{ inputs.buildAutoMoq }}
