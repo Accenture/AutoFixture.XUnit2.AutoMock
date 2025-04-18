@@ -26,7 +26,7 @@ jobs:
     - name: 🏷️ tag version
       run: |
         $ErrorActionPreference = 'stop'
-        git tag "$env:PACKAGE_VERSION"
-        git push origin "$env:PACKAGE_VERSION"
+        git tag "${env:PACKAGE_VERSION}"
+        git push origin "${env:PACKAGE_VERSION}"
       env:
         PACKAGE_VERSION: ${{ inputs.version }}

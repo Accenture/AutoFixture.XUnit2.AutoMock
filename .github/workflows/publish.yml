@@ -39,7 +39,7 @@ jobs:
     - name: 📤 push
       run: |
         $ErrorActionPreference = 'stop'
-        dotnet nuget push **/*.nupkg --api-key $env:API_KEY --source "$env:PACKAGE_SOURCE_URL" --skip-duplicate
+        dotnet nuget push **/*.nupkg --api-key ${env:API_KEY} --source "${env:PACKAGE_SOURCE_URL}" --skip-duplicate
       env:
         API_KEY: ${{ secrets[matrix.packageSource.apiKeySecretName] }}
         PACKAGE_SOURCE_URL: ${{ matrix.packageSource.url }}

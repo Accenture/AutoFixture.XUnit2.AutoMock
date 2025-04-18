@@ -64,7 +64,7 @@ jobs:
     - name: 🏗️ build
       run: |
         $ErrorActionPreference = 'stop'
-        dotnet build ./src/$env:MODULE_NAMESPACE.$env:MODULE_NAME.sln
+        dotnet build ./src/${env:MODULE_NAMESPACE}.${env:MODULE_NAME}.sln
       env:
         MODULE_NAMESPACE: ${{ inputs.module-namespace }}
         MODULE_NAME: ${{ inputs.module-name }}
@@ -73,8 +73,8 @@ jobs:
     - name: 🧪 test ${{ inputs.module-name }} in [net472, net48]
       run: |
         $ErrorActionPreference = 'stop'
-        dotnet test ./src/$env:MODULE_NAMESPACE.$env:MODULE_NAME.Tests/ --no-build -f net472
-        dotnet test ./src/$env:MODULE_NAMESPACE.$env:MODULE_NAME.Tests/ --no-build -f net48
+        dotnet test ./src/${env:MODULE_NAMESPACE}.${env:MODULE_NAME}.Tests/ --no-build -f net472
+        dotnet test ./src/${env:MODULE_NAMESPACE}.${env:MODULE_NAME}.Tests/ --no-build -f net48
       env:
           MODULE_NAMESPACE: ${{ inputs.module-namespace }}
           MODULE_NAME: ${{ inputs.module-name }}
@@ -89,7 +89,7 @@ jobs:
       if: ${{ startsWith(inputs.module-name, 'Auto' ) }}
       run: |
         $ErrorActionPreference = 'stop'
-        dotnet pack ./src/$env:MODULE_NAMESPACE.$env:MODULE_NAME
+        dotnet pack ./src/${env:MODULE_NAMESPACE}.${env:MODULE_NAME}
       env:
         MODULE_NAMESPACE: ${{ inputs.module-namespace }}
         MODULE_NAME: ${{ inputs.module-name }}

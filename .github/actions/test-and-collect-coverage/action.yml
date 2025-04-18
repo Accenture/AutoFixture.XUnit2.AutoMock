@@ -25,9 +25,9 @@ runs:
       shell: pwsh
       run: |
         $ErrorActionPreference = 'stop'
-        $path = [IO.Path]::Combine("$env:COVERAGE_DIRECTORY", "$env:MODULE_NAMESPACE.$env:MODULE_NAME.xml")
-        dotnet test ./src/$env:MODULE_NAMESPACE.$env:MODULE_NAME.Tests/ --no-build -f $env:TARGET_FRAMEWORK -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$path
-        "FILE=$env:MODULE_NAMESPACE.$env:MODULE_NAME.$env:TARGET_FRAMEWORK.xml" >> $env:GITHUB_OUTPUT
+        $path = [IO.Path]::Combine("${env:COVERAGE_DIRECTORY}", "${env:MODULE_NAMESPACE}.${env:MODULE_NAME}.xml")
+        dotnet test ./src/${env:MODULE_NAMESPACE}.${env:MODULE_NAME}.Tests/ --no-build -f ${env:TARGET_FRAMEWORK} -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$path
+        "FILE=${env:MODULE_NAMESPACE}.${env:MODULE_NAME}.${env:TARGET_FRAMEWORK}.xml" >> $env:GITHUB_OUTPUT
       env:
         COVERAGE_DIRECTORY: ${{ inputs.coverage-directory }}
         MODULE_NAME: ${{ inputs.module-name }}
