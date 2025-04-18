@@ -18,6 +18,10 @@ on:
     - cron: '38 7 * * 0' # Random time
   workflow_dispatch:
 
+defaults:
+  run:
+    shell: bash
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true

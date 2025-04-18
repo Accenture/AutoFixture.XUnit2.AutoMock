@@ -48,12 +48,26 @@ jobs:
         signing-key-value: ${{ secrets.SIGNING_KEY }}
     - name: 💾 install stryker.net
       run: |
+        $ErrorActionPreference = 'stop'
         dotnet new tool-manifest
+        if ($LastExitCode -ne 0) {
+          throw "dotnet new failed with exit code $LastExitCode"
+        }
+
         dotnet tool install --local dotnet-stryker
+        if ($LastExitCode -ne 0) {
+          throw "dotnet tool install failed with exit code $LastExitCode"
+        }
     - name: 👾 test mutations
       working-directory: ./src
       run: |
-        dotnet tool run dotnet-stryker -f ../stryker-config.yml -r dashboard -v ${{ github.ref_name }} --dashboard-api-key ${{ secrets.STRYKER_API_KEY }}
+        $ErrorActionPreference = 'stop'
+        dotnet tool run dotnet-stryker -f ../stryker-config.yml -r dashboard -v ${env:BRANCH_NAME} --dashboard-api-key ${env:API_KEY}
+        if ($LastExitCode -ne 0) {
+          throw "dotnet tool run failed with exit code $LastExitCode"
+        }
       env:
+        API_KEY: ${{ secrets.STRYKER_API_KEY }}
+        BRANCH_NAME: ${{ github.ref_name }}
         StrongNameKey: ${{ secrets.SIGNING_KEY }}
         StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}

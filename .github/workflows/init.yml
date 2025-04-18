@@ -53,14 +53,42 @@ jobs:
     - name: 🎰 determine modules
       id: determine-modules
       run: |
-        $allModules = @{
-          AutoMoq = if ('${{inputs.buildAutoMoq}}') { $${{inputs.buildAutoMoq}} } else { $true };
-          AutoNSubstitute = if ('${{inputs.buildAutoNSubstitute}}') { $${{inputs.buildAutoNSubstitute}} } else { $true };
-          AutoFakeItEasy = if ('${{inputs.buildAutoFakeItEasy}}') { $${{inputs.buildAutoFakeItEasy}} } else { $true }
+        $ErrorActionPreference = 'stop'
+        $inputModules = @{
+          AutoMoq = "${env:BUILD_AUTO_MOQ}";
+          AutoNSubstitute = "${env:BUILD_AUTO_NSUBSTITUTE}";
+          AutoFakeItEasy = "${env:BUILD_AUTO_FAKEITEASY}"
         }
-        $selectedModules = @(Foreach ($module in ($allModules.GetEnumerator() | Where-Object { $_.Value })) {$module.Name})
+
+        Write-Output "::group::Input parameters"
+        foreach ($module in $inputModules.GetEnumerator()) {
+          Write-Output "Build $($module.Name): $($module.Value)"
+        }
+        Write-Output "::endgroup::"
+
+        $selectedModules = @()
+        foreach ($module in $inputModules.GetEnumerator()) {
+          [bool]$shouldBuildModule = $true
+          if ([bool]::TryParse($module.Value, [ref]$shouldBuildModule) -eq $false) {
+            Write-Host "::debug::Unable to parse input value for module $($module.Name)."
+          }
+          if ($shouldBuildModule) {
+            $selectedModules += $module.Name
+          }
+        }
+
         if ($selectedModules.count -gt 0) { $selectedModules = @("Core") + $selectedModules }
+        Write-Output "::group::Selected modules"
+        foreach ($selectedModule in $selectedModules) {
+          Write-Output "$($selectedModule)"
+        }
+        Write-Output "::endgroup::"
+
         "modules=$($selectedModules | ConvertTo-JSON -AsArray -Compress)" >> $env:GITHUB_OUTPUT
+      env:
+        BUILD_AUTO_FAKEITEASY: ${{ inputs.buildAutoFakeItEasy }}
+        BUILD_AUTO_MOQ: ${{ inputs.buildAutoMoq }}
+        BUILD_AUTO_NSUBSTITUTE: ${{ inputs.buildAutoNSubstitute }}
     - name: 🎱 determine next version
       id: determine-version
       uses: ./.github/actions/determine-next-version

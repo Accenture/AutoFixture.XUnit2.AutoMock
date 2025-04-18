@@ -62,14 +62,32 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-nuget-${{ inputs.module-name }}
     - name: 🏗️ build
-      run: dotnet build ./src/${{ inputs.module-namespace }}.${{ inputs.module-name }}.sln
+      run: |
+        $ErrorActionPreference = 'stop'
+        dotnet build ./src/${env:MODULE_NAMESPACE}.${env:MODULE_NAME}.sln
+        if ($LastExitCode -ne 0) {
+          throw "dotnet build failed with exit code $LastExitCode"
+        }
       env:
+        MODULE_NAMESPACE: ${{ inputs.module-namespace }}
+        MODULE_NAME: ${{ inputs.module-name }}
         StrongNameKey: ${{ secrets.signing-key-value }}
         StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
     - name: 🧪 test ${{ inputs.module-name }} in [net472, net48]
       run: |
-        dotnet test ./src/${{ inputs.module-namespace }}.${{ inputs.module-name }}.Tests/ --no-build -f net472
-        dotnet test ./src/${{ inputs.module-namespace }}.${{ inputs.module-name }}.Tests/ --no-build -f net48
+        $ErrorActionPreference = 'stop'
+        dotnet test ./src/${env:MODULE_NAMESPACE}.${env:MODULE_NAME}.Tests/ --no-build -f net472
+        if ($LastExitCode -ne 0) {
+          throw "dotnet test failed with exit code $LastExitCode"
+        }
+
+        dotnet test ./src/${env:MODULE_NAMESPACE}.${env:MODULE_NAME}.Tests/ --no-build -f net48
+        if ($LastExitCode -ne 0) {
+          throw "dotnet test failed with exit code $LastExitCode"
+        }
+      env:
+          MODULE_NAMESPACE: ${{ inputs.module-namespace }}
+          MODULE_NAME: ${{ inputs.module-name }}
     - name: 🧪 test ${{ inputs.module-name }} in net8.0 & collect coverage
       uses: ./.github/actions/test-and-collect-coverage
       with:
@@ -79,10 +97,17 @@ jobs:
         target-framework: net8.0
     - name: 📦 pack
       if: ${{ startsWith(inputs.module-name, 'Auto' ) }}
-      run: dotnet pack ./src/${{ inputs.module-namespace }}.${{ inputs.module-name }}
+      run: |
+        $ErrorActionPreference = 'stop'
+        dotnet pack ./src/${env:MODULE_NAMESPACE}.${env:MODULE_NAME}
+        if ($LastExitCode -ne 0) {
+          throw "dotnet pack failed with exit code $LastExitCode"
+        }
       env:
-          StrongNameKey: ${{ secrets.signing-key-value }}
-          StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
+        MODULE_NAMESPACE: ${{ inputs.module-namespace }}
+        MODULE_NAME: ${{ inputs.module-name }}
+        StrongNameKey: ${{ secrets.signing-key-value }}
+        StrongNameKeyPath: ${{ steps.signing-key.outputs.file-path }}
     - name: 🔼 upload packages
       if: ${{ startsWith(inputs.module-name, 'Auto' ) }}
       uses: actions/upload-artifact@v4

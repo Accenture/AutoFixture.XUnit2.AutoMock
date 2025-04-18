@@ -22,11 +22,21 @@ runs:
   steps:
     - name: 🧪 test ${{ inputs.module-name }} in ${{ inputs.target-framework }} & collect coverage
       id: test-and-collect-code-coverage
-      run: |
-        $path = [IO.Path]::Combine("${{ inputs.coverage-directory }}","${{ inputs.module-namespace }}.${{ inputs.module-name }}.xml")
-        dotnet test ./src/${{ inputs.module-namespace }}.${{ inputs.module-name }}.Tests/ --no-build -f ${{ inputs.target-framework }} -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$path
-        "FILE=${{ inputs.module-namespace }}.${{ inputs.module-name }}.${{ inputs.target-framework }}.xml" >> $env:GITHUB_OUTPUT
       shell: pwsh
+      run: |
+        $ErrorActionPreference = 'stop'
+        $path = [IO.Path]::Combine("${env:COVERAGE_DIRECTORY}", "${env:MODULE_NAMESPACE}.${env:MODULE_NAME}.xml")
+        dotnet test ./src/${env:MODULE_NAMESPACE}.${env:MODULE_NAME}.Tests/ --no-build -f ${env:TARGET_FRAMEWORK} -e:CollectCoverage=true -e:CoverletOutputFormat=opencover -e:Exclude="[xunit*]*" -e:CoverletOutput=$path
+        if ($LastExitCode -ne 0) {
+          throw "dotnet test failed with exit code $LastExitCode"
+        }
+
+        "FILE=${env:MODULE_NAMESPACE}.${env:MODULE_NAME}.${env:TARGET_FRAMEWORK}.xml" >> $env:GITHUB_OUTPUT
+      env:
+        COVERAGE_DIRECTORY: ${{ inputs.coverage-directory }}
+        MODULE_NAME: ${{ inputs.module-name }}
+        MODULE_NAMESPACE: ${{ inputs.module-namespace }}
+        TARGET_FRAMEWORK: ${{ inputs.target-framework }}
     - name: 📤 upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
       with:
