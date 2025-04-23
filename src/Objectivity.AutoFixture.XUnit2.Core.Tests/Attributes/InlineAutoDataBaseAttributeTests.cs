@@ -2,8 +2,6 @@
 {
     using System;
 
-    using FluentAssertions;
-
     using global::AutoFixture;
     using global::AutoFixture.Xunit2;
     using Moq;
@@ -28,10 +26,10 @@
             var attribute = new InlineAutoDataBaseAttributeUnderTest(fixture, provider.Object);
 
             // Assert
-            attribute.Fixture.Should().Be(fixture);
+            Assert.Equal(fixture, attribute.Fixture);
             Assert.False(attribute.IgnoreVirtualMembers);
-            attribute.Provider.Should().Be(provider.Object);
-            attribute.Values.Should().HaveCount(0);
+            Assert.Equal(provider.Object, attribute.Provider);
+            Assert.Empty(attribute.Values);
         }
 
         [AutoData]
@@ -46,10 +44,10 @@
             var attribute = new InlineAutoDataBaseAttributeUnderTest(fixture, provider.Object, initialValues[0], initialValues[1], initialValues[2]);
 
             // Assert
-            attribute.Fixture.Should().Be(fixture);
+            Assert.Equal(fixture, attribute.Fixture);
             Assert.False(attribute.IgnoreVirtualMembers);
-            attribute.Provider.Should().Be(provider.Object);
-            attribute.Values.Should().BeEquivalentTo(initialValues);
+            Assert.Equal(provider.Object, attribute.Provider);
+            Assert.Equal(initialValues, attribute.Values);
         }
 
         [AutoData]
@@ -64,10 +62,10 @@
             var attribute = new InlineAutoDataBaseAttributeUnderTest(fixture, provider.Object, initialValues);
 
             // Assert
-            attribute.Fixture.Should().Be(fixture);
+            Assert.Equal(fixture, attribute.Fixture);
             Assert.False(attribute.IgnoreVirtualMembers);
-            attribute.Provider.Should().Be(provider.Object);
-            attribute.Values.Should().HaveCount(0);
+            Assert.Equal(provider.Object, attribute.Provider);
+            Assert.Empty(attribute.Values);
         }
 
         [Fact(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]
@@ -78,11 +76,11 @@
             var provider = new Mock<IAutoFixtureInlineAttributeProvider>();
 
             // Act
-            Func<object> act = () => new InlineAutoDataBaseAttributeUnderTest(fixture, provider.Object);
+            object Act() => new InlineAutoDataBaseAttributeUnderTest(fixture, provider.Object);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("fixture");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("fixture", exception.ParamName);
         }
 
         [AutoData]
@@ -93,11 +91,11 @@
             const IAutoFixtureInlineAttributeProvider provider = null;
 
             // Act
-            Func<object> act = () => new InlineAutoDataBaseAttributeUnderTest(fixture, provider);
+            object Act() => new InlineAutoDataBaseAttributeUnderTest(fixture, provider);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("provider");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("provider", exception.ParamName);
         }
 
         [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]

@@ -3,8 +3,6 @@
     using System;
     using System.Diagnostics.CodeAnalysis;
 
-    using FluentAssertions;
-
     using Objectivity.AutoFixture.XUnit2.Core.Common;
 
     using Xunit;
@@ -22,11 +20,11 @@
             const string expectedParameterName = "value";
 
             // Act
-            Func<object> act = () => value.NotNull(expectedParameterName);
+            static object Act() => value.NotNull(expectedParameterName);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be(expectedParameterName);
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal(expectedParameterName, exception.ParamName);
         }
 
         [Fact(DisplayName = "GIVEN initialized object WHEN NotNull is invoked THEN the same object is returned")]
@@ -39,7 +37,7 @@
             var result = value.NotNull("value");
 
             // Assert
-            result.Should().Be(value);
+            Assert.Equal(value, result);
         }
     }
 }

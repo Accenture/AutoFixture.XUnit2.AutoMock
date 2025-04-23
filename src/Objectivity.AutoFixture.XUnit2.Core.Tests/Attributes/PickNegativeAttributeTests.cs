@@ -6,8 +6,6 @@
     using System.Linq;
     using System.Reflection;
 
-    using FluentAssertions;
-
     using global::AutoFixture;
     using global::AutoFixture.Kernel;
     using global::AutoFixture.Xunit2;
@@ -79,11 +77,11 @@
             var attribute = new PickNegativeAttribute();
 
             // Act
-            Action act = () => attribute.GetCustomization(null);
+            void Act() => attribute.GetCustomization(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("parameter");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("parameter", exception.ParamName);
         }
 
         [MemberData(nameof(CustomizationUsageTestData))]
@@ -106,8 +104,8 @@
             item = (T)fixture.Create(request.Object, new SpecimenContext(fixture));
 
             // Assert
-            item.Should().BeOfType(type)
-                .And.Match(x => x.CompareTo(zero) < 0);
+            Assert.IsType(type, item);
+            Assert.True(item.CompareTo(zero) < 0);
         }
 
         [MemberData(nameof(CustomizationUsageTestData))]
@@ -129,7 +127,7 @@
             var result = (T[])fixture.Create(request.Object, new SpecimenContext(fixture));
 
             // Assert
-            result.Should().AllSatisfy(x => x.Should().BeLessThan(zero));
+            Assert.All(result, x => Assert.True(x.CompareTo(zero) < 0));
         }
 
         [InlineData(SignedByteNumbers.MinusTwo, SignedByteNumbers.MinusOne)]
@@ -154,8 +152,8 @@
             var result = (Enum)fixture.Create(request.Object, new SpecimenContext(fixture));
 
             // Assert
-            result.Should().BeOfType(type)
-                .And.BeOneOf(expectedValues);
+            Assert.IsType(type, result);
+            Assert.Contains(result, expectedValues);
         }
 
         [InlineData(SignedByteNumbers.MinusTwo, SignedByteNumbers.MinusOne)]
@@ -180,7 +178,7 @@
             var result = ((Array)fixture.Create(request.Object, new SpecimenContext(fixture))).Cast<Enum>();
 
             // Assert
-            result.Should().AllSatisfy(x => x.Should().BeOneOf(expectedValues));
+            Assert.All(result, x => Assert.Contains(x, expectedValues));
         }
 
         [AutoData]
@@ -191,7 +189,7 @@
             // Arrange
             // Act
             // Assert
-            targetValue.Should().BeLessThan(0);
+            Assert.True(targetValue < 0);
         }
 
         [AutoData]
@@ -202,7 +200,7 @@
             // Arrange
             // Act
             // Assert
-            targetValue.Should().BeLessThan(0);
+            Assert.True(targetValue < 0);
         }
 
         [AutoData]
@@ -213,7 +211,7 @@
             // Arrange
             // Act
             // Assert
-            targetValue.Should().BeLessThan(0);
+            Assert.True(targetValue < 0);
         }
 
         [AutoData]
@@ -224,7 +222,7 @@
             // Arrange
             // Act
             // Assert
-            targetValue.Should().BeLessThan(0);
+            Assert.True(targetValue < 0);
         }
 
         [AutoData]
@@ -235,7 +233,7 @@
             // Arrange
             // Act
             // Assert
-            targetValue.Should().BeLessThan(0);
+            Assert.True(targetValue < 0);
         }
 
         [AutoData]
@@ -246,7 +244,7 @@
             // Arrange
             // Act
             // Assert
-            targetValue.Should().BeLessThan(0);
+            Assert.True(targetValue < 0);
         }
 
         [AutoData]
@@ -257,7 +255,7 @@
             // Arrange
             // Act
             // Assert
-            targetValue.Should().BeLessThan(0);
+            Assert.True(targetValue < 0);
         }
 
         [AutoData]
@@ -268,7 +266,7 @@
             // Arrange
             // Act
             // Assert
-            targetValue.Should().BeOneOf(IntNumbers.MinusOne, IntNumbers.MinusTwo);
+            Assert.Contains(targetValue, new[] { IntNumbers.MinusOne, IntNumbers.MinusTwo });
         }
     }
 }

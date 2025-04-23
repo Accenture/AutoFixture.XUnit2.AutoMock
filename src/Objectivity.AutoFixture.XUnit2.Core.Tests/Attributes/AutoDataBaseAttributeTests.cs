@@ -2,8 +2,6 @@
 {
     using System;
 
-    using FluentAssertions;
-
     using global::AutoFixture;
     using global::AutoFixture.Xunit2;
     using Moq;
@@ -28,8 +26,8 @@
             var attribute = new AutoDataBaseAttributeUnderTest(fixture, provider.Object);
 
             // Assert
-            attribute.Fixture.Should().Be(fixture);
-            attribute.Provider.Should().Be(provider.Object);
+            Assert.Equal(fixture, attribute.Fixture);
+            Assert.Equal(provider.Object, attribute.Provider);
             Assert.False(attribute.IgnoreVirtualMembers);
         }
 
@@ -41,11 +39,11 @@
             var provider = new Mock<IAutoFixtureAttributeProvider>();
 
             // Act
-            Func<object> act = () => new AutoDataBaseAttributeUnderTest(fixture, provider.Object);
+            object Act() => new AutoDataBaseAttributeUnderTest(fixture, provider.Object);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("fixture");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("fixture", exception.ParamName);
         }
 
         [AutoData]
@@ -56,11 +54,11 @@
             const IAutoFixtureAttributeProvider provider = null;
 
             // Act
-            Func<object> act = () => new AutoDataBaseAttributeUnderTest(fixture, provider);
+            object Act() => new AutoDataBaseAttributeUnderTest(fixture, provider);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("provider");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("provider", exception.ParamName);
         }
 
         [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]

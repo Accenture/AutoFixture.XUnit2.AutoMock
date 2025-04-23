@@ -3,8 +3,6 @@
     using System;
     using System.Reflection;
 
-    using FluentAssertions;
-
     using global::AutoFixture;
     using global::AutoFixture.Xunit2;
     using Moq;
@@ -39,11 +37,11 @@
             var provider = new Mock<IAutoFixtureAttributeProvider>();
 
             // Act
-            Func<object> act = () => new MemberAutoDataBaseAttributeUnderTest(fixture, memberName, provider.Object);
+            object Act() => new MemberAutoDataBaseAttributeUnderTest(fixture, memberName, provider.Object);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("fixture");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("fixture", exception.ParamName);
         }
 
         [MemberData(nameof(MemberTypeTestData))]
@@ -59,12 +57,14 @@
             var attribute = new MemberAutoDataBaseAttributeUnderTest(fixture, memberName) { MemberType = memberType };
 
             // Act
-            Func<object[]> act = () => attribute.CallConvertDataItem(TestMethod, item);
+            object[] Act() => attribute.CallConvertDataItem(TestMethod, item);
 
             // Assert
-            act.Should().Throw<ArgumentException>()
-                .And.Message.Should().NotBeNullOrEmpty()
-                .And.Contain(memberName).And.Contain(expectedTypeName);
+            var exception = Assert.Throws<ArgumentException>((Func<object[]>)Act);
+            Assert.NotNull(exception.Message);
+            Assert.NotEmpty(exception.Message);
+            Assert.Contains(memberName, exception.Message);
+            Assert.Contains(expectedTypeName, exception.Message);
         }
 
         [Fact(DisplayName = "GIVEN array WHEN ConvertDataItem is invoked THEN the same array is returned")]
@@ -79,7 +79,7 @@
             var data = attribute.CallConvertDataItem(TestMethod, array);
 
             // Assert
-            data.Should().BeEquivalentTo(array);
+            Assert.Equal(array, data);
         }
 
         [Fact(DisplayName = "GIVEN null theory data WHEN GetData is invoked THEN null is returned")]
@@ -93,7 +93,7 @@
             var data = attribute.GetData(TestMethod);
 
             // Assert
-            data.Should().BeNull();
+            Assert.Null(data);
         }
 
         protected void MethodUnderTest()

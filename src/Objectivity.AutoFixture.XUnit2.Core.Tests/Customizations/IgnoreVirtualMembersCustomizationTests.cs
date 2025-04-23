@@ -2,8 +2,6 @@
 {
     using System;
 
-    using FluentAssertions;
-
     using global::AutoFixture;
     using global::AutoFixture.Xunit2;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
@@ -25,7 +23,7 @@
             fixture.Customize(customization);
 
             // Assert
-            fixture.ShouldIgnoreVirtualMembers();
+            Assert.Multiple(fixture.ShouldIgnoreVirtualMembers);
         }
 
         [AutoData]
@@ -40,7 +38,7 @@
             fixture.Customize(customization);
 
             // Assert
-            fixture.ShouldIgnoreVirtualMembers(reflectedType);
+            Assert.Multiple(() => fixture.ShouldIgnoreVirtualMembers(reflectedType));
         }
 
         [Fact(DisplayName = "GIVEN default constructor WHEN invoked THEN reflected type should be null")]
@@ -51,7 +49,7 @@
             var customization = new IgnoreVirtualMembersCustomization();
 
             // Assert
-            customization.ReflectedType.Should().BeNull();
+            Assert.Null(customization.ReflectedType);
         }
 
         [AutoData]
@@ -63,7 +61,7 @@
             var customization = new IgnoreVirtualMembersCustomization(reflectedType);
 
             // Assert
-            customization.ReflectedType.Should().BeSameAs(reflectedType);
+            Assert.Same(reflectedType, customization.ReflectedType);
         }
     }
 }

@@ -6,8 +6,6 @@
     using System.Linq;
     using System.Reflection;
 
-    using FluentAssertions;
-
     using global::AutoFixture;
     using global::AutoFixture.Kernel;
     using global::AutoFixture.Xunit2;
@@ -42,7 +40,8 @@
             var customization = customizeAttribute.GetCustomization(null);
 
             // Assert
-            customization.Should().NotBeNull().And.BeAssignableTo(customizationType);
+            Assert.NotNull(customization);
+            Assert.IsType(customizationType, customization);
         }
 
         [Fact(DisplayName = "GIVEN customization type with arguments WHEN GetCustomization is invoked THEN customization instance is returned")]
@@ -56,7 +55,8 @@
             var customization = customizeAttribute.GetCustomization(null);
 
             // Assert
-            customization.Should().NotBeNull().And.BeAssignableTo(customizationType);
+            Assert.NotNull(customization);
+            Assert.IsType(customizationType, customization);
         }
 
         [Fact(DisplayName = "GIVEN customization type requiring arguments without any WHEN GetCustomization is invoked THEN exception is thrown")]
@@ -67,10 +67,10 @@
             var customizeAttribute = new CustomizeWithAttribute(customizationType);
 
             // Act
-            Func<object> act = () => customizeAttribute.GetCustomization(null);
+            object Act() => customizeAttribute.GetCustomization(null);
 
             // Assert
-            act.Should().Throw<MissingMethodException>();
+            Assert.Throws<MissingMethodException>(Act);
         }
 
         [Fact(DisplayName = "GIVEN CustomizeWithAttribute with IncludeParameterType set WHEN GetCustomization without ParameterInfo is invoked THEN exception is thrown")]
@@ -81,11 +81,11 @@
             var customizeAttribute = new CustomizeWithAttribute(customizationType) { IncludeParameterType = true };
 
             // Act
-            Func<object> act = () => customizeAttribute.GetCustomization(null);
+            object Act() => customizeAttribute.GetCustomization(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("parameter");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("parameter", exception.ParamName);
         }
 
         [Fact(DisplayName = "GIVEN uninitialized type WHEN constructor is invoked THEN exception is thrown")]
@@ -95,11 +95,11 @@
             const Type customizationType = null;
 
             // Act
-            Func<object> act = () => new CustomizeWithAttribute(customizationType);
+            static object Act() => new CustomizeWithAttribute(customizationType);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("type");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("type", exception.ParamName);
         }
 
         [Fact(DisplayName = "GIVEN unsupported type WHEN constructor is invoked THEN exception is thrown")]
@@ -109,12 +109,13 @@
             var customizationType = typeof(string);
 
             // Act
-            Func<object> act = () => new CustomizeWithAttribute(customizationType);
+            object Act() => new CustomizeWithAttribute(customizationType);
 
             // Assert
-            act.Should().Throw<ArgumentException>()
-                .And.Message.Should().NotBeNullOrEmpty()
-                .And.Contain(nameof(ICustomization));
+            var exception = Assert.Throws<ArgumentException>(Act);
+            Assert.NotNull(exception.Message);
+            Assert.NotEmpty(exception.Message);
+            Assert.Contains(nameof(ICustomization), exception.Message);
         }
 
         [Fact(DisplayName = "GIVEN CustomizeWith attribute with IncludeParameterType set WHEN GetCustomization is invoked THEN customization with expected type is returned")]
@@ -132,8 +133,10 @@
             var customization = customizeAttribute.GetCustomization(parameter) as ArgumentsDiscoveryCustomization;
 
             // Assert
-            customization.Should().NotBeNull().And.BeAssignableTo(customizationType);
-            customization.Args.Should().HaveCount(1).And.Subject.First().Should().Be(parameter.ParameterType);
+            Assert.NotNull(customization);
+            Assert.IsType(customizationType, customization);
+            Assert.Single(customization.Args);
+            Assert.Equal(parameter.ParameterType, customization.Args.First());
         }
 
         [MemberData(nameof(ArgumentsDiscoveryCustomizationTestData))]
@@ -152,8 +155,9 @@
             var customization = customizeAttribute.GetCustomization(parameter) as ArgumentsDiscoveryCustomization;
 
             // Assert
-            customization.Should().NotBeNull().And.BeAssignableTo(customizationType);
-            customization.Args.Should().HaveCount(expectedNumberOfArguments);
+            Assert.NotNull(customization);
+            Assert.IsType(customizationType, customization);
+            Assert.Equal(expectedNumberOfArguments, customization.Args.Count);
         }
 
         [AutoData]
@@ -165,8 +169,8 @@
             // Arrange
             // Act
             // Assert
-            instanceWithoutCustomization.Should().NotBeEmpty();
-            instanceWithCustomization.Should().BeEmpty();
+            Assert.NotEmpty(instanceWithoutCustomization);
+            Assert.Empty(instanceWithCustomization);
         }
 
         [AutoData]
@@ -178,8 +182,8 @@
             // Arrange
             // Act
             // Assert
-            instanceWithoutCustomization.Should().BeEmpty();
-            instanceWithCustomization.Should().BeEmpty();
+            Assert.Empty(instanceWithoutCustomization);
+            Assert.Empty(instanceWithCustomization);
         }
 
         [AutoData]
@@ -191,8 +195,8 @@
             // Arrange
             // Act
             // Assert
-            instanceWithCustomization.Should().BeEmpty();
-            instanceOfDifferentTypeWithoutCustomization.Should().NotBeEmpty();
+            Assert.Empty(instanceWithCustomization);
+            Assert.NotEmpty(instanceOfDifferentTypeWithoutCustomization);
         }
 
         [SuppressMessage("Roslynator", "RCS1163:Unused parameter.", Justification = "Required for test.")]

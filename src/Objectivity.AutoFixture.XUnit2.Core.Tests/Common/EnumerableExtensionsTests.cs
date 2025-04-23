@@ -5,8 +5,6 @@
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
 
-    using FluentAssertions;
-
     using global::AutoFixture.Xunit2;
 
     using Objectivity.AutoFixture.XUnit2.Core.Common;
@@ -25,11 +23,11 @@
             Type enumerableType = null;
 
             // Act
-            Func<object> act = () => enumerableType.TryGetEnumerableSingleTypeArgument(out _);
+            object Act() => enumerableType.TryGetEnumerableSingleTypeArgument(out _);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("type");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("type", exception.ParamName);
         }
 
         [InlineData(typeof(int[]), typeof(int))]
@@ -44,8 +42,8 @@
             var isSuccessful = enumerableType.TryGetEnumerableSingleTypeArgument(out var itemType);
 
             // Assert
-            isSuccessful.Should().BeTrue();
-            itemType.Should().Be(expectedType);
+            Assert.True(isSuccessful);
+            Assert.Equal(expectedType, itemType);
         }
 
         [InlineData(typeof(Tuple<int, int>))]
@@ -58,7 +56,7 @@
             var isSuccessful = enumerableType.TryGetEnumerableSingleTypeArgument(out _);
 
             // Assert
-            isSuccessful.Should().BeFalse();
+            Assert.False(isSuccessful);
         }
 
         [Fact(DisplayName = "GIVEN generic definition collection WHEN TryGetEnumerableSingleTypeArgument is invoked THEN no argument returned")]
@@ -71,7 +69,7 @@
             var isSuccessful = enumerableType.TryGetEnumerableSingleTypeArgument(out _);
 
             // Assert
-            isSuccessful.Should().BeFalse();
+            Assert.False(isSuccessful);
         }
 
         [InlineData(null, typeof(int), "items")]
@@ -84,11 +82,11 @@
         {
             // Arrange
             // Act
-            Func<object> act = () => items.ToTypedArray(itemType);
+            object Act() => items.ToTypedArray(itemType);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be(exceptionParamName);
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal(exceptionParamName, exception.ParamName);
         }
 
         [AutoData]
@@ -102,7 +100,8 @@
             var array = items.ToTypedArray(itemType);
 
             // Assert
-            array.Should().BeEquivalentTo(items).And.Subject.GetType().IsArray.Should().BeTrue();
+            Assert.Equal(items, array);
+            Assert.True(array.GetType().IsArray);
         }
 
         [AutoData]
@@ -116,7 +115,7 @@
             var array = items.ToTypedArray(itemType);
 
             // Assert
-            array.Should().BeEquivalentTo(items);
+            Assert.Equal(items, array);
         }
     }
 }

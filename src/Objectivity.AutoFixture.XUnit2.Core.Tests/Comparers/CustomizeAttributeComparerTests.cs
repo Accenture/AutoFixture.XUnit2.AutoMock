@@ -1,7 +1,5 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Comparers
 {
-    using FluentAssertions;
-
     using global::AutoFixture;
     using global::AutoFixture.Xunit2;
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
@@ -38,7 +36,7 @@
             var result = Comparer.Compare(x, y);
 
             // Assert
-            result.Should().Be(expectedResult);
+            Assert.Equal(expectedResult, result);
         }
     }
 }
