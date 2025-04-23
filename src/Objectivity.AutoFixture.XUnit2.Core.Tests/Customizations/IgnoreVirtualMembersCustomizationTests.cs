@@ -23,7 +23,7 @@
             fixture.Customize(customization);
 
             // Assert
-            Assert.Multiple(fixture.ShouldIgnoreVirtualMembers);
+            fixture.ShouldIgnoreVirtualMembers();
         }
 
         [AutoData]
@@ -38,7 +38,7 @@
             fixture.Customize(customization);
 
             // Assert
-            Assert.Multiple(() => fixture.ShouldIgnoreVirtualMembers(reflectedType));
+            fixture.ShouldIgnoreVirtualMembers(reflectedType);
         }
 
         [Fact(DisplayName = "GIVEN default constructor WHEN invoked THEN reflected type should be null")]
