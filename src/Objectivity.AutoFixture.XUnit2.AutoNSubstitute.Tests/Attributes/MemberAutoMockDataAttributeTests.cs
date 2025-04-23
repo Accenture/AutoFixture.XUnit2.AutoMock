@@ -51,8 +51,8 @@
             var attribute = new MemberAutoMockDataAttribute(fixture.Create<string>());
 
             // Assert
-            attribute.Fixture.Should().NotBeNull();
-            attribute.IgnoreVirtualMembers.Should().BeFalse();
+            Assert.NotNull(attribute.Fixture);
+            Assert.False(attribute.IgnoreVirtualMembers);
             attribute.ShareFixture.Should().BeTrue();
         }
 
@@ -186,7 +186,7 @@
             third.Should().BeOneOf((int)testData[0][2], (int)testData[1][2], (int)testData[2][2]);
             fourth.Should().NotBe(0);
 
-            objectInstance.Should().NotBeNull();
+            Assert.NotNull(objectInstance);
             objectInstance.StringProperty.Should().NotBeNullOrEmpty();
         }
     }

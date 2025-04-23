@@ -29,9 +29,9 @@
             var attribute = new AutoMockDataAttribute();
 
             // Assert
-            attribute.Fixture.Should().NotBeNull();
-            attribute.Provider.Should().NotBeNull();
-            attribute.IgnoreVirtualMembers.Should().BeFalse();
+            Assert.NotNull(attribute.Fixture);
+            Assert.NotNull(attribute.Provider);
+            Assert.False(attribute.IgnoreVirtualMembers);
         }
 
         [InlineAutoData(true)]
@@ -94,8 +94,9 @@
             // Arrange
             // Act
             // Assert
-            value.Should().NotBeNull();
-            value.StringProperty.Should().NotBeNullOrEmpty();
+            Assert.NotNull(value);
+            Assert.NotNull(value.StringProperty);
+            Assert.NotEmpty(value.StringProperty);
         }
 
         protected void MethodUnderTest()

@@ -29,9 +29,9 @@
             var attribute = new InlineAutoMockDataAttribute();
 
             // Assert
-            attribute.Fixture.Should().NotBeNull();
-            attribute.IgnoreVirtualMembers.Should().BeFalse();
-            attribute.Provider.Should().NotBeNull();
+            Assert.NotNull(attribute.Fixture);
+            Assert.False(attribute.IgnoreVirtualMembers);
+            Assert.NotNull(attribute.Provider);
             attribute.Values.Should().HaveCount(0);
         }
 
@@ -45,9 +45,9 @@
             var attribute = new InlineAutoMockDataAttribute(initialValues[0], initialValues[1], initialValues[2]);
 
             // Assert
-            attribute.Fixture.Should().NotBeNull();
-            attribute.IgnoreVirtualMembers.Should().BeFalse();
-            attribute.Provider.Should().NotBeNull();
+            Assert.NotNull(attribute.Fixture);
+            Assert.False(attribute.IgnoreVirtualMembers);
+            Assert.NotNull(attribute.Provider);
             attribute.Values.Should().BeEquivalentTo(initialValues);
         }
 
@@ -61,9 +61,9 @@
             var attribute = new InlineAutoMockDataAttribute(initialValues);
 
             // Assert
-            attribute.Fixture.Should().NotBeNull();
-            attribute.IgnoreVirtualMembers.Should().BeFalse();
-            attribute.Provider.Should().NotBeNull();
+            Assert.NotNull(attribute.Fixture);
+            Assert.False(attribute.IgnoreVirtualMembers);
+            Assert.NotNull(attribute.Provider);
             attribute.Values.Should().HaveCount(0);
         }
 
@@ -124,8 +124,9 @@
             firstValueInstance.Should().Be(100);
             secondValueInstance.Should().NotBe(0);
 
-            objectInstance.Should().NotBeNull();
-            objectInstance.StringProperty.Should().NotBeNullOrEmpty();
+            Assert.NotNull(objectInstance);
+            Assert.NotNull(objectInstance.StringProperty);
+            Assert.NotEmpty(objectInstance.StringProperty);
         }
 
         protected void MethodUnderTest()

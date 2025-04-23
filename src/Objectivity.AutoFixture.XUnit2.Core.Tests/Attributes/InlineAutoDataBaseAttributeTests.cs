@@ -29,7 +29,7 @@
 
             // Assert
             attribute.Fixture.Should().Be(fixture);
-            attribute.IgnoreVirtualMembers.Should().BeFalse();
+            Assert.False(attribute.IgnoreVirtualMembers);
             attribute.Provider.Should().Be(provider.Object);
             attribute.Values.Should().HaveCount(0);
         }
@@ -47,7 +47,7 @@
 
             // Assert
             attribute.Fixture.Should().Be(fixture);
-            attribute.IgnoreVirtualMembers.Should().BeFalse();
+            Assert.False(attribute.IgnoreVirtualMembers);
             attribute.Provider.Should().Be(provider.Object);
             attribute.Values.Should().BeEquivalentTo(initialValues);
         }
@@ -65,7 +65,7 @@
 
             // Assert
             attribute.Fixture.Should().Be(fixture);
-            attribute.IgnoreVirtualMembers.Should().BeFalse();
+            Assert.False(attribute.IgnoreVirtualMembers);
             attribute.Provider.Should().Be(provider.Object);
             attribute.Values.Should().HaveCount(0);
         }

@@ -30,7 +30,7 @@
             // Assert
             attribute.Fixture.Should().Be(fixture);
             attribute.Provider.Should().Be(provider.Object);
-            attribute.IgnoreVirtualMembers.Should().BeFalse();
+            Assert.False(attribute.IgnoreVirtualMembers);
         }
 
         [Fact(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]
