@@ -3,8 +3,6 @@
     using System.Collections.Generic;
     using System.Reflection;
 
-    using FluentAssertions;
-
     using global::AutoFixture;
     using global::AutoFixture.AutoNSubstitute;
     using global::AutoFixture.Xunit2;
@@ -64,17 +62,14 @@
             var result = attribute.GetData(methodInfo);
 
             // Assert
-            result.Should().BeSameAs(data);
+            Assert.Same(data, result);
             provider.Received(1).GetAttribute(Arg.Any<IFixture>());
             dataAttribute.Received(1).GetData(Arg.Any<MethodInfo>());
 
-            customizations.Count.Should().Be(2);
-            customizations[0]
-                .Should()
-                .BeOfType<AutoDataCommonCustomization>()
-                .Which.IgnoreVirtualMembers.Should()
-                .Be(ignoreVirtualMembers);
-            customizations[1].Should().BeOfType<AutoNSubstituteCustomization>();
+            Assert.Equal(2, customizations.Count);
+            var customization = Assert.IsType<AutoDataCommonCustomization>(customizations[0]);
+            Assert.Equal(ignoreVirtualMembers, customization.IgnoreVirtualMembers);
+            Assert.IsType<AutoNSubstituteCustomization>(customizations[1]);
         }
 
         [AutoMockData]
@@ -84,7 +79,7 @@
             // Arrange
             // Act
             // Assert
-            value.Should().NotBe(0);
+            Assert.NotEqual(0, value);
         }
 
         [AutoMockData]

@@ -6,8 +6,6 @@
 
     using FakeItEasy;
 
-    using FluentAssertions;
-
     using global::AutoFixture;
     using global::AutoFixture.AutoFakeItEasy;
     using global::AutoFixture.Xunit2;
@@ -53,7 +51,7 @@
             // Assert
             Assert.NotNull(attribute.Fixture);
             Assert.False(attribute.IgnoreVirtualMembers);
-            attribute.ShareFixture.Should().BeTrue();
+            Assert.True(attribute.ShareFixture);
         }
 
         [Fact(DisplayName = "GIVEN existing member name WHEN GetData is invoked THEN appropriate data is returned")]
@@ -68,15 +66,16 @@
             var data = attribute.GetData(methodInfo).ToList();
 
             // Assert
-            data.Should().HaveSameCount(TestData);
+            Assert.Equal(TestData.Count(), data.Count);
             for (var i = data.Count - 1; i >= 0; i--)
             {
                 var source = TestData.ElementAt(i);
                 var result = data.ElementAt(i);
+                var typeName = result[numberOfParameters - 1].GetType().Name;
 
-                result.Should().HaveCount(numberOfParameters);
-                result.Should().ContainInOrder(source);
-                result[numberOfParameters - 1].GetType().Name.Should().Contain("Proxy", "that way we know it was mocked.");
+                Assert.Equal(numberOfParameters, result.Length);
+                Assert.Equal(source, result.Take(source.Length));
+                Assert.Contains("Proxy", typeName);
             }
         }
 
@@ -102,13 +101,10 @@
             attribute.GetData(methodInfo);
 
             // Assert
-            customizations.Count.Should().Be(2);
-            customizations[0]
-                .Should()
-                .BeOfType<AutoDataCommonCustomization>()
-                .Which.IgnoreVirtualMembers.Should()
-                .Be(ignoreVirtualMembers);
-            customizations[1].Should().BeOfType<AutoFakeItEasyCustomization>();
+            Assert.Equal(2, customizations.Count);
+            var customization = Assert.IsType<AutoDataCommonCustomization>(customizations[0]);
+            Assert.Equal(ignoreVirtualMembers, customization.IgnoreVirtualMembers);
+            Assert.IsType<AutoFakeItEasyCustomization>(customizations[1]);
         }
 
         [MemberAutoMockData(nameof(TestDataShareFixture), ShareFixture = true)]
@@ -122,7 +118,7 @@
             fixture.Customize(customization);
 
             // Assert
-            fixture.Customizations.Should().HaveCount(expectedCustomizationsCount + index);
+            Assert.Equal(expectedCustomizationsCount + index, fixture.Customizations.Count);
         }
 
         [MemberAutoMockData(nameof(TestDataDoNotShareFixture), ShareFixture = false)]
@@ -136,7 +132,7 @@
             fixture.Customize(customization);
 
             // Assert
-            fixture.Customizations.Should().HaveCount(expectedCustomizationsCount);
+            Assert.Equal(expectedCustomizationsCount, fixture.Customizations.Count);
         }
 
         [Fact(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]
@@ -147,11 +143,11 @@
             const Fixture uninitializedFixture = null;
 
             // Act
-            Func<object> act = () => new MemberAutoMockDataAttribute(uninitializedFixture, fixture.Create<string>());
+            object Act() => new MemberAutoMockDataAttribute(uninitializedFixture, fixture.Create<string>());
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("fixture");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("fixture", exception.ParamName);
         }
 
         [Fact(DisplayName = "GIVEN uninitialized member name WHEN constructor is invoked THEN exception is thrown")]
@@ -161,11 +157,11 @@
             const string memberName = null;
 
             // Act
-            Func<object> act = () => new MemberAutoMockDataAttribute(memberName);
+            static object Act() => new MemberAutoMockDataAttribute(memberName);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("memberName");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("memberName", exception.ParamName);
         }
 
         [MemberAutoMockData(nameof(TestData))]
@@ -182,10 +178,10 @@
 
             // Act
             // Assert
-            first.Should().BeOneOf((int)testData[0][0], (int)testData[1][0], (int)testData[2][0]);
-            second.Should().BeOneOf((int)testData[0][1], (int)testData[1][1], (int)testData[2][1]);
-            third.Should().BeOneOf((int)testData[0][2], (int)testData[1][2], (int)testData[2][2]);
-            fourth.Should().NotBe(0);
+            Assert.Contains(first, new[] { (int)testData[0][0], (int)testData[1][0], (int)testData[2][0] });
+            Assert.Contains(second, new[] { (int)testData[0][1], (int)testData[1][1], (int)testData[2][1] });
+            Assert.Contains(third, new[] { (int)testData[0][2], (int)testData[1][2], (int)testData[2][2] });
+            Assert.NotEqual(0, fourth);
 
             Assert.NotNull(objectInstance);
             Assert.NotNull(objectInstance.StringProperty);

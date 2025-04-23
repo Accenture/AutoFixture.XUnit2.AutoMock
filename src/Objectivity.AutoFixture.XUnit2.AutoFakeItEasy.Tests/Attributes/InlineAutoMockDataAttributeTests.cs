@@ -46,7 +46,7 @@
             Assert.NotNull(attribute.Fixture);
             Assert.False(attribute.IgnoreVirtualMembers);
             Assert.NotNull(attribute.Provider);
-            Assert.Equivalent(initialValues, attribute.Values);
+            Assert.Equal(initialValues, attribute.Values);
         }
 
         [Fact(DisplayName = "GIVEN uninitialized values WHEN constructor is invoked THEN has no values and fixture and attribute provider are created")]
@@ -121,6 +121,7 @@
 
             Assert.NotNull(objectInstance);
             Assert.NotNull(objectInstance.StringProperty);
+            Assert.NotEmpty(objectInstance.StringProperty);
         }
 
         protected void MethodUnderTest()
