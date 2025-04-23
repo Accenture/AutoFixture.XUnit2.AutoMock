@@ -3,8 +3,6 @@
     using System;
     using System.Linq;
 
-    using FluentAssertions;
-
     using global::AutoFixture;
     using global::AutoFixture.Kernel;
     using global::AutoFixture.Xunit2;
@@ -26,11 +24,11 @@
             var builder = new RandomFixedValuesGenerator();
 
             // Act
-            Func<object> act = () => builder.Create(new object(), null);
+            object Act() => builder.Create(new object(), null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("context");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("context", exception.ParamName);
         }
 
         [Fact(DisplayName = "GIVEN uninitialized request WHEN Create is invoked THEN exception is thrown")]
@@ -41,11 +39,11 @@
             var context = new Mock<ISpecimenContext>();
 
             // Act
-            Func<object> act = () => builder.Create(null, context.Object);
+            object Act() => builder.Create(null, context.Object);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("request");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("request", exception.ParamName);
         }
 
         [Fact(DisplayName = "GIVEN unsupported request WHEN Create is invoked THEN NoSpecimen is returned")]
@@ -60,7 +58,8 @@
             var result = builder.Create(request, context.Object);
 
             // Assert
-            result.Should().NotBeNull().And.BeOfType<NoSpecimen>();
+            Assert.NotNull(result);
+            Assert.IsType<NoSpecimen>(result);
         }
 
         [Fact(DisplayName = "GIVEN request with many values WHEN Create is invoked many times THEN only defined values are returned")]
@@ -75,9 +74,9 @@
             var result = Enumerable.Range(0, 10).Select((_) => (int)builder.Create(request, context.Object));
 
             // Assert
-            result.Should().NotBeNull()
-                .And.HaveCount(10)
-                .And.AllSatisfy(x => x.Should().BeOneOf(1, 2));
+            Assert.NotNull(result);
+            Assert.Equal(10, result.Count());
+            Assert.All(result, x => Assert.Contains(x, new[] { 1, 2 }));
         }
 
         [AutoData]
@@ -95,9 +94,9 @@
             var result = Enumerable.Range(0, 10).Select((_) => (int)builder.Create(request, context.Object));
 
             // Assert
-            result.Should().NotBeNull()
-                .And.HaveCount(10)
-                .And.AllSatisfy(x => x.Should().Be(expectedValue));
+            Assert.NotNull(result);
+            Assert.Equal(10, result.Count());
+            Assert.All(result, x => Assert.Equal(expectedValue, x));
         }
 
         [AutoData]
@@ -115,8 +114,8 @@
             var result = setup.Select(x => (int)builder.Create(x.Value, context.Object)).ToArray();
 
             // Assert
-            result.First().Should().Be(setup.First().Key);
-            result.Last().Should().Be(setup.Last().Key);
+            Assert.Equal(setup.First().Key, result.First());
+            Assert.Equal(setup.Last().Key, result.Last());
         }
     }
 }

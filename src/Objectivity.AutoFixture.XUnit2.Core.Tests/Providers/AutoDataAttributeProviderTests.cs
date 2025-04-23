@@ -1,7 +1,5 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Providers
 {
-    using FluentAssertions;
-
     using global::AutoFixture;
     using global::AutoFixture.Xunit2;
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
@@ -24,8 +22,8 @@
             var dataAttribute = provider.GetAttribute(fixture) as AutoDataAdapterAttribute;
 
             // Assert
-            dataAttribute.Should().NotBeNull();
-            dataAttribute.AdaptedFixture.Should().Be(fixture);
+            Assert.NotNull(dataAttribute);
+            Assert.Equal(fixture, dataAttribute.AdaptedFixture);
         }
     }
 }

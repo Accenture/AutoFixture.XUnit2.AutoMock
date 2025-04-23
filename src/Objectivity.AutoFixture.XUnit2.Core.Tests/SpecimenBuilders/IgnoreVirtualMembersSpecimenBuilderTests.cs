@@ -2,8 +2,6 @@
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
-
-    using FluentAssertions;
     using global::AutoFixture.Kernel;
     using global::AutoFixture.Xunit2;
     using Moq;
@@ -26,7 +24,7 @@
             var builder = new IgnoreVirtualMembersSpecimenBuilder();
 
             // Assert
-            builder.ReflectedType.Should().BeNull();
+            Assert.Null(builder.ReflectedType);
         }
 
         [AutoData]
@@ -38,7 +36,7 @@
             var builder = new IgnoreVirtualMembersSpecimenBuilder(reflectedType);
 
             // Assert
-            builder.ReflectedType.Should().BeSameAs(reflectedType);
+            Assert.Same(reflectedType, builder.ReflectedType);
         }
 
         [AutoData]
@@ -51,7 +49,7 @@
             var specimen = builder.Create(null, this.context);
 
             // Assert
-            specimen.Should().BeOfType<NoSpecimen>();
+            Assert.IsType<NoSpecimen>(specimen);
         }
 
         [AutoData]
@@ -64,7 +62,7 @@
             var specimen = builder.Create(new object(), this.context);
 
             // Assert
-            specimen.Should().BeOfType<NoSpecimen>();
+            Assert.IsType<NoSpecimen>(specimen);
         }
 
         [AutoData]
@@ -79,7 +77,7 @@
             var specimen = builder.Create(notVirtualPropertyInfo, this.context);
 
             // Assert
-            specimen.Should().BeOfType<NoSpecimen>();
+            Assert.IsType<NoSpecimen>(specimen);
         }
 
         [AutoData]
@@ -95,8 +93,8 @@
             var specimen = builder.Create(virtualPropertyInfo, this.context);
 
             // Assert
-            builder.ReflectedType.Should().BeSameAs(reflectedType);
-            specimen.Should().BeOfType<NoSpecimen>();
+            Assert.Same(reflectedType, builder.ReflectedType);
+            Assert.IsType<NoSpecimen>(specimen);
         }
 
         [AutoData]
@@ -111,7 +109,7 @@
             var specimen = builder.Create(virtualPropertyInfo, this.context);
 
             // Assert
-            specimen.Should().BeOfType<OmitSpecimen>();
+            Assert.IsType<OmitSpecimen>(specimen);
         }
 
         [Fact(DisplayName = "GIVEN virtual PropertyInfo request hosted in appropriate type WHEN Create is invoked THEN OmitSpecimen is returned")]
@@ -126,7 +124,7 @@
             var specimen = builder.Create(virtualPropertyInfo, this.context);
 
             // Assert
-            specimen.Should().BeOfType<OmitSpecimen>();
+            Assert.IsType<OmitSpecimen>(specimen);
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Design required by tests.")]

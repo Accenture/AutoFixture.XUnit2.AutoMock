@@ -1,7 +1,5 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Providers
 {
-    using FluentAssertions;
-
     using global::AutoFixture;
     using global::AutoFixture.Xunit2;
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
@@ -26,9 +24,9 @@
             var attribute = provider.GetAttribute(fixture, inlineValues);
 
             // Assert
-            var autoDataAdapterAttribute = attribute.Should().BeOfType<AutoDataAdapterAttribute>().Which;
-            autoDataAdapterAttribute.AdaptedFixture.Should().Be(fixture);
-            autoDataAdapterAttribute.InlineValues.Should().BeEquivalentTo(inlineValues);
+            var autoDataAdapterAttribute = Assert.IsType<AutoDataAdapterAttribute>(attribute);
+            Assert.Equal(fixture, autoDataAdapterAttribute.AdaptedFixture);
+            Assert.Equal(inlineValues, autoDataAdapterAttribute.InlineValues);
         }
     }
 }

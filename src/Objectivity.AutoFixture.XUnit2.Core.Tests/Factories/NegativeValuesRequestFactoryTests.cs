@@ -3,8 +3,6 @@
     using System;
     using System.Diagnostics.CodeAnalysis;
 
-    using FluentAssertions;
-
     using global::AutoFixture;
     using global::AutoFixture.Kernel;
 
@@ -84,11 +82,11 @@
             Type type = null;
 
             // Act
-            Action act = () => this.factory.Create(type);
+            void Act() => this.factory.Create(type);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("input");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("input", exception.ParamName);
         }
 
         [InlineData(typeof(SignedByteNumbers), SignedByteNumbers.MinusTwo, SignedByteNumbers.MinusOne)]
@@ -105,8 +103,8 @@
             var result = this.factory.Create(type);
 
             // Assert
-            result.Should().BeOfType<FixedValuesRequest>().Subject
-                .Values.Should().BeEquivalentTo(expectedValues);
+            var request = Assert.IsType<FixedValuesRequest>(result);
+            Assert.Equal(expectedValues, request.Values);
         }
 
         [MemberData(nameof(NumericTypeUsageTestData))]
@@ -121,9 +119,9 @@
             var result = this.factory.Create(type);
 
             // Assert
-            var request = result.Should().BeOfType<RangedNumberRequest>().Subject;
-            request.Minimum.Should().Be(min);
-            request.Maximum.Should().Be(max);
+            var request = Assert.IsType<RangedNumberRequest>(result);
+            Assert.Equal(min, request.Minimum);
+            Assert.Equal(max, request.Maximum);
         }
 
         [InlineData(typeof(DBNull))]
@@ -145,11 +143,13 @@
         {
             // Arrange
             // Act
-            Action act = () => this.factory.Create(type);
+            void Act() => this.factory.Create(type);
 
             // Assert
-            act.Should().Throw<ObjectCreationException>()
-                .And.Message.Should().Contain("does not accept negative values");
+            var exception = Assert.Throws<ObjectCreationException>(Act);
+            Assert.NotNull(exception.Message);
+            Assert.NotEmpty(exception.Message);
+            Assert.Contains("does not accept negative values", exception.Message);
         }
     }
 }

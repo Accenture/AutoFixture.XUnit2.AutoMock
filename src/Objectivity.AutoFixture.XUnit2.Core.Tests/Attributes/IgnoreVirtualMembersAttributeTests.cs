@@ -3,8 +3,6 @@
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
-
-    using FluentAssertions;
     using global::AutoFixture.Xunit2;
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
 
@@ -32,11 +30,11 @@
             [IgnoreVirtualMembers] UserWithSubstitute userWithSubstitute,
             User user)
         {
-            userWithSubstitute.Name.Should().BeNull();
-            userWithSubstitute.Substitute.Should().BeNull();
+            Assert.Null(userWithSubstitute.Name);
+            Assert.Null(userWithSubstitute.Substitute);
 
-            user.Name.Should().NotBeNull();
-            user.Address.Should().NotBeNull();
+            Assert.NotNull(user.Name);
+            Assert.NotNull(user.Address);
         }
 
         [AutoData]
@@ -45,11 +43,11 @@
             UserWithSubstitute userWithSubstitute,
             [IgnoreVirtualMembers] User user)
         {
-            userWithSubstitute.Name.Should().NotBeNull();
-            userWithSubstitute.Substitute.Should().NotBeNull();
+            Assert.NotNull(userWithSubstitute.Name);
+            Assert.NotNull(userWithSubstitute.Substitute);
 
-            user.Name.Should().NotBeNull();
-            user.Address.Should().BeNull();
+            Assert.NotNull(user.Name);
+            Assert.Null(user.Address);
         }
 
         [AutoData]
@@ -59,14 +57,14 @@
             [IgnoreVirtualMembers] UserWithSubstitute user2,
             UserWithSubstitute user3)
         {
-            user1.Name.Should().NotBeNull();
-            user1.Substitute.Should().NotBeNull();
+            Assert.NotNull(user1.Name);
+            Assert.NotNull(user1.Substitute);
 
-            user2.Name.Should().BeNull();
-            user2.Substitute.Should().BeNull();
+            Assert.Null(user2.Name);
+            Assert.Null(user2.Substitute);
 
-            user3.Name.Should().BeNull();
-            user3.Substitute.Should().BeNull();
+            Assert.Null(user3.Name);
+            Assert.Null(user3.Substitute);
         }
 
         [AutoData]
@@ -75,18 +73,18 @@
             [IgnoreVirtualMembers] UserWithSubstitute user1,
             UserWithSubstitute user2)
         {
-            user1.Name.Should().BeNull();
-            user1.Substitute.Should().BeNull();
+            Assert.Null(user1.Name);
+            Assert.Null(user1.Substitute);
 
-            user2.Name.Should().BeNull();
-            user2.Substitute.Should().BeNull();
+            Assert.Null(user2.Name);
+            Assert.Null(user2.Substitute);
         }
 
         [AutoData]
-        [Theory(DisplayName = "GIVEN test method has value parameter WHEN  is decorated with IgnoreVirtualMembersAttribute THEN parameter value is being populated")]
-        public void GivenTestMethodHasValueParameter_WhenIsDecoratedWithIgnoreVirtualMembersAttribute_ThenParameterValueIsBeingPopulated([IgnoreVirtualMembers] uint number)
+        [Theory(DisplayName = "GIVEN test method has value parameter WHEN is decorated with IgnoreVirtualMembersAttribute THEN parameter value is being populated")]
+        public void GivenTestMethodHasValueParameter_WhenIsDecoratedWithIgnoreVirtualMembersAttribute_ThenParameterValueIsBeingPopulated([IgnoreVirtualMembers] int number)
         {
-            number.Should().BeGreaterThanOrEqualTo(0);
+            Assert.NotEqual(default, number);
         }
 
         [Fact(DisplayName = "GIVEN uninitialized parameter info WHEN GetCustomization is invoked THEN exception is thrown")]
@@ -97,11 +95,11 @@
             var attribute = new IgnoreVirtualMembersAttribute();
 
             // Act
-            Func<object> act = () => attribute.GetCustomization(parameterInfo);
+            object Act() => attribute.GetCustomization(parameterInfo);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("parameter");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("parameter", exception.ParamName);
         }
 
         public class Address

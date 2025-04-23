@@ -5,8 +5,6 @@
     using System.Linq;
     using System.Reflection;
 
-    using FluentAssertions;
-
     using global::AutoFixture;
     using global::AutoFixture.Kernel;
     using global::AutoFixture.Xunit2;
@@ -28,8 +26,8 @@
             var attribute = new AutoDataAdapterAttribute(fixture, null);
 
             // Assert
-            attribute.AdaptedFixture.Should().Be(fixture);
-            attribute.InlineValues.Should().BeEmpty();
+            Assert.Equal(fixture, attribute.AdaptedFixture);
+            Assert.Empty(attribute.InlineValues);
         }
 
         [Fact(DisplayName = "GIVEN uninitialized fixture WHEN constructor is invoked THEN exception is thrown")]
@@ -37,11 +35,11 @@
         {
             // Arrange
             // Act
-            Func<object> act = () => new AutoDataAdapterAttribute(null);
+            static object Act() => new AutoDataAdapterAttribute(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("fixture");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("fixture", exception.ParamName);
         }
 
         [AutoData]
@@ -52,11 +50,11 @@
             var attribute = new AutoDataAdapterAttribute(fixture);
 
             // Act
-            Func<object> act = () => attribute.GetData(null);
+            object Act() => attribute.GetData(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("testMethod");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("testMethod", exception.ParamName);
         }
 
         [Fact(DisplayName = "GIVEN test data with instance WHEN GetData called THEN auto data generation skipped")]
@@ -72,10 +70,10 @@
             var data = attribute.GetData(methodInfo).ToArray();
 
             // Assert
-            data.Should().HaveCount(1)
-                .And.Subject.First().Should().HaveCount(expectedNumberOfParameters)
-                .And.NotContainNulls()
-                .And.Subject.Skip(1).Should().AllBeEquivalentTo(data.First().Last());
+            Assert.Single(data);
+            Assert.Equal(expectedNumberOfParameters, data.First().Length);
+            Assert.All(data.First(), Assert.NotNull);
+            Assert.All(data.First().Skip(1), item => Assert.Equal(data.First().Last(), item));
         }
 
         [Fact(DisplayName = "GIVEN empty test data WHEN GetData called THEN auto data generation throws exception")]
@@ -87,10 +85,10 @@
             var methodInfo = typeof(AutoDataAdapterAttributeTests).GetMethod(nameof(this.TestMethodWithAbstractTestClass), BindingFlags.Instance | BindingFlags.NonPublic);
 
             // Act
-            Action data = () => attribute.GetData(methodInfo);
+            void Act() => attribute.GetData(methodInfo);
 
             // Assert
-            data.Should().Throw<Exception>();
+            Assert.ThrowsAny<Exception>(Act);
         }
 
         [Fact(DisplayName = "GIVEN test method with Frozen customization after others WHEN GetData called THEN ensure parameter is frozen on the end")]
@@ -106,15 +104,17 @@
             var data = attribute.GetData(methodInfo).ToArray();
 
             // Assert
-            data.Should().HaveCount(1)
-                .And.Subject.First().Should().HaveCount(expectedNumberOfParameters)
-                .And.NotContainNulls()
-                .And.Subject.Skip(1).Should().AllSatisfy((x) =>
+            Assert.Single(data);
+            Assert.Equal(expectedNumberOfParameters, data.First().Length);
+            Assert.All(data.First(), Assert.NotNull);
+            Assert.All(
+                data.First().Skip(1),
+                x =>
                 {
                     var parameters = data.First();
-                    x.Should().Be(parameters.Last())
-                        .And.NotBe(parameters.First())
-                        .And.Subject.As<string>().Should().Contain(StopStringCustomization.Value);
+                    Assert.Equal(parameters.Last(), x);
+                    Assert.NotEqual(parameters.First(), x);
+                    Assert.Contains(StopStringCustomization.Value, x as string);
                 });
         }
 

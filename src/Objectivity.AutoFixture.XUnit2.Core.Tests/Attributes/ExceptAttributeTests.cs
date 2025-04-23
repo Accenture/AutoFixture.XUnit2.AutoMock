@@ -4,8 +4,6 @@
     using System.Linq;
     using System.Reflection;
 
-    using FluentAssertions;
-
     using global::AutoFixture;
     using global::AutoFixture.Kernel;
     using global::AutoFixture.Xunit2;
@@ -47,11 +45,11 @@
         {
             // Arrange
             // Act
-            Func<object> act = () => new ExceptAttribute(null);
+            static object Act() => new ExceptAttribute(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("values");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("values", exception.ParamName);
         }
 
         [Fact(DisplayName = "GIVEN no arguments WHEN constructor is invoked THEN exception is thrown")]
@@ -59,12 +57,13 @@
         {
             // Arrange
             // Act
-            Func<object> act = () => new ExceptAttribute();
+            static object Act() => new ExceptAttribute();
 
             // Assert
-            act.Should().Throw<ArgumentException>()
-                .And.Message.Should().NotBeNullOrEmpty()
-                .And.Contain("At least one value");
+            var exception = Assert.Throws<ArgumentException>(Act);
+            Assert.NotNull(exception.Message);
+            Assert.NotEmpty(exception.Message);
+            Assert.Contains("At least one value", exception.Message);
         }
 
         [AutoData]
@@ -76,11 +75,11 @@
             var attribute = new ExceptAttribute(values);
 
             // Act
-            Action act = () => attribute.GetCustomization(null);
+            void Act() => attribute.GetCustomization(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("parameter");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("parameter", exception.ParamName);
         }
 
         [InlineData(1, 1)]
@@ -94,7 +93,8 @@
             var attribute = new ExceptAttribute(first, second);
 
             // Assert
-            attribute.Values.Should().HaveCount(1).And.BeEquivalentTo(new[] { first });
+            Assert.Single(attribute.Values);
+            Assert.Equivalent(new[] { first }, attribute.Values);
         }
 
         [InlineData(typeof(int), 2)]
@@ -109,7 +109,8 @@
             var attribute = new ExceptAttribute(first, second);
 
             // Assert
-            attribute.Values.Should().HaveCount(2).And.BeEquivalentTo(new[] { first, second });
+            Assert.Equal(2, attribute.Values.Count);
+            Assert.Equivalent(new[] { first, second }, attribute.Values);
         }
 
         [MemberData(nameof(CustomizationUsageTestData))]
@@ -130,9 +131,9 @@
             var result = fixture.Create(request.Object, new SpecimenContext(fixture));
 
             // Assert
-            result.Should().NotBeNull()
-                .And.BeOfType(expectedType)
-                .And.NotBe(item);
+            Assert.NotNull(result);
+            Assert.IsType(expectedType, result);
+            Assert.NotEqual(item, result);
         }
 
         [AutoData]
@@ -148,7 +149,7 @@
             // Arrange
             // Act
             // Assert
-            targetValues.Should().AllSatisfy(x => x.Should().Be(Numbers.Five));
+            Assert.All(targetValues, x => Assert.Equal(Numbers.Five, x));
         }
 
         [AutoData]
@@ -165,8 +166,8 @@
             // Arrange
             // Act
             // Assert
-            firstSet.Should().AllSatisfy(x => x.Should().Be(Numbers.Five));
-            secondSet.Where(x => x != Numbers.Five).Should().HaveCountGreaterThan(1);
+            Assert.All(firstSet, x => Assert.Equal(Numbers.Five, x));
+            Assert.True(secondSet.Count(x => x != Numbers.Five) > 1);
         }
 
         [AutoData]
@@ -182,10 +183,13 @@
                 Numbers.Five)] Numbers[] secondSet)
         {
             // Arrange
+            var expectedFirstSet = new[] { Numbers.Three, Numbers.Four, Numbers.Five };
+            var expectedSecondSet = new[] { Numbers.None, Numbers.One, Numbers.Two };
+
             // Act
             // Assert
-            firstSet.Should().AllSatisfy(x => x.Should().BeOneOf(Numbers.Three, Numbers.Four, Numbers.Five));
-            secondSet.Should().AllSatisfy(x => x.Should().BeOneOf(Numbers.None, Numbers.One, Numbers.Two));
+            Assert.All(firstSet, x => Assert.Contains(x, expectedFirstSet));
+            Assert.All(secondSet, x => Assert.Contains(x, expectedSecondSet));
         }
 
         [AutoData]
@@ -202,8 +206,8 @@
             // Arrange
             // Act
             // Assert
-            firstValue.Should().Be(Numbers.Five);
-            secondValue.Should().Be(firstValue);
+            Assert.Equal(Numbers.Five, firstValue);
+            Assert.Equal(firstValue, secondValue);
         }
     }
 }

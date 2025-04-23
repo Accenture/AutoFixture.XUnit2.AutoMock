@@ -4,8 +4,6 @@
     using System.Collections;
     using System.Linq;
 
-    using FluentAssertions;
-
     using global::AutoFixture.Xunit2;
 
     using Objectivity.AutoFixture.XUnit2.Core.Common;
@@ -21,11 +19,11 @@
         {
             // Arrange
             // Act
-            Func<object> act = () => new RoundRobinEnumerable<object>(null);
+            static object Act() => new RoundRobinEnumerable<object>(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("values");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("values", exception.ParamName);
         }
 
         [Fact(DisplayName = "GIVEN no arguments WHEN constructor is invoked THEN exception is thrown")]
@@ -33,12 +31,13 @@
         {
             // Arrange
             // Act
-            Func<object> act = () => new RoundRobinEnumerable<object>();
+            static object Act() => new RoundRobinEnumerable<object>();
 
             // Assert
-            act.Should().Throw<ArgumentException>()
-                .And.Message.Should().NotBeNullOrEmpty()
-                .And.Contain("At least one value");
+            var exception = Assert.Throws<ArgumentException>(Act);
+            Assert.NotNull(exception.Message);
+            Assert.NotEmpty(exception.Message);
+            Assert.Contains("At least one value", exception.Message);
         }
 
         [AutoData]
@@ -50,12 +49,13 @@
             IEnumerator enumerator = new RoundRobinEnumerable<int>(values);
 
             // Act
-            Func<object> act = () => enumerator.Current;
+            object Act() => enumerator.Current;
 
             // Assert
-            act.Should().Throw<InvalidOperationException>()
-                .And.Message.Should().NotBeNullOrEmpty()
-                .And.Contain("initial position");
+            var exception = Assert.Throws<InvalidOperationException>(Act);
+            Assert.NotNull(exception.Message);
+            Assert.NotEmpty(exception.Message);
+            Assert.Contains("initial position", exception.Message);
         }
 
         [AutoData]
@@ -69,12 +69,13 @@
             // Act
             enumerator.MoveNext();
             enumerator.Reset();
-            Func<object> act = () => enumerator.Current;
+            object Act() => enumerator.Current;
 
             // Assert
-            act.Should().Throw<InvalidOperationException>()
-                .And.Message.Should().NotBeNullOrEmpty()
-                .And.Contain("initial position");
+            var exception = Assert.Throws<InvalidOperationException>(Act);
+            Assert.NotNull(exception.Message);
+            Assert.NotEmpty(exception.Message);
+            Assert.Contains("initial position", exception.Message);
         }
 
         [AutoData]
@@ -94,7 +95,8 @@
             }).ToArray();
 
             // Assert
-            items.Should().AllSatisfy(x => x.Should().BeTrue()).And.HaveCount(duplicatedValues.Length);
+            Assert.All(items, Assert.True);
+            Assert.Equal(duplicatedValues.Length, items.Length);
         }
     }
 }

@@ -5,8 +5,6 @@
     using System.Linq;
     using System.Reflection;
 
-    using FluentAssertions;
-
     using global::AutoFixture;
 
     using Moq;
@@ -51,7 +49,7 @@
             var data = noDataConverter.Extend(TestMethod, item);
 
             // Assert
-            data.Should().BeNull();
+            Assert.Null(data);
             noDataProvider.VerifyAll();
             noDataAttribute.VerifyAll();
         }
@@ -66,7 +64,7 @@
             var data = this.converter.Extend(TestMethod, item);
 
             // Assert
-            data.Should().NotBeNull();
+            Assert.NotNull(data);
             this.dataAttributeProvider.VerifyAll();
             this.dataAttribute.VerifyAll();
         }
@@ -81,7 +79,7 @@
             var data = this.converter.Extend(TestMethod, item);
 
             // Assert
-            data.Should().BeNull();
+            Assert.Null(data);
         }
 
         [Fact(DisplayName = "GIVEN uninitialized test method WHEN Convert is invoked THEN exception is thrown")]
@@ -92,11 +90,11 @@
             var item = this.fixture.Create<object[]>();
 
             // Act
-            Func<object> act = () => this.converter.Extend(method, item);
+            object Act() => this.converter.Extend(method, item);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("testMethod");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("testMethod", exception.ParamName);
         }
 
         protected void MethodUnderTest()

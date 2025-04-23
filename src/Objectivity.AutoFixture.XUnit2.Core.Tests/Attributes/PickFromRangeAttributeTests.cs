@@ -5,8 +5,6 @@
     using System.Collections.ObjectModel;
     using System.Diagnostics.CodeAnalysis;
 
-    using FluentAssertions;
-
     using global::AutoFixture.Xunit2;
 
     using Objectivity.AutoFixture.XUnit2.Core.Attributes;
@@ -30,12 +28,13 @@
             const int max = 1;
 
             // Act
-            Func<object> act = () => new PickFromRangeAttribute(min, max);
+            static object Act() => new PickFromRangeAttribute(min, max);
 
             // Assert
-            act.Should().Throw<ArgumentOutOfRangeException>()
-                .And.Message.Should().NotBeNullOrEmpty()
-                .And.Contain("must be lower or equal");
+            var exception = Assert.Throws<ArgumentOutOfRangeException>(Act);
+            Assert.NotNull(exception.Message);
+            Assert.NotEmpty(exception.Message);
+            Assert.Contains("must be lower or equal", exception.Message);
         }
 
         [Fact(DisplayName = "GIVEN uninitialized argument WHEN GetCustomization is invoked THEN exception is thrown")]
@@ -47,11 +46,11 @@
             var attribute = new PickFromRangeAttribute(min, max);
 
             // Act
-            Action act = () => attribute.GetCustomization(null);
+            void Act() => attribute.GetCustomization(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("parameter");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("parameter", exception.ParamName);
         }
 
         [Fact(DisplayName = "GIVEN valid parameters WHEN constructor is invoked THEN parameters are properly assigned")]
@@ -65,8 +64,8 @@
             var range = new PickFromRangeAttribute(min, max);
 
             // Assert
-            range.Maximum.Should().NotBeNull().And.Be(max);
-            range.Minimum.Should().NotBeNull().And.Be(min);
+            Assert.Equal(max, range.Maximum);
+            Assert.Equal(min, range.Minimum);
         }
 
         [AutoData]
@@ -77,7 +76,7 @@
             // Arrange
             // Act
             // Assert
-            rangeValue.Should().BeInRange(byte.MaxValue - 10, byte.MaxValue);
+            Assert.InRange(rangeValue, byte.MaxValue - 10, byte.MaxValue);
         }
 
         [AutoData]
@@ -88,7 +87,7 @@
             // Arrange
             // Act
             // Assert
-            rangeValue.Should().BeInRange(ushort.MaxValue - 10, ushort.MaxValue);
+            Assert.InRange(rangeValue, ushort.MaxValue - 10, ushort.MaxValue);
         }
 
         [AutoData]
@@ -99,7 +98,7 @@
             // Arrange
             // Act
             // Assert
-            rangeValue.Should().BeInRange(uint.MaxValue - 10, uint.MaxValue);
+            Assert.InRange(rangeValue, uint.MaxValue - 10, uint.MaxValue);
         }
 
         [AutoData]
@@ -110,7 +109,7 @@
             // Arrange
             // Act
             // Assert
-            rangeValue.Should().BeInRange(ulong.MaxValue - 10, ulong.MaxValue);
+            Assert.InRange(rangeValue, ulong.MaxValue - 10, ulong.MaxValue);
         }
 
         [AutoData]
@@ -121,7 +120,7 @@
             // Arrange
             // Act
             // Assert
-            rangeValue.Should().BeInRange(sbyte.MaxValue - 10, sbyte.MaxValue);
+            Assert.InRange(rangeValue, sbyte.MaxValue - 10, sbyte.MaxValue);
         }
 
         [AutoData]
@@ -133,8 +132,8 @@
             // Arrange
             // Act
             // Assert
-            rangeValue.Should().BeInRange(short.MinValue, short.MinValue + 10);
-            unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
+            Assert.InRange(rangeValue, short.MinValue, short.MinValue + 10);
+            Assert.True(unrestrictedValue >= 0);
         }
 
         [AutoData]
@@ -146,8 +145,8 @@
             // Arrange
             // Act
             // Assert
-            rangeValue.Should().BeInRange(int.MinValue, sbyte.MinValue);
-            unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
+            Assert.InRange(rangeValue, int.MinValue, sbyte.MinValue);
+            Assert.True(unrestrictedValue >= 0);
         }
 
         [AutoData]
@@ -159,8 +158,8 @@
             // Arrange
             // Act
             // Assert
-            rangeValue.Should().BeInRange(long.MinValue, long.MinValue + 10);
-            unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
+            Assert.InRange(rangeValue, long.MinValue, long.MinValue + 10);
+            Assert.True(unrestrictedValue >= 0);
         }
 
         [AutoData]
@@ -172,8 +171,8 @@
             // Arrange
             // Act
             // Assert
-            rangeValue.Should().BeInRange(float.MinValue, float.MinValue + 10);
-            unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
+            Assert.InRange(rangeValue, float.MinValue, float.MinValue + 10);
+            Assert.True(unrestrictedValue >= 0);
         }
 
         [AutoData]
@@ -185,8 +184,8 @@
             // Arrange
             // Act
             // Assert
-            rangeValue.Should().BeInRange(double.MinValue, double.MinValue + 10);
-            unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
+            Assert.InRange(rangeValue, double.MinValue, double.MinValue + 10);
+            Assert.True(unrestrictedValue >= 0);
         }
 
         [AutoData]
@@ -198,8 +197,8 @@
             // Arrange
             // Act
             // Assert
-            rangeValue.Should().BeInRange(-12.3m, -4.5m);
-            unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
+            Assert.InRange(rangeValue, -12.3m, -4.5m);
+            Assert.True(unrestrictedValue >= 0);
         }
 
         [InlineAutoData(10, 10)]
@@ -213,8 +212,9 @@
             // Arrange
             // Act
             // Assert
-            value.Should().Be(expectedResult).And.NotBeInRange(int.MinValue, sbyte.MinValue);
-            unrestrictedValue.Should().BeInRange(short.MinValue, sbyte.MinValue);
+            Assert.Equal(expectedResult, value);
+            Assert.NotInRange(value, int.MinValue, sbyte.MinValue);
+            Assert.InRange(unrestrictedValue, short.MinValue, sbyte.MinValue);
         }
 
         [MemberAutoData(nameof(MemberAutoDataOverValuesTestData))]
@@ -227,8 +227,9 @@
             // Arrange
             // Act
             // Assert
-            value.Should().Be(expectedResult).And.NotBeInRange(int.MinValue, sbyte.MinValue);
-            unrestrictedValue.Should().BeInRange(int.MinValue, sbyte.MinValue);
+            Assert.Equal(expectedResult, value);
+            Assert.NotInRange(value, int.MinValue, sbyte.MinValue);
+            Assert.InRange(unrestrictedValue, int.MinValue, sbyte.MinValue);
         }
 
         [AutoData]
@@ -240,8 +241,8 @@
             // Arrange
             // Act
             // Assert
-            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(int.MinValue, sbyte.MinValue));
-            unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
+            Assert.All(rangeValues, value => Assert.InRange(value, int.MinValue, sbyte.MinValue));
+            Assert.All(unrestrictedValues, value => Assert.True(value >= 0));
         }
 
         [AutoData]
@@ -253,8 +254,8 @@
             // Arrange
             // Act
             // Assert
-            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(int.MinValue, sbyte.MinValue));
-            unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
+            Assert.All(rangeValues, value => Assert.InRange(value, int.MinValue, sbyte.MinValue));
+            Assert.All(unrestrictedValues, value => Assert.True(value >= 0));
         }
 
         [AutoData]
@@ -267,8 +268,8 @@
             // Arrange
             // Act
             // Assert
-            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(int.MinValue, sbyte.MinValue));
-            unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
+            Assert.All(rangeValues, value => Assert.InRange(value, int.MinValue, sbyte.MinValue));
+            Assert.All(unrestrictedValues, value => Assert.True(value >= 0));
         }
 
         [AutoData]
@@ -280,8 +281,8 @@
             // Arrange
             // Act
             // Assert
-            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(int.MinValue, sbyte.MinValue));
-            unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
+            Assert.All(rangeValues, value => Assert.InRange(value, int.MinValue, sbyte.MinValue));
+            Assert.All(unrestrictedValues, value => Assert.True(value >= 0));
         }
 
         [AutoData]
@@ -294,8 +295,8 @@
             // Arrange
             // Act
             // Assert
-            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(int.MinValue, sbyte.MinValue));
-            unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
+            Assert.All(rangeValues, value => Assert.InRange(value, int.MinValue, sbyte.MinValue));
+            Assert.All(unrestrictedValues, value => Assert.True(value >= 0));
         }
 
         [AutoData]
@@ -308,8 +309,8 @@
             // Arrange
             // Act
             // Assert
-            rangeValues.Should().AllSatisfy(x => x.Should().BeInRange(int.MinValue, sbyte.MinValue));
-            unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
+            Assert.All(rangeValues, value => Assert.InRange(value, int.MinValue, sbyte.MinValue));
+            Assert.All(unrestrictedValues, value => Assert.True(value >= 0));
         }
 
         [AutoData]
@@ -320,7 +321,8 @@
             // Arrange
             // Act
             // Assert
-            rangeValues.Should().HaveCountGreaterThan(1).And.AllSatisfy(x => x.Should().Be(int.MinValue));
+            Assert.True(rangeValues.Length > 1);
+            Assert.All(rangeValues, value => Assert.Equal(int.MinValue, value));
         }
     }
 }

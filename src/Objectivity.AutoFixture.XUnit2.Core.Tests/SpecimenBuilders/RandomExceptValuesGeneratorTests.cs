@@ -2,8 +2,6 @@
 {
     using System;
 
-    using FluentAssertions;
-
     using global::AutoFixture;
     using global::AutoFixture.Kernel;
 
@@ -25,11 +23,11 @@
             var builder = new RandomExceptValuesGenerator();
 
             // Act
-            Func<object> act = () => builder.Create(new object(), null);
+            object Act() => builder.Create(new object(), null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("context");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("context", exception.ParamName);
         }
 
         [Fact(DisplayName = "GIVEN uninitialized request WHEN Create is invoked THEN exception is thrown")]
@@ -40,11 +38,11 @@
             var context = new Mock<ISpecimenContext>();
 
             // Act
-            Func<object> act = () => builder.Create(null, context.Object);
+            object Act() => builder.Create(null, context.Object);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("request");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("request", exception.ParamName);
         }
 
         [Fact(DisplayName = "GIVEN excluded value and context which resolves to the same value WHEN Create is invoked THEN exception is thrown")]
@@ -58,11 +56,12 @@
             var request = new ExceptValuesRequest(duplicateValue.GetType(), duplicateValue);
 
             // Act
-            Func<object> act = () => builder.Create(request, context.Object);
+            object Act() => builder.Create(request, context.Object);
 
             // Assert
-            act.Should().Throw<ObjectCreationException>()
-                .And.Message.Should().NotBeNullOrEmpty();
+            var exception = Assert.Throws<ObjectCreationException>(Act);
+            Assert.NotNull(exception.Message);
+            Assert.NotEmpty(exception.Message);
         }
 
         [Fact(DisplayName = "GIVEN unsupported request WHEN Create is invoked THEN NoSpecimen is returned")]
@@ -77,7 +76,8 @@
             var result = builder.Create(request, context.Object);
 
             // Assert
-            result.Should().NotBeNull().And.BeOfType<NoSpecimen>();
+            Assert.NotNull(result);
+            Assert.IsType<NoSpecimen>(result);
         }
     }
 }

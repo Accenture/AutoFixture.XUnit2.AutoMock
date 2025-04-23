@@ -2,8 +2,6 @@
 {
     using System;
 
-    using FluentAssertions;
-
     using global::AutoFixture;
     using global::AutoFixture.Xunit2;
     using Objectivity.AutoFixture.XUnit2.Core.Customizations;
@@ -51,7 +49,7 @@
             var customization = new IgnoreVirtualMembersCustomization();
 
             // Assert
-            customization.ReflectedType.Should().BeNull();
+            Assert.Null(customization.ReflectedType);
         }
 
         [AutoData]
@@ -63,7 +61,7 @@
             var customization = new IgnoreVirtualMembersCustomization(reflectedType);
 
             // Assert
-            customization.ReflectedType.Should().BeSameAs(reflectedType);
+            Assert.Same(reflectedType, customization.ReflectedType);
         }
     }
 }

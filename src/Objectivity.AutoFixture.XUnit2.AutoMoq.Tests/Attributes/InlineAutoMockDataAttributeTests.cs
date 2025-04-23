@@ -3,8 +3,6 @@
     using System.Collections.Generic;
     using System.Reflection;
 
-    using FluentAssertions;
-
     using global::AutoFixture;
     using global::AutoFixture.AutoMoq;
     using global::AutoFixture.Xunit2;
@@ -29,10 +27,10 @@
             var attribute = new InlineAutoMockDataAttribute();
 
             // Assert
-            attribute.Fixture.Should().NotBeNull();
-            attribute.IgnoreVirtualMembers.Should().BeFalse();
-            attribute.Provider.Should().NotBeNull();
-            attribute.Values.Should().HaveCount(0);
+            Assert.NotNull(attribute.Fixture);
+            Assert.False(attribute.IgnoreVirtualMembers);
+            Assert.NotNull(attribute.Provider);
+            Assert.Empty(attribute.Values);
         }
 
         [Fact(DisplayName = "GIVEN existing inline values WHEN constructor is invoked THEN has specified values and fixture and attribute provider are created")]
@@ -45,10 +43,10 @@
             var attribute = new InlineAutoMockDataAttribute(initialValues[0], initialValues[1], initialValues[2]);
 
             // Assert
-            attribute.Fixture.Should().NotBeNull();
-            attribute.IgnoreVirtualMembers.Should().BeFalse();
-            attribute.Provider.Should().NotBeNull();
-            attribute.Values.Should().BeEquivalentTo(initialValues);
+            Assert.NotNull(attribute.Fixture);
+            Assert.False(attribute.IgnoreVirtualMembers);
+            Assert.NotNull(attribute.Provider);
+            Assert.Equal(initialValues, attribute.Values);
         }
 
         [Fact(DisplayName = "GIVEN uninitialized values WHEN constructor is invoked THEN has no values and fixture and attribute provider are created")]
@@ -61,10 +59,10 @@
             var attribute = new InlineAutoMockDataAttribute(initialValues);
 
             // Assert
-            attribute.Fixture.Should().NotBeNull();
-            attribute.IgnoreVirtualMembers.Should().BeFalse();
-            attribute.Provider.Should().NotBeNull();
-            attribute.Values.Should().HaveCount(0);
+            Assert.NotNull(attribute.Fixture);
+            Assert.False(attribute.IgnoreVirtualMembers);
+            Assert.NotNull(attribute.Provider);
+            Assert.Empty(attribute.Values);
         }
 
         [InlineAutoData(true)]
@@ -98,17 +96,14 @@
             var result = attribute.GetData(methodInfo);
 
             // Assert
-            result.Should().BeSameAs(data);
+            Assert.Same(data, result);
             provider.VerifyAll();
             dataAttribute.VerifyAll();
 
-            customizations.Count.Should().Be(2);
-            customizations[0]
-                .Should()
-                .BeOfType<AutoDataCommonCustomization>()
-                .Which.IgnoreVirtualMembers.Should()
-                .Be(ignoreVirtualMembers);
-            customizations[1].Should().BeOfType<AutoMoqCustomization>();
+            Assert.Equal(2, customizations.Count);
+            var customization = Assert.IsType<AutoDataCommonCustomization>(customizations[0]);
+            Assert.Equal(ignoreVirtualMembers, customization.IgnoreVirtualMembers);
+            Assert.IsType<AutoMoqCustomization>(customizations[1]);
         }
 
         [InlineAutoMockData(100)]
@@ -121,11 +116,12 @@
             // Arrange
             // Act
             // Assert
-            firstValueInstance.Should().Be(100);
-            secondValueInstance.Should().NotBe(0);
+            Assert.Equal(100, firstValueInstance);
+            Assert.NotEqual(0, secondValueInstance);
 
-            objectInstance.Should().NotBeNull();
-            objectInstance.StringProperty.Should().NotBeNullOrEmpty();
+            Assert.NotNull(objectInstance);
+            Assert.NotNull(objectInstance.StringProperty);
+            Assert.NotEmpty(objectInstance.StringProperty);
         }
 
         protected void MethodUnderTest()

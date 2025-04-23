@@ -5,8 +5,6 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
-
-    using FluentAssertions;
     using global::AutoFixture.Xunit2;
     using Objectivity.AutoFixture.XUnit2.Core.Requests;
 
@@ -34,11 +32,11 @@
             object[] values = null;
 
             // Act
-            Func<object> act = () => new FixedValuesRequest(type, values);
+            object Act() => new FixedValuesRequest(type, values);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("operandType");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("operandType", exception.ParamName);
         }
 
         [Fact(DisplayName = "GIVEN uninitialized values argument WHEN constructor is invoked THEN exception is thrown")]
@@ -49,11 +47,11 @@
             object[] values = null;
 
             // Act
-            Func<object> act = () => new FixedValuesRequest(type, values);
+            object Act() => new FixedValuesRequest(type, values);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("values");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("values", exception.ParamName);
         }
 
         [Fact(DisplayName = "GIVEN empty values argument WHEN constructor is invoked THEN exception is thrown")]
@@ -64,12 +62,13 @@
             var values = Array.Empty<object>();
 
             // Act
-            Func<object> act = () => new FixedValuesRequest(type, values);
+            object Act() => new FixedValuesRequest(type, values);
 
             // Assert
-            act.Should().Throw<ArgumentException>()
-                .And.Message.Should().NotBeNullOrEmpty()
-                .And.Contain("At least one value");
+            var exception = Assert.Throws<ArgumentException>(Act);
+            Assert.NotNull(exception.Message);
+            Assert.NotEmpty(exception.Message);
+            Assert.Contains("At least one value", exception.Message);
         }
 
         [InlineData(typeof(int), 2)]
@@ -85,7 +84,8 @@
             var attribute = new FixedValuesRequest(type, values);
 
             // Assert
-            attribute.Values.Should().HaveCount(2).And.BeEquivalentTo(values);
+            Assert.Equal(2, attribute.Values.Count);
+            Assert.Equal(values, attribute.Values);
         }
 
         [Fact(DisplayName = "GIVEN valid arguments WHEN ToString is invoked THEN text conteins necessary information")]
@@ -97,19 +97,23 @@
             long? second = long.MinValue;
             byte? third = null;
             var attribute = new FixedValuesRequest(type, first, second, third);
+            var textParts = new[]
+            {
+                nameof(FixedValuesRequest),
+                type.Name,
+                "[Int32]",
+                $"{first.ToString(CultureInfo.InvariantCulture)},",
+                "[Int64]",
+                $"{second.Value.ToString(CultureInfo.InvariantCulture)},",
+                "[Object]",
+                "null",
+            };
 
             // Act
             var text = attribute.ToString();
 
             // Assert
-            text.Should().Contain(nameof(FixedValuesRequest))
-                .And.Contain(type.Name)
-                .And.Contain("[Int32]")
-                .And.Contain($"{first.ToString(CultureInfo.InvariantCulture)},")
-                .And.Contain("[Int64]")
-                .And.Contain($"{second.Value.ToString(CultureInfo.InvariantCulture)},")
-                .And.Contain("[Object]")
-                .And.Contain("null");
+            Assert.All(textParts, textPart => Assert.Contains(textPart, text));
         }
 
         [MemberData(nameof(ComparisonTestData))]
@@ -129,7 +133,7 @@
             var result = Equals(a, b);
 
             // Assert
-            result.Should().Be(expectedResult);
+            Assert.Equal(expectedResult, result);
         }
 
         [MemberData(nameof(ComparisonTestData))]
@@ -151,7 +155,7 @@
             var result = hashA == hashB;
 
             // Assert
-            result.Should().Be(expectedResult, $"Hash codes are different. First: {a}, HashCode: {hashA.ToString(CultureInfo.InvariantCulture)}, Second:{b}, HashCode: {hashB.ToString(CultureInfo.InvariantCulture)}");
+            Assert.Equal(expectedResult, result);
         }
 
         [Fact(DisplayName = "GIVEN uninitialized request WHEN Equals is invoked THEN False is returned")]
@@ -166,7 +170,7 @@
             var result = initialized.Equals(uninitialized);
 
             // Assert
-            result.Should().BeFalse();
+            Assert.False(result);
         }
 
         [Fact(DisplayName = "GIVEN different type of object WHEN Equals is invoked THEN False is returned")]
@@ -181,7 +185,7 @@
             var result = request.Equals(differentObject);
 
             // Assert
-            result.Should().BeFalse();
+            Assert.False(result);
         }
 
         [AutoData]
@@ -200,8 +204,8 @@
             var text = fixedRequest.ToString();
 
             // Assert
-            result.Should().BeFalse();
-            text.Should().NotBeNull();
+            Assert.False(result);
+            Assert.NotNull(text);
         }
 
         [AutoData]
@@ -220,7 +224,7 @@
             var result = hashA == hashB;
 
             // Assert
-            result.Should().BeFalse();
+            Assert.False(result);
         }
 
         [InlineAutoData(typeof(ExceptValuesRequest))]
@@ -239,7 +243,7 @@
             var actualHashCode = request.GetHashCode();
 
             // Assert
-            actualHashCode.Should().Be(expectedHashCode);
+            Assert.Equal(expectedHashCode, actualHashCode);
         }
     }
 }

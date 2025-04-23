@@ -7,8 +7,6 @@
     using System.Linq;
     using System.Reflection;
 
-    using FluentAssertions;
-
     using global::AutoFixture;
     using global::AutoFixture.Kernel;
     using global::AutoFixture.Xunit2;
@@ -28,11 +26,11 @@
         {
             // Arrange
             // Act
-            Func<object> act = () => new RequestFactoryRelay(null);
+            static object Act() => new RequestFactoryRelay(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("requestFactory");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("requestFactory", exception.ParamName);
         }
 
         [Fact(DisplayName = "GIVEN empty argument WHEN Create is invoked THEN exception is thrown")]
@@ -43,11 +41,11 @@
             var builder = new RequestFactoryRelay(factory.Object);
 
             // Act
-            Func<object> act = () => builder.Create(new object(), null);
+            object Act() => builder.Create(new object(), null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("context");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("context", exception.ParamName);
             factory.VerifyNoOtherCalls();
         }
 
@@ -60,11 +58,11 @@
             var context = new Mock<ISpecimenContext>();
 
             // Act
-            Func<object> act = () => builder.Create(null, context.Object);
+            object Act() => builder.Create(null, context.Object);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("request");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("request", exception.ParamName);
         }
 
         [Fact(DisplayName = "GIVEN unsupported request type WHEN create is invoked THEN NoSpecimen is returned")]
@@ -80,7 +78,7 @@
             var result = builder.Create(request, context.Object);
 
             // Assert
-            result.Should().BeOfType<NoSpecimen>();
+            Assert.IsType<NoSpecimen>(result);
             factory.VerifyNoOtherCalls();
         }
 
@@ -103,7 +101,7 @@
             var result = builder.Create(request.Object, context.Object);
 
             // Assert
-            result.Should().BeOfType<NoSpecimen>();
+            Assert.IsType<NoSpecimen>(result);
             factory.Verify(x => x(It.IsAny<Type>()), Times.Once);
             factory.VerifyNoOtherCalls();
             context.VerifyNoOtherCalls();
@@ -133,8 +131,8 @@
             var result = builder.Create(request.Object, context.Object);
 
             // Assert
-            result.Should().NotBeNull()
-                .And.BeOfType(expectedType);
+            Assert.NotNull(result);
+            Assert.IsType(expectedType, result);
             factory.Verify(x => x(It.IsIn(expectedType)), Times.Once);
             factory.VerifyNoOtherCalls();
             context.Verify(x => x.Resolve(It.IsAny<object>()), Times.Once);
@@ -161,7 +159,7 @@
             var result = builder.Create(request.Object, context.Object);
 
             // Assert
-            result.Should().BeOfType<NoSpecimen>();
+            Assert.IsType<NoSpecimen>(result);
             factory.Verify(x => x(It.IsAny<Type>()), Times.Once);
             factory.VerifyNoOtherCalls();
             context.Verify(x => x.Resolve(It.IsAny<object>()), Times.Once);
@@ -196,9 +194,9 @@
             var result = builder.Create(request.Object, context.Object);
 
             // Assert
-            result.Should().NotBeNull()
-                .And.BeOfType(expectedType)
-                .And.Subject.As<IEnumerable>().Cast<int>().Should().NotBeEmpty();
+            Assert.NotNull(result);
+            Assert.IsType(expectedType, result);
+            Assert.NotEmpty(((IEnumerable)result).Cast<int>());
             factory.Verify(x => x(It.IsAny<Type>()), Times.Once);
             factory.VerifyNoOtherCalls();
             context.Verify(x => x.Resolve(It.IsAny<object>()), Times.Once);

@@ -1,10 +1,7 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.Tests.Attributes
 {
     using System;
-    using System.Linq;
     using System.Reflection;
-
-    using FluentAssertions;
 
     using global::AutoFixture;
     using global::AutoFixture.Kernel;
@@ -54,11 +51,11 @@
         {
             // Arrange
             // Act
-            Func<object> act = () => new PickFromValuesAttribute(null);
+            static object Act() => new PickFromValuesAttribute(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("values");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("values", exception.ParamName);
         }
 
         [AutoData]
@@ -70,11 +67,11 @@
             var attribute = new PickFromValuesAttribute(values);
 
             // Act
-            Action act = () => attribute.GetCustomization(null);
+            void Act() => attribute.GetCustomization(null);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
-                .And.ParamName.Should().Be("parameter");
+            var exception = Assert.Throws<ArgumentNullException>(Act);
+            Assert.Equal("parameter", exception.ParamName);
         }
 
         [Fact(DisplayName = "GIVEN no arguments WHEN constructor is invoked THEN exception is thrown")]
@@ -82,12 +79,13 @@
         {
             // Arrange
             // Act
-            Func<object> act = () => new PickFromValuesAttribute();
+            static object Act() => new PickFromValuesAttribute();
 
             // Assert
-            act.Should().Throw<ArgumentException>()
-                .And.Message.Should().NotBeNullOrEmpty()
-                .And.Contain("At least one value");
+            var exception = Assert.Throws<ArgumentException>(Act);
+            Assert.NotNull(exception.Message);
+            Assert.NotEmpty(exception.Message);
+            Assert.Contains("At least one value", exception.Message);
         }
 
         [InlineData(1, 1)]
@@ -101,7 +99,8 @@
             var attribute = new PickFromValuesAttribute(first, second);
 
             // Assert
-            attribute.Values.Should().HaveCount(1).And.BeEquivalentTo(new[] { first });
+            Assert.Single(attribute.Values);
+            Assert.Equivalent(new[] { first }, attribute.Values);
         }
 
         [InlineData(typeof(int), 2)]
@@ -116,7 +115,8 @@
             var attribute = new PickFromValuesAttribute(first, second);
 
             // Assert
-            attribute.Values.Should().HaveCount(2).And.BeEquivalentTo(new[] { first, second });
+            Assert.Equal(2, attribute.Values.Count);
+            Assert.Equivalent(new[] { first, second }, attribute.Values);
         }
 
         [MemberData(nameof(CustomizationUsageTestData))]
@@ -137,7 +137,8 @@
             item = (T)fixture.Create(request.Object, new SpecimenContext(fixture));
 
             // Assert
-            item.Should().NotBeNull().And.Match(x => values.Contains(x));
+            Assert.NotNull(item);
+            Assert.Contains(item, values);
         }
 
         [AutoData]
@@ -148,7 +149,7 @@
             // Arrange
             // Act
             // Assert
-            targetValue.Should().BeOneOf(1, 5, 20);
+            Assert.Contains(targetValue, new byte[] { 1, 5, 20 });
         }
 
         [AutoData]
@@ -159,7 +160,7 @@
             // Arrange
             // Act
             // Assert
-            targetValue.Should().BeOneOf(1, 5, 4);
+            Assert.Contains(targetValue, new ushort[] { 1, 5, 4 });
         }
 
         [AutoData]
@@ -170,7 +171,7 @@
             // Arrange
             // Act
             // Assert
-            targetValue.Should().BeOneOf(1, long.MaxValue, ulong.MaxValue);
+            Assert.Contains(targetValue, new ulong[] { 1, long.MaxValue, ulong.MaxValue });
         }
 
         [AutoData]
@@ -181,7 +182,7 @@
             // Arrange
             // Act
             // Assert
-            targetValue.Should().BeOneOf(sbyte.MinValue, -50, -1);
+            Assert.Contains(targetValue, new sbyte[] { sbyte.MinValue, -50, -1 });
         }
 
         [AutoData]
@@ -193,8 +194,8 @@
             // Arrange
             // Act
             // Assert
-            targetValue.Should().BeOneOf(short.MinValue, sbyte.MinValue, -1);
-            unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
+            Assert.Contains(targetValue, new short[] { short.MinValue, sbyte.MinValue, -1 });
+            Assert.True(unrestrictedValue >= 0);
         }
 
         [AutoData]
@@ -206,8 +207,8 @@
             // Arrange
             // Act
             // Assert
-            targetValue.Should().BeOneOf(int.MinValue, short.MinValue, sbyte.MinValue);
-            unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
+            Assert.Contains(targetValue, new int[] { int.MinValue, short.MinValue, sbyte.MinValue });
+            Assert.True(unrestrictedValue >= 0);
         }
 
         [AutoData]
@@ -219,8 +220,8 @@
             // Arrange
             // Act
             // Assert
-            targetValue.Should().BeOneOf(long.MinValue, int.MinValue, short.MinValue);
-            unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
+            Assert.Contains(targetValue, new long[] { long.MinValue, int.MinValue, short.MinValue });
+            Assert.True(unrestrictedValue >= 0);
         }
 
         [AutoData]
@@ -232,8 +233,8 @@
             // Arrange
             // Act
             // Assert
-            targetValue.Should().BeOneOf(float.MinValue, int.MinValue, short.MinValue);
-            unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
+            Assert.Contains(targetValue, new float[] { float.MinValue, int.MinValue, short.MinValue });
+            Assert.True(unrestrictedValue >= 0);
         }
 
         [AutoData]
@@ -245,8 +246,8 @@
             // Arrange
             // Act
             // Assert
-            targetValue.Should().BeOneOf(double.MinValue, float.MinValue, int.MinValue, short.MinValue);
-            unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
+            Assert.Contains(targetValue, new double[] { double.MinValue, float.MinValue, int.MinValue, short.MinValue });
+            Assert.True(unrestrictedValue >= 0);
         }
 
         [AutoData]
@@ -258,8 +259,8 @@
             // Arrange
             // Act
             // Assert
-            targetValue.Should().BeOneOf(long.MinValue, int.MinValue, short.MinValue);
-            unrestrictedValue.Should().BeGreaterThanOrEqualTo(0);
+            Assert.Contains(targetValue, new decimal[] { long.MinValue, int.MinValue, short.MinValue });
+            Assert.True(unrestrictedValue >= 0);
         }
 
         [AutoData]
@@ -270,7 +271,7 @@
             // Arrange
             // Act
             // Assert
-            targetValue.Should().BeOneOf(Numbers.One, Numbers.Five);
+            Assert.Contains(targetValue, new[] { Numbers.One, Numbers.Five });
         }
 
         [AutoData]
@@ -281,7 +282,7 @@
             // Arrange
             // Act
             // Assert
-            targetValue.Should().BeOneOf((Numbers)100, (Numbers)200);
+            Assert.Contains(targetValue, new[] { (Numbers)100, (Numbers)200 });
         }
 
         [AutoData]
@@ -292,7 +293,7 @@
             // Arrange
             // Act
             // Assert
-            targetValue.Should().BeOneOf(Numbers.One | Numbers.Three, Numbers.Five);
+            Assert.Contains(targetValue, new[] { Numbers.One | Numbers.Three, Numbers.Five });
         }
 
         [InlineAutoData(10, 10)]
@@ -304,7 +305,8 @@
             // Arrange
             // Act
             // Assert
-            value.Should().Be(expectedResult).And.NotBe(int.MinValue);
+            Assert.Equal(expectedResult, value);
+            Assert.NotEqual(int.MinValue, value);
         }
 
         [MemberAutoData(nameof(MemberAutoDataOverValuesTestData))]
@@ -317,8 +319,9 @@
             // Arrange
             // Act
             // Assert
-            value.Should().Be(expectedResult).And.NotBe(int.MinValue);
-            unrestrictedValue.Should().Be(int.MinValue);
+            Assert.Equal(expectedResult, value);
+            Assert.NotEqual(int.MinValue, value);
+            Assert.Equal(int.MinValue, unrestrictedValue);
         }
 
         [AutoData]
@@ -332,8 +335,8 @@
 
             // Act
             // Assert
-            targetValues.Should().AllSatisfy(x => supported.Should().Contain(x));
-            unrestrictedValues.Should().AllSatisfy(x => x.Should().BeGreaterThanOrEqualTo(0));
+            Assert.All(targetValues, x => Assert.Contains(x, supported));
+            Assert.All(unrestrictedValues, x => Assert.True(x >= 0));
         }
     }
 }
