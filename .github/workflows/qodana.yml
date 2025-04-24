@@ -15,6 +15,11 @@ on:
   schedule:
     - cron: '17 5 * * 0' # Random time
   workflow_dispatch:
+    inputs:
+      upload-result-as-artifact:
+        description: 'Upload Qodana result as artifact'
+        required: false
+        default: 'false'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -27,6 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
       checks: write
       security-events: write
     steps:
@@ -52,6 +58,9 @@ jobs:
           cache-dir: ${{ runner.temp }}/qodana/caches
           primary-cache-key: ${{ runner.os }}-qodana-${{ github.ref }}-${{ hashFiles('**/*.csproj') }}
           additional-cache-key: ${{ runner.os }}-qodana-${{ github.ref }}
+          upload-result: ${{github.event_name == 'workflow_dispatch' && inputs.upload-result-as-artifact == true}}
+          post-pr-comment: true
+          github-token: ${{ github.token }}
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
       - name: 📊 upload sarif file for GitHub Advanced Security Dashboard
