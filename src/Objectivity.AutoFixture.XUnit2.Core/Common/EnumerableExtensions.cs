@@ -6,6 +6,8 @@
     using System.Linq;
     using System.Reflection;
 
+    using JetBrains.Annotations;
+
     internal static class EnumerableExtensions
     {
         private static readonly MethodInfo BuildTypedArrayMethodInfo =
@@ -44,7 +46,7 @@
             return false;
         }
 
-        public static object ToTypedArray(this IEnumerable items, Type itemType)
+        public static object ToTypedArray([NoEnumeration] this IEnumerable items, Type itemType)
         {
             var method = BuildTypedArrayMethodInfo.MakeGenericMethod(itemType.NotNull(nameof(itemType)));
             return method.Invoke(null, new object[] { items.NotNull(nameof(items)) });
