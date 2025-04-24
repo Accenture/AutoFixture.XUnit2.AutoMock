@@ -52,16 +52,18 @@ jobs:
         uses: JetBrains/qodana-action@v2024.3
         with:
           pr-mode: false
-          args: |
-            --project-dir,src,
-            --save-report=false
+          post-pr-comment: true
           results-dir: ${{ runner.temp }}/qodana/results
+          use-annotations: true
+          use-caches: true
           cache-dir: ${{ runner.temp }}/qodana/caches
           primary-cache-key: ${{ runner.os }}-qodana-${{ github.ref }}-${{ hashFiles('**/*.csproj') }}
           additional-cache-key: ${{ runner.os }}-qodana-${{ github.ref }}
           upload-result: ${{github.event_name == 'workflow_dispatch' && inputs.upload-result-as-artifact == true}}
-          post-pr-comment: true
           github-token: ${{ github.token }}
+          args: |
+            --project-dir,src,
+            --save-report=false
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
           QODANA_ENDPOINT: 'https://qodana.cloud'
