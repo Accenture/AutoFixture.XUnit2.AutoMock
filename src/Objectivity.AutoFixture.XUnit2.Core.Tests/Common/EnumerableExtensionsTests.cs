@@ -4,9 +4,8 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-
     using global::AutoFixture.Xunit2;
-
+    using JetBrains.Annotations;
     using Objectivity.AutoFixture.XUnit2.Core.Common;
 
     using Xunit;
@@ -76,7 +75,7 @@
         [InlineData(new[] { 1 }, null, "itemType")]
         [Theory(DisplayName = "GIVEN uninitialized argument WHEN ToTypedArray is invoked THEN exception is thrown")]
         public void GivenUninitializedArgument_WhenToTypedArrayIsInvoked_ThenExceptionIsThrown(
-            IEnumerable items,
+            [NoEnumeration] IEnumerable items,
             Type itemType,
             string exceptionParamName)
         {
