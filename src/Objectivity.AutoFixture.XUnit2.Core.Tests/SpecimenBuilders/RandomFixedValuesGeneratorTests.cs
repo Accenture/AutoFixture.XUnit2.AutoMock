@@ -68,15 +68,16 @@
             // Arrange
             var builder = new RandomFixedValuesGenerator();
             var context = new Mock<ISpecimenContext>();
-            var request = new FixedValuesRequest(typeof(int), 1, 2);
+            var expectedValues = new object[] { 1, 2 };
+            var request = new FixedValuesRequest(typeof(int), expectedValues);
 
             // Act
-            var result = Enumerable.Range(0, 10).Select((_) => (int)builder.Create(request, context.Object));
+            var result = Enumerable.Range(0, 10).Select((_) => (int)builder.Create(request, context.Object)).ToList();
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(10, result.Count());
-            Assert.All(result, x => Assert.Contains(x, new[] { 1, 2 }));
+            Assert.Equal(10, result.Count);
+            Assert.All(result, x => Assert.Contains(x, expectedValues));
         }
 
         [AutoData]
@@ -91,11 +92,11 @@
             var request = new FixedValuesRequest(typeof(int), expectedValue);
 
             // Act
-            var result = Enumerable.Range(0, 10).Select((_) => (int)builder.Create(request, context.Object));
+            var result = Enumerable.Range(0, 10).Select((_) => (int)builder.Create(request, context.Object)).ToList();
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(10, result.Count());
+            Assert.Equal(10, result.Count);
             Assert.All(result, x => Assert.Equal(expectedValue, x));
         }
 
