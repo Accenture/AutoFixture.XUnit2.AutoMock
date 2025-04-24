@@ -84,7 +84,7 @@
         [Theory(DisplayName = "GIVEN test method has value parameter WHEN is decorated with IgnoreVirtualMembersAttribute THEN parameter value is being populated")]
         public void GivenTestMethodHasValueParameter_WhenIsDecoratedWithIgnoreVirtualMembersAttribute_ThenParameterValueIsBeingPopulated([IgnoreVirtualMembers] int number)
         {
-            Assert.NotEqual(default, number);
+            Assert.NotEqual(0, number);
         }
 
         [Fact(DisplayName = "GIVEN uninitialized parameter info WHEN GetCustomization is invoked THEN exception is thrown")]
