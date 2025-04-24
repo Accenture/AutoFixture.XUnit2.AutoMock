@@ -4,8 +4,11 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+
     using global::AutoFixture.Xunit2;
+
     using JetBrains.Annotations;
+
     using Objectivity.AutoFixture.XUnit2.Core.Common;
 
     using Xunit;
