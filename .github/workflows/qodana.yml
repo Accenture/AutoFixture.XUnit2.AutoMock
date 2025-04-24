@@ -15,6 +15,12 @@ on:
   schedule:
     - cron: '17 5 * * 0' # Random time
   workflow_dispatch:
+    inputs:
+      upload-result-as-artifact:
+        description: 'Upload Qodana result as artifact'
+        required: false
+        type: boolean
+        default: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -27,6 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
       checks: write
       security-events: write
     steps:
@@ -45,15 +52,21 @@ jobs:
         uses: JetBrains/qodana-action@v2024.3
         with:
           pr-mode: false
-          args: |
-            --project-dir,src,
-            --save-report=false
+          post-pr-comment: true
           results-dir: ${{ runner.temp }}/qodana/results
+          use-annotations: true
+          use-caches: true
           cache-dir: ${{ runner.temp }}/qodana/caches
           primary-cache-key: ${{ runner.os }}-qodana-${{ github.ref }}-${{ hashFiles('**/*.csproj') }}
           additional-cache-key: ${{ runner.os }}-qodana-${{ github.ref }}
+          upload-result: ${{github.event_name == 'workflow_dispatch' && inputs.upload-result-as-artifact == true}}
+          github-token: ${{ github.token }}
+          args: |
+            --project-dir,src,
+            --save-report=false
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+          QODANA_ENDPOINT: 'https://qodana.cloud'
       - name: 📊 upload sarif file for GitHub Advanced Security Dashboard
         uses: github/codeql-action/upload-sarif@v3
         with:
