@@ -147,9 +147,11 @@
             [PickFromValues(1, 5, 20)] byte targetValue)
         {
             // Arrange
+            var expectedValues = new byte[] { 1, 5, 20 };
+
             // Act
             // Assert
-            Assert.Contains(targetValue, new byte[] { 1, 5, 20 });
+            Assert.Contains(targetValue, expectedValues);
         }
 
         [AutoData]
@@ -158,9 +160,11 @@
             [PickFromValues(1, 5, 4)] ushort targetValue)
         {
             // Arrange
+            var expectedValues = new ushort[] { 1, 5, 4 };
+
             // Act
             // Assert
-            Assert.Contains(targetValue, new ushort[] { 1, 5, 4 });
+            Assert.Contains(targetValue, expectedValues);
         }
 
         [AutoData]
@@ -169,9 +173,11 @@
             [PickFromValues(1, long.MaxValue, ulong.MaxValue)] ulong targetValue)
         {
             // Arrange
+            var expectedValues = new ulong[] { 1, long.MaxValue, ulong.MaxValue };
+
             // Act
             // Assert
-            Assert.Contains(targetValue, new ulong[] { 1, long.MaxValue, ulong.MaxValue });
+            Assert.Contains(targetValue, expectedValues);
         }
 
         [AutoData]
@@ -180,9 +186,11 @@
             [PickFromValues(sbyte.MinValue, -50, -1)] sbyte targetValue)
         {
             // Arrange
+            var expectedValues = new sbyte[] { sbyte.MinValue, -50, -1 };
+
             // Act
             // Assert
-            Assert.Contains(targetValue, new sbyte[] { sbyte.MinValue, -50, -1 });
+            Assert.Contains(targetValue, expectedValues);
         }
 
         [AutoData]
@@ -192,9 +200,11 @@
             short unrestrictedValue)
         {
             // Arrange
+            var expectedValues = new short[] { short.MinValue, sbyte.MinValue, -1 };
+
             // Act
             // Assert
-            Assert.Contains(targetValue, new short[] { short.MinValue, sbyte.MinValue, -1 });
+            Assert.Contains(targetValue, expectedValues);
             Assert.True(unrestrictedValue >= 0);
         }
 
@@ -205,9 +215,11 @@
             int unrestrictedValue)
         {
             // Arrange
+            var expectedValues = new[] { int.MinValue, short.MinValue, sbyte.MinValue };
+
             // Act
             // Assert
-            Assert.Contains(targetValue, new int[] { int.MinValue, short.MinValue, sbyte.MinValue });
+            Assert.Contains(targetValue, expectedValues);
             Assert.True(unrestrictedValue >= 0);
         }
 
@@ -218,9 +230,11 @@
             long unrestrictedValue)
         {
             // Arrange
+            var expectedValues = new[] { long.MinValue, int.MinValue, short.MinValue };
+
             // Act
             // Assert
-            Assert.Contains(targetValue, new long[] { long.MinValue, int.MinValue, short.MinValue });
+            Assert.Contains(targetValue, expectedValues);
             Assert.True(unrestrictedValue >= 0);
         }
 
@@ -231,9 +245,11 @@
             float unrestrictedValue)
         {
             // Arrange
+            var expectedValues = new[] { float.MinValue, int.MinValue, short.MinValue };
+
             // Act
             // Assert
-            Assert.Contains(targetValue, new float[] { float.MinValue, int.MinValue, short.MinValue });
+            Assert.Contains(targetValue, expectedValues);
             Assert.True(unrestrictedValue >= 0);
         }
 
@@ -244,9 +260,11 @@
             double unrestrictedValue)
         {
             // Arrange
+            var expectedValues = new[] { double.MinValue, float.MinValue, int.MinValue, short.MinValue };
+
             // Act
             // Assert
-            Assert.Contains(targetValue, new double[] { double.MinValue, float.MinValue, int.MinValue, short.MinValue });
+            Assert.Contains(targetValue, expectedValues);
             Assert.True(unrestrictedValue >= 0);
         }
 
@@ -257,9 +275,11 @@
             decimal unrestrictedValue)
         {
             // Arrange
+            var expectedValues = new decimal[] { long.MinValue, int.MinValue, short.MinValue };
+
             // Act
             // Assert
-            Assert.Contains(targetValue, new decimal[] { long.MinValue, int.MinValue, short.MinValue });
+            Assert.Contains(targetValue, expectedValues);
             Assert.True(unrestrictedValue >= 0);
         }
 
@@ -269,9 +289,11 @@
             [PickFromValues(Numbers.One, Numbers.Five)] Numbers targetValue)
         {
             // Arrange
+            var expectedValues = new[] { Numbers.One, Numbers.Five };
+
             // Act
             // Assert
-            Assert.Contains(targetValue, new[] { Numbers.One, Numbers.Five });
+            Assert.Contains(targetValue, expectedValues);
         }
 
         [AutoData]
@@ -280,9 +302,11 @@
             [PickFromValues(100, 200)] Numbers targetValue)
         {
             // Arrange
+            var expectedValues = new[] { (Numbers)100, (Numbers)200 };
+
             // Act
             // Assert
-            Assert.Contains(targetValue, new[] { (Numbers)100, (Numbers)200 });
+            Assert.Contains(targetValue, expectedValues);
         }
 
         [AutoData]
@@ -291,9 +315,11 @@
             [PickFromValues(Numbers.One | Numbers.Three, Numbers.Five)] Numbers targetValue)
         {
             // Arrange
+            var expectedValues = new[] { Numbers.One | Numbers.Three, Numbers.Five };
+
             // Act
             // Assert
-            Assert.Contains(targetValue, new[] { Numbers.One | Numbers.Three, Numbers.Five });
+            Assert.Contains(targetValue, expectedValues);
         }
 
         [InlineAutoData(10, 10)]
