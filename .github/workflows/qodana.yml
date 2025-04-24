@@ -19,7 +19,8 @@ on:
       upload-result-as-artifact:
         description: 'Upload Qodana result as artifact'
         required: false
-        default: 'false'
+        type: boolean
+        default: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -63,6 +64,7 @@ jobs:
           github-token: ${{ github.token }}
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
+          QODANA_ENDPOINT: "https://api.qodana.cloud"
       - name: 📊 upload sarif file for GitHub Advanced Security Dashboard
         uses: github/codeql-action/upload-sarif@v3
         with:
