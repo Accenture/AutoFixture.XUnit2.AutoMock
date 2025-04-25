@@ -49,7 +49,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-qodana-${{ github.ref }}
       - name: 🔬 qodana scan
-        uses: JetBrains/qodana-action@v2024.3
+        uses: JetBrains/qodana-action@v2025.1
         with:
           pr-mode: false
           post-pr-comment: true
