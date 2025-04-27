@@ -64,6 +64,7 @@ jobs:
           args: |
             --project-dir,src,
             --save-report=false
+            --log-level=debug
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
           QODANA_ENDPOINT: 'https://qodana.cloud'
