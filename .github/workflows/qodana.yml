@@ -21,6 +21,15 @@ on:
         required: false
         type: boolean
         default: false
+      log-level:
+        description: 'Log level for Qodana scan'
+        required: false
+        type: choice
+        default: 'error'
+        options:
+          - 'debug'
+          - 'error'
+          - 'trace'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -59,11 +68,11 @@ jobs:
           cache-dir: ${{ runner.temp }}/qodana/caches
           primary-cache-key: ${{ runner.os }}-qodana-${{ github.ref }}-${{ hashFiles('**/*.csproj') }}
           additional-cache-key: ${{ runner.os }}-qodana-${{ github.ref }}
-          upload-result: ${{github.event_name == 'workflow_dispatch' && inputs.upload-result-as-artifact == true}}
+          upload-result: ${{ github.event_name == 'workflow_dispatch' && inputs.upload-result-as-artifact == true }}
           github-token: ${{ github.token }}
           args: |
             --project-dir,src,
-            --log-level,debug,
+            --log-level,${{ github.event_name == 'workflow_dispatch' && inputs.log-level || 'error' }},
             --save-report=false
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
