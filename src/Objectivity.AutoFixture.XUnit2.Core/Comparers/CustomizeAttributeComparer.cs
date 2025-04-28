@@ -3,17 +3,14 @@
     using System.Collections.Generic;
 
     using global::AutoFixture;
-    using global::AutoFixture.Xunit2;
 
-    /// <summary>
-    /// Direct copy from the AutoFixture source code as the original class is internal.
-    /// </summary>
-    internal class CustomizeAttributeComparer : Comparer<IParameterCustomizationSource>
+    internal class CustomizeAttributeComparer<T> : Comparer<IParameterCustomizationSource>
+        where T : IParameterCustomizationSource
     {
         public override int Compare(IParameterCustomizationSource x, IParameterCustomizationSource y)
         {
-            var isXFrozen = x is FrozenAttribute;
-            var isYFrozen = y is FrozenAttribute;
+            var isXFrozen = x is T;
+            var isYFrozen = y is T;
 
             if (isXFrozen && !isYFrozen)
             {

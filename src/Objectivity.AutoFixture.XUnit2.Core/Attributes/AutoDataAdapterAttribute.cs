@@ -46,7 +46,7 @@
         {
             var customizeAttributes = p.GetCustomAttributes()
                 .OfType<IParameterCustomizationSource>()
-                .OrderBy(x => x, new CustomizeAttributeComparer());
+                .OrderBy(x => x, new CustomizeAttributeComparer<FrozenAttribute>());
 
             foreach (var ca in customizeAttributes)
             {
