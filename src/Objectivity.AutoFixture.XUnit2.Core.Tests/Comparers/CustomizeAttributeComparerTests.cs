@@ -12,7 +12,7 @@
     [Trait("Category", "Comparers")]
     public class CustomizeAttributeComparerTests
     {
-        private static readonly CustomizeAttributeComparer Comparer = new();
+        private static readonly CustomizeAttributeComparer<FrozenAttribute> Comparer = new();
         private static readonly CustomizeWithAttribute CustomizeAttribute = new(typeof(DoNotThrowOnRecursionCustomization));
         private static readonly FrozenAttribute FrozenAttribute = new();
 
