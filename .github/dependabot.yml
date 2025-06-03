@@ -24,6 +24,8 @@ updates:
           - "xunit.analyzers"
     ignore:
       - dependency-name: "Moq"
+    experiments:
+      nuget-use-legacy-updater-when-updating-pr: false # Stop using the legacy updater for NuGet packages as it blocks some of the updates
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
