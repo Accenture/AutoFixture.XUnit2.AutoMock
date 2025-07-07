@@ -1,0 +1,77 @@
+name: Build Documentation
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - '.github/workflows/docs.yml'
+  pull_request:
+    branches: [ master ]
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - '.github/workflows/docs.yml'
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: pwsh
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - name: 📥 checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🐍 setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 📦 install mkdocs and material theme
+        run: |
+          $ErrorActionPreference = 'stop'
+          pip install mkdocs-material
+          if ($LastExitCode -ne 0) {
+            throw "pip install failed with exit code $LastExitCode"
+          }
+
+      - name: 🏗️ build documentation
+        run: |
+          $ErrorActionPreference = 'stop'
+          mkdocs build
+          if ($LastExitCode -ne 0) {
+            throw "mkdocs build failed with exit code $LastExitCode"
+          }
+
+      - name: 📤 upload pages artifact
+        id: artifacts
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./site
+  
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.artifacts.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: [build]
+    if: ${{ github.ref_name == 'master' && needs.build.result == 'success' }}
+    steps:
+      - name: 📤 Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
