@@ -21,4 +21,3 @@ nav:
           - PickNegative: attributes/pick-negative-attribute.md
           - PickFromValues: attributes/pick-from-values-attribute.md
   - Tips and Tricks: tips-and-tricks.md
-  - Badges: badges.md 
