@@ -2,7 +2,7 @@
 
 An attribute that can be applied to parameters in an `AutoDataAttribute`-driven `Theory` to indicate that the parameter value should not have `virtual` properties populated when the `IFixture` creates an instance of that type.
 
-This attribute allows to disable the generation of members marked as `virtual` on a decorated type whereas `IgnoreVirtualMembers` arguments of mocking attributes mentioned above disable such a generation for all types created by `IFixture`.
+This attribute allows disabling the generation of members marked as `virtual` on a decorated type, whereas `IgnoreVirtualMembers` arguments of mocking attributes mentioned above disable such a generation for all types created by `IFixture`.
 
 **Caution:** Order is important! Applying `IgnoreVirtualMembers` attribute to the subsequent parameter makes preceding parameters of the same type to have `virtual` properties populated and the particular parameter with the following ones of the same type to have `virtual` properties unpopulated.
 
