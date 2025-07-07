@@ -1,0 +1,24 @@
+site_name: AutoFixture.XUnit2.AutoMock Documentation
+site_url: https://accenture.github.io/AutoFixture.XUnit2.AutoMock/
+theme:
+  name: material
+nav:
+  - Home: index.md
+  - Supported Mocking Libraries: supported-mocking-libraries.md
+  - Attributes:
+      - Overview: attributes/index.md
+      - Test Method Attributes:
+          - AutoMockData: attributes/auto-mock-data-attribute.md
+          - InlineAutoMockData: attributes/inline-auto-mock-data-attribute.md
+          - MemberAutoMockData: attributes/member-auto-mock-data-attribute.md
+      - Parameter Configuration Attributes:
+          - IgnoreVirtualMembers: attributes/ignore-virtual-members-attribute.md
+          - CustomizeWith: attributes/customize-with-attribute.md
+          - CustomizeWith<T>: attributes/customize-with-t-attribute.md
+      - Data Filtering Attributes:
+          - Except: attributes/except-attribute.md
+          - PickFromRange: attributes/pick-from-range-attribute.md
+          - PickNegative: attributes/pick-negative-attribute.md
+          - PickFromValues: attributes/pick-from-values-attribute.md
+  - Tips and Tricks: tips-and-tricks.md
+  - Badges: badges.md 
