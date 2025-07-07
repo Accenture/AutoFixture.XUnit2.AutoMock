@@ -7,6 +7,9 @@ This section describes the main attributes provided by AutoFixture.XUnit2.AutoMo
 - [AutoMockData](auto-mock-data-attribute.md): Provides auto-generated data specimens using AutoFixture and a mocking library.
 - [InlineAutoMockData](inline-auto-mock-data-attribute.md): Combines inline values with auto-generated data specimens.
 - [MemberAutoMockData](member-auto-mock-data-attribute.md): Uses static members as data sources, combined with auto-generated data.
+
+## Parameter Configuration Attributes
+
 - [IgnoreVirtualMembers](ignore-virtual-members-attribute.md): Disables generation of virtual members for a parameter or globally.
 - [CustomizeWith](customize-with-attribute.md): Applies additional customization to a parameter.
 - [CustomizeWith\<T>](customize-with-t-attribute.md): Generic version of CustomizeWith for ease of use.
