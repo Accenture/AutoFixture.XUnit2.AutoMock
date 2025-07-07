@@ -4,7 +4,7 @@ Provides a data source for a `Theory`, with the data coming from inline values c
 
 ## Arguments
 
-- `IgnoreVirtualMembers` - disables generation of members marked as `virtual`; by default set to `false`
+- `IgnoreVirtualMembers` - disables generation of members marked as `virtual` (default: `false`)
 
 ## Example
 

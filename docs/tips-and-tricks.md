@@ -2,7 +2,7 @@
 
 ## Fixture Injection
 
-You can inject the same instance of `IFixture` to a test method by adding the mentioned interface as an argument of the test method.
+You can inject the same instance of `IFixture` into a test method by adding the mentioned interface as an argument of the test method.
 
 ```csharp
 [Theory]
@@ -31,7 +31,7 @@ public class User : IUser
 }
 ```
 
-You can see that only `Substitute` property has been explicitly marked as `virtual`. In such a situation, *the compiler* will mark other properties as `virtual` and `sealed`. And finally [AutoFixture](https://github.com/AutoFixture/AutoFixture) will assign `null` value to those properties when option `IgnoreVirtualMembers` is set to `true`.
+Only `Substitute` property is explicitly marked as `virtual`. In such a situation, *the compiler* marks the remaining properties as `virtual` and `sealed`. Consequently [AutoFixture](https://github.com/AutoFixture/AutoFixture) assigns `null` value to those properties when the `IgnoreVirtualMembers` option is set to `true`.
 
 ```csharp
 [Theory]

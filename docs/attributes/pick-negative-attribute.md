@@ -2,7 +2,7 @@
 
 Ensures that only negative values will be generated.
 
-**Caution:** It will throw an exception when being used on an unsupported type or on one which does not accept negative values.
+**Caution:** It will throw an exception when used on an unsupported type or on one which does not accept negative values.
 
 ```csharp
 [Theory]
