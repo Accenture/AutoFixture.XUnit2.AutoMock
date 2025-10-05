@@ -55,5 +55,5 @@ jobs:
       - name: 📊 upload sarif file for GitHub Advanced Security Dashboard
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: snyk
+          sarif_file: snyk/scan.sarif
         if: ${{ always() }}
