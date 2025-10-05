@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
     - 'GitVersion.yml'
+    - '!mkdocs.yml'
     - 'src/**'
     - '!src/qodana.yml'
     - '.github/actions/**'
@@ -13,12 +14,14 @@ on:
     - '!.github/workflows/qodana.yml'
     - '!.github/workflows/semgrep.yml'
     - '!.github/workflows/snyk.yml'
+    - '!.github/workflows/docs.yml'
     types: [opened, synchronize, reopened]
   push:
     branches:
     - 'master'
     paths:
     - 'GitVersion.yml'
+    - '!mkdocs.yml'
     - 'src/**'
     - '!src/qodana.yml'
     - '.github/actions/**'
@@ -28,6 +31,7 @@ on:
     - '!.github/workflows/qodana.yml'
     - '!.github/workflows/semgrep.yml'
     - '!.github/workflows/snyk.yml'
+    - '!.github/workflows/docs.yml'
   workflow_dispatch:
     inputs:
       buildAutoFakeItEasy:
