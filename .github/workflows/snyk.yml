@@ -51,9 +51,9 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --sarif-file-output=snyk/scan.sarif --all-projects --exclude=Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.Tests,Objectivity.AutoFixture.XUnit2.AutoMoq.Tests,Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests,Objectivity.AutoFixture.XUnit2.Core.Tests
+          args: --sarif-file-output=snyk.sarif --all-projects --exclude=Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.Tests,Objectivity.AutoFixture.XUnit2.AutoMoq.Tests,Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests,Objectivity.AutoFixture.XUnit2.Core.Tests
       - name: 📊 upload sarif file for GitHub Advanced Security Dashboard
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: snyk/scan.sarif
+          sarif_file: snyk.sarif
         if: ${{ always() }}
