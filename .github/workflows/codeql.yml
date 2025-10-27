@@ -51,7 +51,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: 🎰 initialize CodeQL
-      uses: github/codeql-action/init@v3
+      uses: github/codeql-action/init@v4
       with:
         languages: ${{ matrix.language }}
     - name: 🏗️ build
@@ -62,6 +62,6 @@ jobs:
           throw "dotnet build failed with exit code $LastExitCode"
         }
     - name: 🔬 analyze with CodeQL
-      uses: github/codeql-action/analyze@v3
+      uses: github/codeql-action/analyze@v4
       with:
         category: '/language:${{ matrix.language }}'
