@@ -55,7 +55,7 @@ jobs:
       with:
         signing-key-value: ${{ secrets.signing-key-value }}
     - name: 💾 cache nuget packages
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: ${{ env.NUGET_PACKAGES }}
         key: ${{ runner.os }}-nuget-${{ inputs.module-name }}-${{ hashFiles('**/*.csproj') }}
