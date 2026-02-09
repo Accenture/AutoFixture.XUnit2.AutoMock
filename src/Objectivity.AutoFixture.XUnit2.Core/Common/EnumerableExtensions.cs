@@ -23,11 +23,9 @@
                 return true;
             }
 
-            var interfaces = type.GetInterfaces();
-            if (type.IsInterface)
-            {
-                interfaces = interfaces.Append(type).ToArray();
-            }
+            var interfaces = type.IsInterface
+                ? type.GetInterfaces().Concat(new[] { type }).ToArray()
+                : type.GetInterfaces();
 
             var genericInterface = Array.Find(
                 interfaces,
