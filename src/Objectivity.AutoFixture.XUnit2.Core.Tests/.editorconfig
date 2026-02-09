@@ -43,3 +43,5 @@ resharper_unused_member_global_highlighting = none
 resharper_member_can_be_private_global_highlighting = none
 # Redundant type declaration body
 resharper_redundant_type_declaration_body_highlighting = none
+# Convert extension methods to extension block
+resharper_convert_to_extension_block_highlighting = none
