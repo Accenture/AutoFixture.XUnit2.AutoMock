@@ -420,3 +420,26 @@ dotnet build src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
 # Test
 dotnet test src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
 ```
+
+---
+
+## AI Agent Working Rules
+
+These rules apply to all AI coding assistants working in this repository.
+
+### Before Making Changes
+
+- **Propose before acting** on any non-trivial change (new attribute, refactor, CI change). Describe the approach and wait for approval.
+- **Prefer `dotnet build` over reading files** to verify correctness — the analyser stack catches style and correctness issues that are hard to spot by inspection alone.
+
+### Committing
+
+- **Never commit or push autonomously.** Always show the file(s) for review first.
+- **One logical change per commit.** Follow the Conventional Commits format: `<type>(<scope>): <description>` (e.g. `chore: add AGENTS.md`).
+
+### Changes That Require Explicit Approval
+
+- Adding or removing projects from any `.sln` file
+- Changes to `.github/workflows/` files
+- Changes to `Directory.Build.props` or `.editorconfig`
+- Any change that touches more than one module (AutoMoq, AutoFakeItEasy, AutoNSubstitute) simultaneously
