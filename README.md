@@ -20,6 +20,21 @@ It provides the following mocking attributes:
 | [NSubstitute](https://github.com/nsubstitute/NSubstitute) | [![AutoNSubstitute](https://img.shields.io/nuget/v/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.svg?logo=nuget&style=flat-square&label=AutoNSubstitute)![Downloads](https://img.shields.io/nuget/dt/Objectivity.AutoFixture.XUnit2.AutoNSubstitute.svg?style=flat-square&label)](https://www.nuget.org/packages/Objectivity.AutoFixture.XUnit2.AutoNSubstitute/) |
 | [FakeItEasy](https://github.com/FakeItEasy/FakeItEasy)    | [![AutoFakeItEasy](https://img.shields.io/nuget/v/Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.svg?logo=nuget&style=flat-square&label=AutoFakeItEasy)![Downloads](https://img.shields.io/nuget/dt/Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.svg?style=flat-square&label)](https://www.nuget.org/packages/Objectivity.AutoFixture.XUnit2.AutoFakeItEasy) |
 
+## Installation
+
+Choose the package that matches your mocking library of choice:
+
+```bash
+# For Moq run
+dotnet add package Objectivity.AutoFixture.XUnit2.AutoMoq
+
+# For NSubstitute run
+dotnet add package Objectivity.AutoFixture.XUnit2.AutoNSubstitute
+
+# For FakeItEasy run
+dotnet add package Objectivity.AutoFixture.XUnit2.AutoFakeItEasy
+```
+
 ## Attributes
 
 ### AutoMockData
@@ -406,6 +421,10 @@ public void IssueWithClassThatImplementsInterface(User user)
     Assert.Null(user.Substitute);
 }
 ```
+
+## Contributing
+
+See [AGENTS.md](AGENTS.md) for project context, architecture, conventions, and working rules for both human contributors and AI coding assistants.
 
 ## Badges
 
