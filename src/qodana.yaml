@@ -1,7 +1,7 @@
 version: "1.0"
 profile:
   name: qodana.recommended
-linter: jetbrains/qodana-cdnet:2025.2-eap
+linter: jetbrains/qodana-cdnet:2025.3-eap
 dotnet:
     solution: Objectivity.AutoFixture.XUnit2.AutoMock.sln
     configuration: Release

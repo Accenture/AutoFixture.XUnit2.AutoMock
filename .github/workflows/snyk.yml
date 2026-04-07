@@ -35,7 +35,7 @@ jobs:
       security-events: write
     steps:
       - name: 📥 checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0 
       - name: 🏗️ restore dependencies
@@ -68,7 +68,7 @@ jobs:
           args: --all-projects --exclude=Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.Tests,Objectivity.AutoFixture.XUnit2.AutoMoq.Tests,Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests,Objectivity.AutoFixture.XUnit2.Core.Tests
           command: monitor
       - name: 📊 upload sarif file for GitHub Advanced Security Dashboard
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: snyk
         if: ${{ always() }}

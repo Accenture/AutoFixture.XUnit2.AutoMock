@@ -47,18 +47,18 @@ jobs:
       security-events: write
     steps:
       - name: 📥 checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0 
       - name: 💾 cache nuget packages
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ runner.temp }}/qodana/caches
           key: ${{ runner.os }}-qodana-${{ github.ref }}-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-qodana-${{ github.ref }}
       - name: 🔬 qodana scan
-        uses: JetBrains/qodana-action@v2025.2
+        uses: JetBrains/qodana-action@v2025.3
         with:
           pr-mode: false
           post-pr-comment: true
@@ -78,7 +78,7 @@ jobs:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
           QODANA_ENDPOINT: 'https://qodana.cloud'
       - name: 📊 upload sarif file for GitHub Advanced Security Dashboard
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: ${{ runner.temp }}/qodana/results/qodana.sarif.json
         if: ${{ always() }}

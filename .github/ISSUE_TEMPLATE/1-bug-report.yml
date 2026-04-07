@@ -1,0 +1,90 @@
+name: Bug report
+description: Something isn't working as expected
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to fill out this bug report!
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the issue
+      description: A clear and concise description of what the issue is.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: To reproduce
+      description: Minimal code sample or steps to reproduce the behavior.
+      render: csharp
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What you expected to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What actually happens, including any exception messages or stack traces.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: package
+    attributes:
+      label: Package name
+      description: Which NuGet package are you using?
+      options:
+        - Objectivity.AutoFixture.XUnit2.AutoMoq
+        - Objectivity.AutoFixture.XUnit2.AutoNSubstitute
+        - Objectivity.AutoFixture.XUnit2.AutoFakeItEasy
+      default: 0
+    validations:
+      required: true
+  
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      placeholder: "3.6.3"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: framework
+    attributes:
+      label: Target framework
+      options:
+        - net8.0
+        - net472
+        - net48
+    validations:
+      required: true
+
+  - type: input
+    id: xunit-version
+    attributes:
+      label: xUnit version
+      placeholder: "2.9.3"
+    validations:
+      required: false
+
+  - type: input
+    id: mock-version
+    attributes:
+      label: Mocking framework version
+      description: Version of Moq / FakeItEasy / NSubstitute as implied by the package selected above.
+      placeholder: "4.20.72"
+    validations:
+      required: false
