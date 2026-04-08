@@ -424,7 +424,7 @@ public void IssueWithClassThatImplementsInterface(User user)
 
 ## Contributing
 
-See [AGENTS.md](AGENTS.md) for project context, architecture, conventions, and working rules for both human contributors and AI coding assistants.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for local setup, build/test commands, commit conventions, and PR workflow. AI coding assistants should also read [AGENTS.md](AGENTS.md) for project context, architecture, and working rules.
 
 ## Badges
 
