@@ -91,10 +91,9 @@ dotnet test src/Objectivity.AutoFixture.XUnit2.AutoMock.sln --framework net8.0
 # Pack NuGet packages (outputs to src/<project>/bin/Release/)
 dotnet pack src/Objectivity.AutoFixture.XUnit2.AutoMock.sln --configuration Release
 
-# Run mutation tests (install the tool once globally, must run from src/ — Stryker resolves projects relative to its working directory)
-dotnet tool install -g dotnet-stryker
+# Run mutation tests (dotnet-stryker is a repository-local tool; must run from src/ — Stryker resolves projects relative to its working directory)
 cd src
-dotnet stryker -f ../stryker-config.yml
+dotnet dotnet-stryker -f ../stryker-config.yml
 ```
 
 **Important:** `dotnet build` enforces code style via `EnforceCodeStyleInBuild=true` and

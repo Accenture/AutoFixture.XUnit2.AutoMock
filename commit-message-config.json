@@ -1,0 +1,29 @@
+{
+  "config": {
+    "max-subject-length": {
+      "enabled": true,
+      "value": 90
+    },
+    "conventional-commit": {
+      "enabled": true,
+      "types": [
+        "feat",
+        "fix",
+        "refactor",
+        "build",
+        "chore",
+        "style",
+        "test",
+        "docs",
+        "perf",
+        "revert",
+        "ci"
+      ],
+      "scopes": {
+        "enabled": false,
+        "global": [],
+        "per-type": {}
+      }
+    }
+  }
+}
