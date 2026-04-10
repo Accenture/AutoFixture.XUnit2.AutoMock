@@ -1,0 +1,21 @@
+# CodeRabbit configuration for AutoFixture.XUnit2.AutoMock
+# https://docs.coderabbit.ai/getting-started/configure-coderabbit
+#
+# One-time prerequisite: install the CodeRabbit GitHub App at the org/repo level.
+# https://github.com/apps/coderabbit-ai
+
+language: "en-US"
+
+reviews:
+  profile: "chill"
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  auto_apply_labels: true
+  auto_review:
+    enabled: true
+    drafts: false
+
+chat:
+  auto_reply: true

@@ -1,5 +1,8 @@
 # Summary
 
+<!-- Placeholder in the PR description that CodeRabbit replaces with the high-level summary. -->
+@coderabbitai summary
+
 Closes #
 
 - Please add a description of the issue this PR is addressing. Link the relevant issue if applicable.
