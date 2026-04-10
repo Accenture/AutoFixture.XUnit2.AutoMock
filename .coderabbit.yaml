@@ -16,48 +16,6 @@ reviews:
   auto_review:
     enabled: true
     drafts: false
-  path_instructions:
-    - path: "**/*.cs"
-      instructions: |
-        Review against the conventions in AGENTS.md:
-
-        Style (enforced by analyzers — build fails on violations):
-        - `using` directives must go inside the namespace block (StyleCop SA1210).
-        - Use `global::` prefix on external packages (AutoFixture, Moq, FakeItEasy, NSubstitute, xunit, etc.).
-        - No XML documentation comments — code should be self-explanatory.
-        - Prefer sealed classes unless explicitly designed for inheritance.
-        - Use the NotNull() guard extension (Core/Common/) instead of throwing ArgumentNullException directly.
-        - [SuppressMessage] requires an explicit justification comment.
-        - No `// TODO:` comments — open a GitHub issue instead.
-
-        Architecture:
-        - New xUnit2 attributes must derive from the correct Core base class:
-          AutoDataBaseAttribute, InlineAutoDataBaseAttribute, or MemberAutoDataBaseAttribute.
-        - Do not add public API to Core that is specific to one mocking library.
-
-    - path: "**/*Tests*/**/*.cs"
-      instructions: |
-        In addition to the general C# rules, apply these test-specific conventions:
-
-        Naming (BDD-style — mandatory):
-        - Every [Fact] and [Theory] must set DisplayName.
-        - DisplayName must use UPPER CASE GIVEN/WHEN/THEN form, e.g.:
-            "WHEN constructor is invoked THEN fixture is created"
-            "GIVEN parameters include IFixture WHEN data is generated THEN fixture is injected"
-        - The method name must mirror DisplayName in PascalCase_WithUnderscores.
-        - Never use "Test" as a suffix or prefix in method names.
-
-        Structure (AAA — mandatory):
-        - All tests must contain explicit // Arrange, // Act, // Assert comment blocks.
-        - All three blocks are required even when empty.
-
-        Mocking:
-        - Only use Mock<IFixture> and Mock<IAutoFixtureAttributeProvider> to verify attribute wiring.
-        - Do not instantiate `new Fixture()` — inject IFixture via the test method parameter or use [AutoMockData].
-
-        Organization:
-        - Test classes must carry [Collection("ClassName")] for isolation.
-        - Test classes must carry [Trait("Category", "CategoryName")] for categorization.
 
 chat:
   auto_reply: true
