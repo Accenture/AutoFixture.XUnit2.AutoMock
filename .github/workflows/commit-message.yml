@@ -27,6 +27,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: 📦 cache NuGet tools
+        uses: actions/cache@v5
+        with:
+          path: ~/.nuget/packages
+          key: nuget-tools-${{ hashFiles('dotnet-tools.json') }}
+          restore-keys: nuget-tools-
+
       - name: 🛠️ setup .NET
         uses: actions/setup-dotnet@v5
         with:
@@ -35,15 +42,93 @@ jobs:
       - name: 📦 restore local tools
         run: dotnet tool restore
 
-      - name: ✅ lint commit messages
+      - name: 🧭 select commit range
+        id: commit_range
         run: |
+          switch ("${{ github.event_name }}") {
+            "pull_request" {
+              $baseSha = "${{ github.event.pull_request.base.sha }}"
+              $headSha = "${{ github.event.pull_request.head.sha }}"
+            }
+            "push" {
+              $baseSha = "${{ github.event.before }}"
+              $headSha = "${{ github.sha }}"
+              if ($baseSha -match '^0+$') { $baseSha = $headSha }
+            }
+            default {
+              $baseSha = "${{ github.sha }}"
+              $headSha = "${{ github.sha }}"
+            }
+          }
+
+          "base_sha=$baseSha" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "head_sha=$headSha" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+
+      - name: ✅ lint commit messages
+        id: lint
+        run: |
+          $ErrorActionPreference = 'Stop'
           $messagePath = Join-Path $env:RUNNER_TEMP "commit-message.txt"
-          if ("${{ github.event_name }}" -eq "pull_request") {
-            $commits = git log --no-merges --pretty="%H" "${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}"
+          $baseSha = "${{ steps.commit_range.outputs.base_sha }}"
+          $headSha = "${{ steps.commit_range.outputs.head_sha }}"
+
+          if ($baseSha -eq $headSha) {
+            $commits = @($headSha)
           } else {
-            $commits = git log -1 --pretty="%H"
+            $commits = @(git rev-list --no-merges --reverse "$baseSha..$headSha" | Where-Object { $_.Trim() })
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           }
-          foreach ($sha in ($commits -split "`n" | Where-Object { $_ -ne "" })) {
-            git log -1 --pretty="%B" $sha | Out-File -FilePath $messagePath -Encoding utf8
+
+          $totalCommits = $commits.Count
+          Write-Host "Commits selected for linting: $totalCommits"
+          foreach ($commitSha in $commits) {
+            Write-Host " - $commitSha"
+          }
+
+          $failedCount = 0
+          $processedCount = 0
+          foreach ($sha in $commits) {
+            $processedCount++
+            Write-Host "Linting commit [$processedCount/$totalCommits]: $sha"
+            $commitMessage = git log -1 --pretty="%B" $sha
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+            $commitMessage | Out-File -FilePath $messagePath -Encoding utf8
             dotnet commit-lint --commit-file $messagePath --commit-message-config-file commit-message-config.json
+            if ($LASTEXITCODE -ne 0) { $failedCount++ }
           }
+
+          "total_commits=$totalCommits" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "failed_commits=$failedCount" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+
+          if ($failedCount -gt 0) {
+            Write-Error "Commit message lint failed: $failedCount of $totalCommits commit(s) did not pass."
+            exit 1
+          }
+
+          Write-Host "All $processedCount commit(s) passed."
+
+      - name: 📊 write step summary
+        if: always()
+        run: |
+          $baseSha       = "${{ steps.commit_range.outputs.base_sha }}"
+          $headSha       = "${{ steps.commit_range.outputs.head_sha }}"
+          $totalCommits  = "${{ steps.lint.outputs.total_commits }}"
+          $failedCommits = "${{ steps.lint.outputs.failed_commits }}"
+
+          if ($baseSha -eq $headSha) {
+            $rangeDisplay = "${baseSha}"
+          } else {
+            $rangeDisplay = "${baseSha}..${headSha}"
+          }
+
+          $summary = [System.Collections.Generic.List[string]]::new()
+          $summary.Add("## Commit Message Lint")
+          $summary.Add("")
+          $summary.Add("- Event: \`${{ github.event_name }}\`")
+          $summary.Add("- Base SHA: \`$baseSha\`")
+          $summary.Add("- Head SHA: \`$headSha\`")
+          $summary.Add("- Commits: \`$rangeDisplay\`")
+          $summary.Add("- Commits selected: $totalCommits")
+          $summary.Add("- Commits failed: $failedCommits")
+          $summary.Add("")
+          $summary | Add-Content -Path $env:GITHUB_STEP_SUMMARY
