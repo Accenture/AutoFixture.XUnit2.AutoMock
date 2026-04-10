@@ -110,7 +110,8 @@ jobs:
           $totalCommits  = "${{ steps.lint.outputs.total_commits }}"
           $failedCommits = "${{ steps.lint.outputs.failed_commits }}"
 
-          if ($baseSha -eq $headSha) {
+          $hasSingleCommit = $baseSha -eq $headSha
+          if ($hasSingleCommit) {
             $rangeLabel   = "🔖 Commit"
             $rangeDisplay = $baseSha
           } else {
@@ -118,11 +119,15 @@ jobs:
             $rangeDisplay = "${baseSha}..${headSha}"
           }
 
-          $passed = [string]::IsNullOrEmpty($failedCommits) -or $failedCommits -eq "0"
-          $status = if ($passed) {
-            "✅ All $totalCommits commit(s) passed."
+          $isLintSuccessful = "${{ steps.lint.outcome }}" -eq 'success'
+          $status = if ($isLintSuccessful) {
+            if ($failedCommits -eq "0") {
+              "✅ All $totalCommits commit(s) passed."
+            } else {
+              "❌ $failedCommits of $totalCommits commit(s) failed."
+            }
           } else {
-            "❌ $failedCommits of $totalCommits commit(s) failed."
+            "🚨 Linting failed before producing any stats."
           }
 
           $summary = [System.Collections.Generic.List[string]]::new()
@@ -133,7 +138,9 @@ jobs:
           $summary.Add("---")
           $summary.Add("")
           $summary.Add("- ${rangeLabel}: ``$rangeDisplay``")
-          $summary.Add("- 📋 Selected: ``$totalCommits``")
-          $summary.Add("- 🚨 Failed: ``$failedCommits``")
+          if ($isLintSuccessful) {
+            $summary.Add("- 📋 Selected: ``$totalCommits``")
+            $summary.Add("- 🚨 Failed: ``$failedCommits``")
+          }
           $summary.Add("")
-          $summary | Add-Content -Path $env:GITHUB_STEP_SUMMARY
+          $summary | Add-Content -Path $env:GITHUB_STEP_SUMMARY -Encoding utf8
