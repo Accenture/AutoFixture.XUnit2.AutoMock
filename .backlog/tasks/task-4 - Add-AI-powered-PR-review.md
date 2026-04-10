@@ -1,9 +1,12 @@
 ---
 id: TASK-4
 title: Add AI-powered PR review
-status: To Do
-assignee: []
+status: In Progress
+assignee:
+  - claude
+  - piotrzajac
 created_date: '2026-04-07 20:56'
+updated_date: '2026-04-10 14:24'
 labels:
   - ci-cd
   - dx
