@@ -24,7 +24,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: 📦 cache NuGet tools
+      - name: 💾 cache NuGet tools
         uses: actions/cache@v5
         with:
           path: ~/.nuget/packages
@@ -42,11 +42,6 @@ jobs:
               $baseSha = "${{ github.event.pull_request.base.sha }}"
               $headSha = "${{ github.event.pull_request.head.sha }}"
             }
-            "push" {
-              $baseSha = "${{ github.event.before }}"
-              $headSha = "${{ github.sha }}"
-              if ($baseSha -match '^0+$') { $baseSha = $headSha }
-            }
             default {
               $baseSha = "${{ github.sha }}"
               $headSha = "${{ github.sha }}"
@@ -56,7 +51,7 @@ jobs:
           "base_sha=$baseSha" >> $env:GITHUB_OUTPUT
           "head_sha=$headSha" >> $env:GITHUB_OUTPUT
 
-      - name: ✅ lint commit messages
+      - name: 🔬 lint commit messages
         id: lint
         run: |
           $ErrorActionPreference = 'Stop'
