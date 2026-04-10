@@ -443,6 +443,19 @@ These rules apply to all AI coding assistants working in this repository.
 - Changes to `Directory.Build.props` or `.editorconfig`
 - Any change that touches more than one module (AutoMoq, AutoFakeItEasy, AutoNSubstitute) simultaneously
 
+### Proposing Solutions
+
+When proposing any non-trivial solution, evaluate it against these quality dimensions and call out relevant trade-offs:
+
+- **Performance** — avoid unnecessary allocations, reflection, or lazy evaluation in hot paths; note if a change affects test-run throughput
+- **Security** — flag any new use of user-controlled input, serialization, or external data; this is a testing library so the attack surface is low, but be explicit when it changes
+- **Maintainability** — prefer the simplest implementation that satisfies the requirement; avoid abstraction layers that do not carry their weight
+- **Readability** — code should be easy to read and understand; favour clear naming and straightforward control flow over clever one-liners
+- **Testability** — new public types should be injectable or otherwise testable without relying on concrete dependencies; preserve existing mock seams
+- **Modularity** — keep changes inside the appropriate layer; do not leak framework-specific concerns into Core
+- **Separation of concerns** — split logic into focused, single-purpose components rather than concentrating multiple responsibilities in one place; each class, method or task should have one clear reason to change
+- **Developer experience** — prefer readable error messages, discoverable APIs, and minimal configuration; the goal of this library is to reduce boilerplate
+
 <!-- BACKLOG.MD MCP GUIDELINES START -->
 
 <CRITICAL_INSTRUCTION>
