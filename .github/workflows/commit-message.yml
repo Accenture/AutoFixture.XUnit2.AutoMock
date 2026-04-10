@@ -1,0 +1,146 @@
+name: '📝 Commit Message Lint'
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+    - 'master'
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: pwsh
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    steps:
+      - name: 📥 checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: 📦 cache NuGet tools
+        uses: actions/cache@v5
+        with:
+          path: ~/.nuget/packages
+          key: nuget-tools-${{ hashFiles('dotnet-tools.json') }}
+          restore-keys: nuget-tools-
+
+      - name: 📦 restore local tools
+        run: dotnet tool restore
+
+      - name: 🧭 select commit range
+        id: commit_range
+        run: |
+          switch ("${{ github.event_name }}") {
+            "pull_request" {
+              $baseSha = "${{ github.event.pull_request.base.sha }}"
+              $headSha = "${{ github.event.pull_request.head.sha }}"
+            }
+            "push" {
+              $baseSha = "${{ github.event.before }}"
+              $headSha = "${{ github.sha }}"
+              if ($baseSha -match '^0+$') { $baseSha = $headSha }
+            }
+            default {
+              $baseSha = "${{ github.sha }}"
+              $headSha = "${{ github.sha }}"
+            }
+          }
+
+          "base_sha=$baseSha" >> $env:GITHUB_OUTPUT
+          "head_sha=$headSha" >> $env:GITHUB_OUTPUT
+
+      - name: ✅ lint commit messages
+        id: lint
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $messagePath = Join-Path $env:RUNNER_TEMP "commit-message.txt"
+          $baseSha = "${{ steps.commit_range.outputs.base_sha }}"
+          $headSha = "${{ steps.commit_range.outputs.head_sha }}"
+
+          if ($baseSha -eq $headSha) {
+            $commits = @($headSha)
+          } else {
+            $commits = @(git rev-list --no-merges --reverse "$baseSha..$headSha" | Where-Object { $_.Trim() })
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
+
+          $totalCommits = $commits.Count
+          Write-Host "Commits selected for linting: $totalCommits"
+          foreach ($commitSha in $commits) {
+            Write-Host " - $commitSha"
+          }
+
+          $failedCount = 0
+          $processedCount = 0
+          foreach ($sha in $commits) {
+            $processedCount++
+            Write-Host "Linting commit [$processedCount/$totalCommits]: $sha"
+            $commitMessage = git log -1 --pretty="%B" $sha
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+            $commitMessage | Out-File -FilePath $messagePath -Encoding utf8
+            dotnet commit-lint --commit-file $messagePath --commit-message-config-file commit-message-config.json
+            if ($LASTEXITCODE -ne 0) { $failedCount++ }
+          }
+
+          "total_commits=$totalCommits" >> $env:GITHUB_OUTPUT
+          "failed_commits=$failedCount" >> $env:GITHUB_OUTPUT
+
+          if ($failedCount -gt 0) {
+            Write-Error "Commit message lint failed: $failedCount of $totalCommits commit(s) did not pass."
+            exit 1
+          }
+
+          Write-Host "All $processedCount commit(s) passed."
+
+      - name: 📊 write summary
+        if: always()
+        run: |
+          $baseSha       = "${{ steps.commit_range.outputs.base_sha }}"
+          $headSha       = "${{ steps.commit_range.outputs.head_sha }}"
+          $totalCommits  = "${{ steps.lint.outputs.total_commits }}"
+          $failedCommits = "${{ steps.lint.outputs.failed_commits }}"
+
+          $hasSingleCommit = $baseSha -eq $headSha
+          if ($hasSingleCommit) {
+            $rangeLabel   = "🔖 Commit"
+            $rangeDisplay = $baseSha
+          } else {
+            $rangeLabel   = "🔀 Commits"
+            $rangeDisplay = "${baseSha}..${headSha}"
+          }
+
+          $isLintSuccessful = "${{ steps.lint.outcome }}" -eq 'success'
+          $status = if ($isLintSuccessful) {
+            if ($failedCommits -eq "0") {
+              "✅ All $totalCommits commit(s) passed."
+            } else {
+              "❌ $failedCommits of $totalCommits commit(s) failed."
+            }
+          } else {
+            "🚨 Linting failed before producing any stats."
+          }
+
+          $summary = [System.Collections.Generic.List[string]]::new()
+          $summary.Add("## 📝 Commit Message Lint")
+          $summary.Add("")
+          $summary.Add("**$status**")
+          $summary.Add("")
+          $summary.Add("---")
+          $summary.Add("")
+          $summary.Add("- ${rangeLabel}: ``$rangeDisplay``")
+          if ($isLintSuccessful) {
+            $summary.Add("- 📋 Selected: ``$totalCommits``")
+            $summary.Add("- 🚨 Failed: ``$failedCommits``")
+          }
+          $summary.Add("")
+          $summary | Add-Content -Path $env:GITHUB_STEP_SUMMARY -Encoding utf8

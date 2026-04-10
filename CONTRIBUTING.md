@@ -13,6 +13,13 @@ Thanks for taking the time to contribute. This project is a C# NuGet library col
 
 ```bash
 git clone https://github.com/Accenture/AutoFixture.XUnit2.AutoMock.git
+cd AutoFixture.XUnit2.AutoMock
+
+# Restore all repository-local .NET tools (Husky.NET, CommitLint.Net, and dotnet-stryker)
+dotnet tool restore
+
+# Activate local Git hooks managed by Husky.NET
+dotnet husky install
 ```
 
 All build, test, and pack commands are in the [Build / Test / Pack](#build--test--pack) section below.
@@ -51,12 +58,11 @@ dotnet pack src/Objectivity.AutoFixture.XUnit2.AutoMock.sln --configuration Rele
 
 ## Mutation Testing (Stryker.NET)
 
-Mutation testing is executed via Stryker.NET. Install the tool globally once, then run it from the `src/` directory (the config is resolved relative to `src/`):
+Mutation testing is executed via Stryker.NET. The `dotnet-stryker` tool is installed in [Getting Started](#getting-started), so you can run it from the `src/` directory (the config is resolved relative to `src/`):
 
 ```bash
-dotnet tool install -g dotnet-stryker
 cd src
-dotnet stryker -f ../stryker-config.yml
+dotnet dotnet-stryker -f ../stryker-config.yml
 ```
 
 ## Code Style
@@ -73,6 +79,10 @@ Use [Conventional Commits](https://www.conventionalcommits.org/):
   - `fix(tests): correct GIVEN/WHEN/THEN naming`
   - `chore(ci): update build instructions`
   - `docs: clarify local development setup`
+
+Commit messages are validated by a local `commit-msg` hook (`Husky.NET` + `CommitLint.Net`), so invalid messages are rejected before the commit is created.
+
+The required local tools and hook activation are configured in [Getting Started](#getting-started) (`dotnet tool restore` + `dotnet husky install`).
 
 ## Work Tracking
 

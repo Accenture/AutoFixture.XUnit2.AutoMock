@@ -1,0 +1,17 @@
+{
+   "$schema": "https://alirezanet.github.io/Husky.Net/schema.json",
+   "tasks": [
+      {
+         "name": "commit-message-linter",
+         "group": "commit-msg",
+         "command": "dotnet",
+         "args": [
+            "commit-lint",
+            "--commit-file",
+            "${args}",
+            "--commit-message-config-file",
+            "commit-message-config.json"
+         ]
+      }
+   ]
+}
