@@ -115,10 +115,12 @@ jobs:
           $totalCommits  = "${{ steps.lint.outputs.total_commits }}"
           $failedCommits = "${{ steps.lint.outputs.failed_commits }}"
 
-          $rangeDisplay = if ($baseSha -eq $headSha) {
-            "${baseSha}"
+          if ($baseSha -eq $headSha) {
+            $rangeLabel   = "🔖 Commit"
+            $rangeDisplay = $baseSha
           } else {
-            "${baseSha}..${headSha}"
+            $rangeLabel   = "🔀 Commits"
+            $rangeDisplay = "${baseSha}..${headSha}"
           }
 
           $passed = [string]::IsNullOrEmpty($failedCommits) -or $failedCommits -eq "0"
@@ -135,8 +137,8 @@ jobs:
           $summary.Add("")
           $summary.Add("---")
           $summary.Add("")
-          $summary.Add("- 🔀 Range: ``$rangeDisplay``")
-          $summary.Add("- Commits selected: $totalCommits")
-          $summary.Add("- Commits failed: $failedCommits")
+          $summary.Add("- ${rangeLabel}: ``$rangeDisplay``")
+          $summary.Add("- 📋 Selected: ``$totalCommits``")
+          $summary.Add("- 🚨 Failed: ``$failedCommits``")
           $summary.Add("")
           $summary | Add-Content -Path $env:GITHUB_STEP_SUMMARY
