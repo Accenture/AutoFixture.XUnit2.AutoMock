@@ -20,7 +20,7 @@
         "ci"
       ],
       "scopes": {
-        "enabled": false,
+        "enabled": true,
         "global": [],
         "per-type": {}
       }
