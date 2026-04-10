@@ -3,9 +3,6 @@ name: '📝 Commit Message Lint'
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-  push:
-    branches:
-    - 'master'
   workflow_dispatch:
 
 defaults:
