@@ -56,8 +56,8 @@ jobs:
             }
           }
 
-          "base_sha=$baseSha" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
-          "head_sha=$headSha" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "base_sha=$baseSha" >> $env:GITHUB_OUTPUT
+          "head_sha=$headSha" >> $env:GITHUB_OUTPUT
 
       - name: ✅ lint commit messages
         id: lint
@@ -92,8 +92,8 @@ jobs:
             if ($LASTEXITCODE -ne 0) { $failedCount++ }
           }
 
-          "total_commits=$totalCommits" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
-          "failed_commits=$failedCount" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "total_commits=$totalCommits" >> $env:GITHUB_OUTPUT
+          "failed_commits=$failedCount" >> $env:GITHUB_OUTPUT
 
           if ($failedCount -gt 0) {
             Write-Error "Commit message lint failed: $failedCount of $totalCommits commit(s) did not pass."
