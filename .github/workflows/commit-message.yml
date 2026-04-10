@@ -107,7 +107,7 @@ jobs:
 
           Write-Host "All $processedCount commit(s) passed."
 
-      - name: 📊 write step summary
+      - name: 📊 write summary
         if: always()
         run: |
           $baseSha       = "${{ steps.commit_range.outputs.base_sha }}"
@@ -115,19 +115,27 @@ jobs:
           $totalCommits  = "${{ steps.lint.outputs.total_commits }}"
           $failedCommits = "${{ steps.lint.outputs.failed_commits }}"
 
-          if ($baseSha -eq $headSha) {
-            $rangeDisplay = "${baseSha}"
+          $rangeDisplay = if ($baseSha -eq $headSha) {
+            "${baseSha}"
           } else {
-            $rangeDisplay = "${baseSha}..${headSha}"
+            "${baseSha}..${headSha}"
+          }
+
+          $passed = [string]::IsNullOrEmpty($failedCommits) -or $failedCommits -eq "0"
+          $status = if ($passed) {
+            "✅ All $totalCommits commit(s) passed."
+          } else {
+            "❌ $failedCommits of $totalCommits commit(s) failed."
           }
 
           $summary = [System.Collections.Generic.List[string]]::new()
-          $summary.Add("## Commit Message Lint")
+          $summary.Add("## 📝 Commit Message Lint")
           $summary.Add("")
-          $summary.Add("- Event: \`${{ github.event_name }}\`")
-          $summary.Add("- Base SHA: \`$baseSha\`")
-          $summary.Add("- Head SHA: \`$headSha\`")
-          $summary.Add("- Commits: \`$rangeDisplay\`")
+          $summary.Add("**$status**")
+          $summary.Add("")
+          $summary.Add("---")
+          $summary.Add("")
+          $summary.Add("- 🔀 Range: ``$rangeDisplay``")
           $summary.Add("- Commits selected: $totalCommits")
           $summary.Add("- Commits failed: $failedCommits")
           $summary.Add("")
