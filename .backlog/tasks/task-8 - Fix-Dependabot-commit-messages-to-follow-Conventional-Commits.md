@@ -29,11 +29,16 @@ After TASK-3 enforced Conventional Commits for all contributors, the Dependabot 
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
-Added `commit-message` configuration with `prefix: "chore"` and `include: "scope"` to both the `nuget` and `github-actions` entries in `.github/dependabot.yml`. Dependabot appends the package-manager name as the scope automatically, producing messages like `chore(nuget): bump ...` and `chore(github-actions): bump ...`.
+Added `commit-message` configuration to both entries in `.github/dependabot.yml`:
+
+- NuGet entry: `prefix: "chore(nuget)"`
+- GitHub Actions entry: `prefix: "chore(github-actions)"`
+
+`include: "scope"` was intentionally omitted — that option produces `deps`/`deps-dev` as the scope (dependency-type based), not the ecosystem name. Embedding the scope directly in `prefix` is the only way to produce ecosystem-specific scopes.
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
-Dependabot `commit-message.include: "scope"` uses the package-ecosystem name as the scope (e.g. `nuget`, `github-actions`), which satisfies the Conventional Commits scope requirement without any custom scripting.
+`commit-message.include: "scope"` in Dependabot produces `chore(deps):` or `chore(deps-dev):` based on the dependency type — it does NOT use the ecosystem name as the scope. To get `chore(nuget):` and `chore(github-actions):`, the scope must be baked directly into the `prefix` value and `include: "scope"` must be omitted.
 <!-- SECTION:NOTES:END -->

@@ -4,8 +4,7 @@ updates:
     directories:
       - "**/*"
     commit-message:
-      prefix: "chore"
-      include: "scope"
+      prefix: "chore(nuget)"
     schedule:
       interval: "weekly"
       day: "sunday"
@@ -30,8 +29,7 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     commit-message:
-      prefix: "chore"
-      include: "scope"
+      prefix: "chore(github-actions)"
     schedule:
       interval: "weekly"
       day: "sunday"
