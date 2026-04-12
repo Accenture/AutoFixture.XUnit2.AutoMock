@@ -45,30 +45,31 @@ jobs:
           if ($LastExitCode -ne 0) {
             throw "dotnet restore failed with exit code $LastExitCode"
           }
+      - name: 🛠️ setup snyk
+        uses: snyk/actions/setup@v1.0.0
       - name: 🔬 snyk opensource scan
-        uses: snyk/actions/dotnet@master
+        run: snyk test --sarif-file-output=snyk/opensource.sarif --all-projects --exclude=Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.Tests,Objectivity.AutoFixture.XUnit2.AutoMoq.Tests,Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests,Objectivity.AutoFixture.XUnit2.Core.Tests
         continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --sarif-file-output=snyk/opensource.sarif --all-projects --exclude=Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.Tests,Objectivity.AutoFixture.XUnit2.AutoMoq.Tests,Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests,Objectivity.AutoFixture.XUnit2.Core.Tests
       - name: 🔬 snyk code scan
-        uses: snyk/actions/dotnet@master
+        run: snyk code test --sarif-file-output=snyk/code.sarif
         continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --sarif-file-output=snyk/code.sarif
-          command: code test
       - name: 📈 snyk monitor
-        uses: snyk/actions/dotnet@master
+        run: snyk monitor --all-projects --exclude=Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.Tests,Objectivity.AutoFixture.XUnit2.AutoMoq.Tests,Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests,Objectivity.AutoFixture.XUnit2.Core.Tests
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --all-projects --exclude=Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.Tests,Objectivity.AutoFixture.XUnit2.AutoMoq.Tests,Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests,Objectivity.AutoFixture.XUnit2.Core.Tests
-          command: monitor
-      - name: 📊 upload sarif file for GitHub Advanced Security Dashboard
+      - name: 📊 upload opensource sarif for GitHub Advanced Security Dashboard
         uses: github/codeql-action/upload-sarif@v4
         with:
-          sarif_file: snyk
-        if: ${{ always() }}
+          sarif_file: snyk/opensource.sarif
+          category: snyk-opensource
+        if: ${{ always() && hashFiles('snyk/opensource.sarif') != '' }}
+      - name: 📊 upload code sarif for GitHub Advanced Security Dashboard
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: snyk/code.sarif
+          category: snyk-code
+        if: ${{ always() && hashFiles('snyk/code.sarif') != '' }}
