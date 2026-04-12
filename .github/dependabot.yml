@@ -24,6 +24,19 @@ updates:
           - "*analyzer*"
         exclude-patterns:
           - "xunit.analyzers"
+      Testing:
+        patterns:
+          - "Microsoft.NET.Test.Sdk"
+          - "coverlet.msbuild"
+      Common:
+        patterns:
+          - "Castle.Core"
+          - "JetBrains.Annotations"
+          - "Microsoft.SourceLink.GitHub"
+          - "Microsoft.NETFramework.ReferenceAssemblies"
+      Other:
+        patterns:
+          - "*"
     ignore:
       - dependency-name: "Moq"
   - package-ecosystem: "github-actions"
