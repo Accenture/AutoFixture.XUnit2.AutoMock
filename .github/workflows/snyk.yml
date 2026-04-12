@@ -46,7 +46,7 @@ jobs:
             throw "dotnet restore failed with exit code $LastExitCode"
           }
       - name: 🏗️ setup snyk
-        uses: snyk/actions/setup@master
+        uses: snyk/actions/setup@v1.0.0
       - name: 🔬 snyk opensource scan
         run: snyk test --sarif-file-output=snyk/opensource.sarif --all-projects --exclude=Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.Tests,Objectivity.AutoFixture.XUnit2.AutoMoq.Tests,Objectivity.AutoFixture.XUnit2.AutoNSubstitute.Tests,Objectivity.AutoFixture.XUnit2.Core.Tests
         continue-on-error: true
@@ -66,10 +66,10 @@ jobs:
         with:
           sarif_file: snyk/opensource.sarif
           category: snyk-opensource
-        if: ${{ always() }}
+        if: ${{ always() && hashFiles('snyk/opensource.sarif') != '' }}
       - name: 📊 upload code sarif for GitHub Advanced Security Dashboard
         uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: snyk/code.sarif
           category: snyk-code
-        if: ${{ always() }}
+        if: ${{ always() && hashFiles('snyk/code.sarif') != '' }}
