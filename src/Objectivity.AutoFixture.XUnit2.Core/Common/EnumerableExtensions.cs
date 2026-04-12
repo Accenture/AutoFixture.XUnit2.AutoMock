@@ -23,13 +23,8 @@
                 return true;
             }
 
-            var interfaces = type.IsInterface
-                ? type.GetInterfaces().Concat(new[] { type }).ToArray()
-                : type.GetInterfaces();
-
-            var genericInterface = Array.Find(
-                interfaces,
-                x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IEnumerable<>));
+            var genericInterface = Array.Find(type.GetInterfaces(), IsGenericEnumerable)
+                ?? (IsGenericEnumerable(type) ? type : null);
             if (genericInterface is not null)
             {
                 var typeArguments = genericInterface.GenericTypeArguments;
@@ -48,6 +43,11 @@
         {
             var method = BuildTypedArrayMethodInfo.MakeGenericMethod(itemType.NotNull(nameof(itemType)));
             return method.Invoke(null, new object[] { items.NotNull(nameof(items)) });
+        }
+
+        private static bool IsGenericEnumerable(Type type)
+        {
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>);
         }
 
         private static TElementType[] BuildTypedArray<TElementType>(IEnumerable items)
