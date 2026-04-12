@@ -4,6 +4,7 @@ title: Fix Dependabot commit messages to follow Conventional Commits
 status: Done
 assignee:
   - piotrzajac
+  - claude
 created_date: '2026-04-12'
 updated_date: '2026-04-12'
 labels:
