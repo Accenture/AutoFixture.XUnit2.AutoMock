@@ -3,6 +3,8 @@ updates:
   - package-ecosystem: "nuget"
     directories:
       - "**/*"
+    commit-message:
+      prefix: "chore(nuget)"
     schedule:
       interval: "weekly"
       day: "sunday"
@@ -26,6 +28,8 @@ updates:
       - dependency-name: "Moq"
   - package-ecosystem: "github-actions"
     directory: "/"
+    commit-message:
+      prefix: "chore(github-actions)"
     schedule:
       interval: "weekly"
       day: "sunday"
