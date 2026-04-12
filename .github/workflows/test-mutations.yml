@@ -46,18 +46,8 @@ jobs:
       uses: ./.github/actions/materialize-signing-key
       with:
         signing-key-value: ${{ secrets.SIGNING_KEY }}
-    - name: 💾 install stryker.net
-      run: |
-        $ErrorActionPreference = 'stop'
-        dotnet new tool-manifest
-        if ($LastExitCode -ne 0) {
-          throw "dotnet new failed with exit code $LastExitCode"
-        }
-
-        dotnet tool install --local dotnet-stryker
-        if ($LastExitCode -ne 0) {
-          throw "dotnet tool install failed with exit code $LastExitCode"
-        }
+    - name: 💾 restore dotnet tools
+      run: dotnet tool restore
     - name: 👾 test mutations
       working-directory: ./src
       run: |
