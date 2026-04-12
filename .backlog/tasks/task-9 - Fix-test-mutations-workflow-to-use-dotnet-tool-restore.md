@@ -47,3 +47,9 @@ In `.github/workflows/test-mutations.yml`, replace the multi-line PowerShell "�
 
 The old step used `dotnet new tool-manifest` which would create `.config/dotnet-tools.json` in the runner's working directory — a different path from the repo-root `dotnet-tools.json` — causing a manifest collision.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Updated `.github/workflows/test-mutations.yml` to replace the two-step "install stryker.net" block (`dotnet new tool-manifest` + `dotnet tool install --local dotnet-stryker`) with a single `dotnet tool restore` step. This restores all three tools declared in the repo-level manifest (Husky, CommitLint.Net, dotnet-stryker) in one consistent step, matching the bootstrap sequence documented in `CONTRIBUTING.md`. The mutation-testing invocation step (`dotnet tool run dotnet-stryker`) was left unchanged.
+<!-- SECTION:FINAL_SUMMARY:END -->

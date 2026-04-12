@@ -47,3 +47,14 @@ Updated `CONTRIBUTING.md` to use a single Getting Started bootstrap (`dotnet too
 
 Validated behavior locally: valid messages pass and invalid messages fail with non-zero exit.
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Enforced Conventional Commits using Husky.NET + CommitLint.Net via the repository-local .NET tool manifest (`dotnet-tools.json`). Key deliverables:
+
+- `commit-message-config.json` — Conventional Commits rules with allowed types
+- `.husky/commit-msg` + `.husky/task-runner.json` — local git hook that blocks non-conforming messages at commit time
+- `.github/workflows/commit-message.yml` — CI mirror that validates the latest commit message using the same config, catching any hook bypasses
+- `CONTRIBUTING.md` updated — single bootstrap (`dotnet tool restore` + `dotnet husky install`) activates all local tools and hooks after cloning
+<!-- SECTION:FINAL_SUMMARY:END -->
