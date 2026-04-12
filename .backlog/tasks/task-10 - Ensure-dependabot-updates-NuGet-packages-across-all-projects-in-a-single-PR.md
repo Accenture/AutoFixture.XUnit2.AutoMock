@@ -70,8 +70,6 @@ In .github/dependabot.yml, add three groups under the nuget ecosystem entry (ord
   Other:
     patterns:
       - "*"
-
-The change is already applied to the working tree (not yet committed). Review and commit when ready.
 <!-- SECTION:PLAN:END -->
 
 ## Final Summary
