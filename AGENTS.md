@@ -75,29 +75,41 @@ eliminating boilerplate setup in unit tests.
 All commands run from the **repository root** unless specified otherwise.
 CI runs on **Windows** because `net472`/`net48` require it.
 
-```bash
-# Build entire solution
-dotnet build src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
+### Build
 
-# Run all tests (all framework slices: net8.0, net472, net48 on Windows)
+```bash
+dotnet build src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
+```
+
+Enforces code style via `EnforceCodeStyleInBuild=true` and `TreatWarningsAsErrors=true`. A build that passes without warnings means all analyzers are satisfied.
+
+### Test
+
+```bash
+# All framework slices (net8.0, net472, net48 on Windows)
 dotnet test src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
 
-# Run tests for a specific module only
+# Specific module only
 dotnet test src/Objectivity.AutoFixture.XUnit2.AutoMoq.sln
 
-# Run tests for a specific framework
+# Specific framework
 dotnet test src/Objectivity.AutoFixture.XUnit2.AutoMock.sln --framework net8.0
+```
 
-# Pack NuGet packages (outputs to src/<project>/bin/Release/)
+### Pack
+
+```bash
+# Outputs to src/<project>/bin/Release/
 dotnet pack src/Objectivity.AutoFixture.XUnit2.AutoMock.sln --configuration Release
+```
 
-# Run mutation tests (dotnet-stryker is a repository-local tool; must run from src/ — Stryker resolves projects relative to its working directory)
+### Mutation Tests
+
+```bash
+# dotnet-stryker is a repository-local tool; must run from src/
 cd src
 dotnet dotnet-stryker -f ../stryker-config.yml
 ```
-
-**Important:** `dotnet build` enforces code style via `EnforceCodeStyleInBuild=true` and
-`TreatWarningsAsErrors=true`. A build that passes without warnings means all analyzers are satisfied.
 
 ---
 
@@ -429,7 +441,17 @@ These rules apply to all AI coding assistants working in this repository.
 ### Before Making Changes
 
 - **Propose before acting** on any non-trivial change (new attribute, refactor, CI change). Describe the approach and wait for approval.
+- **Suggest creating a backlog task** if one does not already exist before implementation begins. Search the backlog first to avoid duplicates.
+- **Suggest a branch checkout** for any non-trivial change before implementation begins. Use the Conventional Commits type as a prefix and a short kebab-case description, e.g. `git checkout -b fix/enumerable-extensions-allocation`. Common prefixes: `feat/`, `fix/`, `refactor/`, `chore/`, `ci/`, `docs/`.
 - **Prefer `dotnet build` over reading files** to verify correctness — the analyser stack catches style and correctness issues that are hard to spot by inspection alone.
+
+### After Making Changes
+
+After any C# code change, offer to run the following steps in order — do not run them automatically, as the user may choose to defer:
+
+1. [**Build**](#build)
+2. [**Test**](#test)
+3. [**Mutation Tests**](#mutation-tests) *(slow — typically run before raising a PR)*
 
 ### Committing
 
