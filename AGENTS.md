@@ -441,7 +441,7 @@ These rules apply to all AI coding assistants working in this repository.
 ### Before Making Changes
 
 - **Propose before acting** on any non-trivial change (new attribute, refactor, CI change). Describe the approach and wait for approval.
-- **Suggest creating a backlog task** if one does not already exist before implementation begins. Search the backlog first to avoid duplicates.
+- **Suggest creating a backlog task** if one does not already exist before implementation begins. Search the backlog first to avoid duplicates. Use short, plain-English titles (e.g. "Prepare documentation", "Upgrade test projects to net10.0") — do not apply Conventional Commits prefixes to task titles.
 - **Suggest a branch checkout** for any non-trivial change before implementation begins. Use the Conventional Commits type as a prefix and a short kebab-case description, e.g. `git checkout -b fix/enumerable-extensions-allocation`. Common prefixes: `feat/`, `fix/`, `refactor/`, `chore/`, `ci/`, `docs/`.
 - **Prefer `dotnet build` over reading files** to verify correctness — the analyser stack catches style and correctness issues that are hard to spot by inspection alone.
 
