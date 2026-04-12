@@ -1,12 +1,12 @@
 ---
 id: TASK-10
 title: Ensure dependabot updates NuGet packages across all projects in a single PR
-status: To Do
+status: Done
 assignee:
   - piotrzajac
   - claude
 created_date: '2026-04-12 16:33'
-updated_date: '2026-04-12 17:33'
+updated_date: '2026-04-12 17:44'
 labels:
   - fix
   - ci-cd
@@ -47,9 +47,9 @@ Fix: Keep `directories: ["**/*"]` (discovery is working correctly) and add three
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 xUnit, AutoFixture, Analyzers, Testing, Common, and Other groups each produce a single cross-directory PR
-- [ ] #2 No more manual 'Align versions in all projects' follow-up commits are needed
-- [ ] #3 `directories: ["**/*"]` is preserved (discovery was already working correctly)
+- [x] #1 xUnit, AutoFixture, Analyzers, Testing, Common, and Other groups each produce a single cross-directory PR
+- [x] #2 No more manual 'Align versions in all projects' follow-up commits are needed
+- [x] #3 `directories: ["**/*"]` is preserved (discovery was already working correctly)
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -73,3 +73,15 @@ In .github/dependabot.yml, add three groups under the nuget ecosystem entry (ord
 
 The change is already applied to the working tree (not yet committed). Review and commit when ready.
 <!-- SECTION:PLAN:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Applied to `.github/dependabot.yml`. The `directories: ["**/*"]` setting was already discovering packages correctly across all 8 projects. The root issue was that ungrouped packages each generated one PR per directory, hitting Dependabot's default open-pull-requests-limit of 5 before all directories could be covered.
+
+Added three new groups to the nuget ecosystem entry:
+
+- **Testing** — `Microsoft.NET.Test.Sdk`, `coverlet.msbuild`
+- **Common** — `Castle.Core`, `JetBrains.Annotations`, `Microsoft.SourceLink.GitHub`, `Microsoft.NETFramework.ReferenceAssemblies`
+- **Other** — `*` catch-all placed last so named groups take priority; consolidates any future ungrouped shared package into a single PR automatically
+<!-- SECTION:FINAL_SUMMARY:END -->
