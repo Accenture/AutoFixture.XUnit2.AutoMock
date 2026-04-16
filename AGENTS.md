@@ -29,9 +29,15 @@ eliminating boilerplate setup in unit tests.
 
 ```text
 ├── AGENTS.md                         # This file
+├── CLAUDE.md                         # Claude Code–specific instructions
 ├── README.md                         # Public-facing documentation with usage examples
+├── CONTRIBUTING.md                   # Contributor guidelines
 ├── GitVersion.yml                    # Semantic versioning (ContinuousDelivery mode)
 ├── stryker-config.yml                # Mutation testing configuration
+├── dotnet-tools.json                 # Local tool manifest (husky, commitlint.net, dotnet-stryker)
+├── commit-message-config.json        # Commitlint configuration
+├── .coderabbit.yaml                  # CodeRabbit PR review bot configuration
+├── .husky/                           # Git hooks (managed by husky)
 ├── images/                           # Package icon
 └── src/
     ├── Objectivity.AutoFixture.XUnit2.AutoMock.sln        # Primary solution (all 8 projects)
@@ -106,7 +112,8 @@ dotnet pack src/Objectivity.AutoFixture.XUnit2.AutoMock.sln --configuration Rele
 ### Mutation Tests
 
 ```bash
-# dotnet-stryker is a repository-local tool; must run from src/
+# dotnet-tools.json is at the repo root; dotnet resolves it by walking up from src/.
+# Run from src/ so stryker can resolve the relative solution path in stryker-config.yml.
 cd src
 dotnet dotnet-stryker -f ../stryker-config.yml
 ```
@@ -359,6 +366,10 @@ weekly (Sundays) and groups updates:
 | `xUnit` | All `xunit.*` |
 | `AutoFixture` | All `AutoFixture*` |
 | `Analyzers` | All `*analyzer*` (except `xunit.analyzers`) |
+| `Testing` | `Microsoft.NET.Test.Sdk`, `coverlet.msbuild` |
+| `Common` | `Castle.Core`, `JetBrains.Annotations`, `Microsoft.SourceLink.GitHub`, `Microsoft.NETFramework.ReferenceAssemblies` |
+| `Other` | All remaining packages (`*`) |
+| GitHub Actions | Weekly, `chore(github-actions)` commit prefix |
 | Ignored | `Moq` (intentionally excluded) |
 
 When adding a new dependency, place it in the most specific `.csproj` that needs it.
@@ -403,6 +414,7 @@ flowchart TD
         snyk["snyk.yml<br/>Snyk"]
         fossa["fossa-scan.yml<br/>FOSSA"]
         mutations["test-mutations.yml<br/>Stryker.NET"]
+        commitmsg["commit-message.yml<br/>Commitlint"]
     end
 ```
 
