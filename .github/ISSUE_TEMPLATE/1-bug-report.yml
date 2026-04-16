@@ -61,14 +61,11 @@ body:
     validations:
       required: true
 
-  - type: dropdown
+  - type: input
     id: framework
     attributes:
       label: Target framework
-      options:
-        - net10.0
-        - net472
-        - net48
+      placeholder: "net8.0"
     validations:
       required: true
 
