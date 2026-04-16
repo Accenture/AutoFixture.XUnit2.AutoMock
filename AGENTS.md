@@ -219,7 +219,7 @@ if it is truly module-specific.
 | Project type | Target frameworks |
 | --- | --- |
 | Library (Core, AutoMoq, etc.) | `netstandard2.0`, `netstandard2.1`, `net472`, `net48` |
-| Tests | `net8.0`, `net472`, `net48` |
+| Tests | `net10.0`, `net472`, `net48` |
 
 ---
 

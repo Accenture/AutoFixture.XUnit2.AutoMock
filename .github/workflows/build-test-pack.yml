@@ -88,13 +88,13 @@ jobs:
       env:
           MODULE_NAMESPACE: ${{ inputs.module-namespace }}
           MODULE_NAME: ${{ inputs.module-name }}
-    - name: 🧪 test ${{ inputs.module-name }} in net8.0 & collect coverage
+    - name: 🧪 test ${{ inputs.module-name }} in net10.0 & collect coverage
       uses: ./.github/actions/test-and-collect-coverage
       with:
         codecov-token: ${{ secrets.codecov-token }}
         module-name: ${{ inputs.module-name }}
         module-namespace: ${{ inputs.module-namespace }}
-        target-framework: net8.0
+        target-framework: net10.0
     - name: 📦 pack
       if: ${{ startsWith(inputs.module-name, 'Auto' ) }}
       run: |

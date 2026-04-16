@@ -1,8 +1,10 @@
 ---
 id: TASK-13
 title: 'Upgrade test projects from net8.0 to net10.0'
-status: To Do
-assignee: []
+status: Done
+assignee:
+  - claude
+  - piotrzajac
 created_date: '2026-04-12'
 labels:
   - feature
@@ -30,10 +32,10 @@ Replace `net8.0` with `net10.0` in all four test projects. .NET 10 is LTS (suppo
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 `net10.0` replaces `net8.0` in the `<TargetFrameworks>` in all four test `.csproj` files
-- [ ] #2 All tests pass across `net10.0`, `net472`, and `net48`
-- [ ] #3 CI pipeline passes without errors on all framework slices
-- [ ] #4 `AGENTS.md` Target Frameworks table is updated to reflect `net10.0` for test projects
+- [x] #1 `net10.0` replaces `net8.0` in the `<TargetFrameworks>` in all four test `.csproj` files
+- [x] #2 All tests pass across `net10.0`, `net472`, and `net48`
+- [x] #3 CI pipeline passes without errors on all framework slices
+- [x] #4 `AGENTS.md` Target Frameworks table is updated to reflect `net10.0` for test projects
 <!-- AC:END -->
 
 ## Files Affected
