@@ -66,7 +66,7 @@ body:
     attributes:
       label: Target framework
       options:
-        - net8.0
+        - net10.0
         - net472
         - net48
     validations:
