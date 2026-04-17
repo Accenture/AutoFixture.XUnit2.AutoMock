@@ -490,6 +490,28 @@ When proposing any non-trivial solution, evaluate it against these quality dimen
 - **Separation of concerns** — split logic into focused, single-purpose components rather than concentrating multiple responsibilities in one place; each class, method or task should have one clear reason to change
 - **Developer experience** — prefer readable error messages, discoverable APIs, and minimal configuration; the goal of this library is to reduce boilerplate
 
+## Backlog CLI Reference
+
+When MCP is unavailable, use the CLI via `npx backlog` from the repo root.
+Prefer the CLI over editing task files directly — the CLI validates structure.
+
+| Goal | Command |
+| --- | --- |
+| List tasks | `npx backlog task list` |
+| View a task | `npx backlog task show TASK-N` |
+| Create a task | `npx backlog task create "Title" --status "To Do" --priority low` |
+| Update status | `npx backlog task edit TASK-N --status "In Progress"` |
+| Assign | `npx backlog task edit TASK-N --assignee username` |
+| Add acceptance criterion | `npx backlog task edit TASK-N --ac "criterion text"` |
+| Create milestone | `npx backlog milestone create "Name"` |
+| Assign to milestone | `npx backlog task edit TASK-N --milestone m-N` |
+| Search tasks/docs/decisions | `npx backlog search "query" [--status "..."] [--priority ...]` |
+| Record architectural decision | `npx backlog decision create "decision text" [-s proposed\|accepted\|deprecated]` |
+| Create documentation | `npx backlog doc create "Title" [-p path] [-t type]` |
+| List documents | `npx backlog doc list` |
+
+---
+
 <!-- BACKLOG.MD MCP GUIDELINES START -->
 
 <CRITICAL_INSTRUCTION>
