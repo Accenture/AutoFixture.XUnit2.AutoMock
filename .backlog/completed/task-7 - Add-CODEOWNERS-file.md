@@ -1,8 +1,10 @@
 ---
 id: TASK-7
 title: Add CODEOWNERS file
-status: To Do
-assignee: []
+status: Done
+assignee:
+  - claude
+  - piotrzajac
 created_date: '2026-04-07 20:58'
 labels:
   - dx
@@ -18,7 +20,7 @@ Create a .github/CODEOWNERS file that maps paths to GitHub teams or users who ar
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 .github/CODEOWNERS exists and is syntactically valid
-- [ ] #2 A default owner (* pattern) is defined
-- [ ] #3 Reviewers are automatically requested on PRs touching covered paths
+- [x] #1 .github/CODEOWNERS exists and is syntactically valid
+- [x] #2 A default owner (* pattern) is defined
+- [x] #3 Reviewers are automatically requested on PRs touching covered paths
 <!-- AC:END -->
