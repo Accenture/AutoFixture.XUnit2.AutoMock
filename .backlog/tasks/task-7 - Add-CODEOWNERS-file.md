@@ -1,8 +1,9 @@
 ---
 id: TASK-7
 title: Add CODEOWNERS file
-status: To Do
-assignee: []
+status: Done
+assignee:
+  - piotrzajac
 created_date: '2026-04-07 20:58'
 labels:
   - dx

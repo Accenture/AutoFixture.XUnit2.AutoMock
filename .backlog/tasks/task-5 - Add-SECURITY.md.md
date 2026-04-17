@@ -1,8 +1,9 @@
 ---
 id: TASK-5
 title: Add SECURITY.md
-status: To Do
-assignee: []
+status: Done
+assignee:
+  - piotrzajac
 created_date: '2026-04-07 20:56'
 labels:
   - doc

@@ -1,8 +1,9 @@
 ---
 id: TASK-6
 title: Add CODE_OF_CONDUCT.md
-status: To Do
-assignee: []
+status: Done
+assignee:
+  - piotrzajac
 created_date: '2026-04-07 20:57'
 labels:
   - doc
