@@ -3,6 +3,7 @@ id: TASK-7
 title: Add CODEOWNERS file
 status: Done
 assignee:
+  - claude
   - piotrzajac
 created_date: '2026-04-07 20:58'
 labels:

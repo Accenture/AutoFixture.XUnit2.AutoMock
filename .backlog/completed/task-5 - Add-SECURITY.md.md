@@ -3,6 +3,7 @@ id: TASK-5
 title: Add SECURITY.md
 status: Done
 assignee:
+  - claude
   - piotrzajac
 created_date: '2026-04-07 20:56'
 labels:

@@ -3,6 +3,7 @@ id: TASK-6
 title: Add CODE_OF_CONDUCT.md
 status: Done
 assignee:
+  - claude
   - piotrzajac
 created_date: '2026-04-07 20:57'
 labels:
