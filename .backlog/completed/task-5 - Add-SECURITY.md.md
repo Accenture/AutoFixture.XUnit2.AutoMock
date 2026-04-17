@@ -21,7 +21,7 @@ Create a SECURITY.md file at the repository root that documents the vulnerabilit
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 SECURITY.md exists at the repository root
-- [ ] #2 Covers: how to report a vulnerability privately, expected response timeline, supported versions
-- [ ] #3 GitHub 'Report a vulnerability' link is active (enabled in repo Security settings)
+- [x] #1 SECURITY.md exists at the repository root
+- [x] #2 Covers: how to report a vulnerability privately, expected response timeline, supported versions
+- [x] #3 GitHub 'Report a vulnerability' link is active (enabled in repo Security settings)
 <!-- AC:END -->
