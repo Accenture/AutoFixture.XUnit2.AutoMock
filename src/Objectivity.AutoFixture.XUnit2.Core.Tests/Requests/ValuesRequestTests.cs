@@ -197,7 +197,7 @@
             // Arrange
             var type = value.GetType();
             var fixedRequest = new FixedValuesRequest(type, value);
-            var exceptRequest = new ExceptValuesRequest(type, value);
+            object exceptRequest = new ExceptValuesRequest(type, value);
 
             // Act
             var result = fixedRequest.Equals(exceptRequest);
