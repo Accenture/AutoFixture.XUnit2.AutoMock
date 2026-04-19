@@ -77,6 +77,7 @@
             var specimen = builder.Create(notVirtualPropertyInfo, this.context);
 
             // Assert
+            Assert.NotNull(notVirtualPropertyInfo.GetGetMethod());
             Assert.IsType<NoSpecimen>(specimen);
         }
 
@@ -93,6 +94,7 @@
             var specimen = builder.Create(virtualPropertyInfo, this.context);
 
             // Assert
+            Assert.NotNull(virtualPropertyInfo.GetGetMethod());
             Assert.Same(reflectedType, builder.ReflectedType);
             Assert.IsType<NoSpecimen>(specimen);
         }
@@ -109,7 +111,24 @@
             var specimen = builder.Create(virtualPropertyInfo, this.context);
 
             // Assert
+            Assert.NotNull(virtualPropertyInfo.GetGetMethod());
             Assert.IsType<OmitSpecimen>(specimen);
+        }
+
+        [AutoData]
+        [Theory(DisplayName = "GIVEN virtual PropertyInfo with private getter WHEN Create is invoked THEN NoSpecimen is returned")]
+        public void GivenVirtualPropertyInfoWithPrivateGetter_WhenCreateInvoked_ThenNoSpecimenInstance(
+            [Modest] IgnoreVirtualMembersSpecimenBuilder builder)
+        {
+            // Arrange
+            var propertyInfo = typeof(FakeObject).GetProperty(nameof(FakeObject.VirtualPropertyWithPrivateGetter));
+
+            // Act
+            var specimen = builder.Create(propertyInfo, this.context);
+
+            // Assert
+            Assert.Null(propertyInfo.GetGetMethod());
+            Assert.IsType<NoSpecimen>(specimen);
         }
 
         [Fact(DisplayName = "GIVEN virtual PropertyInfo request hosted in appropriate type WHEN Create is invoked THEN OmitSpecimen is returned")]
@@ -124,6 +143,7 @@
             var specimen = builder.Create(virtualPropertyInfo, this.context);
 
             // Assert
+            Assert.NotNull(virtualPropertyInfo.GetGetMethod());
             Assert.IsType<OmitSpecimen>(specimen);
         }
 
@@ -134,6 +154,9 @@
             public object NotVirtualProperty { get; set; }
 
             public virtual object VirtualProperty { get; set; }
+
+            [SuppressMessage("Design", "CA1044:Properties should not be write only", Justification = "Required to test that GetGetMethod() returns null when getter is non-public.")]
+            public virtual object VirtualPropertyWithPrivateGetter { private get; set; }
         }
     }
 }
