@@ -20,17 +20,12 @@
 
         public object Create(object request, ISpecimenContext context)
         {
-            if (request is PropertyInfo pi) //// is a property
+            if (request is PropertyInfo pi //// is a property
+                && (this.ReflectedType is null //// is hosted anywhere
+                    || this.ReflectedType == pi.ReflectedType) //// is hosted in defined type
+                && pi.GetGetMethod().IsVirtual)
             {
-                if (this.ReflectedType is null //// is hosted anywhere
-                    ||
-                    this.ReflectedType == pi.ReflectedType) //// is hosted in defined type
-                {
-                    if (pi.GetGetMethod().IsVirtual)
-                    {
-                        return new OmitSpecimen();
-                    }
-                }
+                return new OmitSpecimen();
             }
 
             return new NoSpecimen();

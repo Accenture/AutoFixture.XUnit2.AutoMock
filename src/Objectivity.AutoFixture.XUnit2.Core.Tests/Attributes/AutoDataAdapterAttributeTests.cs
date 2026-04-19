@@ -134,9 +134,9 @@
             return $"{first}: {second}, {third}";
         }
 
-        [SuppressMessage("Minor Code Smell", "S2094:Classes should not be empty", Justification = "Test class")]
         protected abstract class AbstractTestClass
         {
+            public override string ToString() => this.GetType().Name;
         }
 
         protected sealed class SpecificTestClass : AbstractTestClass

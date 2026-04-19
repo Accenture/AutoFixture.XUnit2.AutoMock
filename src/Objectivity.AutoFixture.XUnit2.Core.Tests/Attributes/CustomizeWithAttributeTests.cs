@@ -130,13 +130,12 @@
                 .First();
 
             // Act
-            var customization = customizeAttribute.GetCustomization(parameter) as ArgumentsDiscoveryCustomization;
+            var customization = customizeAttribute.GetCustomization(parameter);
 
             // Assert
-            Assert.NotNull(customization);
-            Assert.IsType(customizationType, customization);
-            Assert.Single(customization.Args);
-            Assert.Equal(parameter.ParameterType, customization.Args.First());
+            var typed = Assert.IsType<ArgumentsDiscoveryCustomization>(customization);
+            Assert.Single(typed.Args);
+            Assert.Equal(parameter.ParameterType, typed.Args.First());
         }
 
         [MemberData(nameof(ArgumentsDiscoveryCustomizationTestData))]
@@ -152,12 +151,11 @@
                 .First();
 
             // Act
-            var customization = customizeAttribute.GetCustomization(parameter) as ArgumentsDiscoveryCustomization;
+            var customization = customizeAttribute.GetCustomization(parameter);
 
             // Assert
-            Assert.NotNull(customization);
-            Assert.IsType(customizationType, customization);
-            Assert.Equal(expectedNumberOfArguments, customization.Args.Count);
+            var typed = Assert.IsType<ArgumentsDiscoveryCustomization>(customization);
+            Assert.Equal(expectedNumberOfArguments, typed.Args.Count);
         }
 
         [AutoData]
