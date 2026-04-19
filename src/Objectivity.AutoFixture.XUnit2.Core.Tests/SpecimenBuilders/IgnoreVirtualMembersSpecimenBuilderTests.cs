@@ -77,6 +77,7 @@
             var specimen = builder.Create(notVirtualPropertyInfo, this.context);
 
             // Assert
+            Assert.NotNull(notVirtualPropertyInfo.GetGetMethod());
             Assert.IsType<NoSpecimen>(specimen);
         }
 
@@ -93,6 +94,7 @@
             var specimen = builder.Create(virtualPropertyInfo, this.context);
 
             // Assert
+            Assert.NotNull(virtualPropertyInfo.GetGetMethod());
             Assert.Same(reflectedType, builder.ReflectedType);
             Assert.IsType<NoSpecimen>(specimen);
         }
@@ -109,6 +111,7 @@
             var specimen = builder.Create(virtualPropertyInfo, this.context);
 
             // Assert
+            Assert.NotNull(virtualPropertyInfo.GetGetMethod());
             Assert.IsType<OmitSpecimen>(specimen);
         }
 
@@ -124,6 +127,7 @@
             var specimen = builder.Create(propertyInfo, this.context);
 
             // Assert
+            Assert.Null(propertyInfo.GetGetMethod());
             Assert.IsType<NoSpecimen>(specimen);
         }
 
@@ -139,6 +143,7 @@
             var specimen = builder.Create(virtualPropertyInfo, this.context);
 
             // Assert
+            Assert.NotNull(virtualPropertyInfo.GetGetMethod());
             Assert.IsType<OmitSpecimen>(specimen);
         }
 
@@ -150,7 +155,7 @@
 
             public virtual object VirtualProperty { get; set; }
 
-            [SuppressMessage("Design", "CA1044:Properties should not be write only", Justification = "Required to test null getter scenario.")]
+            [SuppressMessage("Design", "CA1044:Properties should not be write only", Justification = "Required to test that GetGetMethod() returns null when getter is non-public.")]
             public virtual object VirtualPropertyWithPrivateGetter { private get; set; }
         }
     }
