@@ -88,8 +88,8 @@
             Assert.Equal(values, attribute.Values);
         }
 
-        [Fact(DisplayName = "GIVEN valid arguments WHEN ToString is invoked THEN text conteins necessary information")]
-        public void GivenValidArguments_WhenToStringIsInvoked_ThenTextConteinsNecessaryInformation()
+        [Fact(DisplayName = "GIVEN valid arguments WHEN ToString is invoked THEN text contains necessary information")]
+        public void GivenValidArguments_WhenToStringIsInvoked_ThenTextContainsNecessaryInformation()
         {
             // Arrange
             var type = typeof(float);

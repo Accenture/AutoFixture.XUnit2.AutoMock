@@ -112,6 +112,21 @@
             Assert.IsType<OmitSpecimen>(specimen);
         }
 
+        [AutoData]
+        [Theory(DisplayName = "GIVEN virtual PropertyInfo with private getter WHEN Create is invoked THEN NoSpecimen is returned")]
+        public void GivenVirtualPropertyInfoWithPrivateGetter_WhenCreateInvoked_ThenNoSpecimenInstance(
+            [Modest] IgnoreVirtualMembersSpecimenBuilder builder)
+        {
+            // Arrange
+            var propertyInfo = typeof(FakeObject).GetProperty(nameof(FakeObject.VirtualPropertyWithPrivateGetter));
+
+            // Act
+            var specimen = builder.Create(propertyInfo, this.context);
+
+            // Assert
+            Assert.IsType<NoSpecimen>(specimen);
+        }
+
         [Fact(DisplayName = "GIVEN virtual PropertyInfo request hosted in appropriate type WHEN Create is invoked THEN OmitSpecimen is returned")]
         public void GivenVirtualPropertyInfoRequestHostedInAppropriateType_WhenCreateInvoked_ThenOmitSpecimenInstance()
         {
@@ -134,6 +149,9 @@
             public object NotVirtualProperty { get; set; }
 
             public virtual object VirtualProperty { get; set; }
+
+            [SuppressMessage("Design", "CA1044:Properties should not be write only", Justification = "Required to test null getter scenario.")]
+            public virtual object VirtualPropertyWithPrivateGetter { private get; set; }
         }
     }
 }
