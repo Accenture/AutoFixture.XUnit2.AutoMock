@@ -155,7 +155,7 @@
 
             public virtual object VirtualProperty { get; set; }
 
-            [SuppressMessage("Design", "CA1044:Properties should not be write only", Justification = "Required to test that GetGetMethod() returns null when getter is non-public.")]
+            [SuppressMessage("Design", "CA1044:Properties should not be write only", Justification = "Required to test that GetGetMethod() returns null when getter is private.")]
             public virtual object VirtualPropertyWithPrivateGetter { private get; set; }
         }
     }
