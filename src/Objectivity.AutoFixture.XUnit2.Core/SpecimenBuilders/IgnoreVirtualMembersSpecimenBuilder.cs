@@ -23,7 +23,7 @@
             if (request is PropertyInfo pi //// is a property
                 && (this.ReflectedType is null //// is hosted anywhere
                     || this.ReflectedType == pi.ReflectedType) //// is hosted in defined type
-                && pi.GetGetMethod() is { IsVirtual: true })
+                && pi.GetGetMethod(nonPublic: false) is { IsVirtual: true })
             {
                 return new OmitSpecimen();
             }
