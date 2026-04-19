@@ -22,8 +22,8 @@
             var dataAttribute = provider.GetAttribute(fixture) as AutoDataAdapterAttribute;
 
             // Assert
-            Assert.NotNull(dataAttribute);
-            Assert.Equal(fixture, dataAttribute.AdaptedFixture);
+            var typed = Assert.IsType<AutoDataAdapterAttribute>(dataAttribute);
+            Assert.Equal(fixture, typed.AdaptedFixture);
         }
     }
 }

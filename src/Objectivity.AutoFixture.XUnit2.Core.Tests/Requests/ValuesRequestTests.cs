@@ -174,12 +174,12 @@
         }
 
         [Fact(DisplayName = "GIVEN different type of object WHEN Equals is invoked THEN False is returned")]
-        [SuppressMessage("ReSharper", "SuspiciousTypeConversion.Global", Justification = "This is expected comparioson to test logic.")]
+        [SuppressMessage("ReSharper", "SuspiciousTypeConversion.Global", Justification = "This is expected comparison to test logic.")]
         public void GivenDifferentTypeOfObject_WhenEqualsIsInvoked_ThenFalseIsReturned()
         {
             // Arrange
             var request = new FixedValuesRequest(typeof(int), 1);
-            var differentObject = typeof(int);
+            object differentObject = typeof(int);
 
             // Act
             var result = request.Equals(differentObject);
@@ -190,7 +190,7 @@
 
         [AutoData]
         [Theory(DisplayName = "GIVEN different type of ValuesRequest WHEN Equals is invoked THEN False is returned")]
-        [SuppressMessage("ReSharper", "SuspiciousTypeConversion.Global", Justification = "This is expected comparioson to test logic.")]
+        [SuppressMessage("ReSharper", "SuspiciousTypeConversion.Global", Justification = "This is expected comparison to test logic.")]
         public void GivenDifferentTypeOfValuesRequest_WhenEqualsIsInvoked_ThenFalseIsReturned(
             int value)
         {
@@ -237,7 +237,7 @@
             // Arrange
             var valueType = value.GetType();
             var request = Activator.CreateInstance(requestType, valueType, value);
-            var expectedHashCode = valueType.GetHashCode() ^ requestType.GetHashCode() ^ value.GetHashCode();
+            var expectedHashCode = valueType.GetHashCode() ^ requestType.GetHashCode() ^ value;
 
             // Act
             var actualHashCode = request.GetHashCode();

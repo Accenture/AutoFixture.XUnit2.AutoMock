@@ -48,9 +48,8 @@
                 .OfType<IParameterCustomizationSource>()
                 .OrderBy(x => x, new CustomizeAttributeComparer<FrozenAttribute>());
 
-            foreach (var ca in customizeAttributes)
+            foreach (var c in customizeAttributes.Select(ca => ca.GetCustomization(p)))
             {
-                var c = ca.GetCustomization(p);
                 this.AdaptedFixture.Customize(c);
             }
         }
