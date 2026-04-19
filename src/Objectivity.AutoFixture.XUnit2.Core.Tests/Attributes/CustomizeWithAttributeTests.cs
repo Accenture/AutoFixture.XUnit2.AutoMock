@@ -130,7 +130,7 @@
                 .First();
 
             // Act
-            var customization = customizeAttribute.GetCustomization(parameter) as ArgumentsDiscoveryCustomization;
+            var customization = customizeAttribute.GetCustomization(parameter);
 
             // Assert
             var typed = Assert.IsType<ArgumentsDiscoveryCustomization>(customization);
@@ -151,7 +151,7 @@
                 .First();
 
             // Act
-            var customization = customizeAttribute.GetCustomization(parameter) as ArgumentsDiscoveryCustomization;
+            var customization = customizeAttribute.GetCustomization(parameter);
 
             // Assert
             var typed = Assert.IsType<ArgumentsDiscoveryCustomization>(customization);
