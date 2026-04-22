@@ -14,6 +14,12 @@
     [Trait("Category", "Requests")]
     public class ValuesRequestTests
     {
+        public static TheoryData<Type, object[], string> NullArgumentConstructorTestData { get; } = new()
+        {
+            { null, new object[] { 1 }, "operandType" },
+            { typeof(int), null, "values" },
+        };
+
         public static TheoryData<Type, IEnumerable, Type, IEnumerable, bool> ComparisonTestData { get; } = new()
         {
             { typeof(int), new[] { 1 }, typeof(int), new[] { 1 }, true },
@@ -24,34 +30,18 @@
             { typeof(int), new[] { 1, 2 }, typeof(int), new[] { 2 }, false },
         };
 
-        [Fact(DisplayName = "GIVEN uninitialized type argument WHEN constructor is invoked THEN exception is thrown")]
-        public void GivenUninitializedTypeArgument_WhenConstructorIsInvoked_ThenExceptionIsThrown()
+        [MemberData(nameof(NullArgumentConstructorTestData))]
+        [Theory(DisplayName = "GIVEN uninitialized argument WHEN constructor is invoked THEN exception is thrown")]
+        public void GivenUninitializedArgument_WhenConstructorIsInvoked_ThenExceptionIsThrown(
+            Type type, object[] values, string expectedParamName)
         {
             // Arrange
-            Type type = null;
-            object[] values = null;
-
             // Act
             object Act() => new FixedValuesRequest(type, values);
 
             // Assert
             var exception = Assert.Throws<ArgumentNullException>(Act);
-            Assert.Equal("operandType", exception.ParamName);
-        }
-
-        [Fact(DisplayName = "GIVEN uninitialized values argument WHEN constructor is invoked THEN exception is thrown")]
-        public void GivenUninitializedValuesArgument_WhenConstructorIsInvoked_ThenExceptionIsThrown()
-        {
-            // Arrange
-            var type = typeof(int);
-            object[] values = null;
-
-            // Act
-            object Act() => new FixedValuesRequest(type, values);
-
-            // Assert
-            var exception = Assert.Throws<ArgumentNullException>(Act);
-            Assert.Equal("values", exception.ParamName);
+            Assert.Equal(expectedParamName, exception.ParamName);
         }
 
         [Fact(DisplayName = "GIVEN empty values argument WHEN constructor is invoked THEN exception is thrown")]

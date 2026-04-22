@@ -15,6 +15,13 @@
     [Trait("Category", "Common")]
     public class EnumerableExtensionsTests
     {
+        public static TheoryData<Type> InvalidCollectionTestData { get; } = new()
+        {
+            typeof(Tuple<int, int>),
+            typeof(IEnumerable),
+            typeof(IEnumerable<int>).GetGenericTypeDefinition(),
+        };
+
         [Fact(DisplayName = "GIVEN uninitialized argument WHEN TryGetEnumerableSingleTypeArgument is invoked THEN exception is thrown")]
         [SuppressMessage("ReSharper", "UnusedVariable", Justification = "This is good enougth to test the logic.")]
         public void GivenUninitializedArgument_WhenTryGetEnumerableSingleTypeArgumentIsInvoked_ThenExceptionIsThrown()
@@ -46,25 +53,11 @@
             Assert.Equal(expectedType, itemType);
         }
 
-        [InlineData(typeof(Tuple<int, int>))]
-        [InlineData(typeof(IEnumerable))]
+        [MemberData(nameof(InvalidCollectionTestData))]
         [Theory(DisplayName = "GIVEN invalid collection WHEN TryGetEnumerableSingleTypeArgument is invoked THEN no argument returned")]
         public void GivenInvalidCollection_WhenTryGetEnumerableSingleTypeArgumentIsInvoked_ThenNoArgumentReturned(Type enumerableType)
         {
             // Arrange
-            // Act
-            var isSuccessful = enumerableType.TryGetEnumerableSingleTypeArgument(out _);
-
-            // Assert
-            Assert.False(isSuccessful);
-        }
-
-        [Fact(DisplayName = "GIVEN generic definition collection WHEN TryGetEnumerableSingleTypeArgument is invoked THEN no argument returned")]
-        public void GivenGenericDefinitionCollection_WhenTryGetEnumerableSingleTypeArgumentIsInvoked_ThenNoArgumentReturned()
-        {
-            // Arrange
-            var enumerableType = typeof(IEnumerable<int>).GetGenericTypeDefinition();
-
             // Act
             var isSuccessful = enumerableType.TryGetEnumerableSingleTypeArgument(out _);
 
