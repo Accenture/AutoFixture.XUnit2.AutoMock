@@ -16,33 +16,25 @@
     [Trait("Category", "SpecimenBuilders")]
     public class RandomExceptValuesGeneratorTests
     {
-        [Fact(DisplayName = "GIVEN uninitialized context WHEN Create is invoked THEN exception is thrown")]
-        public void GivenUninitializedContext_WhenCreateIsInvoked_ThenExceptionIsThrown()
+        public static TheoryData<object, ISpecimenContext, string> NullArgumentCreateTestData { get; } = new()
+        {
+            { new object(), null, "context" },
+            { null, new Mock<ISpecimenContext>().Object, "request" },
+        };
+
+        [MemberData(nameof(NullArgumentCreateTestData))]
+        [Theory(DisplayName = "GIVEN uninitialized argument WHEN Create is invoked THEN exception is thrown")]
+        public void GivenUninitializedArgument_WhenCreateIsInvoked_ThenExceptionIsThrown(object request, ISpecimenContext context, string expectedParamName)
         {
             // Arrange
             var builder = new RandomExceptValuesGenerator();
 
             // Act
-            object Act() => builder.Create(new object(), null);
+            object Act() => builder.Create(request, context);
 
             // Assert
             var exception = Assert.Throws<ArgumentNullException>(Act);
-            Assert.Equal("context", exception.ParamName);
-        }
-
-        [Fact(DisplayName = "GIVEN uninitialized request WHEN Create is invoked THEN exception is thrown")]
-        public void GivenUninitializedRequest_WhenCreateIsInvoked_ThenExceptionIsThrown()
-        {
-            // Arrange
-            var builder = new RandomExceptValuesGenerator();
-            var context = new Mock<ISpecimenContext>();
-
-            // Act
-            object Act() => builder.Create(null, context.Object);
-
-            // Assert
-            var exception = Assert.Throws<ArgumentNullException>(Act);
-            Assert.Equal("request", exception.ParamName);
+            Assert.Equal(expectedParamName, exception.ParamName);
         }
 
         [Fact(DisplayName = "GIVEN excluded value and context which resolves to the same value WHEN Create is invoked THEN exception is thrown")]

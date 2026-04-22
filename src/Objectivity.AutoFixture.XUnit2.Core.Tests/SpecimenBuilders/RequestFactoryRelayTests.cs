@@ -21,6 +21,12 @@
     [Trait("Category", "SpecimenBuilders")]
     public class RequestFactoryRelayTests
     {
+        public static TheoryData<object, ISpecimenContext, string> NullArgumentCreateTestData { get; } = new()
+        {
+            { new object(), null, "context" },
+            { null, new Mock<ISpecimenContext>().Object, "request" },
+        };
+
         [Fact(DisplayName = "GIVEN uninitialized argument WHEN constructor is invoked THEN exception is thrown")]
         public void GivenUninitializedArgument_WhenConstructorIsInvoked_ThenExceptionIsThrown()
         {
@@ -33,36 +39,21 @@
             Assert.Equal("requestFactory", exception.ParamName);
         }
 
-        [Fact(DisplayName = "GIVEN empty argument WHEN Create is invoked THEN exception is thrown")]
-        public void GivenEmptyArgument_WhenCreateIsInvoked_ThenExceptionIsThrown()
+        [MemberData(nameof(NullArgumentCreateTestData))]
+        [Theory(DisplayName = "GIVEN uninitialized argument WHEN Create is invoked THEN exception is thrown")]
+        public void GivenUninitializedArgument_WhenCreateIsInvoked_ThenExceptionIsThrown(object request, ISpecimenContext context, string expectedParamName)
         {
             // Arrange
             var factory = new Mock<Func<Type, object>>();
             var builder = new RequestFactoryRelay(factory.Object);
 
             // Act
-            object Act() => builder.Create(new object(), null);
+            object Act() => builder.Create(request, context);
 
             // Assert
             var exception = Assert.Throws<ArgumentNullException>(Act);
-            Assert.Equal("context", exception.ParamName);
+            Assert.Equal(expectedParamName, exception.ParamName);
             factory.VerifyNoOtherCalls();
-        }
-
-        [Fact(DisplayName = "GIVEN uninitialized request WHEN Create is invoked THEN exception is thrown")]
-        public void GivenUninitializedRequest_WhenCreateIsInvoked_ThenExceptionIsThrown()
-        {
-            // Arrange
-            var factory = new Mock<Func<Type, object>>();
-            var builder = new RequestFactoryRelay(factory.Object);
-            var context = new Mock<ISpecimenContext>();
-
-            // Act
-            object Act() => builder.Create(null, context.Object);
-
-            // Assert
-            var exception = Assert.Throws<ArgumentNullException>(Act);
-            Assert.Equal("request", exception.ParamName);
         }
 
         [Fact(DisplayName = "GIVEN unsupported request type WHEN create is invoked THEN NoSpecimen is returned")]

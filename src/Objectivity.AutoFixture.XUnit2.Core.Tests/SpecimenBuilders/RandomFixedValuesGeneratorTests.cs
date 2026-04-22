@@ -17,33 +17,25 @@
     [Trait("Category", "SpecimenBuilders")]
     public class RandomFixedValuesGeneratorTests
     {
-        [Fact(DisplayName = "GIVEN uninitialized context WHEN Create is invoked THEN exception is thrown")]
-        public void GivenUninitializedContext_WhenCreateIsInvoked_ThenExceptionIsThrown()
+        public static TheoryData<object, ISpecimenContext, string> NullArgumentCreateTestData { get; } = new()
+        {
+            { new object(), null, "context" },
+            { null, new Mock<ISpecimenContext>().Object, "request" },
+        };
+
+        [MemberData(nameof(NullArgumentCreateTestData))]
+        [Theory(DisplayName = "GIVEN uninitialized argument WHEN Create is invoked THEN exception is thrown")]
+        public void GivenUninitializedArgument_WhenCreateIsInvoked_ThenExceptionIsThrown(object request, ISpecimenContext context, string expectedParamName)
         {
             // Arrange
             var builder = new RandomFixedValuesGenerator();
 
             // Act
-            object Act() => builder.Create(new object(), null);
+            object Act() => builder.Create(request, context);
 
             // Assert
             var exception = Assert.Throws<ArgumentNullException>(Act);
-            Assert.Equal("context", exception.ParamName);
-        }
-
-        [Fact(DisplayName = "GIVEN uninitialized request WHEN Create is invoked THEN exception is thrown")]
-        public void GivenUninitializedRequest_WhenCreateIsInvoked_ThenExceptionIsThrown()
-        {
-            // Arrange
-            var builder = new RandomFixedValuesGenerator();
-            var context = new Mock<ISpecimenContext>();
-
-            // Act
-            object Act() => builder.Create(null, context.Object);
-
-            // Assert
-            var exception = Assert.Throws<ArgumentNullException>(Act);
-            Assert.Equal("request", exception.ParamName);
+            Assert.Equal(expectedParamName, exception.ParamName);
         }
 
         [Fact(DisplayName = "GIVEN unsupported request WHEN Create is invoked THEN NoSpecimen is returned")]
