@@ -45,7 +45,7 @@ dotnet test src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
 Or run a single slice:
 
 ```bash
-dotnet test src/Objectivity.AutoFixture.XUnit2.AutoMock.sln --framework net8.0
+dotnet test src/Objectivity.AutoFixture.XUnit2.AutoMock.sln --framework net10.0
 ```
 
 ### Pack
