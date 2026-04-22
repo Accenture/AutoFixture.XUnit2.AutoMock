@@ -6,16 +6,11 @@ status: accepted
 ---
 ## Context
 
-Strong-name signing is required for .NET Framework compatibility and NuGet package trust.
-Committing the private signing key to source control would expose it to every contributor
-and fork, creating a security risk.
+Strong-name signing is required for .NET Framework compatibility and NuGet package trust. Committing the private signing key to source control would expose it to every contributor and fork, creating a security risk.
 
 ## Decision
 
-Use delay signing locally: only `public.snk` (the public key) is committed to source
-control. Full signing is performed in CI using the `SIGNING_KEY` secret stored in GitHub
-Secrets. Developers can build and run tests locally without the private key; the fully
-signed assemblies are produced only on the CI server during the release pipeline.
+Use delay signing locally: only `public.snk` (the public key) is committed to source control. Full signing is performed in CI using the `SIGNING_KEY` secret stored in GitHub Secrets. Developers can build and run tests locally without the private key; the fully signed assemblies are produced only on the CI server during the release pipeline.
 
 ## Consequences
 

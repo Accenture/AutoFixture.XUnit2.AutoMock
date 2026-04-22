@@ -6,15 +6,12 @@ status: accepted
 ---
 ## Context
 
-Many enterprise teams still run test suites on .NET Framework 4.7.2 and 4.8. Targeting only
-modern .NET would exclude those users, while targeting only .NET Framework would prevent
-adoption on .NET Core and later runtimes.
+Many enterprise teams still run test suites on .NET Framework 4.7.2 and 4.8. Targeting only modern .NET would exclude those users, while targeting only .NET Framework would prevent adoption on .NET Core and later runtimes.
 
 ## Decision
 
 Library projects target `netstandard2.0`, `netstandard2.1`, `net472`, and `net48`.
-Test projects target `.NET Core`, `net472`, and `net48` to validate the full compatibility
-matrix on each CI run.
+Test projects target `.NET Core`, `net472`, and `net48` to validate the full compatibility matrix on each CI run.
 
 ## Consequences
 

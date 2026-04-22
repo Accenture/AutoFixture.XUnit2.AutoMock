@@ -16,7 +16,7 @@ priority: low
 ## Context
 
 Tooling selection, benchmark scope, project structure, and xUnit execution model analysis are
-recorded in [DECISION-1 — Performance benchmark tooling and approach](../decisions/decision-23%20-%20Performance-benchmark-tooling-and-approach.md).
+recorded in [DECISION-23 — Performance benchmark tooling and approach](../decisions/decision-23%20-%20Performance-benchmark-tooling-and-approach.md).
 
 **Summary of decisions:**
 
