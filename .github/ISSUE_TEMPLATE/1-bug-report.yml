@@ -65,7 +65,7 @@ body:
     id: framework
     attributes:
       label: Target framework
-      placeholder: "net8.0"
+      placeholder: "net10.0"
     validations:
       required: true
 

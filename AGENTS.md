@@ -7,7 +7,7 @@ Cursor, and others) working in this repository. Read it before making any change
 
 ## What This Project Does
 
-This is a **C# NuGet library collection** that bridges two testing libraries:
+**C# NuGet library collection** that bridges:
 
 - **[AutoFixture](https://github.com/AutoFixture/AutoFixture)** — generates anonymous test data automatically
 - **Mocking frameworks** — Moq, FakeItEasy, NSubstitute
@@ -28,45 +28,14 @@ eliminating boilerplate setup in unit tests.
 ## Repository Layout
 
 ```text
-├── AGENTS.md                         # This file
-├── CLAUDE.md                         # Claude Code–specific instructions
-├── README.md                         # Public-facing documentation with usage examples
-├── CONTRIBUTING.md                   # Contributor guidelines
-├── GitVersion.yml                    # Semantic versioning (ContinuousDelivery mode)
-├── stryker-config.yml                # Mutation testing configuration
-├── dotnet-tools.json                 # Local tool manifest (husky, commitlint.net, dotnet-stryker)
-├── commit-message-config.json        # Commitlint configuration
-├── .coderabbit.yaml                  # CodeRabbit PR review bot configuration
-├── .husky/                           # Git hooks (managed by husky)
-├── images/                           # Package icon
+├── AGENTS.md / CLAUDE.md / README.md / CONTRIBUTING.md
+├── GitVersion.yml / stryker-config.yml / dotnet-tools.json
 └── src/
-    ├── Objectivity.AutoFixture.XUnit2.AutoMock.sln        # Primary solution (all 8 projects)
-    ├── Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.sln  # FakeItEasy-specific solution
-    ├── Objectivity.AutoFixture.XUnit2.AutoMoq.sln         # Moq-specific solution
-    ├── Objectivity.AutoFixture.XUnit2.AutoNSubstitute.sln # NSubstitute-specific solution
-    ├── Objectivity.AutoFixture.XUnit2.Core.sln            # Core-only solution
-    ├── Directory.Build.props         # Shared MSBuild properties (company, version defaults)
-    ├── .editorconfig                 # Code style enforcement for the entire src/ tree
-    ├── CodeAnalysisDictionary.xml    # Custom word list for FxCop/spell-check analyzers
-    ├── qodana.yaml                   # JetBrains Qodana static analysis config
-    ├── public.snk                    # Public strong-name signing key (delay-signed locally)
-    │
-    ├── Objectivity.AutoFixture.XUnit2.Core/               # Shared infrastructure (not published)
-    │   ├── Attributes/               # AutoDataBaseAttribute + all parameter attributes
-    │   ├── Common/                   # Guard extensions (NotNull, etc.)
-    │   ├── Comparers/                # Custom equality comparers
-    │   ├── Customizations/           # AutoDataCommonCustomization and others
-    │   ├── Factories/                # IFixture factory abstraction and others
-    │   ├── MemberData/               # MemberAutoData extenders
-    │   ├── Providers/                # Provider abstractions and others
-    │   ├── Requests/                 # AutoFixture specimen request types
-    │   └── SpecimenBuilders/         # Custom AutoFixture specimen builders
-    │
+    ├── Objectivity.AutoFixture.XUnit2.AutoMock.sln   # Primary solution (all 8 projects)
+    ├── Directory.Build.props / .editorconfig
+    ├── Objectivity.AutoFixture.XUnit2.Core/           # Shared infrastructure (not published)
     ├── Objectivity.AutoFixture.XUnit2.Core.Tests/
     ├── Objectivity.AutoFixture.XUnit2.AutoMoq/
-    │   └── Attributes/               # AutoMockDataAttribute,
-    |                                 # InlineAutoMockDataAttribute,
-    │                                 # MemberAutoMockDataAttribute
     ├── Objectivity.AutoFixture.XUnit2.AutoMoq.Tests/
     ├── Objectivity.AutoFixture.XUnit2.AutoFakeItEasy/
     ├── Objectivity.AutoFixture.XUnit2.AutoFakeItEasy.Tests/
@@ -78,8 +47,7 @@ eliminating boilerplate setup in unit tests.
 
 ## Build, Test, and Pack Commands
 
-All commands run from the **repository root** unless specified otherwise.
-CI runs on **Windows** because `net472`/`net48` require it.
+All commands run from the **repository root**.
 
 ### Build
 
@@ -92,14 +60,14 @@ Enforces code style via `EnforceCodeStyleInBuild=true` and `TreatWarningsAsError
 ### Test
 
 ```bash
-# All framework slices (net8.0, net472, net48 on Windows)
+# All framework slices (net10.0, net472, net48 on Windows)
 dotnet test src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
 
 # Specific module only
 dotnet test src/Objectivity.AutoFixture.XUnit2.AutoMoq.sln
 
 # Specific framework
-dotnet test src/Objectivity.AutoFixture.XUnit2.AutoMock.sln --framework net8.0
+dotnet test src/Objectivity.AutoFixture.XUnit2.AutoMock.sln --framework net10.0
 ```
 
 ### Pack
@@ -112,7 +80,6 @@ dotnet pack src/Objectivity.AutoFixture.XUnit2.AutoMock.sln --configuration Rele
 ### Mutation Tests
 
 ```bash
-# dotnet-tools.json is at the repo root; dotnet resolves it by walking up from src/.
 # Run from src/ so stryker can resolve the relative solution path in stryker-config.yml.
 cd src
 dotnet dotnet-stryker -f ../stryker-config.yml
@@ -122,50 +89,8 @@ dotnet dotnet-stryker -f ../stryker-config.yml
 
 ## Architecture and Extension Model
 
-### The Core + Mock Module Pattern
-
-Every mock module (AutoMoq, AutoFakeItEasy, AutoNSubstitute) follows the same pattern:
-
-```mermaid
-classDiagram
-    direction TB
-
-    class DataAttribute {
-        <<xunit.sdk>>
-        +GetData(MethodInfo) IEnumerable~object[]~
-    }
-
-    class AutoDataBaseAttribute {
-        <<abstract, Core>>
-        +Fixture IFixture
-        +Provider IAutoFixtureAttributeProvider
-        +IgnoreVirtualMembers bool
-        +GetData(MethodInfo) IEnumerable~object[]~
-        #Customize(IFixture) IFixture*
-    }
-
-    class AutoMockDataAttribute {
-        <<sealed, AutoMoq>>
-        #Customize(IFixture) IFixture
-    }
-
-    class AutoFakeItEasyDataAttribute {
-        <<sealed, AutoFakeItEasy>>
-        #Customize(IFixture) IFixture
-    }
-
-    class AutoNSubstituteDataAttribute {
-        <<sealed, AutoNSubstitute>>
-        #Customize(IFixture) IFixture
-    }
-
-    DataAttribute <|-- AutoDataBaseAttribute
-    AutoDataBaseAttribute <|-- AutoMockDataAttribute
-    AutoDataBaseAttribute <|-- AutoFakeItEasyDataAttribute
-    AutoDataBaseAttribute <|-- AutoNSubstituteDataAttribute
-```
-
-`AutoDataBaseAttribute.GetData` orchestrates the full lifecycle:
+Every mock module (AutoMoq, AutoFakeItEasy, AutoNSubstitute) derives from `AutoDataBaseAttribute`
+in Core and overrides only `Customize(IFixture)`. The base class orchestrates the full lifecycle:
 
 1. Applies `AutoDataCommonCustomization` (handles `IgnoreVirtualMembers`)
 2. Calls `Customize(fixture)` — the only method mock modules override
@@ -183,29 +108,9 @@ protected override IFixture Customize(IFixture fixture)
 
 The same pattern applies to `InlineAutoDataBaseAttribute` and `MemberAutoDataBaseAttribute`.
 
-### Data Flow per Test Run
-
-```mermaid
-sequenceDiagram
-    participant xUnit
-    participant AutoMockDataAttribute
-    participant AutoDataBaseAttribute
-    participant AutoDataCommonCustomization
-    participant IAutoFixtureAttributeProvider
-
-    xUnit->>AutoMockDataAttribute: GetData(methodInfo)
-    AutoMockDataAttribute->>AutoDataBaseAttribute: GetData(methodInfo)
-    AutoDataBaseAttribute->>AutoDataCommonCustomization: Customize(fixture)
-    AutoDataBaseAttribute->>AutoMockDataAttribute: Customize(fixture)
-    Note over AutoMockDataAttribute: fixture.Customize(new AutoMoqCustomization)
-    AutoDataBaseAttribute->>IAutoFixtureAttributeProvider: GetAttribute(fixture)
-    IAutoFixtureAttributeProvider-->>AutoDataBaseAttribute: DataAttribute
-    AutoDataBaseAttribute-->>xUnit: IEnumerable<object[]>
-```
-
 ### Adding a New Attribute
 
-If you need to add a new attribute, always derive from the appropriate base class in `Core`:
+Always derive from the appropriate base class in `Core`:
 
 - `AutoDataBaseAttribute` → for `[Theory]`-level data attributes
 - `InlineAutoDataBaseAttribute` → for `[InlineAutoMockData]`-style attributes
@@ -296,10 +201,19 @@ public void WhenX_ThenY()
 Even trivial tests keep the three comment blocks. Empty `// Arrange` or `// Act` blocks are
 acceptable when there is nothing to set up or when the act is implicit.
 
+Data source attributes (`[AutoMockData]`, `[InlineAutoData]`, etc.) must appear **above**
+`[Theory]`, never below:
+
+```csharp
+[AutoMockData]
+[Theory(DisplayName = "...")]
+public void GivenX_WhenY_ThenZ(IFakeObjectUnderTest value) { ... }
+```
+
 ### Test Organization
 
 - Test projects mirror source projects 1:1 in namespace and folder structure
-- Test classes use `[Collection("ClassName")]` for isolation
+- Test classes use `[Collection("SubjectClassName")]` — use the **subject** class name, not the test class name (e.g. `[Collection("AutoMockDataAttribute")]` on `AutoMockDataAttributeTests`)
 - Test classes use `[Trait("Category", "CategoryName")]` for categorization
 - Test file naming: `<ClassName>Tests.cs`
 - Interface definitions used as test doubles (e.g., `IFakeObjectUnderTest.cs`) live in the test project root
@@ -379,48 +293,18 @@ If it is needed by all projects, consider `Directory.Build.props`.
 
 ## Versioning
 
-**GitVersion** (`ContinuousDelivery` mode) computes the version from the git history:
-
-- `master` branch → stable release versions
-- Feature branches → pre-release suffixes
-
-Do not manually set `<Version>` in any `.csproj`. The version flows from GitVersion through
-CI environment variables. The `Directory.Build.props` version default (`1.0.0.0`) is only
-a local fallback.
+**GitVersion** (`ContinuousDelivery` mode) computes the version from git history: `master` → stable
+releases, feature branches → pre-release suffixes. Do not manually set `<Version>` in any `.csproj`.
+The `Directory.Build.props` version default (`1.0.0.0`) is only a local fallback.
 
 ---
 
 ## CI/CD Overview
 
-All CI runs on `windows-latest` (required for `net472`/`net48` framework slices).
-
-```mermaid
-flowchart TD
-    trigger([PR / push to master]) --> cicd
-
-    subgraph cicd["cicd.yml (orchestrator)"]
-        init["init.yml<br/>Determine modules<br/>GitVersion"] --> btp
-        btp["build-test-pack.yml<br/>Build · Test · Coverage · Pack"] --> publish
-        publish["publish.yml<br/>nuget.org + GitHub Packages"] --> tag
-        tag["tag.yml<br/>Create git tag"]
-    end
-
-    trigger --> security
-
-    subgraph security["Security & Quality (parallel)"]
-        codeql["codeql.yml<br/>CodeQL"]
-        qodana["qodana.yml<br/>Qodana"]
-        semgrep["semgrep.yml<br/>Semgrep"]
-        snyk["snyk.yml<br/>Snyk"]
-        fossa["fossa-scan.yml<br/>FOSSA"]
-        mutations["test-mutations.yml<br/>Stryker.NET"]
-        commitmsg["commit-message.yml<br/>Commitlint"]
-    end
-```
-
-Publishing to nuget.org and GitHub Packages happens **only on pushes to master** after
-a successful build and test run.
-PRs build and test only — they do not publish.
+All CI runs on `windows-latest` (required for `net472`/`net48`). Pipeline stages:
+`init` (determine modules, GitVersion) → `build-test-pack` → `publish` → `tag`.
+Security tools (CodeQL, Qodana, Semgrep, Snyk, FOSSA, Stryker, Commitlint) run in parallel.
+Publishing to nuget.org and GitHub Packages happens **only on pushes to master**.
 
 ---
 
@@ -430,19 +314,6 @@ PRs build and test only — they do not publish.
 
 - .NET 8 SDK (minimum)
 - .NET Framework 4.7.2 and 4.8 (Windows only, for full test coverage across all framework slices)
-
-### Getting Started
-
-```bash
-# Clone
-git clone https://github.com/Accenture/AutoFixture.XUnit2.AutoMock.git
-
-# Build
-dotnet build src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
-
-# Test
-dotnet test src/Objectivity.AutoFixture.XUnit2.AutoMock.sln
-```
 
 ---
 
