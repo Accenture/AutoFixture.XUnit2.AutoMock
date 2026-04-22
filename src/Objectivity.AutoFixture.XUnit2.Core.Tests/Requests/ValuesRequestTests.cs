@@ -16,7 +16,7 @@
     {
         public static TheoryData<Type, object[], string> NullArgumentConstructorTestData { get; } = new()
         {
-            { null, null, "operandType" },
+            { null, new object[] { 1 }, "operandType" },
             { typeof(int), null, "values" },
         };
 
