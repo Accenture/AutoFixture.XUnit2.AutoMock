@@ -14,6 +14,6 @@ priority: low
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [x] #1 Identify all [Fact] methods across the all test projects that test the same behavior with different inputs
+- [x] #1 Identify all [Fact] methods across all test projects that test the same behavior with different inputs
 - [x] #2 Replace duplicate Facts with a single [Theory] using [InlineData] or [MemberData]/[TheoryData] as appropriate
 <!-- AC:END -->
