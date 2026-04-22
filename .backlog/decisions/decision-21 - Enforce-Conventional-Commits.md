@@ -1,5 +1,5 @@
 ---
-id: decision-22
+id: decision-21
 title: Enforce Conventional Commits
 date: '2026-04-10'
 status: accepted

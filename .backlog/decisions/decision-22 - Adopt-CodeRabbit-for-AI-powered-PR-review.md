@@ -1,5 +1,5 @@
 ---
-id: decision-21
+id: decision-22
 title: Adopt CodeRabbit for AI-powered PR review
 date: '2026-04-12'
 status: accepted
