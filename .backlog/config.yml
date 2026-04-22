@@ -1,7 +1,7 @@
 project_name: "AutoFixture.XUnit2.AutoMock"
 default_status: "To Do"
 statuses: ["To Do", "In Progress", "Done"]
-labels: ["sec", "feature", "fix", "ci-cd", "dx", "doc", "agent"]
+labels: ["sec", "feature", "fix", "ci-cd", "dx", "doc", "agent", "performance"]
 date_format: yyyy-mm-dd
 max_column_width: 20
 auto_open_browser: true

@@ -77,7 +77,7 @@ and allow reuse in both branches. The change:
 
 - Eliminates all three intermediate object allocations present in the original interface-type branch
 - Kills the equivalent Stryker mutation by removing the conditional that had no observable effect
-- Keeps the same logical behaviour: concrete types are found via their interfaces; types
+- Keeps the same logical behavior: concrete types are found via their interfaces; types
   that are themselves `IEnumerable<T>` are found via the fallback check
 - Build passes with zero warnings; all tests pass across `net8.0`, `net472`, and `net48`
 <!-- SECTION:FINAL_SUMMARY:END -->
