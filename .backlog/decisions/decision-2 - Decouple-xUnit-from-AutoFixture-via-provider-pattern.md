@@ -17,4 +17,4 @@ Stop inheriting from AutoFixture attributes. Derive from xUnit's `DataAttribute`
 
 - Clear boundary between the xUnit layer and AutoFixture: each can evolve independently.
 - The provider pattern enables per-parameter customization via `IParameterCustomizationSource` attributes applied later in the pipeline.
-- All three mock modules (AutoMoq, AutoFakeItEasy, AutoNSubstitute) override only `Customize(IFixture)` — the rest of the pipeline is inherited from Core.
+- All three mock modules (AutoMoq, AutoFakeItEasy, AutoNSubstitute) override only `Customize(IFixture)` - the rest of the pipeline is inherited from Core.

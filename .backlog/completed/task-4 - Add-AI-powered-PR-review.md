@@ -30,14 +30,14 @@ Integrate an AI-powered PR review tool (e.g. CodeRabbit, Reviewpad, or similar) 
 ## Final Summary
 
 <!-- SECTION:FINAL_SUMMARY:BEGIN -->
-Selected and configured **CodeRabbit** — free for public OSS repos, no infrastructure to maintain.
+Selected and configured **CodeRabbit** - free for public OSS repos, no infrastructure to maintain.
 
 Delivered `.coderabbit.yaml` at the repo root with:
 
-- `auto_review.enabled: true` + `high_level_summary: true` — automatic PR summary comment on every PR (AC #1)
-- `profile: "chill"` — non-blocking review style that complements rather than replaces human review
-- `auto_apply_labels: true` — automatic PR labelling
+- `auto_review.enabled: true` + `high_level_summary: true` - automatic PR summary comment on every PR (AC #1)
+- `profile: "chill"` - non-blocking review style that complements rather than replaces human review
+- `auto_apply_labels: true` - automatic PR labelling
 
-AC #3 (OSS licensing) is satisfied — CodeRabbit is free for public repos.
+AC #3 (OSS licensing) is satisfied - CodeRabbit is free for public repos.
 AC #2 (project conventions awareness) was intentionally skipped by the team; the tool autodiscovers `AGENTS.md` but no explicit `reviews.instructions` were added.
 <!-- SECTION:FINAL_SUMMARY:END -->

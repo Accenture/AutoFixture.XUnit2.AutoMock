@@ -19,10 +19,10 @@ priority: medium
 <!-- SECTION:DESCRIPTION:BEGIN -->
 Create GitHub PR and issue templates to guide contributors:
 
-- .github/pull_request_template.md — checklist covering tests, build, conventional commit format, and docs
-- .github/ISSUE_TEMPLATE/1-bug-report.yml — structured bug report form (GitHub issue form, not markdown)
-- .github/ISSUE_TEMPLATE/2-feature-request.yml — structured feature request form (GitHub issue form, not markdown)
-- .github/ISSUE_TEMPLATE/config.yml — disables blank issues (`blank_issues_enabled: false`)
+- .github/pull_request_template.md - checklist covering tests, build, conventional commit format, and docs
+- .github/ISSUE_TEMPLATE/1-bug-report.yml - structured bug report form (GitHub issue form, not markdown)
+- .github/ISSUE_TEMPLATE/2-feature-request.yml - structured feature request form (GitHub issue form, not markdown)
+- .github/ISSUE_TEMPLATE/config.yml - disables blank issues (`blank_issues_enabled: false`)
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -38,8 +38,8 @@ Create GitHub PR and issue templates to guide contributors:
 <!-- SECTION:FINAL_SUMMARY:BEGIN -->
 Created all four GitHub community health files under `.github/`:
 
-- `pull_request_template.md` — contributor checklist covering tests, build, conventional commit format, and docs
-- `ISSUE_TEMPLATE/1-bug-report.yml` — structured GitHub issue form for bug reports
-- `ISSUE_TEMPLATE/2-feature-request.yml` — structured GitHub issue form for feature requests
-- `ISSUE_TEMPLATE/config.yml` — disables blank issues (`blank_issues_enabled: false`)
+- `pull_request_template.md` - contributor checklist covering tests, build, conventional commit format, and docs
+- `ISSUE_TEMPLATE/1-bug-report.yml` - structured GitHub issue form for bug reports
+- `ISSUE_TEMPLATE/2-feature-request.yml` - structured GitHub issue form for feature requests
+- `ISSUE_TEMPLATE/config.yml` - disables blank issues (`blank_issues_enabled: false`)
 <!-- SECTION:FINAL_SUMMARY:END -->

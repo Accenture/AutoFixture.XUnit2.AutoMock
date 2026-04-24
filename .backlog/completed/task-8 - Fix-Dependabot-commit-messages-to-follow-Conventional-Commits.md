@@ -35,13 +35,13 @@ Added `commit-message` configuration to both entries in `.github/dependabot.yml`
 - NuGet entry: `prefix: "chore(nuget)"`
 - GitHub Actions entry: `prefix: "chore(github-actions)"`
 
-`include: "scope"` was intentionally omitted — that option produces `deps`/`deps-dev` as the scope (dependency-type based), not the ecosystem name. Embedding the scope directly in `prefix` is the only way to produce ecosystem-specific scopes.
+`include: "scope"` was intentionally omitted - that option produces `deps`/`deps-dev` as the scope (dependency-type based), not the ecosystem name. Embedding the scope directly in `prefix` is the only way to produce ecosystem-specific scopes.
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
 
 <!-- SECTION:NOTES:BEGIN -->
-`commit-message.include: "scope"` in Dependabot produces `chore(deps):` or `chore(deps-dev):` based on the dependency type — it does NOT use the ecosystem name as the scope. To get `chore(nuget):` and `chore(github-actions):`, the scope must be baked directly into the `prefix` value and `include: "scope"` must be omitted.
+`commit-message.include: "scope"` in Dependabot produces `chore(deps):` or `chore(deps-dev):` based on the dependency type - it does NOT use the ecosystem name as the scope. To get `chore(nuget):` and `chore(github-actions):`, the scope must be baked directly into the `prefix` value and `include: "scope"` must be omitted.
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
@@ -52,5 +52,5 @@ Updated `.github/dependabot.yml` to add `commit-message` configuration to both e
 - NuGet entry: `prefix: "chore(nuget)"` → produces `chore(nuget): bump <package> from X to Y`
 - GitHub Actions entry: `prefix: "chore(github-actions)"` → produces `chore(github-actions): bump <action> from X to Y`
 
-`include: "scope"` was intentionally omitted — that option produces `deps`/`deps-dev` as scope (dependency-type based), not the ecosystem name. Embedding the scope in `prefix` is the only way to get ecosystem-specific scopes that satisfy the commit-message CI workflow introduced in TASK-3.
+`include: "scope"` was intentionally omitted - that option produces `deps`/`deps-dev` as scope (dependency-type based), not the ecosystem name. Embedding the scope in `prefix` is the only way to get ecosystem-specific scopes that satisfy the commit-message CI workflow introduced in TASK-3.
 <!-- SECTION:FINAL_SUMMARY:END -->

@@ -1,4 +1,4 @@
-# AGENTS.md — AI Agent Context for AutoFixture.XUnit2.AutoMock
+# AGENTS.md - AI Agent Context for AutoFixture.XUnit2.AutoMock
 
 This file provides context for AI coding assistants (Claude Code, GitHub Copilot, OpenAI Codex,
 Cursor, and others) working in this repository. Read it before making any changes.
@@ -9,8 +9,8 @@ Cursor, and others) working in this repository. Read it before making any change
 
 **C# NuGet library collection** that bridges:
 
-- **[AutoFixture](https://github.com/AutoFixture/AutoFixture)** — generates anonymous test data automatically
-- **Mocking frameworks** — Moq, FakeItEasy, NSubstitute
+- **[AutoFixture](https://github.com/AutoFixture/AutoFixture)** - generates anonymous test data automatically
+- **Mocking frameworks** - Moq, FakeItEasy, NSubstitute
 
 The result: xUnit2 test attributes that auto-generate both test data *and* mocks in one step,
 eliminating boilerplate setup in unit tests.
@@ -21,7 +21,7 @@ eliminating boilerplate setup in unit tests.
 - `Objectivity.AutoFixture.XUnit2.AutoFakeItEasy` (uses FakeItEasy)
 - `Objectivity.AutoFixture.XUnit2.AutoNSubstitute` (uses NSubstitute)
 
-`Core` is **not published standalone** — it is bundled into each of the three packages above.
+`Core` is **not published standalone** - it is bundled into each of the three packages above.
 
 ---
 
@@ -93,7 +93,7 @@ Every mock module (AutoMoq, AutoFakeItEasy, AutoNSubstitute) derives from `AutoD
 in Core and overrides only `Customize(IFixture)`. The base class orchestrates the full lifecycle:
 
 1. Applies `AutoDataCommonCustomization` (handles `IgnoreVirtualMembers`)
-2. Calls `Customize(fixture)` — the only method mock modules override
+2. Calls `Customize(fixture)` - the only method mock modules override
 3. Delegates to `IAutoFixtureAttributeProvider` to generate test data
 
 Each mock module's sole responsibility is the `Customize` method:
@@ -128,7 +128,7 @@ if it is truly module-specific.
 
 ---
 
-## Key Public API — Attributes
+## Key Public API - Attributes
 
 All three modules expose the same three attributes (prefixed with the mock library name):
 
@@ -139,7 +139,7 @@ All three modules expose the same three attributes (prefixed with the mock libra
 | `[MemberAutoMockData("MemberName")]` | Values from a static member, auto-generated for the rest |
 
 All three accept `IgnoreVirtualMembers = true` to prevent AutoFixture from populating
-`virtual` properties (useful when classes implement interfaces — the CLR marks interface
+`virtual` properties (useful when classes implement interfaces - the CLR marks interface
 method implementations as `virtual sealed`).
 
 ### Parameter Attributes (Core, apply to all modules)
@@ -161,7 +161,7 @@ method implementations as `virtual sealed`).
 
 ### Naming Pattern
 
-Test methods use BDD-style names — this is **mandatory**, not optional:
+Test methods follow BDD-style naming (see [decision-24]):
 
 ```csharp
 // Fact: single action → single outcome
@@ -181,7 +181,7 @@ Rules:
 
 ### Test Structure
 
-All tests follow AAA (Arrange / Act / Assert) with **explicit section comments**:
+Tests follow AAA structure with mandatory section comments (see [decision-25]):
 
 ```csharp
 [Fact(DisplayName = "...")]
@@ -213,7 +213,7 @@ public void GivenX_WhenY_ThenZ(IFakeObjectUnderTest value) { ... }
 ### Test Organization
 
 - Test projects mirror source projects 1:1 in namespace and folder structure
-- Test classes use `[Collection("SubjectClassName")]` — use the **subject** class name, not the test class name (e.g. `[Collection("AutoMockDataAttribute")]` on `AutoMockDataAttributeTests`)
+- Test classes use `[Collection("SubjectClassName")]` - use the **subject** class name, not the test class name (e.g. `[Collection("AutoMockDataAttribute")]` on `AutoMockDataAttributeTests`)
 - Test classes use `[Trait("Category", "CategoryName")]` for categorization
 - Test file naming: `<ClassName>Tests.cs`
 - Interface definitions used as test doubles (e.g., `IFakeObjectUnderTest.cs`) live in the test project root
@@ -230,13 +230,13 @@ Do not mock AutoFixture internals beyond those two abstractions.
 
 ### Enforced by Analyzers (Build Will Fail If Violated)
 
-The following analyzers run on every build with `TreatWarningsAsErrors=true`:
+The following analyzers run on every build with `TreatWarningsAsErrors=true` (see [decision-26]):
 
-- **StyleCop.Analyzers** — namespace ordering, `using` placement, member ordering, documentation
-- **Roslynator.Analyzers** + **Roslynator.Formatting.Analyzers** — general C# quality rules
-- **SonarAnalyzer.CSharp** — reliability, maintainability, security hotspots
-- **Microsoft.CodeAnalysis.NetAnalyzers** — .NET API usage correctness
-- **xunit.analyzers** — xUnit2-specific best practices
+- **StyleCop.Analyzers** - namespace ordering, `using` placement, member ordering, documentation
+- **Roslynator.Analyzers** + **Roslynator.Formatting.Analyzers** - general C# quality rules
+- **SonarAnalyzer.CSharp** - reliability, maintainability, security hotspots
+- **Microsoft.CodeAnalysis.NetAnalyzers** - .NET API usage correctness
+- **xunit.analyzers** - xUnit2-specific best practices
 
 The `.editorconfig` in `src/` configures severity for all rules. Suppressing analyzer is allowed only when cost of fixing is significant and in such case the `[SuppressMessage]` is required with justification.
 
@@ -244,9 +244,9 @@ The `.editorconfig` in `src/` configures severity for all rules. Suppressing ana
 
 - `using` directives go **inside** the namespace block (StyleCop SA1210)
 - `global::` prefix on external packages (AutoFixture, Moq, etc.) to avoid ambiguity
-- XML documentation comments should not be included as the code should be self-explanatory
-- Sealed classes preferred over open classes unless designed for inheritance
-- `NotNull()` guard extension (from `Core/Common/`) for null checks instead of `ArgumentNullException`
+- XML documentation is minimized; prefer self-documenting names (see [decision-27])
+- Sealed classes preferred over open classes unless designed for inheritance (see [decision-28])
+- `NotNull()` guard extension (from `Core/Common/`) for null checks instead of `ArgumentNullException` (see [decision-29])
 - Latest C# language version is used throughout
 
 ### Strong-Name Signing
@@ -259,13 +259,13 @@ fully sign locally unless you have the private key.
 
 ## What to Avoid
 
-- **Do not create a new solution or project** without discussion — new modules would need to be added to all 5 solution files.
+- **Do not create a new solution or project** without discussion - new modules would need to be added to all 5 solution files.
 - **Do not add public API to `Core`** that is specific to one mocking library.
 - **Do not add `[SuppressMessage]`** without a justification comment.
-- **Do not use `new Fixture()`** in tests — inject `IFixture` via the test method signature or use `[AutoMockData]`.
-- **Do not omit `DisplayName`** — every `[Fact]` and `[Theory]` must have one.
-- **Do not add `// TODO:` comments** — open a GitHub issue instead.
-- **Do not pin dependencies** to a version manually — Dependabot ignores Moq updates intentionally
+- **Do not use `new Fixture()`** in tests - inject `IFixture` via the test method signature or use `[AutoMockData]`.
+- **Do not omit `DisplayName`** - every `[Fact]` and `[Theory]` must have one.
+- **Do not add `// TODO:` comments** - open a GitHub issue instead.
+- **Do not pin dependencies** to a version manually - Dependabot ignores Moq updates intentionally
   (see `dependabot.yml`) due to the `Moq` SponsorLink controversy.
 
 ---
@@ -324,17 +324,17 @@ These rules apply to all AI coding assistants working in this repository.
 ### Before Making Changes
 
 - **Propose before acting** on any non-trivial change (new attribute, refactor, CI change). Describe the approach and wait for approval.
-- **Suggest creating a backlog task** if one does not already exist before implementation begins. Search the backlog first to avoid duplicates. Use short, plain-English titles (e.g. "Prepare documentation", "Upgrade test projects to net10.0") — do not apply Conventional Commits prefixes to task titles.
+- **Suggest creating a backlog task** if one does not already exist before implementation begins. Search the backlog first to avoid duplicates. Use short, plain-English titles (e.g. "Prepare documentation", "Upgrade test projects to net10.0") - do not apply Conventional Commits prefixes to task titles.
 - **Suggest a branch checkout** for any non-trivial change before implementation begins. Use the Conventional Commits type as a prefix and a short kebab-case description, e.g. `git checkout -b fix/enumerable-extensions-allocation`. Common prefixes: `feat/`, `fix/`, `refactor/`, `chore/`, `ci/`, `docs/`.
-- **Prefer `dotnet build` over reading files** to verify correctness — the analyser stack catches style and correctness issues that are hard to spot by inspection alone.
+- **Prefer `dotnet build` over reading files** to verify correctness - the analyser stack catches style and correctness issues that are hard to spot by inspection alone.
 
 ### After Making Changes
 
-After any C# code change, offer to run the following steps in order — do not run them automatically, as the user may choose to defer:
+After any C# code change, offer to run the following steps in order - do not run them automatically, as the user may choose to defer:
 
 1. [**Build**](#build)
 2. [**Test**](#test)
-3. [**Mutation Tests**](#mutation-tests) *(slow — typically run before raising a PR)*
+3. [**Mutation Tests**](#mutation-tests) *(slow - typically run before raising a PR)*
 
 ### Committing
 
@@ -352,19 +352,19 @@ After any C# code change, offer to run the following steps in order — do not r
 
 When proposing any non-trivial solution, evaluate it against these quality dimensions and call out relevant trade-offs:
 
-- **Performance** — avoid unnecessary allocations, reflection, or lazy evaluation in hot paths; note if a change affects test-run throughput
-- **Security** — flag any new use of user-controlled input, serialization, or external data; this is a testing library so the attack surface is low, but be explicit when it changes
-- **Maintainability** — prefer the simplest implementation that satisfies the requirement; avoid abstraction layers that do not carry their weight
-- **Readability** — code should be easy to read and understand; favour clear naming and straightforward control flow over clever one-liners
-- **Testability** — new public types should be injectable or otherwise testable without relying on concrete dependencies; preserve existing mock seams
-- **Modularity** — keep changes inside the appropriate layer; do not leak framework-specific concerns into Core
-- **Separation of concerns** — split logic into focused, single-purpose components rather than concentrating multiple responsibilities in one place; each class, method or task should have one clear reason to change
-- **Developer experience** — prefer readable error messages, discoverable APIs, and minimal configuration; the goal of this library is to reduce boilerplate
+- **Performance** - avoid unnecessary allocations, reflection, or lazy evaluation in hot paths; note if a change affects test-run throughput
+- **Security** - flag any new use of user-controlled input, serialization, or external data; this is a testing library so the attack surface is low, but be explicit when it changes
+- **Maintainability** - prefer the simplest implementation that satisfies the requirement; avoid abstraction layers that do not carry their weight
+- **Readability** - code should be easy to read and understand; favour clear naming and straightforward control flow over clever one-liners
+- **Testability** - new public types should be injectable or otherwise testable without relying on concrete dependencies; preserve existing mock seams
+- **Modularity** - keep changes inside the appropriate layer; do not leak framework-specific concerns into Core
+- **Separation of concerns** - split logic into focused, single-purpose components rather than concentrating multiple responsibilities in one place; each class, method or task should have one clear reason to change
+- **Developer experience** - prefer readable error messages, discoverable APIs, and minimal configuration; the goal of this library is to reduce boilerplate
 
 ## Backlog CLI Reference
 
 When MCP is unavailable, use the CLI via `npx backlog` from the repo root.
-Prefer the CLI over editing task files directly — the CLI validates structure.
+Prefer the CLI over editing task files directly - the CLI validates structure.
 
 | Goal | Command |
 | --- | --- |

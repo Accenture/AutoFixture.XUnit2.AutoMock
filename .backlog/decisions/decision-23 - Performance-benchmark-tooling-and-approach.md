@@ -23,12 +23,12 @@ Four decisions needed to be made before implementation:
 
 | Tool | Category | Verdict |
 | --- | --- | --- |
-| BenchmarkDotNet | Micro-benchmark | **Accepted** — handles JIT warm-up, GC pressure, allocation tracking (`[MemoryDiagnoser]`), and Markdown/JSON export; de-facto standard for .NET |
-| dotnet-counters | Runtime diagnostic | Supplementary only — useful for investigating GC pressure after a benchmark reveals a problem |
-| PerfView | ETW profiler | Supplementary only — right tool to pinpoint which specimen builder caused a regression; Windows-only (consistent with CI) |
-| MiniProfiler | ASP.NET app profiler | Rejected — requires a running web host; cannot measure in-process library calls |
-| k6 | HTTP load testing | Rejected — no HTTP surface in this library |
-| Gatling | HTTP load testing | Rejected — same reason as k6 |
+| BenchmarkDotNet | Micro-benchmark | **Accepted** - handles JIT warm-up, GC pressure, allocation tracking (`[MemoryDiagnoser]`), and Markdown/JSON export; de-facto standard for .NET |
+| dotnet-counters | Runtime diagnostic | Supplementary only - useful for investigating GC pressure after a benchmark reveals a problem |
+| PerfView | ETW profiler | Supplementary only - right tool to pinpoint which specimen builder caused a regression; Windows-only (consistent with CI) |
+| MiniProfiler | ASP.NET app profiler | Rejected - requires a running web host; cannot measure in-process library calls |
+| k6 | HTTP load testing | Rejected - no HTTP surface in this library |
+| Gatling | HTTP load testing | Rejected - same reason as k6 |
 
 Benchmarks are an opt-in `dotnet run --configuration Release` step, never part of `dotnet test`.
 
@@ -40,13 +40,13 @@ Used only as a `[Benchmark(Baseline = true)]` reference inside `LibraryOverheadB
 to produce a Ratio column; it is not the primary measurement target.
 
 **Full attribute pipeline** (`attribute.GetData(MethodInfo)`): exercises attribute wiring,
-customization composition, and per-parameter specimen resolution — the cost uniquely
+customization composition, and per-parameter specimen resolution - the cost uniquely
 attributable to this library on top of AutoFixture.
 
 **Decision: full attribute pipeline.** `LibraryOverheadBenchmark` is the deliberate exception:
 it pairs a fixture-only method alongside the full-pipeline methods so the output Ratio column
 quantifies how much overhead this library adds on top of AutoFixture. This serves the same
-goal as the original decision — isolating our contribution — but does so quantitatively rather
+goal as the original decision - isolating our contribution - but does so quantitatively rather
 than by exclusion.
 
 ### 3. Project structure: three projects, one per mock module
@@ -81,7 +81,7 @@ the numbers and is not attributable to this library, and it requires a circular 
 dependency on a separately compiled test assembly.
 
 Benchmarks use a real `MethodInfo` obtained via reflection from a representative test method
-defined in the benchmark project itself — not a synthetic stub — so that parameter type
+defined in the benchmark project itself - not a synthetic stub - so that parameter type
 resolution and per-parameter customization attribute scanning are exercised realistically.
 
 ## Consequences

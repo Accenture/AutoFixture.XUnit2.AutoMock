@@ -10,7 +10,7 @@ AutoFixture supports multiple mock backends (Moq, NSubstitute, FakeItEasy). Team
 
 ## Decision
 
-Build a separate NuGet package for each mocking framework — `AutoMoq`, `AutoFakeItEasy`, `AutoNSubstitute` — each depending on Core. Every module exposes equivalent three attribute shapes (`[AutoMockData]`, `[InlineAutoMockData]`, `[MemberAutoMockData]`) within its own module namespace, and overrides only `Customize(IFixture)` to apply the framework-specific `ICustomization`.
+Build a separate NuGet package for each mocking framework - `AutoMoq`, `AutoFakeItEasy`, `AutoNSubstitute` - each depending on Core. Every module exposes equivalent three attribute shapes (`[AutoMockData]`, `[InlineAutoMockData]`, `[MemberAutoMockData]`) within its own module namespace, and overrides only `Customize(IFixture)` to apply the framework-specific `ICustomization`.
 
 ## Consequences
 

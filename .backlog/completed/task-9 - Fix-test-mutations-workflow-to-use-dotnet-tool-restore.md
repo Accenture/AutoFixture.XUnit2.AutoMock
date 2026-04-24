@@ -20,8 +20,8 @@ priority: medium
 <!-- SECTION:DESCRIPTION:BEGIN -->
 TASK-3 added `dotnet-stryker` to the repository-level tool manifest (`dotnet-tools.json` at repo root) alongside Husky and CommitLint.Net. The `.github/workflows/test-mutations.yml` workflow was not updated accordingly and still contains a dedicated "install stryker.net" step that:
 
-1. Runs `dotnet new tool-manifest` — creating a brand-new `.config/dotnet-tools.json` in the working directory, which conflicts with the repo-level manifest.
-2. Runs `dotnet tool install --local dotnet-stryker` — redundantly re-installing a tool that is already declared in the repo manifest.
+1. Runs `dotnet new tool-manifest` - creating a brand-new `.config/dotnet-tools.json` in the working directory, which conflicts with the repo-level manifest.
+2. Runs `dotnet tool install --local dotnet-stryker` - redundantly re-installing a tool that is already declared in the repo manifest.
 
 This step must be replaced with `dotnet tool restore`, which restores all tools (husky, commitlint.net, dotnet-stryker) from the existing manifest in a single, consistent step.
 <!-- SECTION:DESCRIPTION:END -->
@@ -45,7 +45,7 @@ In `.github/workflows/test-mutations.yml`, replace the multi-line PowerShell "�
 <!-- SECTION:NOTES:BEGIN -->
 `dotnet tool restore` resolves the manifest by walking up the directory tree from the working directory, finding `dotnet-tools.json` at the repo root. No path argument is needed.
 
-The old step used `dotnet new tool-manifest` which would create `.config/dotnet-tools.json` in the runner's working directory — a different path from the repo-root `dotnet-tools.json` — causing a manifest collision.
+The old step used `dotnet new tool-manifest` which would create `.config/dotnet-tools.json` in the runner's working directory - a different path from the repo-root `dotnet-tools.json` - causing a manifest collision.
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary

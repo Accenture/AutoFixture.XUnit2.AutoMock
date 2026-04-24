@@ -15,5 +15,5 @@ Add Semgrep as a parallel SAST scanning step in CI alongside CodeQL. Use the def
 ## Consequences
 
 - Broader SAST coverage through two independent tools with different rule philosophies.
-- Some overlap with CodeQL is intentional — independent tools reaching the same conclusion increases confidence.
+- Some overlap with CodeQL is intentional - independent tools reaching the same conclusion increases confidence.
 - Semgrep findings are reviewed in CI alongside CodeQL results; both must pass before merge.

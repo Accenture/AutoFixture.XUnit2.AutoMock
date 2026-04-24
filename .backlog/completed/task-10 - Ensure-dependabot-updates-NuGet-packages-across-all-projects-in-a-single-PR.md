@@ -30,7 +30,7 @@ Root cause: `directories: ["**/*"]` creates one PR per matched directory per ung
 | coverlet.msbuild | 4 | 4 separate PRs |
 | Microsoft.SourceLink.GitHub | 4 | 4 separate PRs |
 
-With Dependabot's default open-pull-requests-limit of 5, only some directories would receive a PR for a given package before the limit was reached — explaining why only AutoFakeItEasy.Tests was updated for Microsoft.NET.Test.Sdk 18.4.0.
+With Dependabot's default open-pull-requests-limit of 5, only some directories would receive a PR for a given package before the limit was reached - explaining why only AutoFakeItEasy.Tests was updated for Microsoft.NET.Test.Sdk 18.4.0.
 
 Evidence from git log and closed PR history:
 
@@ -42,7 +42,7 @@ Fix: Keep `directories: ["**/*"]` (discovery is working correctly) and add three
 
 - Testing: Microsoft.NET.Test.Sdk, coverlet.msbuild
 - Common: Castle.Core, JetBrains.Annotations, Microsoft.SourceLink.GitHub, Microsoft.NETFramework.ReferenceAssemblies
-- Other: `*` catch-all — consolidates any package not matched by a named group into a single PR, guarding against future ungrouped shared packages
+- Other: `*` catch-all - consolidates any package not matched by a named group into a single PR, guarding against future ungrouped shared packages
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria
@@ -55,7 +55,7 @@ Fix: Keep `directories: ["**/*"]` (discovery is working correctly) and add three
 ## Implementation Plan
 
 <!-- SECTION:PLAN:BEGIN -->
-In .github/dependabot.yml, add three groups under the nuget ecosystem entry (order matters — Other must be last so named groups take priority):
+In .github/dependabot.yml, add three groups under the nuget ecosystem entry (order matters - Other must be last so named groups take priority):
 
   Testing:
     patterns:
@@ -79,7 +79,7 @@ Applied to `.github/dependabot.yml`. The `directories: ["**/*"]` setting was alr
 
 Added three new groups to the nuget ecosystem entry:
 
-- **Testing** — `Microsoft.NET.Test.Sdk`, `coverlet.msbuild`
-- **Common** — `Castle.Core`, `JetBrains.Annotations`, `Microsoft.SourceLink.GitHub`, `Microsoft.NETFramework.ReferenceAssemblies`
-- **Other** — `*` catch-all placed last so named groups take priority; consolidates any future ungrouped shared package into a single PR automatically
+- **Testing** - `Microsoft.NET.Test.Sdk`, `coverlet.msbuild`
+- **Common** - `Castle.Core`, `JetBrains.Annotations`, `Microsoft.SourceLink.GitHub`, `Microsoft.NETFramework.ReferenceAssemblies`
+- **Other** - `*` catch-all placed last so named groups take priority; consolidates any future ungrouped shared package into a single PR automatically
 <!-- SECTION:FINAL_SUMMARY:END -->

@@ -12,8 +12,8 @@ Users occasionally need to apply a full `ICustomization` to a single parameter w
 
 Add two parameter-level attributes to Core:
 
-- `[CustomizeWith(typeof(T))]` — activates the specified `ICustomization` for a parameter
-- `[CustomizeWith<T>]` — generic variant; equivalent in behavior, reduces casting boilerplate
+- `[CustomizeWith(typeof(T))]` - activates the specified `ICustomization` for a parameter
+- `[CustomizeWith<T>]` - generic variant; equivalent in behavior, reduces casting boilerplate
 
 Both are implemented via `IParameterCustomizationSource` and apply the customization to the fixture immediately before the parameter is resolved.
 

@@ -16,7 +16,7 @@ priority: low
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-Create a SECURITY.md file at the repository root that documents the vulnerability disclosure process — how to report a security issue privately, expected response time, and which versions receive security fixes. GitHub surfaces this file prominently and uses it to populate the 'Report a vulnerability' link.
+Create a SECURITY.md file at the repository root that documents the vulnerability disclosure process - how to report a security issue privately, expected response time, and which versions receive security fixes. GitHub surfaces this file prominently and uses it to populate the 'Report a vulnerability' link.
 <!-- SECTION:DESCRIPTION:END -->
 
 ## Acceptance Criteria

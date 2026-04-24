@@ -16,4 +16,4 @@ Create `Objectivity.AutoFixture.XUnit2.Core` as a shared assembly containing all
 
 - Hub-and-spoke architecture: each mock module overrides only `Customize(IFixture)`; all shared behavior lives in one place.
 - Bugs and improvements to Core benefit all three modules simultaneously.
-- Core cannot be installed by consumers directly — it is an implementation detail.
+- Core cannot be installed by consumers directly - it is an implementation detail.
