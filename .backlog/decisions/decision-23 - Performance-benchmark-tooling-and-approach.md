@@ -32,16 +32,22 @@ Four decisions needed to be made before implementation:
 
 Benchmarks are an opt-in `dotnet run --configuration Release` step, never part of `dotnet test`.
 
-### 2. Benchmark scope: full attribute pipeline, not fixture-only
+### 2. Benchmark scope: full attribute pipeline as primary scope
 
 **Fixture-only** (`fixture.Create<T>()` directly): simple, one project, no attribute
 involvement. Measures AutoFixture's overhead rather than this library's unique contribution.
+Used only as a `[Benchmark(Baseline = true)]` reference inside `LibraryOverheadBenchmark`
+to produce a Ratio column; it is not the primary measurement target.
 
 **Full attribute pipeline** (`attribute.GetData(MethodInfo)`): exercises attribute wiring,
 customization composition, and per-parameter specimen resolution — the cost uniquely
 attributable to this library on top of AutoFixture.
 
-**Decision: full attribute pipeline.**
+**Decision: full attribute pipeline.** `LibraryOverheadBenchmark` is the deliberate exception:
+it pairs a fixture-only method alongside the full-pipeline methods so the output Ratio column
+quantifies how much overhead this library adds on top of AutoFixture. This serves the same
+goal as the original decision — isolating our contribution — but does so quantitatively rather
+than by exclusion.
 
 ### 3. Project structure: three projects, one per mock module
 
@@ -84,3 +90,6 @@ resolution and per-parameter customization attribute scanning are exercised real
 - `BenchmarkDotNet.Artifacts/` must be added to `.gitignore`.
 - `CONTRIBUTING.md` needs a `## Running benchmarks` section.
 - Future CI benchmarking (PR delta comments) is a separate follow-on task.
+- After the first benchmark run, `docs/performance-findings.md` records the ratio values,
+  identifies expensive usage patterns, and documents any usage recommendations or refactoring
+  proposals.
