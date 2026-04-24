@@ -15,7 +15,7 @@ priority: low
 ## Description
 
 <!-- SECTION:DESCRIPTION:BEGIN -->
-Replace `net8.0` with `net10.0` in all four test projects. .NET 10 is LTS (supported until November 2028), making it the right long-term target. .NET 9 STS reaches end of support in May 2026 and is not worth targeting. .NET 8 LTS ends November 2026. Library projects already target `netstandard2.0`/`netstandard2.1` which covers all modern .NET versions — no change is needed there.
+Replace `net8.0` with `net10.0` in all four test projects. .NET 10 is LTS (supported until November 2028), making it the right long-term target. .NET 9 STS reaches end of support in May 2026 and is not worth targeting. .NET 8 LTS ends November 2026. Library projects already target `netstandard2.0`/`netstandard2.1` which covers all modern .NET versions - no change is needed there.
 
 **Current state:**
 

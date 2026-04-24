@@ -24,7 +24,7 @@ Add tooling to enforce the Conventional Commits specification at commit time. Th
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
 - [x] #1 A git commit-msg hook is in place that validates the message against Conventional Commits format
-- [x] #2 The commit is prevented when the message is non-conforming — not just warned
+- [x] #2 The commit is prevented when the message is non-conforming - not just warned
 - [x] #3 Setup instructions are added to CONTRIBUTING.md so contributors activate the hooks after cloning
 <!-- AC:END -->
 
@@ -53,8 +53,8 @@ Validated behavior locally: valid messages pass and invalid messages fail with n
 <!-- SECTION:FINAL_SUMMARY:BEGIN -->
 Enforced Conventional Commits using Husky.NET + CommitLint.Net via the repository-local .NET tool manifest (`dotnet-tools.json`). Key deliverables:
 
-- `commit-message-config.json` — Conventional Commits rules with allowed types
-- `.husky/commit-msg` + `.husky/task-runner.json` — local git hook that blocks non-conforming messages at commit time
-- `.github/workflows/commit-message.yml` — CI mirror that validates the latest commit message using the same config, catching any hook bypasses
-- `CONTRIBUTING.md` updated — single bootstrap (`dotnet tool restore` + `dotnet husky install`) activates all local tools and hooks after cloning
+- `commit-message-config.json` - Conventional Commits rules with allowed types
+- `.husky/commit-msg` + `.husky/task-runner.json` - local git hook that blocks non-conforming messages at commit time
+- `.github/workflows/commit-message.yml` - CI mirror that validates the latest commit message using the same config, catching any hook bypasses
+- `CONTRIBUTING.md` updated - single bootstrap (`dotnet tool restore` + `dotnet husky install`) activates all local tools and hooks after cloning
 <!-- SECTION:FINAL_SUMMARY:END -->

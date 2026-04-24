@@ -10,7 +10,7 @@ Moq introduced SponsorLink in a controversial update that embedded telemetry and
 
 ## Decision
 
-Explicitly exclude `Moq` from Dependabot NuGet updates — it requires manual review and a deliberate upgrade decision.
+Explicitly exclude `Moq` from Dependabot NuGet updates - it requires manual review and a deliberate upgrade decision.
 Group all other NuGet updates into logical Dependabot groups: `xUnit`, `AutoFixture`, `Analyzers`, `Testing`, `Common`, and `Other`.
 GitHub Actions dependencies are also grouped and updated weekly with a `chore(github-actions):` prefix.
 

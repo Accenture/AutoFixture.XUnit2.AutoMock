@@ -20,7 +20,7 @@ AutoFixture, (b) which layer of the attribute pipeline is responsible for that o
 (c) which usage patterns are expensive enough to warrant guidance or refactoring.
 
 Tooling selection, benchmark scope, project structure, and xUnit execution model analysis are
-recorded in [DECISION-23 — Performance benchmark tooling and approach](../decisions/decision-23%20-%20Performance-benchmark-tooling-and-approach.md).
+recorded in [DECISION-23 - Performance benchmark tooling and approach](../decisions/decision-23%20-%20Performance-benchmark-tooling-and-approach.md).
 
 **Summary of decisions:**
 
@@ -45,9 +45,9 @@ recorded in [DECISION-23 — Performance benchmark tooling and approach](../deci
 
 The three methods isolate responsibility:
 
-- **Layer A — AutoFixture only** (`Baseline = true`): `new Fixture(); Customize(AutoMoq); fixture.Create<T>()` — pure AutoFixture cost, no attribute machinery
-- **Layer B — Customization chain**: Layer A + `AutoDataCommonCustomization` — adds our recursion-handling setup (`DoNotThrowOnRecursion`, `OmitOnRecursion`)
-- **Layer C — Full pipeline**: `attribute.GetData(MethodInfo)` called twice — adds attribute wiring, reflection on parameters, per-parameter `SpecimenContext` allocation
+- **Layer A - AutoFixture only** (`Baseline = true`): `new Fixture(); Customize(AutoMoq); fixture.Create<T>()` - pure AutoFixture cost, no attribute machinery
+- **Layer B - Customization chain**: Layer A + `AutoDataCommonCustomization` - adds our recursion-handling setup (`DoNotThrowOnRecursion`, `OmitOnRecursion`)
+- **Layer C - Full pipeline**: `attribute.GetData(MethodInfo)` called twice - adds attribute wiring, reflection on parameters, per-parameter `SpecimenContext` allocation
 
 Delta (A→B) = cost of `DoNotThrowOnRecursionCustomization` LINQ enumeration + allocations.
 Delta (B→C) = cost of attribute machinery: `testMethod.GetParameters()`, `p.GetCustomAttributes()`, LINQ sort per parameter, `new SpecimenContext()` per parameter.
@@ -81,4 +81,4 @@ dotnet run --project src/Objectivity.AutoFixture.XUnit2.AutoMoq.Benchmarks \
 ## Related
 
 - Future: CI benchmarking with PR delta comments (noted in DECISION-23 Consequences; no task
-  created yet — requires a separate design decision on tooling and workflow).
+  created yet - requires a separate design decision on tooling and workflow).

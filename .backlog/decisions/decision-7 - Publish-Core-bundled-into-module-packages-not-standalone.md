@@ -6,7 +6,7 @@ status: accepted
 ---
 ## Context
 
-Core contains all shared infrastructure but has no value in isolation — it requires a mock backend to function. Publishing it as a standalone NuGet package would invite consumers to install it alone, producing a broken setup with no data generation capability.
+Core contains all shared infrastructure but has no value in isolation - it requires a mock backend to function. Publishing it as a standalone NuGet package would invite consumers to install it alone, producing a broken setup with no data generation capability.
 
 ## Decision
 

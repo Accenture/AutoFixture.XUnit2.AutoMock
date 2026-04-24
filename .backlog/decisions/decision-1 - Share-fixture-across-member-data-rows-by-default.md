@@ -10,7 +10,7 @@ status: accepted
 
 ## Decision
 
-Default `MemberAutoDataBaseAttribute.ShareFixture = true`. The same `IFixture` instance — with all its customizations and registered mock objects — is reused across every data row produced by the member. Users can opt out with `ShareFixture = false` when independent fixtures per row are required.
+Default `MemberAutoDataBaseAttribute.ShareFixture = true`. The same `IFixture` instance - with all its customizations and registered mock objects - is reused across every data row produced by the member. Users can opt out with `ShareFixture = false` when independent fixtures per row are required.
 
 ## Consequences
 

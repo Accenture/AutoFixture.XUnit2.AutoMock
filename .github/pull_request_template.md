@@ -17,5 +17,5 @@ Closes #
 - [ ] Mutation score remains at least at the level prior the change (verified by Stryker)
 - [ ] New tests follow the GIVEN/WHEN/THEN naming convention and AAA structure (see [AGENTS.md](../AGENTS.md))
 - [ ] No new `[SuppressMessage]` without a justification comment
-- [ ] No `// TODO:` comments added — open a GitHub issue instead
+- [ ] No `// TODO:` comments added - open a GitHub issue instead
 - [ ] No new dependencies introduced that are incompatible with the MIT license (verified by FOSSA)

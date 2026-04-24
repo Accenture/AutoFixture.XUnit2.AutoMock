@@ -34,15 +34,10 @@
 
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {
-            if (parameter is null)
-            {
-                throw new ArgumentNullException(nameof(parameter));
-            }
-
             return new CompositeSpecimenBuilder(
                 new FilteringSpecimenBuilder(
                     new RequestFactoryRelay((type) => new ExceptValuesRequest(type, this.inputValues.ToArray())),
-                    new EqualRequestSpecification(parameter)),
+                    new EqualRequestSpecification(parameter.NotNull(nameof(parameter)))),
                 new RandomExceptValuesGenerator())
                 .ToCustomization();
         }

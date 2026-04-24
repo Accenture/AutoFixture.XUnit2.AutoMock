@@ -22,5 +22,5 @@ Add a CODE_OF_CONDUCT.md to the repository root. The [Contributor Covenant](http
 <!-- AC:BEGIN -->
 - [x] #1 CODE_OF_CONDUCT.md exists at the repository root
 - [x] #2 Based on a recognised standard (Contributor Covenant v2.1)
-- [x] #3 Enforcement contact set to maintainer GitHub profile (@piotrzajac) — no email per project policy
+- [x] #3 Enforcement contact set to maintainer GitHub profile (@piotrzajac) - no email per project policy
 <!-- AC:END -->

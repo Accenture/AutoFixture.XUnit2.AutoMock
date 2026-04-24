@@ -7,6 +7,7 @@
     using global::AutoFixture.Kernel;
     using global::AutoFixture.Xunit2;
 
+    using Objectivity.AutoFixture.XUnit2.Core.Common;
     using Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders;
 
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
@@ -59,14 +60,9 @@
 
         public override ICustomization GetCustomization(ParameterInfo parameter)
         {
-            if (parameter is null)
-            {
-                throw new ArgumentNullException(nameof(parameter));
-            }
-
             return new FilteringSpecimenBuilder(
                 new RequestFactoryRelay((type) => new RangedNumberRequest(type, this.Minimum, this.Maximum)),
-                new EqualRequestSpecification(parameter))
+                new EqualRequestSpecification(parameter.NotNull(nameof(parameter))))
                 .ToCustomization();
         }
     }

@@ -19,10 +19,7 @@
 
         public object Create(object request, ISpecimenContext context)
         {
-            if (context is null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            context.NotNull(nameof(context));
 
             if (request.NotNull(nameof(request)) is ParameterInfo parameterInfo)
             {

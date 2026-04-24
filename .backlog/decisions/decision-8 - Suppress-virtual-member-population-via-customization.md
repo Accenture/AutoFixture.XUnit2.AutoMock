@@ -15,5 +15,5 @@ Introduce `IgnoreVirtualMembersSpecimenBuilder` (returning `OmitSpecimen` for vi
 ## Consequences
 
 - Mock proxies are not interfered with by AutoFixture's property-population pass.
-- Opt-in per attribute — tests that genuinely need virtual properties populated are unaffected.
+- Opt-in per attribute - tests that genuinely need virtual properties populated are unaffected.
 - Reduces the most common setup error for users working with interface-implementing types.

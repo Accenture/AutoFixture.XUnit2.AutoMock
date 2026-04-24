@@ -12,10 +12,10 @@ AutoFixture generates arbitrary values for parameters. Tests for boundary condit
 
 Add four parameter-level attributes to Core, all implemented via `IParameterCustomizationSource`:
 
-- `[Except(v1, v2)]` — generate values excluding the specified set
-- `[PickFromValues(v1, v2)]` — pick randomly from a fixed set
-- `[PickFromRange(min, max)]` — generate within a numeric range
-- `[PickNegative]` — generate only negative numeric values
+- `[Except(v1, v2)]` - generate values excluding the specified set
+- `[PickFromValues(v1, v2)]` - pick randomly from a fixed set
+- `[PickFromRange(min, max)]` - generate within a numeric range
+- `[PickNegative]` - generate only negative numeric values
 
 All four are backed by new specimen builders (`RandomExceptValuesGenerator`, `RandomFixedValuesGenerator`) and request types (`ExceptValuesRequest`, `FixedValuesRequest`).
 
