@@ -1,6 +1,5 @@
 ﻿namespace Objectivity.AutoFixture.XUnit2.Core.SpecimenBuilders
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
@@ -15,10 +14,7 @@
         [SuppressMessage("Major Bug", "S2583:Conditionally executed code should be reachable", Justification = "Analyzer issue as the code is reachable")]
         public object Create(object request, ISpecimenContext context)
         {
-            if (context is null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            context.NotNull(nameof(context));
 
             if (request.NotNull(nameof(request)) is ExceptValuesRequest exceptValuesRequest)
             {
