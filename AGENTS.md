@@ -245,7 +245,7 @@ The `.editorconfig` in `src/` configures severity for all rules. Suppressing ana
 - `using` directives go **inside** the namespace block (StyleCop SA1210)
 - `global::` prefix on external packages (AutoFixture, Moq, etc.) to avoid ambiguity
 - XML documentation is minimized; prefer self-documenting names (see [decision-27])
-- Sealed classes preferred over open classes unless designed for inheritance (see [decision-28])
+- Attribute-derived types are sealed by default; non-attribute public types follow normal design principles (see [decision-28])
 - `NotNull()` guard extension (from `Core/Common/`) for null checks instead of `ArgumentNullException` (see [decision-29])
 - Latest C# language version is used throughout
 
