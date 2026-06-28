@@ -51,7 +51,7 @@ jobs:
         with:
           fetch-depth: 0 
       - name: 💾 cache nuget packages
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ${{ runner.temp }}/qodana/caches
           key: ${{ runner.os }}-qodana-${{ github.ref }}-${{ hashFiles('**/*.csproj') }}
