@@ -317,6 +317,26 @@ Publishing to nuget.org and GitHub Packages happens **only on pushes to master**
 
 ---
 
+## Available Skills
+
+All skills live in `.ai/skills/`. Each skill directory contains a `SKILL.md` with step-by-step
+instructions following the [agentskills.io open standard](https://agentskills.io/home).
+
+- **Claude Code**: invoke as `/skill-name [argument]` (e.g. `/task-start TASK-20`)
+- **Other agents**: ask your agent to read and follow `.ai/skills/<name>/SKILL.md`
+
+| Skill | Argument | Use when |
+| --- | --- | --- |
+| `task-start` | `TASK-N` | Beginning work on a backlog task |
+| `task-finish` | `TASK-N` | Finalizing implementation before committing |
+| `validate` | none | Before every commit |
+| `add-attribute` | `AttributeName` | Creating a new Core parameter attribute |
+| `review-decisions` | none | Before raising a PR |
+| `new-test` | `SubjectClass` | Writing a new test class |
+| `create-branch-pr` | `TASK-N` (optional) | Opening a PR for a feature branch |
+
+---
+
 ## AI Agent Working Rules
 
 These rules apply to all AI coding assistants working in this repository.
