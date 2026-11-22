@@ -26,8 +26,7 @@
                 var parameterType = Nullable.GetUnderlyingType(parameterInfo.ParameterType)
                     ?? parameterInfo.ParameterType;
 
-                return parameterType != typeof(string)
-                    && parameterType.TryGetEnumerableSingleTypeArgument(out var itemType)
+                return parameterType != typeof(string) && parameterType.TryGetEnumerableSingleTypeArgument(out var itemType)
                     ? this.CreateMultiple(parameterType, itemType, context)
                     : this.CreateSingle(parameterType, context);
             }
